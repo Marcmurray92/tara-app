@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GameType {
+  CROSSWORD
+  CONNECTIONS
+  GUESSING
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model GameContent {
+  id                    String        @id @default(cuid())
+  gameType              GameType
+  slug                  String
+  title                 String
+  subtitle              String?
+  description           String?
+  status                ContentStatus @default(DRAFT)
+  sourceSchemaVersion   Int           @default(1)
+  compiledSchemaVersion Int?
+  contentVersion        Int           @default(1)
+  sourceData            Json
+  compiledData          Json?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  publishedAt           DateTime?
+
+  @@unique([gameType, slug])
+  @@index([gameType, status])
+}
+
