@@ -21,6 +21,8 @@ Phase 1 ships:
 - `/admin/login` protected admin login
 - `/admin` admin dashboard
 - `/admin/crosswords/new` crossword authoring studio
+- `/admin/crosswords/[id]` saved crossword edit route
+- `/admin/crosswords/[id]/preview` saved crossword preview route
 - `/api/health` Railway health endpoint
 
 ## Architecture
@@ -176,6 +178,10 @@ The seed script upserts one placeholder crossword at slug `taras-birthday-crossw
 6. Generate with a seed
 7. Review placed and unplaced entries
 8. Save as draft or publish
+9. Reopen the saved record from the dashboard to edit it
+10. Use the saved preview route to inspect the persisted compiled puzzle
+11. Duplicate a saved record into a new draft when you want a variant
+12. Archive records you no longer want in the active working set
 
 ## PWA Behaviour
 

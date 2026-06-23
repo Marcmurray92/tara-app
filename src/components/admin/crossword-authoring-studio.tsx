@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { CrosswordGame } from "@/components/crossword/crossword-game";
 import { CrosswordGeneratorControls } from "@/components/crossword/crossword-generator-controls";
@@ -15,6 +17,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import type { CrosswordAuthoringInitialData } from "@/features/crossword/admin/crossword-authoring-state";
 import { compileCrossword } from "@/features/crossword/generator/crossword-generator";
 import type { CrosswordCompilationResult } from "@/features/crossword/generator/crossword-generator.types";
 import { parseCrosswordSource } from "@/features/crossword/source/crossword-source.parser";
@@ -32,22 +35,41 @@ function countByStatus(rows: CrosswordSourceRow[]) {
   );
 }
 
-export function CrosswordAuthoringStudio() {
-  const [title, setTitle] = useState("Tara's Birthday Crossword");
-  const [slug, setSlug] = useState("taras-birthday-crossword");
-  const [subtitle, setSubtitle] = useState("Phase 1 crossword");
-  const [description, setDescription] = useState("Birthday crossword content created from imported sheet rows.");
-  const [completionTitle, setCompletionTitle] = useState("You did it");
-  const [completionMessage, setCompletionMessage] = useState("Placeholder completion copy. Replace this when the final clue set is ready.");
+const DEFAULT_INITIAL_DATA: CrosswordAuthoringInitialData = {
+  title: "Tara's Birthday Crossword",
+  slug: "taras-birthday-crossword",
+  subtitle: "Phase 1 crossword",
+  description: "Birthday crossword content created from imported sheet rows.",
+  completionTitle: "You did it",
+  completionMessage: "Placeholder completion copy. Replace this when the final clue set is ready.",
+  seed: "tara-admin-seed",
+  importResult: null,
+  selectedRowIds: [],
+  compilation: null
+};
+
+export function CrosswordAuthoringStudio({
+  initialData = DEFAULT_INITIAL_DATA
+}: {
+  initialData?: CrosswordAuthoringInitialData;
+}) {
+  const router = useRouter();
+  const [title, setTitle] = useState(initialData.title);
+  const [slug, setSlug] = useState(initialData.slug);
+  const [subtitle, setSubtitle] = useState(initialData.subtitle);
+  const [description, setDescription] = useState(initialData.description);
+  const [completionTitle, setCompletionTitle] = useState(initialData.completionTitle);
+  const [completionMessage, setCompletionMessage] = useState(initialData.completionMessage);
   const [rawText, setRawText] = useState("");
-  const [seed, setSeed] = useState("tara-admin-seed");
-  const [importResult, setImportResult] = useState<ImportResult<CrosswordSourceRow> | null>(null);
-  const [selectedRowIds, setSelectedRowIds] = useState<Set<string>>(new Set());
+  const [seed, setSeed] = useState(initialData.seed);
+  const [importResult, setImportResult] = useState<ImportResult<CrosswordSourceRow> | null>(initialData.importResult);
+  const [selectedRowIds, setSelectedRowIds] = useState<Set<string>>(new Set(initialData.selectedRowIds));
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-  const [compilation, setCompilation] = useState<CrosswordCompilationResult | null>(null);
+  const [compilation, setCompilation] = useState<CrosswordCompilationResult | null>(initialData.compilation);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [isSaving, startSaving] = useTransition();
+  const isEditing = Boolean(initialData.contentId);
 
   const counts = useMemo(() => (importResult ? countByStatus(importResult.rows) : null), [importResult]);
 
@@ -135,6 +157,7 @@ export function CrosswordAuthoringStudio() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
+          contentId: initialData.contentId,
           title,
           slug,
           subtitle,
@@ -145,7 +168,7 @@ export function CrosswordAuthoringStudio() {
         })
       });
 
-      const payload = (await response.json()) as { ok: boolean; message?: string };
+      const payload = (await response.json()) as { ok: boolean; message?: string; record?: { id: string } };
 
       if (!response.ok || !payload.ok) {
         setSaveMessage(payload.message ?? "Unable to save crossword content.");
@@ -153,6 +176,13 @@ export function CrosswordAuthoringStudio() {
       }
 
       setSaveMessage(status === "published" ? "Crossword published." : "Draft saved.");
+      if (!isEditing && payload.record?.id) {
+        router.push(`/admin/crosswords/${payload.record.id}`);
+        router.refresh();
+        return;
+      }
+
+      router.refresh();
     });
   }
 
@@ -160,10 +190,46 @@ export function CrosswordAuthoringStudio() {
     <section className="space-y-6">
       <div className="rounded-[1.5rem] border border-white/10 bg-surface/90 p-6">
         <p className="text-xs uppercase tracking-[0.24em] text-muted">Crossword authoring</p>
-        <h1 className="mt-2 font-display text-4xl">New crossword</h1>
+        <h1 className="mt-2 font-display text-4xl">{isEditing ? "Edit crossword" : "New crossword"}</h1>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-muted">
           Import draft-friendly sheet data, preview every row honestly, choose the final set of complete answers, and generate a publishable crossword without hiding any unplaced entries.
         </p>
+        {isEditing ? (
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Badge>{initialData.status}</Badge>
+            <Button asChild={false} variant="outline" size="sm">
+              <Link href={`/admin/crosswords/${initialData.contentId}/preview`}>Saved preview</Link>
+            </Button>
+            <form
+              action={`/api/admin/crosswords/${initialData.contentId}/duplicate`}
+              method="post"
+              onSubmit={(event) => {
+                if (!window.confirm("Duplicate this crossword as a new draft?")) {
+                  event.preventDefault();
+                }
+              }}
+            >
+              <Button type="submit" variant="ghost" size="sm">
+                Duplicate draft
+              </Button>
+            </form>
+            {initialData.status !== "archived" ? (
+              <form
+                action={`/api/admin/crosswords/${initialData.contentId}/archive`}
+                method="post"
+                onSubmit={(event) => {
+                  if (!window.confirm("Archive this crossword record?")) {
+                    event.preventDefault();
+                  }
+                }}
+              >
+                <Button type="submit" variant="ghost" size="sm">
+                  Archive
+                </Button>
+              </form>
+            ) : null}
+          </div>
+        ) : null}
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -319,6 +385,7 @@ export function CrosswordAuthoringStudio() {
                 <div className="flex flex-wrap gap-2">
                   <Badge>{selectedRowIds.size} selected complete rows</Badge>
                   <Badge>{importResult.detectedHeaders.length} detected headers</Badge>
+                  {compilation?.compiledData ? <Badge>Grid ready</Badge> : null}
                 </div>
                 <div className="flex flex-col gap-3">
                   <Button variant="outline" onClick={() => save("draft")} disabled={isSaving}>
@@ -329,6 +396,11 @@ export function CrosswordAuthoringStudio() {
                   </Button>
                 </div>
                 {saveMessage ? <p className="text-sm text-muted">{saveMessage}</p> : null}
+                {isEditing ? (
+                  <p className="text-xs leading-6 text-muted">
+                    Editing an existing record keeps its identity, increments content version only when source or compiled gameplay data changes, and lets you reopen the saved preview route at any time.
+                  </p>
+                ) : null}
               </CardContent>
             </Card>
           </div>
