@@ -86,7 +86,51 @@ function toJsonValue(value: unknown) {
   return value as Prisma.InputJsonValue;
 }
 
-export async function upsertGameContent({
+async function assertUniqueGameSlug({
+  gameType,
+  slug,
+  excludeId
+}: {
+  gameType: GameType;
+  slug: string;
+  excludeId?: string;
+}) {
+  const existing = await prisma.gameContent.findFirst({
+    where: {
+      gameType: toPrismaGameType(gameType),
+      slug,
+      ...(excludeId ? { NOT: { id: excludeId } } : {})
+    }
+  });
+
+  if (existing) {
+    throw new Error(`Another ${gameType} record already uses the slug "${slug}".`);
+  }
+}
+
+async function getNextDuplicateSlug(gameType: GameType, sourceSlug: string) {
+  const baseSlug = `${sourceSlug}-copy`;
+  let counter = 1;
+
+  while (true) {
+    const candidate = counter === 1 ? baseSlug : `${baseSlug}-${counter}`;
+    const existing = await prisma.gameContent.findFirst({
+      where: {
+        gameType: toPrismaGameType(gameType),
+        slug: candidate
+      }
+    });
+
+    if (!existing) {
+      return candidate;
+    }
+
+    counter += 1;
+  }
+}
+
+export async function saveGameContent({
+  contentId,
   gameType,
   slug,
   title,
@@ -96,6 +140,7 @@ export async function upsertGameContent({
   sourceData,
   compiledData
 }: {
+  contentId?: string;
   gameType: GameType;
   slug: string;
   title: string;
@@ -110,26 +155,57 @@ export async function upsertGameContent({
     validateCompiledData(gameType, compiledData);
   }
 
-  const existing = await prisma.gameContent.findUnique({
-    where: {
-      gameType_slug: {
-        gameType: toPrismaGameType(gameType),
-        slug
-      }
+  if (contentId) {
+    const existing = await prisma.gameContent.findUnique({
+      where: { id: contentId }
+    });
+
+    if (!existing) {
+      throw new Error("Content record not found.");
     }
+
+    if (fromPrismaGameType(existing.gameType) !== gameType) {
+      throw new Error("Game type mismatch for this content record.");
+    }
+
+    await assertUniqueGameSlug({
+      gameType,
+      slug,
+      excludeId: contentId
+    });
+
+    const sourceChanged =
+      JSON.stringify(existing.sourceData ?? null) !== JSON.stringify(sourceData ?? null);
+    const compiledChanged =
+      JSON.stringify(existing.compiledData ?? null) !== JSON.stringify(compiledData ?? null);
+
+    const record = await prisma.gameContent.update({
+      where: { id: contentId },
+      data: {
+        slug,
+        title,
+        subtitle,
+        description,
+        status: toPrismaStatus(status),
+        sourceSchemaVersion: 1,
+        compiledSchemaVersion: compiledData ? 1 : null,
+        contentVersion: sourceChanged || compiledChanged ? existing.contentVersion + 1 : existing.contentVersion,
+        sourceData: toJsonValue(sourceData),
+        compiledData: compiledData ? toJsonValue(compiledData) : Prisma.JsonNull,
+        publishedAt: status === "published" ? new Date() : null
+      }
+    });
+
+    return mapRecord(record);
+  }
+
+  await assertUniqueGameSlug({
+    gameType,
+    slug
   });
 
-  const compiledChanged =
-    JSON.stringify(existing?.compiledData ?? null) !== JSON.stringify(compiledData ?? null);
-
-  const record = await prisma.gameContent.upsert({
-    where: {
-      gameType_slug: {
-        gameType: toPrismaGameType(gameType),
-        slug
-      }
-    },
-    create: {
+  const record = await prisma.gameContent.create({
+    data: {
       gameType: toPrismaGameType(gameType),
       slug,
       title,
@@ -142,22 +218,48 @@ export async function upsertGameContent({
       sourceData: toJsonValue(sourceData),
       compiledData: compiledData ? toJsonValue(compiledData) : Prisma.JsonNull,
       publishedAt: status === "published" ? new Date() : null
-    },
-    update: {
-      title,
-      subtitle,
-      description,
-      status: toPrismaStatus(status),
-      sourceSchemaVersion: 1,
-      compiledSchemaVersion: compiledData ? 1 : null,
-      contentVersion: existing ? (compiledChanged ? existing.contentVersion + 1 : existing.contentVersion) : 1,
-      sourceData: toJsonValue(sourceData),
-      compiledData: compiledData ? toJsonValue(compiledData) : Prisma.JsonNull,
-      publishedAt: status === "published" ? new Date() : existing?.publishedAt ?? null
     }
   });
 
   return mapRecord(record);
+}
+
+export async function duplicateGameContent(id: string) {
+  const existing = await prisma.gameContent.findUnique({
+    where: { id }
+  });
+
+  if (!existing) {
+    throw new Error("Content record not found.");
+  }
+
+  const gameType = fromPrismaGameType(existing.gameType);
+  validateSourceData(gameType, existing.sourceData);
+  if (existing.compiledData) {
+    validateCompiledData(gameType, existing.compiledData);
+  }
+
+  const duplicateSlug = await getNextDuplicateSlug(gameType, existing.slug);
+  const duplicateTitle = existing.title.includes("Copy") ? existing.title : `${existing.title} (Copy)`;
+
+  const duplicate = await prisma.gameContent.create({
+    data: {
+      gameType: existing.gameType,
+      slug: duplicateSlug,
+      title: duplicateTitle,
+      subtitle: existing.subtitle,
+      description: existing.description,
+      status: "DRAFT",
+      sourceSchemaVersion: existing.sourceSchemaVersion,
+      compiledSchemaVersion: existing.compiledSchemaVersion,
+      contentVersion: 1,
+      sourceData: toJsonValue(existing.sourceData),
+      compiledData: existing.compiledData ? toJsonValue(existing.compiledData) : Prisma.JsonNull,
+      publishedAt: null
+    }
+  });
+
+  return mapRecord(duplicate);
 }
 
 export async function archiveGameContent(id: string) {
