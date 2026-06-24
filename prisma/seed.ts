@@ -1,8 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 
 import {
+  placeholderCrosswordContentVersion,
   placeholderCrosswordCompiledData,
-  placeholderCrosswordSourceData
+  placeholderCrosswordDescription,
+  placeholderCrosswordSlug,
+  placeholderCrosswordSourceData,
+  placeholderCrosswordSubtitle,
+  placeholderCrosswordTitle
 } from "../src/features/crossword/seed/placeholder-crossword";
 
 const prisma = new PrismaClient();
@@ -12,31 +17,31 @@ async function main() {
     where: {
       gameType_slug: {
         gameType: "CROSSWORD",
-        slug: "taras-birthday-crossword"
+        slug: placeholderCrosswordSlug
       }
     },
     create: {
       gameType: "CROSSWORD",
-      slug: "taras-birthday-crossword",
-      title: "Tara's Birthday Crossword",
-      subtitle: "Placeholder content for Phase 1",
-      description: "Seeded placeholder crossword content that can be replaced later with final birthday clues.",
+      slug: placeholderCrosswordSlug,
+      title: placeholderCrosswordTitle,
+      subtitle: placeholderCrosswordSubtitle,
+      description: placeholderCrosswordDescription,
       status: "PUBLISHED",
       sourceSchemaVersion: 1,
       compiledSchemaVersion: 1,
-      contentVersion: 1,
+      contentVersion: placeholderCrosswordContentVersion,
       sourceData: placeholderCrosswordSourceData,
       compiledData: placeholderCrosswordCompiledData,
       publishedAt: new Date()
     },
     update: {
-      title: "Tara's Birthday Crossword",
-      subtitle: "Placeholder content for Phase 1",
-      description: "Seeded placeholder crossword content that can be replaced later with final birthday clues.",
+      title: placeholderCrosswordTitle,
+      subtitle: placeholderCrosswordSubtitle,
+      description: placeholderCrosswordDescription,
       status: "PUBLISHED",
       sourceSchemaVersion: 1,
       compiledSchemaVersion: 1,
-      contentVersion: 1,
+      contentVersion: placeholderCrosswordContentVersion,
       sourceData: placeholderCrosswordSourceData,
       compiledData: placeholderCrosswordCompiledData,
       publishedAt: new Date()

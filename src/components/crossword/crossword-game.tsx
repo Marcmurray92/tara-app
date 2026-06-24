@@ -50,11 +50,17 @@ type PendingAction =
 export function CrosswordGame({
   puzzle,
   slug,
-  contentVersion
+  contentVersion,
+  title = "Tara's Birthday Crossword",
+  subtitle,
+  eyebrow = "Published crossword"
 }: {
   puzzle: CrosswordCompiledData;
   slug: string;
   contentVersion: number;
+  title?: string;
+  subtitle?: string | null;
+  eyebrow?: string;
 }) {
   const mobileInputRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState<CrosswordProgress>(() => {
@@ -252,8 +258,9 @@ export function CrosswordGame({
       <div className="space-y-4">
         <div className="flex flex-col gap-3 rounded-[1.35rem] border border-white/10 bg-surface/90 p-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-muted">Published crossword</p>
-            <h1 className="font-display text-4xl">Tara&apos;s Birthday Crossword</h1>
+            <p className="text-xs uppercase tracking-[0.24em] text-muted">{eyebrow}</p>
+            <h1 className="font-display text-4xl">{title}</h1>
+            {subtitle ? <p className="mt-2 text-sm leading-6 text-muted">{subtitle}</p> : null}
           </div>
           <div className="flex items-center gap-3">
             <div className="rounded-full border border-accent/25 px-4 py-2 text-sm text-muted">Timer: {timerLabel}</div>
@@ -355,4 +362,3 @@ export function CrosswordGame({
     </div>
   );
 }
-

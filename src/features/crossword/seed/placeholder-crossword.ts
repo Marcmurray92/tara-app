@@ -101,6 +101,12 @@ if (!compilation.compiledData) {
   throw new Error("Placeholder crossword failed to compile.");
 }
 
+export const placeholderCrosswordSlug = "taras-birthday-crossword";
+export const placeholderCrosswordTitle = "Tara's Birthday Crossword";
+export const placeholderCrosswordSubtitle = "Placeholder content for Phase 1";
+export const placeholderCrosswordDescription =
+  "Seeded placeholder crossword content that can be replaced later with final birthday clues.";
+export const placeholderCrosswordContentVersion = 1;
 export const placeholderCrosswordSourceRows = placeholderRows;
 export const placeholderCrosswordSourceData = createCrosswordSourceDataEnvelope({
   rows: placeholderRows,
@@ -125,8 +131,18 @@ export const placeholderCrosswordCompiledData = compilation.compiledData;
 
 export function getPlaceholderCrosswordSummary() {
   return {
-    slug: "taras-birthday-crossword",
-    href: "/games/crossword/taras-birthday-crossword",
-    contentVersion: 1
+    slug: placeholderCrosswordSlug,
+    href: `/games/crossword/${placeholderCrosswordSlug}`,
+    title: placeholderCrosswordTitle,
+    subtitle: placeholderCrosswordSubtitle,
+    description: placeholderCrosswordDescription,
+    contentVersion: placeholderCrosswordContentVersion
+  };
+}
+
+export function getPlaceholderCrosswordContent() {
+  return {
+    ...getPlaceholderCrosswordSummary(),
+    compiledData: placeholderCrosswordCompiledData
   };
 }

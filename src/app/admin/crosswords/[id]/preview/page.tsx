@@ -45,6 +45,9 @@ export default async function CrosswordPreviewPage({
             puzzle={compiledData}
             slug={`admin-preview-${record.id}`}
             contentVersion={record.contentVersion}
+            title={record.title}
+            subtitle={record.subtitle}
+            eyebrow="Saved crossword preview"
           />
         </div>
       ) : (
@@ -65,4 +68,3 @@ export default async function CrosswordPreviewPage({
     </section>
   );
 }
-

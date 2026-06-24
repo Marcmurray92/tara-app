@@ -9,6 +9,10 @@ import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-st
 type FeaturedCrossword = {
   slug: string;
   contentVersion: number;
+  href: string;
+  title: string;
+  subtitle?: string | null;
+  description?: string | null;
 };
 
 export function HomeGameCards({ featuredCrossword }: { featuredCrossword: FeaturedCrossword }) {
@@ -29,12 +33,20 @@ export function HomeGameCards({ featuredCrossword }: { featuredCrossword: Featur
   return (
     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       {gameRegistry.map((game) => {
+        const resolvedGame =
+          game.type === "crossword"
+            ? {
+                ...game,
+                title: featuredCrossword.title,
+                description: featuredCrossword.description?.trim() || game.description,
+                href: featuredCrossword.href
+              }
+            : game;
         const state =
           game.type === "crossword" ? crosswordState : game.availability === "coming-soon" ? "coming-soon" : "play";
 
-        return <GameCard key={game.type} game={game} state={state} />;
+        return <GameCard key={game.type} game={resolvedGame} state={state} />;
       })}
     </div>
   );
 }
-
