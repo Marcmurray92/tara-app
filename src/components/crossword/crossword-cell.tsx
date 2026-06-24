@@ -31,11 +31,12 @@ export function CrosswordCell({
     <button
       type="button"
       aria-label={label}
+      aria-pressed={selected}
       onClick={onClick}
       className={cn(
         "relative aspect-square rounded-[0.42rem] border text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
-        highlighted ? "bg-active-entry/90" : "bg-surface-strong",
-        selected ? "border-accent bg-accent-soft shadow-[0_0_0_1px_rgba(212,175,55,0.45)]" : "border-border",
+        highlighted ? "bg-active-entry/75" : "bg-surface-strong",
+        selected ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(231,200,96,0.9),0_0_0_1px_rgba(212,175,55,0.45)]" : "border-border",
         incorrect ? "text-error" : "text-text",
         revealed ? "bg-revealed/80" : ""
       )}
@@ -50,4 +51,3 @@ export function CrosswordCell({
     </button>
   );
 }
-

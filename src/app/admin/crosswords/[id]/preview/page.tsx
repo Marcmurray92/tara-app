@@ -32,7 +32,7 @@ export default async function CrosswordPreviewPage({
           This route shows the currently saved compiled crossword payload for this record, separate from the in-editor generated preview.
         </p>
         <div className="mt-4">
-          <Button asChild={false} variant="outline">
+          <Button asChild variant="outline">
             <Link href={`/admin/crosswords/${record.id}`}>Back to editor</Link>
           </Button>
         </div>
@@ -59,7 +59,7 @@ export default async function CrosswordPreviewPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button asChild={false}>
+            <Button asChild>
               <Link href={`/admin/crosswords/${record.id}`}>Return to editor</Link>
             </Button>
           </CardContent>

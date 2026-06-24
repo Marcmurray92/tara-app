@@ -10,7 +10,7 @@ import {
 
 export default function GuessingPage() {
   return (
-    <GameShell>
+    <GameShell chrome="game">
       <GuessingGame
         gameData={placeholderGuessingGameData}
         slug={placeholderGuessingSlug}

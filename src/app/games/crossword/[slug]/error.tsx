@@ -11,7 +11,7 @@ export default function CrosswordErrorPage({
   reset: () => void;
 }) {
   return (
-    <GameShell>
+    <GameShell chrome="game">
       <div className="mx-auto max-w-2xl space-y-4 rounded-[1.5rem] border border-white/10 bg-surface/90 p-8">
         <p className="text-sm uppercase tracking-[0.24em] text-muted">Crossword error</p>
         <h1 className="font-display text-4xl">The puzzle hit a snag.</h1>

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, RotateCcw, Trophy } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { GameMasthead } from "@/components/games/game-masthead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -97,29 +97,17 @@ export function GuessingGame({
   const answeredQuestions = progress.answers.length;
 
   return (
-    <section className="space-y-6">
-      <div className="rounded-[1.5rem] border border-white/10 bg-surface/90 p-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3">
-            <Badge className="w-fit">Letterboxd energy</Badge>
-            <div>
-              <h1 className="font-display text-4xl">{title}</h1>
-              {subtitle ? <p className="mt-2 max-w-2xl text-sm leading-7 text-muted">{subtitle}</p> : null}
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <div className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-muted">
-              Score {progress.score}/{totalQuestions}
-            </div>
-            <div className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-muted">
-              Streak {progress.streak}
-            </div>
-            <div className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-muted">
-              Best streak {progress.bestStreak}
-            </div>
-          </div>
-        </div>
-      </div>
+    <section className="space-y-5">
+      <GameMasthead
+        eyebrow="Letterboxd energy"
+        title={title}
+        subtitle={subtitle}
+        items={[
+          { label: "score", value: `${progress.score}/${totalQuestions}` },
+          { label: "streak", value: `${progress.streak}` },
+          { label: "best", value: `${progress.bestStreak}` }
+        ]}
+      />
 
       {progress.completedAt ? (
         <Card>
@@ -145,68 +133,90 @@ export function GuessingGame({
       ) : null}
 
       {!progress.completedAt && currentQuestion ? (
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                Question {progress.currentQuestionIndex + 1} of {totalQuestions}
-              </CardTitle>
-              <CardDescription>{answeredQuestions} answered so far on this device.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="rounded-[1.25rem] border border-white/10 bg-black/20 p-5">
-                <p className="text-xs uppercase tracking-[0.24em] text-muted">Review clue</p>
-                <p className="mt-4 whitespace-pre-line font-display text-2xl leading-10 text-text">
-                  {currentQuestion.reviewText}
-                </p>
-              </div>
-
-              <div className="grid gap-3">
-                {orderedChoices.map((choice) => {
-                  const answered = currentAnswer !== null;
-                  const selected = currentAnswer?.selectedChoiceId === choice.id;
-                  const correct = currentQuestion.correctChoiceId === choice.id;
-
-                  return (
-                    <button
-                      key={choice.id}
-                      type="button"
-                      disabled={answered}
-                      className={cn(
-                        "rounded-[1.1rem] border px-4 py-4 text-left text-sm font-medium leading-6 transition",
-                        !answered && "border-white/10 bg-surface/90 hover:border-accent/45 hover:bg-surface-strong",
-                        answered && selected && correct && "border-success/35 bg-success/10 text-text",
-                        answered && selected && !correct && "border-error/35 bg-error/10 text-text",
-                        answered && !selected && correct && "border-accent/35 bg-accent-soft text-text",
-                        answered && !selected && !correct && "border-white/10 bg-surface/60 text-muted"
-                      )}
-                      onClick={() => handleAnswer(choice.id)}
-                    >
-                      {choice.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {currentAnswer ? (
-                <div className="flex flex-col gap-4 rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="text-sm leading-7 text-muted">
-                    {currentAnswer.correct
-                      ? "Correct. Keep the streak warm."
-                      : `Not this time. The answer was ${
-                          currentQuestion.choices.find((choice) => choice.id === currentQuestion.correctChoiceId)?.label
-                        }.`}
-                  </div>
-                  <Button onClick={handleNext} disabled={progress.currentQuestionIndex >= totalQuestions - 1}>
-                    Next question
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
+          <div className="space-y-4">
+            <Card>
+              <CardHeader className="space-y-3">
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-accent">
+                    Question {progress.currentQuestionIndex + 1} of {totalQuestions}
+                  </span>
+                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-muted">
+                    {answeredQuestions} answered on this device
+                  </span>
                 </div>
-              ) : null}
-            </CardContent>
-          </Card>
+                <div>
+                  <CardTitle>Which film fits this review?</CardTitle>
+                  <CardDescription>Choose the best match to keep your streak moving.</CardDescription>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="rounded-[1.25rem] border border-white/10 bg-black/20 p-4 sm:p-5">
+                  <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Review clue</p>
+                  <p className="mt-3 whitespace-pre-line font-display text-[1.7rem] leading-9 text-text sm:text-[2rem] sm:leading-10">
+                    {currentQuestion.reviewText}
+                  </p>
+                </div>
 
-          <aside className="space-y-4">
+                <div className="grid gap-3">
+                  {orderedChoices.map((choice) => {
+                    const answered = currentAnswer !== null;
+                    const selected = currentAnswer?.selectedChoiceId === choice.id;
+                    const correct = currentQuestion.correctChoiceId === choice.id;
+
+                    return (
+                      <button
+                        key={choice.id}
+                        type="button"
+                        disabled={answered}
+                        className={cn(
+                          "min-h-14 rounded-[1.1rem] border px-4 py-4 text-left text-sm font-medium leading-6 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
+                          !answered && "border-white/10 bg-surface/90 hover:border-accent/45 hover:bg-surface-strong",
+                          answered && selected && correct && "border-success/35 bg-success/10 text-text",
+                          answered && selected && !correct && "border-error/35 bg-error/10 text-text",
+                          answered && !selected && correct && "border-accent/35 bg-accent-soft text-text",
+                          answered && !selected && !correct && "border-white/10 bg-surface/60 text-muted"
+                        )}
+                        onClick={() => handleAnswer(choice.id)}
+                      >
+                        {choice.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {currentAnswer ? (
+                  <div className="flex flex-col gap-4 rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="text-sm leading-7 text-muted">
+                      {currentAnswer.correct
+                        ? "Correct. Keep the streak warm."
+                        : `Not this time. The answer was ${
+                            currentQuestion.choices.find((choice) => choice.id === currentQuestion.correctChoiceId)?.label
+                          }.`}
+                    </div>
+                    <Button onClick={handleNext} disabled={progress.currentQuestionIndex >= totalQuestions - 1}>
+                      Next question
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ) : null}
+              </CardContent>
+            </Card>
+
+            <details className="rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:hidden">
+              <summary className="cursor-pointer list-none text-sm font-medium text-text">Round notes and reset</summary>
+              <div className="mt-4 space-y-4 text-sm leading-7 text-muted">
+                <p>Choice order is shuffled consistently so refreshes do not reshuffle a live question.</p>
+                <p>Your place is saved locally, so you can come back without losing the run.</p>
+                <Button variant="outline" onClick={handleRestart}>
+                  <RotateCcw className="h-4 w-4" />
+                  Restart
+                </Button>
+              </div>
+            </details>
+          </div>
+
+          <aside className="hidden space-y-4 lg:block">
             <Card>
               <CardHeader>
                 <CardTitle>Round feel</CardTitle>

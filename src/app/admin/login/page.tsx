@@ -56,7 +56,7 @@ export default function AdminLoginPage({
               Sign in
             </Button>
           </form>
-          <Button asChild={false} variant="ghost" className="w-full">
+          <Button asChild variant="ghost" className="w-full">
             <Link href="/">Back home</Link>
           </Button>
         </CardContent>

@@ -24,7 +24,7 @@ export default async function CrosswordPage({ params }: { params: { slug: string
   }
 
   return (
-    <GameShell>
+    <GameShell chrome="game">
       <CrosswordGame
         puzzle={published.compiledData}
         slug={params.slug}

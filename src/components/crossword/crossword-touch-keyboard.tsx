@@ -1,0 +1,93 @@
+import { ArrowLeftRight, Delete, Keyboard } from "lucide-react";
+import type { PointerEvent } from "react";
+
+import type { CrosswordDirection } from "@/features/crossword/game/crossword-game.types";
+
+const KEYBOARD_ROWS = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"] as const;
+
+function preserveGridFocus(event: PointerEvent<HTMLButtonElement>) {
+  event.preventDefault();
+}
+
+export function CrosswordTouchKeyboard({
+  direction,
+  onKeyPress,
+  onBackspace,
+  onToggleDirection,
+  onFocusSystemKeyboard
+}: {
+  direction: CrosswordDirection;
+  onKeyPress: (value: string) => void;
+  onBackspace: () => void;
+  onToggleDirection: () => void;
+  onFocusSystemKeyboard: () => void;
+}) {
+  return (
+    <div className="rounded-[1.25rem] border border-white/10 bg-surface/90 p-3.5 lg:hidden">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Touch keyboard</p>
+        <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-xs uppercase tracking-[0.2em] text-accent">
+          {direction}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        {KEYBOARD_ROWS.map((row, rowIndex) => (
+          <div
+            key={row}
+            className={rowIndex === 2 ? "flex justify-center gap-2 px-4 sm:px-8" : "grid gap-2"}
+            style={
+              rowIndex === 2
+                ? undefined
+                : {
+                    gridTemplateColumns: `repeat(${row.length}, minmax(0, 1fr))`
+                  }
+            }
+          >
+            {Array.from(row).map((letter) => (
+              <button
+                key={letter}
+                type="button"
+                onPointerDown={preserveGridFocus}
+                onClick={() => onKeyPress(letter)}
+                className="min-h-12 rounded-xl border border-white/10 bg-surface-strong px-2 text-sm font-semibold text-text transition hover:border-accent/40 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+              >
+                {letter}
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        <button
+          type="button"
+          onPointerDown={preserveGridFocus}
+          onClick={onFocusSystemKeyboard}
+          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-transparent px-3 text-sm font-medium text-text transition hover:border-accent/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+        >
+          <Keyboard className="h-4 w-4" />
+          Keyboard
+        </button>
+        <button
+          type="button"
+          onPointerDown={preserveGridFocus}
+          onClick={onToggleDirection}
+          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-transparent px-3 text-sm font-medium text-text transition hover:border-accent/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+        >
+          <ArrowLeftRight className="h-4 w-4" />
+          {direction === "across" ? "Across" : "Down"}
+        </button>
+        <button
+          type="button"
+          onPointerDown={preserveGridFocus}
+          onClick={onBackspace}
+          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-accent/30 bg-accent-soft px-3 text-sm font-semibold text-text transition hover:border-accent/50 hover:bg-accent-soft/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+        >
+          <Delete className="h-4 w-4" />
+          Delete
+        </button>
+      </div>
+    </div>
+  );
+}

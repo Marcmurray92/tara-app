@@ -28,7 +28,7 @@ export function CrosswordCompletionDialog({
         <h2 className="font-display text-4xl">{puzzle.completion.title}</h2>
         <p className="mt-4 text-base leading-8 text-muted">{puzzle.completion.message}</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button asChild={false} className="sm:w-auto">
+          <Button asChild className="sm:w-auto">
             <Link href={puzzle.completion.actionHref ?? "/"}>{puzzle.completion.actionLabel ?? "Back home"}</Link>
           </Button>
         </div>
@@ -36,4 +36,3 @@ export function CrosswordCompletionDialog({
     </div>
   );
 }
-
