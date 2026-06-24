@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Eye, Pencil, Plus } from "lucide-react";
+import { Eye, Pencil, Plus, Play } from "lucide-react";
 
 import { requireAdminSession } from "@/lib/auth/admin-session";
 import { listGameContent } from "@/features/content/game-content.repository";
@@ -69,6 +69,14 @@ export default async function AdminDashboardPage() {
               </div>
               {record.gameType === "crossword" ? (
                 <div className="flex gap-2">
+                  {record.status === "published" ? (
+                    <Button asChild={false} variant="ghost" size="sm">
+                      <Link href={`/games/crossword/${record.slug}`}>
+                        <Play className="h-4 w-4" />
+                        Play live
+                      </Link>
+                    </Button>
+                  ) : null}
                   <Button asChild={false} variant="outline" size="sm">
                     <Link href={`/admin/crosswords/${record.id}`}>
                       <Pencil className="h-4 w-4" />

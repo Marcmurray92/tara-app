@@ -249,7 +249,7 @@ The repo already contains the initial migration, so Railway should apply that mi
 
 - The placeholder crossword content is intentionally temporary.
 - Connections and Guessing gameplay are not built in Phase 1.
-- Public routes currently rely on placeholder content until a database-backed published crossword replaces it.
+- If no database-backed published crossword exists yet, the public crossword falls back to placeholder content.
 
 ## Future Notes
 

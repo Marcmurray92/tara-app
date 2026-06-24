@@ -431,7 +431,14 @@ export function CrosswordAuthoringStudio({
             <p className="text-xs uppercase tracking-[0.24em] text-muted">Playable preview</p>
             <h2 className="font-display text-3xl">Preview the generated crossword</h2>
           </div>
-          <CrosswordGame puzzle={compilation.compiledData} slug={`${slug}-preview`} contentVersion={0} />
+          <CrosswordGame
+            puzzle={compilation.compiledData}
+            slug={`${slug}-preview`}
+            contentVersion={0}
+            title={title}
+            subtitle={subtitle}
+            eyebrow="Generated crossword preview"
+          />
         </div>
       ) : null}
     </section>
