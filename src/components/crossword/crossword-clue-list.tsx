@@ -5,16 +5,20 @@ export function CrosswordClueList({
   title,
   entries,
   activeEntryId,
-  onSelectEntry
+  onSelectEntry,
+  className,
+  showHeading = true
 }: {
   title: string;
   entries: CrosswordCompiledEntry[];
   activeEntryId?: string;
   onSelectEntry: (entry: CrosswordCompiledEntry) => void;
+  className?: string;
+  showHeading?: boolean;
 }) {
   return (
-    <section aria-label={title} className="rounded-[1.25rem] border border-white/10 bg-surface/85 p-4">
-      <h2 className="mb-4 text-sm uppercase tracking-[0.28em] text-muted">{title}</h2>
+    <section aria-label={title} className={cn("rounded-[1.25rem] border border-white/10 bg-surface/85 p-4", className)}>
+      {showHeading ? <h2 className="mb-4 text-sm uppercase tracking-[0.28em] text-muted">{title}</h2> : null}
       <ul className="space-y-2">
         {entries.map((entry) => (
           <li key={entry.id}>
@@ -37,4 +41,3 @@ export function CrosswordClueList({
     </section>
   );
 }
-

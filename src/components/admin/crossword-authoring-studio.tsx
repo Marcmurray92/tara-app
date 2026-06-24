@@ -215,7 +215,7 @@ export function CrosswordAuthoringStudio({
         {isEditing ? (
           <div className="mt-4 flex flex-wrap gap-3">
             <Badge>{initialData.status}</Badge>
-            <Button asChild={false} variant="outline" size="sm">
+            <Button asChild variant="outline" size="sm">
               <Link href={`/admin/crosswords/${initialData.contentId}/preview`}>Saved preview</Link>
             </Button>
             <form

@@ -8,7 +8,9 @@ import { CrosswordConfirmDialog } from "@/components/crossword/crossword-confirm
 import { CrosswordCurrentClue } from "@/components/crossword/crossword-current-clue";
 import { CrosswordGrid } from "@/components/crossword/crossword-grid";
 import { CrosswordMobileInput } from "@/components/crossword/crossword-mobile-input";
+import { CrosswordTouchKeyboard } from "@/components/crossword/crossword-touch-keyboard";
 import { CrosswordToolbar } from "@/components/crossword/crossword-toolbar";
+import { GameMasthead } from "@/components/games/game-masthead";
 import { Button } from "@/components/ui/button";
 import type { CrosswordCompiledData, CrosswordProgress } from "@/features/crossword/game/crossword-game.types";
 import {
@@ -78,6 +80,7 @@ export function CrosswordGame({
   const activeEntry = useMemo(() => getEntryForSelection(puzzle, progress.selection), [progress.selection, puzzle]);
   const acrossEntries = orderedEntries.filter((entry) => entry.direction === "across");
   const downEntries = orderedEntries.filter((entry) => entry.direction === "down");
+  const activeDirection = progress.selection?.direction ?? activeEntry?.direction ?? "across";
   const timerLabel = useMemo(() => {
     if (!progress.startedAt) {
       return "00:00";
@@ -139,18 +142,34 @@ export function CrosswordGame({
       now: new Date().toISOString()
     });
     updateProgress(nextProgress);
+    focusKeyboard();
+  }
+
+  function handleBackspace() {
+    updateProgress(backspaceCell({ puzzle, progress, now: new Date().toISOString() }));
+    focusKeyboard();
+  }
+
+  function handleDelete() {
+    updateProgress(deleteCell({ puzzle, progress, now: new Date().toISOString() }));
+    focusKeyboard();
+  }
+
+  function handleToggleDirection() {
+    updateProgress(toggleSelectionDirection(progress, puzzle));
+    focusKeyboard();
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement | HTMLDivElement>) {
     if (event.key === "Backspace") {
       event.preventDefault();
-      updateProgress(backspaceCell({ puzzle, progress, now: new Date().toISOString() }));
+      handleBackspace();
       return;
     }
 
     if (event.key === "Delete") {
       event.preventDefault();
-      updateProgress(deleteCell({ puzzle, progress, now: new Date().toISOString() }));
+      handleDelete();
       return;
     }
 
@@ -186,7 +205,7 @@ export function CrosswordGame({
 
     if (event.key === " ") {
       event.preventDefault();
-      updateProgress(toggleSelectionDirection(progress, puzzle));
+      handleToggleDirection();
       return;
     }
 
@@ -253,58 +272,115 @@ export function CrosswordGame({
   }
 
   return (
-    <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]" onKeyDown={handleKeyDown}>
+    <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]" onKeyDown={handleKeyDown}>
       <CrosswordMobileInput inputRef={mobileInputRef} onInput={applyInput} onKeyDown={handleKeyDown} />
+
       <div className="space-y-4">
-        <div className="flex flex-col gap-3 rounded-[1.35rem] border border-white/10 bg-surface/90 p-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-muted">{eyebrow}</p>
-            <h1 className="font-display text-4xl">{title}</h1>
-            {subtitle ? <p className="mt-2 text-sm leading-6 text-muted">{subtitle}</p> : null}
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="rounded-full border border-accent/25 px-4 py-2 text-sm text-muted">Timer: {timerLabel}</div>
+        <GameMasthead
+          eyebrow={eyebrow}
+          title={title}
+          subtitle={subtitle}
+          items={[{ label: "elapsed", value: timerLabel }]}
+          actions={
             <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
               Reset
             </Button>
+          }
+        />
+
+        <div className="flex flex-col gap-4">
+          <div className="order-1 lg:order-2">
+            <CrosswordGrid
+              puzzle={puzzle}
+              progress={progress}
+              onSelectCell={(row, column) => {
+                updateProgress(selectCell(puzzle, progress, row, column));
+                focusKeyboard();
+              }}
+            />
           </div>
+
+          <div className="order-2 lg:order-1">
+            <CrosswordCurrentClue
+              entry={activeEntry}
+              direction={activeDirection}
+              onPrevious={() => updateProgress(moveToAdjacentClue(puzzle, progress, -1))}
+              onNext={() => updateProgress(moveToAdjacentClue(puzzle, progress, 1))}
+              onToggleDirection={handleToggleDirection}
+            />
+          </div>
+
+          <div className="order-3 lg:hidden">
+            <CrosswordTouchKeyboard
+              direction={activeDirection}
+              onKeyPress={applyInput}
+              onBackspace={handleBackspace}
+              onToggleDirection={handleToggleDirection}
+              onFocusSystemKeyboard={focusKeyboard}
+            />
+          </div>
+
+          <div className="order-4 rounded-[1.15rem] border border-white/10 bg-black/20 p-3 text-sm leading-6 text-muted lg:hidden">
+            Tap a cell to begin, then use the touch keyboard here or keep typing with a hardware keyboard.
+          </div>
+
+          <div className="order-5">
+            <CrosswordToolbar
+              onCheckLetter={handleCheckLetter}
+              onCheckWord={handleCheckWord}
+              onCheckPuzzle={handleCheckPuzzle}
+              onRevealLetter={() => setPendingAction("reveal-letter")}
+              onRevealWord={() => setPendingAction("reveal-word")}
+              onRevealPuzzle={() => setPendingAction("reveal-puzzle")}
+              onClearWord={() => setPendingAction("clear-word")}
+              onClearPuzzle={() => setPendingAction("clear-puzzle")}
+              onResetProgress={() => setPendingAction("reset-progress")}
+            />
+          </div>
+
+          <details className="order-6 rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:hidden">
+            <summary className="cursor-pointer list-none text-sm font-medium text-text">Across clues</summary>
+            <div className="mt-3 max-h-72 overflow-y-auto pr-1">
+              <CrosswordClueList
+                title="Across"
+                entries={acrossEntries}
+                activeEntryId={activeEntry?.id}
+                className="border-0 bg-transparent p-0"
+                showHeading={false}
+                onSelectEntry={(entry) => {
+                  updateProgress(selectEntry(progress, entry));
+                  focusKeyboard();
+                }}
+              />
+            </div>
+          </details>
+
+          <details className="order-7 rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:hidden">
+            <summary className="cursor-pointer list-none text-sm font-medium text-text">Down clues</summary>
+            <div className="mt-3 max-h-72 overflow-y-auto pr-1">
+              <CrosswordClueList
+                title="Down"
+                entries={downEntries}
+                activeEntryId={activeEntry?.id}
+                className="border-0 bg-transparent p-0"
+                showHeading={false}
+                onSelectEntry={(entry) => {
+                  updateProgress(selectEntry(progress, entry));
+                  focusKeyboard();
+                }}
+              />
+            </div>
+          </details>
         </div>
-
-        <CrosswordCurrentClue
-          entry={activeEntry}
-          onPrevious={() => updateProgress(moveToAdjacentClue(puzzle, progress, -1))}
-          onNext={() => updateProgress(moveToAdjacentClue(puzzle, progress, 1))}
-          onToggleDirection={() => updateProgress(toggleSelectionDirection(progress, puzzle))}
-        />
-
-        <CrosswordGrid
-          puzzle={puzzle}
-          progress={progress}
-          onSelectCell={(row, column) => {
-            updateProgress(selectCell(puzzle, progress, row, column));
-            focusKeyboard();
-          }}
-        />
-
-        <CrosswordToolbar
-          onCheckLetter={handleCheckLetter}
-          onCheckWord={handleCheckWord}
-          onCheckPuzzle={handleCheckPuzzle}
-          onRevealLetter={() => setPendingAction("reveal-letter")}
-          onRevealWord={() => setPendingAction("reveal-word")}
-          onRevealPuzzle={() => setPendingAction("reveal-puzzle")}
-          onClearWord={() => setPendingAction("clear-word")}
-          onClearPuzzle={() => setPendingAction("clear-puzzle")}
-          onResetProgress={() => setPendingAction("reset-progress")}
-        />
       </div>
 
-      <aside className="space-y-4">
+      <aside className="hidden space-y-4 lg:block">
         <div className="rounded-[1.25rem] border border-white/10 bg-surface/90 p-4">
           <p className="text-xs uppercase tracking-[0.24em] text-muted">Keyboard help</p>
           <ul className="mt-3 space-y-2 text-sm leading-6 text-muted">
             <li>Tap or click a cell to select it.</li>
             <li>Use arrow keys to move and Space to switch direction.</li>
+            <li>Touch devices can also solve with the on-screen keyboard.</li>
             <li>Use Tab and Shift+Tab to move through clues.</li>
           </ul>
         </div>

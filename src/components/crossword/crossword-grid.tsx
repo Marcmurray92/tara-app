@@ -23,9 +23,9 @@ export function CrosswordGrid({
   );
 
   return (
-    <div className="rounded-[1.4rem] border border-white/10 bg-black/20 p-3 sm:p-4">
+    <div className="rounded-[1.4rem] border border-white/10 bg-black/20 p-2.5 sm:p-3.5">
       <div
-        className="grid gap-1"
+        className="grid gap-0.5 sm:gap-1"
         style={{
           gridTemplateColumns: `repeat(${puzzle.columns}, minmax(0, 1fr))`
         }}
@@ -51,4 +51,3 @@ export function CrosswordGrid({
     </div>
   );
 }
-

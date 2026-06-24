@@ -21,4 +21,19 @@ describe("CrosswordGame", () => {
 
     expect(firstPlayableCell).not.toHaveTextContent("H");
   });
+
+  it("supports the touch keyboard for compact layouts", async () => {
+    const user = userEvent.setup();
+    render(<CrosswordGame puzzle={placeholderCrosswordCompiledData} slug="touch-puzzle" contentVersion={1} />);
+
+    const firstPlayableCell = screen.getByLabelText(/Row 1, column 1/i);
+    await user.click(firstPlayableCell);
+    await user.click(screen.getByRole("button", { name: "H" }));
+
+    expect(firstPlayableCell).toHaveTextContent("H");
+
+    await user.click(screen.getByRole("button", { name: "Delete" }));
+
+    expect(firstPlayableCell).not.toHaveTextContent("H");
+  });
 });

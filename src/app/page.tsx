@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight, Gift, Sparkles } from "lucide-react";
 
 import { GameShell } from "@/components/app-shell/game-shell";
@@ -11,27 +12,27 @@ export default async function HomePage() {
 
   return (
     <GameShell>
-      <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-        <div className="space-y-6 py-4">
+      <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+        <div className="space-y-5 py-2 sm:py-4">
           <Badge>Three games live</Badge>
           <div className="space-y-5">
-            <h1 className="max-w-3xl font-display text-5xl leading-tight sm:text-6xl">
+            <h1 className="max-w-3xl font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
               Birthday games with a little glamour, a lot of affection, and three distinct ways to play.
             </h1>
-            <p className="max-w-2xl text-base leading-8 text-muted sm:text-lg">
+            <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg sm:leading-8">
               Tara&apos;s 30th now includes a full crossword, a movie-flavoured Connections board, and a review-based
               guessing round, all inside the same gift-first app shell.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild={false} size="lg">
-              <a href={homepageData.featuredCrossword.href}>
+            <Button asChild size="lg">
+              <Link href={homepageData.featuredCrossword.href}>
                 Play the crossword
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
             </Button>
-            <Button asChild={false} size="lg" variant="outline">
-              <a href="/admin/crosswords/new">Build content</a>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/admin/crosswords/new">Build content</Link>
             </Button>
           </div>
         </div>
@@ -57,7 +58,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mt-14">
+      <section className="mt-10 sm:mt-12">
         <HomeGameCards featuredCrossword={homepageData.featuredCrossword} />
       </section>
     </GameShell>

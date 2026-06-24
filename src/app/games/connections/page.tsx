@@ -10,7 +10,7 @@ import {
 
 export default function ConnectionsPage() {
   return (
-    <GameShell>
+    <GameShell chrome="game">
       <ConnectionsGame
         gameData={placeholderConnectionsGameData}
         slug={placeholderConnectionsSlug}

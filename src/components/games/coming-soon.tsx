@@ -34,7 +34,7 @@ export function ComingSoon({
             all be exercised now without pretending the gameplay already exists.
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild={false}>
+            <Button asChild>
               <Link href="/">
                 <ArrowLeft className="h-4 w-4" />
                 Back home
@@ -50,4 +50,3 @@ export function ComingSoon({
     </section>
   );
 }
-

@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button asChild={false}>
+          <Button asChild>
             <Link href="/admin/crosswords/new">
               <Plus className="h-4 w-4" />
               New crossword
@@ -70,20 +70,20 @@ export default async function AdminDashboardPage() {
               {record.gameType === "crossword" ? (
                 <div className="flex gap-2">
                   {record.status === "published" ? (
-                    <Button asChild={false} variant="ghost" size="sm">
+                    <Button asChild variant="ghost" size="sm">
                       <Link href={`/games/crossword/${record.slug}`}>
                         <Play className="h-4 w-4" />
                         Play live
                       </Link>
                     </Button>
                   ) : null}
-                  <Button asChild={false} variant="outline" size="sm">
+                  <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/crosswords/${record.id}`}>
                       <Pencil className="h-4 w-4" />
                       Edit
                     </Link>
                   </Button>
-                  <Button asChild={false} variant="ghost" size="sm">
+                  <Button asChild variant="ghost" size="sm">
                     <Link href={`/admin/crosswords/${record.id}/preview`}>
                       <Eye className="h-4 w-4" />
                       Preview

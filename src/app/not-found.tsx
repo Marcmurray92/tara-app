@@ -12,11 +12,10 @@ export default function NotFoundPage() {
         <p className="max-w-xl text-base leading-7 text-muted">
           The app shell is live, but this route is not part of the current birthday collection.
         </p>
-        <Button asChild={false}>
+        <Button asChild>
           <Link href="/">Return home</Link>
         </Button>
       </section>
     </GameShell>
   );
 }
-

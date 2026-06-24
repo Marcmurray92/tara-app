@@ -75,7 +75,7 @@ export function GameCard({ game, state, eyebrow }: GameCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button asChild={false} className="w-full justify-between">
+        <Button asChild className="w-full justify-between">
           <Link href={game.href}>
             <span>{label}</span>
             <ArrowRight className="h-4 w-4" />
@@ -85,4 +85,3 @@ export function GameCard({ game, state, eyebrow }: GameCardProps) {
     </Card>
   );
 }
-
