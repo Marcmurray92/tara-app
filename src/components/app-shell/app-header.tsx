@@ -30,12 +30,23 @@ const NAV_LINKS = [
   }
 ] as const;
 
-export function AppHeader({ compact = false }: { compact?: boolean }) {
+export function AppHeader({
+  compact = false,
+  hideOnMobile = false
+}: {
+  compact?: boolean;
+  hideOnMobile?: boolean;
+}) {
   const pathname = usePathname();
   const showMobileHome = pathname !== "/" && !pathname.startsWith("/admin/login");
 
   return (
-    <header className="sticky top-0 z-20 border-b border-white/10 bg-background/90 backdrop-blur">
+    <header
+      className={cn(
+        "sticky top-0 z-20 border-b border-white/10 bg-background/90 backdrop-blur",
+        hideOnMobile ? "hidden lg:block" : ""
+      )}
+    >
       <div className="safe-top">
         <div className={cn("mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 sm:px-6", compact ? "py-3" : "py-4")}>
           <Link href="/" className="inline-flex min-w-0 items-center gap-3">

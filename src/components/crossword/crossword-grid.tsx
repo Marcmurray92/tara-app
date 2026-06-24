@@ -1,15 +1,18 @@
 import type { CrosswordCompiledData, CrosswordProgress } from "@/features/crossword/game/crossword-game.types";
 import { getCellAccessibleLabel, getEntryForSelection } from "@/features/crossword/game/crossword-engine";
 import { CrosswordCell } from "@/components/crossword/crossword-cell";
+import { cn } from "@/lib/utils/cn";
 
 export function CrosswordGrid({
   puzzle,
   progress,
-  onSelectCell
+  onSelectCell,
+  compact = false
 }: {
   puzzle: CrosswordCompiledData;
   progress: CrosswordProgress;
   onSelectCell: (row: number, column: number) => void;
+  compact?: boolean;
 }) {
   const activeEntry = getEntryForSelection(puzzle, progress.selection);
   const highlightedCoords = new Set(
@@ -23,9 +26,14 @@ export function CrosswordGrid({
   );
 
   return (
-    <div className="rounded-[1.4rem] border border-white/10 bg-black/20 p-2.5 sm:p-3.5">
+    <div
+      className={cn(
+        "border border-white/10 bg-black/20",
+        compact ? "rounded-[1rem] p-1.5" : "rounded-[1.4rem] p-2.5 sm:p-3.5"
+      )}
+    >
       <div
-        className="grid gap-0.5 sm:gap-1"
+        className={cn("grid", compact ? "gap-px" : "gap-0.5 sm:gap-1")}
         style={{
           gridTemplateColumns: `repeat(${puzzle.columns}, minmax(0, 1fr))`
         }}

@@ -62,17 +62,8 @@ export function CrosswordToolbar({
   );
 
   return (
-    <>
-      <div className="hidden rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:block">
-        <div className="grid gap-3 lg:grid-cols-3">{sections}</div>
-      </div>
-
-      <details className="rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:hidden">
-        <summary className="cursor-pointer list-none text-sm font-medium text-text">
-          Checks, reveals, and reset
-        </summary>
-        <div className="mt-4 grid gap-4">{sections}</div>
-      </details>
-    </>
+    <div className="hidden rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:block">
+      <div className="grid gap-3 lg:grid-cols-3">{sections}</div>
+    </div>
   );
 }

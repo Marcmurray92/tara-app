@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Menu } from "lucide-react";
 
 import { CrosswordClueList } from "@/components/crossword/crossword-clue-list";
 import { CrosswordCompletionDialog } from "@/components/crossword/crossword-completion-dialog";
@@ -272,24 +274,201 @@ export function CrosswordGame({
   }
 
   return (
-    <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]" onKeyDown={handleKeyDown}>
+    <div className="relative" onKeyDown={handleKeyDown}>
       <CrosswordMobileInput inputRef={mobileInputRef} onInput={applyInput} onKeyDown={handleKeyDown} />
 
-      <div className="space-y-4">
-        <GameMasthead
-          eyebrow={eyebrow}
-          title={title}
-          subtitle={subtitle}
-          items={[{ label: "elapsed", value: timerLabel }]}
-          actions={
-            <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
-              Reset
-            </Button>
-          }
-        />
+      <section className="lg:hidden">
+        <div className="flex h-[100svh] flex-col overflow-hidden">
+          <div className="safe-top border-b border-white/10 bg-background/95 backdrop-blur">
+            <div className="flex items-center justify-between gap-3 px-2 py-2">
+              <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1.5 text-sm font-semibold text-text">
+                {timerLabel}
+              </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="order-1 lg:order-2">
+              <details className="relative">
+                <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-white/10 bg-surface/90 text-text transition hover:border-accent/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                  <Menu className="h-4 w-4" />
+                </summary>
+
+                <div className="absolute right-0 top-full z-30 mt-2 w-[min(20rem,calc(100vw-1rem))] max-h-[72svh] overflow-y-auto rounded-[1rem] border border-white/10 bg-surface-strong p-3 shadow-glow">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Crossword options</p>
+                      <Button asChild variant="ghost" size="sm" className="h-8 px-2">
+                        <Link href="/">Home</Link>
+                      </Button>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-[0.62rem] uppercase tracking-[0.22em] text-muted">Check</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        <Button variant="secondary" size="sm" className="h-9 px-2 text-xs" onClick={handleCheckLetter}>
+                          Letter
+                        </Button>
+                        <Button variant="secondary" size="sm" className="h-9 px-2 text-xs" onClick={handleCheckWord}>
+                          Word
+                        </Button>
+                        <Button variant="secondary" size="sm" className="h-9 px-2 text-xs" onClick={handleCheckPuzzle}>
+                          Puzzle
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-[0.62rem] uppercase tracking-[0.22em] text-muted">Reveal</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-9 px-2 text-xs"
+                          onClick={() => setPendingAction("reveal-letter")}
+                        >
+                          Letter
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-9 px-2 text-xs"
+                          onClick={() => setPendingAction("reveal-word")}
+                        >
+                          Word
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-9 px-2 text-xs"
+                          onClick={() => setPendingAction("reveal-puzzle")}
+                        >
+                          Puzzle
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-[0.62rem] uppercase tracking-[0.22em] text-muted">Clear</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        <Button variant="ghost" size="sm" className="h-9 px-2 text-xs" onClick={() => setPendingAction("clear-word")}>
+                          Word
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-9 px-2 text-xs"
+                          onClick={() => setPendingAction("clear-puzzle")}
+                        >
+                          Puzzle
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-9 px-2 text-xs"
+                          onClick={() => setPendingAction("reset-progress")}
+                        >
+                          Reset
+                        </Button>
+                      </div>
+                    </div>
+
+                    <details className="rounded-[0.95rem] border border-white/10 bg-black/20 p-3">
+                      <summary className="cursor-pointer list-none text-sm font-medium text-text">Across clues</summary>
+                      <div className="mt-3 max-h-56 overflow-y-auto pr-1">
+                        <CrosswordClueList
+                          title="Across"
+                          entries={acrossEntries}
+                          activeEntryId={activeEntry?.id}
+                          className="border-0 bg-transparent p-0"
+                          showHeading={false}
+                          onSelectEntry={(entry) => {
+                            updateProgress(selectEntry(progress, entry));
+                            focusKeyboard();
+                          }}
+                        />
+                      </div>
+                    </details>
+
+                    <details className="rounded-[0.95rem] border border-white/10 bg-black/20 p-3">
+                      <summary className="cursor-pointer list-none text-sm font-medium text-text">Down clues</summary>
+                      <div className="mt-3 max-h-56 overflow-y-auto pr-1">
+                        <CrosswordClueList
+                          title="Down"
+                          entries={downEntries}
+                          activeEntryId={activeEntry?.id}
+                          className="border-0 bg-transparent p-0"
+                          showHeading={false}
+                          onSelectEntry={(entry) => {
+                            updateProgress(selectEntry(progress, entry));
+                            focusKeyboard();
+                          }}
+                        />
+                      </div>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div className="flex min-h-0 flex-1 flex-col px-1.5 pb-1.5">
+            <div className="flex min-h-0 basis-[45%] items-center justify-center py-1.5">
+              <CrosswordGrid
+                puzzle={puzzle}
+                progress={progress}
+                compact
+                onSelectCell={(row, column) => {
+                  updateProgress(selectCell(puzzle, progress, row, column));
+                  focusKeyboard();
+                }}
+              />
+            </div>
+
+            <div className="basis-[15%] py-1">
+              <CrosswordCurrentClue
+                entry={activeEntry}
+                direction={activeDirection}
+                compact
+                onPrevious={() => updateProgress(moveToAdjacentClue(puzzle, progress, -1))}
+                onNext={() => updateProgress(moveToAdjacentClue(puzzle, progress, 1))}
+                onToggleDirection={handleToggleDirection}
+              />
+            </div>
+
+            <div className="min-h-0 basis-[40%] pt-1">
+              <CrosswordTouchKeyboard
+                direction={activeDirection}
+                compact
+                onKeyPress={applyInput}
+                onBackspace={handleBackspace}
+                onToggleDirection={handleToggleDirection}
+                onFocusSystemKeyboard={focusKeyboard}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="hidden gap-5 lg:grid lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="space-y-4">
+          <GameMasthead
+            eyebrow={eyebrow}
+            title={title}
+            subtitle={subtitle}
+            items={[{ label: "elapsed", value: timerLabel }]}
+            actions={
+              <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
+                Reset
+              </Button>
+            }
+          />
+
+          <div className="flex flex-col gap-4">
+            <CrosswordCurrentClue
+              entry={activeEntry}
+              direction={activeDirection}
+              onPrevious={() => updateProgress(moveToAdjacentClue(puzzle, progress, -1))}
+              onNext={() => updateProgress(moveToAdjacentClue(puzzle, progress, 1))}
+              onToggleDirection={handleToggleDirection}
+            />
+
             <CrosswordGrid
               puzzle={puzzle}
               progress={progress}
@@ -298,33 +477,7 @@ export function CrosswordGame({
                 focusKeyboard();
               }}
             />
-          </div>
 
-          <div className="order-2 lg:order-1">
-            <CrosswordCurrentClue
-              entry={activeEntry}
-              direction={activeDirection}
-              onPrevious={() => updateProgress(moveToAdjacentClue(puzzle, progress, -1))}
-              onNext={() => updateProgress(moveToAdjacentClue(puzzle, progress, 1))}
-              onToggleDirection={handleToggleDirection}
-            />
-          </div>
-
-          <div className="order-3 lg:hidden">
-            <CrosswordTouchKeyboard
-              direction={activeDirection}
-              onKeyPress={applyInput}
-              onBackspace={handleBackspace}
-              onToggleDirection={handleToggleDirection}
-              onFocusSystemKeyboard={focusKeyboard}
-            />
-          </div>
-
-          <div className="order-4 rounded-[1.15rem] border border-white/10 bg-black/20 p-3 text-sm leading-6 text-muted lg:hidden">
-            Tap a cell to begin, then use the touch keyboard here or keep typing with a hardware keyboard.
-          </div>
-
-          <div className="order-5">
             <CrosswordToolbar
               onCheckLetter={handleCheckLetter}
               onCheckWord={handleCheckWord}
@@ -337,72 +490,38 @@ export function CrosswordGame({
               onResetProgress={() => setPendingAction("reset-progress")}
             />
           </div>
-
-          <details className="order-6 rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:hidden">
-            <summary className="cursor-pointer list-none text-sm font-medium text-text">Across clues</summary>
-            <div className="mt-3 max-h-72 overflow-y-auto pr-1">
-              <CrosswordClueList
-                title="Across"
-                entries={acrossEntries}
-                activeEntryId={activeEntry?.id}
-                className="border-0 bg-transparent p-0"
-                showHeading={false}
-                onSelectEntry={(entry) => {
-                  updateProgress(selectEntry(progress, entry));
-                  focusKeyboard();
-                }}
-              />
-            </div>
-          </details>
-
-          <details className="order-7 rounded-[1.25rem] border border-white/10 bg-surface/90 p-4 lg:hidden">
-            <summary className="cursor-pointer list-none text-sm font-medium text-text">Down clues</summary>
-            <div className="mt-3 max-h-72 overflow-y-auto pr-1">
-              <CrosswordClueList
-                title="Down"
-                entries={downEntries}
-                activeEntryId={activeEntry?.id}
-                className="border-0 bg-transparent p-0"
-                showHeading={false}
-                onSelectEntry={(entry) => {
-                  updateProgress(selectEntry(progress, entry));
-                  focusKeyboard();
-                }}
-              />
-            </div>
-          </details>
         </div>
+
+        <aside className="space-y-4">
+          <div className="rounded-[1.25rem] border border-white/10 bg-surface/90 p-4">
+            <p className="text-xs uppercase tracking-[0.24em] text-muted">Keyboard help</p>
+            <ul className="mt-3 space-y-2 text-sm leading-6 text-muted">
+              <li>Tap or click a cell to select it.</li>
+              <li>Use arrow keys to move and Space to switch direction.</li>
+              <li>Touch devices can also solve with the on-screen keyboard.</li>
+              <li>Use Tab and Shift+Tab to move through clues.</li>
+            </ul>
+          </div>
+          <CrosswordClueList
+            title="Across"
+            entries={acrossEntries}
+            activeEntryId={activeEntry?.id}
+            onSelectEntry={(entry) => {
+              updateProgress(selectEntry(progress, entry));
+              focusKeyboard();
+            }}
+          />
+          <CrosswordClueList
+            title="Down"
+            entries={downEntries}
+            activeEntryId={activeEntry?.id}
+            onSelectEntry={(entry) => {
+              updateProgress(selectEntry(progress, entry));
+              focusKeyboard();
+            }}
+          />
+        </aside>
       </div>
-
-      <aside className="hidden space-y-4 lg:block">
-        <div className="rounded-[1.25rem] border border-white/10 bg-surface/90 p-4">
-          <p className="text-xs uppercase tracking-[0.24em] text-muted">Keyboard help</p>
-          <ul className="mt-3 space-y-2 text-sm leading-6 text-muted">
-            <li>Tap or click a cell to select it.</li>
-            <li>Use arrow keys to move and Space to switch direction.</li>
-            <li>Touch devices can also solve with the on-screen keyboard.</li>
-            <li>Use Tab and Shift+Tab to move through clues.</li>
-          </ul>
-        </div>
-        <CrosswordClueList
-          title="Across"
-          entries={acrossEntries}
-          activeEntryId={activeEntry?.id}
-          onSelectEntry={(entry) => {
-            updateProgress(selectEntry(progress, entry));
-            focusKeyboard();
-          }}
-        />
-        <CrosswordClueList
-          title="Down"
-          entries={downEntries}
-          activeEntryId={activeEntry?.id}
-          onSelectEntry={(entry) => {
-            updateProgress(selectEntry(progress, entry));
-            focusKeyboard();
-          }}
-        />
-      </aside>
 
       <p className="sr-only" aria-live="polite">
         {announcement}
