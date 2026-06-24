@@ -3,10 +3,11 @@ import { describe, expect, it } from "vitest";
 import {
   buildCrosswordAuthoringInitialData,
   buildSavedCompilation,
-  createImportResultFromSourceRows
+  createImportResultFromEnvelope
 } from "@/features/crossword/admin/crossword-authoring-state";
 import type { GameContentRecord } from "@/features/content/content.types";
 import type { CrosswordCompiledData } from "@/features/crossword/game/crossword-game.types";
+import { createCrosswordSourceDataEnvelope, normalizeCrosswordSourceData } from "@/features/crossword/source/crossword-source-data";
 import type { CrosswordSourceRow } from "@/features/crossword/source/crossword-source.types";
 
 const sourceRows: CrosswordSourceRow[] = [
@@ -81,10 +82,29 @@ const compiledData: CrosswordCompiledData = {
 
 describe("crossword authoring state helpers", () => {
   it("reconstructs import preview metadata from saved source rows", () => {
-    const importResult = createImportResultFromSourceRows(sourceRows);
+    const importResult = createImportResultFromEnvelope(
+      createCrosswordSourceDataEnvelope({
+        rows: sourceRows,
+        authoring: {
+          selectedRowIds: ["row-1"],
+          seed: "seed-123",
+          completion: {
+            title: "Nice",
+            message: "Well done"
+          },
+          importMetadata: {
+            detectedHeaders: ["Clue", "Answer", "Category"],
+            unknownHeaders: ["Notes"],
+            ignoredBlankRows: 2
+          }
+        }
+      })
+    );
 
     expect(importResult.rows).toHaveLength(3);
     expect(importResult.detectedHeaders).toEqual(["Clue", "Answer", "Category"]);
+    expect(importResult.unknownHeaders).toEqual(["Notes"]);
+    expect(importResult.ignoredBlankRows).toBe(2);
     expect(importResult.issues).toEqual([]);
   });
 
@@ -107,7 +127,22 @@ describe("crossword authoring state helpers", () => {
       sourceSchemaVersion: 1,
       compiledSchemaVersion: 1,
       contentVersion: 3,
-      sourceData: sourceRows,
+      sourceData: createCrosswordSourceDataEnvelope({
+        rows: sourceRows,
+        authoring: {
+          selectedRowIds: ["row-2"],
+          seed: "saved-seed-from-source",
+          completion: {
+            title: "Saved source title",
+            message: "Saved source message"
+          },
+          importMetadata: {
+            detectedHeaders: ["Clue", "Answer", "Category"],
+            unknownHeaders: [],
+            ignoredBlankRows: 1
+          }
+        }
+      }),
       compiledData,
       createdAt: "2026-06-24T00:00:00.000Z",
       updatedAt: "2026-06-24T00:00:00.000Z",
@@ -117,8 +152,18 @@ describe("crossword authoring state helpers", () => {
     const state = buildCrosswordAuthoringInitialData(record);
 
     expect(state.contentId).toBe("content-1");
-    expect(state.seed).toBe("saved-seed");
-    expect(state.selectedRowIds).toEqual(["row-1", "row-2"]);
+    expect(state.seed).toBe("saved-seed-from-source");
+    expect(state.selectedRowIds).toEqual(["row-2"]);
+    expect(state.completionTitle).toBe("Saved source title");
     expect(state.compilation?.compiledData?.completion.title).toBe("Done");
+  });
+
+  it("normalizes legacy saved row arrays into the new source-data envelope", () => {
+    const normalized = normalizeCrosswordSourceData(sourceRows);
+
+    expect(normalized.schemaVersion).toBe(1);
+    expect(normalized.rows).toHaveLength(3);
+    expect(normalized.authoring?.selectedRowIds).toEqual(["row-1", "row-2"]);
+    expect(normalized.authoring?.seed).toBe("tara-admin-seed");
   });
 });

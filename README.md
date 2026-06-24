@@ -64,6 +64,7 @@ This keeps the content system shared without forcing gameplay state into one abs
 ## Source Data vs Compiled Data
 
 - Source data mirrors spreadsheet authoring rows, including incomplete draft content.
+- For crossword drafts, source data now also preserves editor state such as selected row ids, generation seed, completion copy, and import metadata.
 - Compiled data stores only validated playable structures.
 - Crossword compilation is required because the source sheet does not contain a finished grid.
 
@@ -154,6 +155,16 @@ npm run db:seed
 npm run db:studio
 ```
 
+## Migration Status
+
+The repository now includes an initial committed Prisma migration:
+
+```text
+prisma/migrations/20260624000000_init/migration.sql
+```
+
+That means the first real PostgreSQL-backed deploy should use `npx prisma migrate deploy` against the target database rather than relying on `db push`.
+
 ## Seed Instructions
 
 The seed script upserts one placeholder crossword at slug `taras-birthday-crossword`.
@@ -206,7 +217,7 @@ npm run test:e2e
 
 This repo is prepared for Next.js standalone deployment.
 
-- `next.config.ts` sets `output: "standalone"`
+- `next.config.mjs` sets `output: "standalone"`
 - `scripts/prepare-standalone.mjs` copies `public` and `.next/static`
 - `scripts/start-standalone.mjs` binds to `0.0.0.0` and respects `PORT`
 
@@ -220,6 +231,7 @@ This repo is prepared for Next.js standalone deployment.
 6. Create `ADMIN_PASSWORD`.
 7. Create a strong `SESSION_SECRET`.
 8. Set the pre-deploy command to `npx prisma migrate deploy`.
+The repo already contains the initial migration, so Railway should apply that migration on first deploy.
 9. Confirm the build command uses `npm run build`.
 10. Confirm the start command uses `npm run start`.
 11. Set the health check path to `/api/health`.

@@ -19,5 +19,33 @@ export const crosswordSourceRowSchema = z.object({
   )
 });
 
-export const crosswordSourceDataSchema = z.array(crosswordSourceRowSchema);
+export const crosswordSourceImportMetadataSchema = z.object({
+  detectedHeaders: z.array(z.string()),
+  unknownHeaders: z.array(z.string()),
+  ignoredBlankRows: z.number().int().nonnegative()
+});
 
+export const crosswordSourceAuthoringStateSchema = z.object({
+  selectedRowIds: z.array(z.string()),
+  seed: z.string(),
+  completion: z.object({
+    title: z.string().min(1),
+    message: z.string().min(1),
+    actionLabel: z.string().optional(),
+    actionHref: z.string().optional()
+  }),
+  importMetadata: crosswordSourceImportMetadataSchema.optional()
+});
+
+export const crosswordSourceDataEnvelopeSchema = z.object({
+  schemaVersion: z.literal(1),
+  rows: z.array(crosswordSourceRowSchema),
+  authoring: crosswordSourceAuthoringStateSchema.optional()
+});
+
+export const legacyCrosswordSourceDataSchema = z.array(crosswordSourceRowSchema);
+
+export const crosswordSourceDataSchema = z.union([
+  legacyCrosswordSourceDataSchema,
+  crosswordSourceDataEnvelopeSchema
+]);
