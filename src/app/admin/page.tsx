@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
           <p className="text-xs uppercase tracking-[0.24em] text-muted">Admin dashboard</p>
           <h1 className="font-display text-4xl">Game content</h1>
           <p className="mt-2 max-w-2xl text-sm leading-7 text-muted">
-            Crossword authoring is live in this phase. Connections and Guessing are represented structurally, without pretending their gameplay is already built.
+            Crossword authoring is live here already, and the public Connections plus Guessing experiences now run alongside it while their admin workflows catch up.
           </p>
         </div>
         <div className="flex gap-3">

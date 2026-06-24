@@ -17,3 +17,15 @@ export const connectionsGameSchema = z.object({
   ])
 });
 
+export const connectionsProgressSchema = z.object({
+  schemaVersion: z.literal(1),
+  selectedItemIds: z.array(z.string().min(1)),
+  solvedGroupIds: z.array(z.string().min(1)),
+  submittedGuesses: z.array(z.string().min(1)),
+  remainingTileIds: z.array(z.string().min(1)),
+  mistakes: z.number().int().min(0).max(4),
+  shuffleSeed: z.number().int().min(0),
+  startedAt: z.string().nullable(),
+  completedAt: z.string().nullable(),
+  status: z.union([z.literal("playing"), z.literal("won"), z.literal("lost")])
+});

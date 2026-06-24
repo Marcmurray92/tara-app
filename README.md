@@ -6,7 +6,7 @@ Phase 1 ships:
 
 - a complete crossword experience
 - a shared homepage and navigation shell
-- coming-soon routes for Connections and the Guessing Game
+- playable Connections and Guessing Game routes
 - typed spreadsheet parsers for all three game formats
 - a generic Prisma-backed content model
 - a protected admin area for crossword import and generation
@@ -16,8 +16,8 @@ Phase 1 ships:
 
 - `/` homepage
 - `/games/crossword/taras-birthday-crossword` published placeholder crossword
-- `/games/connections` coming-soon route
-- `/games/guessing` coming-soon route
+- `/games/connections` playable placeholder Connections game
+- `/games/guessing` playable placeholder movie guessing game
 - `/admin/login` protected admin login
 - `/admin` admin dashboard
 - `/admin/crosswords/new` crossword authoring studio
@@ -40,10 +40,8 @@ See [docs/architecture.md](/Users/marcmurray/.codex/worktrees/5f41/TaraBday/docs
 The typed game registry powers homepage cards and shared navigation.
 
 - `crossword` is available now
-- `connections` is marked coming soon
-- `guessing` is marked coming soon
-
-Turning on a future game should only require updating the registry entry and adding the route implementation.
+- `connections` is available now
+- `guessing` is available now
 
 ## Generic Database Model
 
@@ -140,6 +138,7 @@ Create a local `.env` from `.env.example` and provide:
 
 ```env
 DATABASE_URL=
+ADMIN_USERNAME=
 ADMIN_PASSWORD=
 SESSION_SECRET=
 NEXT_PUBLIC_APP_NAME=Tara's 30th
@@ -175,7 +174,7 @@ The seed script upserts one placeholder crossword at slug `taras-birthday-crossw
 
 ## Admin Login
 
-- Admin auth uses `ADMIN_PASSWORD`
+- Admin auth uses `ADMIN_USERNAME` and `ADMIN_PASSWORD`
 - Sessions use an HTTP-only signed cookie based on `SESSION_SECRET`
 - Protected pages redirect to `/admin/login`
 
@@ -228,31 +227,26 @@ This repo is prepared for Next.js standalone deployment.
 3. Connect the GitHub repository `Marcmurray92/tara-app`.
 4. Select the branch you want Railway to deploy.
 5. Set `DATABASE_URL=${{Postgres.DATABASE_URL}}` using the correct PostgreSQL service name.
-6. Create `ADMIN_PASSWORD`.
-7. Create a strong `SESSION_SECRET`.
-8. Set the pre-deploy command to `npx prisma migrate deploy`.
+6. Create `ADMIN_USERNAME`.
+7. Create `ADMIN_PASSWORD`.
+8. Create a strong `SESSION_SECRET`.
+9. Set the pre-deploy command to `npx prisma migrate deploy`.
 The repo already contains the initial migration, so Railway should apply that migration on first deploy.
-9. Confirm the build command uses `npm run build`.
-10. Confirm the start command uses `npm run start`.
-11. Set the health check path to `/api/health`.
-12. Deploy the service.
-13. Generate a Railway public domain.
-14. Run `npm run db:seed` once after the database is ready.
-15. Open `/admin` and sign in.
-16. Replace the placeholder crossword data when final content is ready.
-17. If builds fail, inspect the Railway build logs and confirm environment variables are present.
-18. If Prisma migrations fail, confirm `DATABASE_URL` points to the intended PostgreSQL service.
-19. If the database reference variable fails, verify the Railway PostgreSQL service name in the `${{...}}` reference.
-20. Redeploy after each GitHub push once configuration is stable.
+10. Confirm the build command uses `npm run build`.
+11. Confirm the start command uses `npm run start`.
+12. Set the health check path to `/api/health`.
+13. Deploy the service.
+14. Generate a Railway public domain.
+15. Run `npm run db:seed` once after the database is ready.
+16. Open `/admin` and sign in.
+17. Replace the placeholder crossword data when final content is ready.
+18. If builds fail, inspect the Railway build logs and confirm environment variables are present.
+19. If Prisma migrations fail, confirm `DATABASE_URL` points to the intended PostgreSQL service.
+20. If the database reference variable fails, verify the Railway PostgreSQL service name in the `${{...}}` reference.
+21. Redeploy after each GitHub push once configuration is stable.
 
 ## Known Limitations
 
 - The placeholder crossword content is intentionally temporary.
-- Connections and Guessing gameplay are not built in Phase 1.
+- Connections and Guessing currently use local placeholder datasets rather than admin-published content.
 - If no database-backed published crossword exists yet, the public crossword falls back to placeholder content.
-
-## Future Notes
-
-Connections will later add tile selection, grouping, mistake tracking, and solved-state presentation on top of the existing source schema and compiled game structure.
-
-The Guessing Game will later add question flow, answer shuffling, streak logic, and scoring on top of the existing source schema and compiled question structure.

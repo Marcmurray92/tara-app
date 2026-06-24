@@ -24,34 +24,34 @@ The imported spreadsheets are authoring banks, not directly playable game payloa
 The shared progress envelope handles metadata like game type, slug, content version, and schema version.
 
 - Crossword progress stores grid cells, reveals, checks, timer data, and selection.
-- Future Connections progress will need selection, solved groups, and mistake counts.
-- Future Guessing progress will need answered questions and scoring.
+- Connections progress stores selection, solved groups, submitted guesses, and mistake counts.
+- Guessing progress stores answered questions, score, and streak information.
 
 The envelope is shared. The payloads are not.
 
-## Adding Connections later
+## Connections runtime
 
-Phase 1 already includes:
+The current Connections implementation uses:
 
 - exact source-row parsing
 - header validation
 - canonical compiled game schema
-- generic content storage compatibility
-- homepage and route registration
+- local-progress tile selection, shuffle, and submit state
+- one-away and duplicate-guess feedback
 
-Later implementation only needs the actual gameplay and authoring UI.
+Admin authoring and published-content wiring can build on top of that runtime without forcing it into Crossword abstractions.
 
-## Adding the Guessing Game later
+## Guessing runtime
 
-Phase 1 already includes:
+The current Guessing Game implementation uses:
 
 - exact `Letterboxed Reviews` parsing
 - row-level draft and invalid handling
 - canonical compiled multiple-choice question schema
-- generic content storage compatibility
-- homepage and route registration
+- deterministic answer shuffling per question
+- local-progress score and streak tracking
 
-Later implementation can focus on question flow, scoring, and polish.
+Admin authoring and published-content wiring can extend this without sharing state with Connections or Crossword.
 
 ## What is intentionally not shared
 

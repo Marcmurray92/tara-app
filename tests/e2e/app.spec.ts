@@ -8,11 +8,17 @@ test("homepage renders the three game cards", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Guessing Game" })).toBeVisible();
 });
 
-test("connections route shows the coming soon screen", async ({ page }) => {
+test("connections route lets the player solve a group", async ({ page }) => {
   await page.goto("/games/connections");
 
-  await expect(page.getByText("Connections is queued up next.")).toBeVisible();
-  await expect(page.getByText("The route is live on purpose")).toBeVisible();
+  await page.getByRole("button", { name: "Groundhog Day" }).click();
+  await page.getByRole("button", { name: "Palm Springs" }).click();
+  await page.getByRole("button", { name: "Edge of Tomorrow" }).click();
+  await page.getByRole("button", { name: "Happy Death Day" }).click();
+  await page.getByRole("button", { name: /Submit group/i }).click();
+
+  await expect(page.getByText("Solved: Time loops.")).toBeVisible();
+  await expect(page.getByText("Solved 1/4")).toBeVisible();
 });
 
 test("crossword progress survives a refresh", async ({ page }) => {
@@ -28,11 +34,24 @@ test("crossword progress survives a refresh", async ({ page }) => {
   await expect(page.getByRole("button", { name: /Row 1, column 1/i })).toContainText("H");
 });
 
+test("guessing game progress survives a refresh", async ({ page }) => {
+  await page.goto("/games/guessing");
+
+  await page.getByRole("button", { name: "Arrival" }).click();
+  await expect(page.getByText("Correct. Keep the streak warm.")).toBeVisible();
+
+  await page.reload();
+
+  await expect(page.getByText("Correct. Keep the streak warm.")).toBeVisible();
+  await expect(page.getByText("Score 1/5")).toBeVisible();
+});
+
 test("admin requires login", async ({ page }) => {
   await page.goto("/admin");
 
   await expect(page).toHaveURL(/\/admin\/login$/);
   await expect(page.getByRole("heading", { name: "Admin login" })).toBeVisible();
+  await expect(page.getByLabel("Username")).toBeVisible();
 });
 
 test("health endpoint returns a controlled response", async ({ request }) => {

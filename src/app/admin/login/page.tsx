@@ -28,22 +28,26 @@ export default function AdminLoginPage({
           </div>
           <CardTitle>Admin login</CardTitle>
           <CardDescription>
-            Sign in with the shared admin password to manage crossword imports, draft content, and publishing.
+            Sign in with the shared admin username and password to manage imports, draft content, and publishing.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           {missingSecrets ? (
             <div className="rounded-xl border border-error/30 bg-error/10 p-4 text-sm leading-6 text-text">
-              `ADMIN_PASSWORD` and `SESSION_SECRET` must be configured before admin login can succeed.
+              `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and `SESSION_SECRET` must be configured before admin login can succeed.
             </div>
           ) : null}
           {searchParams.error ? (
             <div className="inline-flex items-center gap-2 rounded-xl border border-error/30 bg-error/10 px-4 py-3 text-sm text-text">
               <AlertTriangle className="h-4 w-4" />
-              Incorrect password. Try again.
+              Incorrect username or password. Try again.
             </div>
           ) : null}
           <form action="/api/admin/login" method="post" className="space-y-4">
+            <div>
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" name="username" autoComplete="username" required />
+            </div>
             <div>
               <Label htmlFor="password">Password</Label>
               <Input id="password" name="password" type="password" autoComplete="current-password" required />
@@ -60,4 +64,3 @@ export default function AdminLoginPage({
     </section>
   );
 }
-

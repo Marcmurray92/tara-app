@@ -22,3 +22,19 @@ export const guessingGameSchema = z.object({
   questions: z.array(guessingQuestionSchema)
 });
 
+export const guessingAnswerRecordSchema = z.object({
+  questionId: z.string().min(1),
+  selectedChoiceId: z.string().min(1),
+  correct: z.boolean()
+});
+
+export const guessingProgressSchema = z.object({
+  schemaVersion: z.literal(1),
+  currentQuestionIndex: z.number().int().min(0),
+  answers: z.array(guessingAnswerRecordSchema),
+  score: z.number().int().min(0),
+  streak: z.number().int().min(0),
+  bestStreak: z.number().int().min(0),
+  startedAt: z.string().nullable(),
+  completedAt: z.string().nullable()
+});

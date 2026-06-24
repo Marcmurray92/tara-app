@@ -13,14 +13,14 @@ export default async function HomePage() {
     <GameShell>
       <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div className="space-y-6 py-4">
-          <Badge>Phase 1 live</Badge>
+          <Badge>Three games live</Badge>
           <div className="space-y-5">
             <h1 className="max-w-3xl font-display text-5xl leading-tight sm:text-6xl">
-              Birthday games with a little glamour, a lot of affection, and real content scaffolding underneath.
+              Birthday games with a little glamour, a lot of affection, and three distinct ways to play.
             </h1>
             <p className="max-w-2xl text-base leading-8 text-muted sm:text-lg">
-              Tara&apos;s 30th starts with a fully playable crossword, plus the foundations for Connections and a
-              review-based guessing game so the whole gift can grow in one place.
+              Tara&apos;s 30th now includes a full crossword, a movie-flavoured Connections board, and a review-based
+              guessing round, all inside the same gift-first app shell.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -43,8 +43,8 @@ export default async function HomePage() {
             <h2 className="font-display text-3xl">What&apos;s ready now</h2>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-muted">
               <li>Crossword import, generation, preview, local progress, and finish state.</li>
-              <li>Typed parsers for all three spreadsheet formats, including draft and invalid row handling.</li>
-              <li>Shared homepage, app shell, admin entry point, Railway prep, and PWA groundwork.</li>
+              <li>Playable Connections and Guessing Game routes with device-local progress.</li>
+              <li>Typed parsers for all three spreadsheet formats, plus shared admin and deploy groundwork.</li>
             </ul>
           </div>
           <div className="rounded-[2rem] border border-white/10 bg-black/20 p-5 text-sm leading-7 text-muted">
@@ -63,4 +63,3 @@ export default async function HomePage() {
     </GameShell>
   );
 }
-

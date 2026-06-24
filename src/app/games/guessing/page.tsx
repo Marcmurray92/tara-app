@@ -1,13 +1,22 @@
-import { ComingSoon } from "@/components/games/coming-soon";
 import { GameShell } from "@/components/app-shell/game-shell";
+import { GuessingGame } from "@/components/guessing/guessing-game";
+import {
+  placeholderGuessingContentVersion,
+  placeholderGuessingGameData,
+  placeholderGuessingSlug,
+  placeholderGuessingSubtitle,
+  placeholderGuessingTitle
+} from "@/features/guessing/seed/placeholder-guessing";
 
-export default function GuessingComingSoonPage() {
+export default function GuessingPage() {
   return (
     <GameShell>
-      <ComingSoon
-        eyebrow="Future game route"
-        title="The Guessing Game is brewing."
-        description="The review-sheet format, answer validation, and future multiple-choice structure are ready. Gameplay comes later, once the crossword is locked in."
+      <GuessingGame
+        gameData={placeholderGuessingGameData}
+        slug={placeholderGuessingSlug}
+        contentVersion={placeholderGuessingContentVersion}
+        title={placeholderGuessingTitle}
+        subtitle={placeholderGuessingSubtitle}
       />
     </GameShell>
   );

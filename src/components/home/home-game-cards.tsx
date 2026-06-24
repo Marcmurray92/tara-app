@@ -1,10 +1,20 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import { GameCard, type GameCardState } from "@/components/games/game-card";
+import { readLocalConnectionsStatus } from "@/features/connections/game/connections-storage";
 import { gameRegistry } from "@/features/games/game-registry";
+import { readLocalGuessingStatus } from "@/features/guessing/game/guessing-storage";
 import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
+import {
+  placeholderConnectionsContentVersion,
+  placeholderConnectionsSlug
+} from "@/features/connections/seed/placeholder-connections";
+import {
+  placeholderGuessingContentVersion,
+  placeholderGuessingSlug
+} from "@/features/guessing/seed/placeholder-guessing";
 
 type FeaturedCrossword = {
   slug: string;
@@ -16,18 +26,30 @@ type FeaturedCrossword = {
 };
 
 export function HomeGameCards({ featuredCrossword }: { featuredCrossword: FeaturedCrossword }) {
-  const crosswordState = useMemo<GameCardState>(() => {
-    const progressState = readLocalCrosswordStatus(featuredCrossword.slug, featuredCrossword.contentVersion);
+  const [states, setStates] = useState<Record<"crossword" | "connections" | "guessing", GameCardState>>({
+    crossword: "play",
+    connections: "play",
+    guessing: "play"
+  });
 
-    if (progressState === "completed") {
-      return "completed";
-    }
+  useEffect(() => {
+    const toCardState = (progressState: "none" | "in-progress" | "completed"): GameCardState => {
+      if (progressState === "completed") {
+        return "completed";
+      }
 
-    if (progressState === "in-progress") {
-      return "continue";
-    }
+      if (progressState === "in-progress") {
+        return "continue";
+      }
 
-    return "play";
+      return "play";
+    };
+
+    setStates({
+      crossword: toCardState(readLocalCrosswordStatus(featuredCrossword.slug, featuredCrossword.contentVersion)),
+      connections: toCardState(readLocalConnectionsStatus(placeholderConnectionsSlug, placeholderConnectionsContentVersion)),
+      guessing: toCardState(readLocalGuessingStatus(placeholderGuessingSlug, placeholderGuessingContentVersion))
+    });
   }, [featuredCrossword.contentVersion, featuredCrossword.slug]);
 
   return (
@@ -42,8 +64,7 @@ export function HomeGameCards({ featuredCrossword }: { featuredCrossword: Featur
                 href: featuredCrossword.href
               }
             : game;
-        const state =
-          game.type === "crossword" ? crosswordState : game.availability === "coming-soon" ? "coming-soon" : "play";
+        const state = states[game.type];
 
         return <GameCard key={game.type} game={resolvedGame} state={state} />;
       })}

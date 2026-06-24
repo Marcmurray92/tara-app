@@ -17,9 +17,9 @@ export const gameRegistry: GameDefinition[] = [
     type: "connections",
     title: "Connections",
     shortTitle: "Connections",
-    description: "A film-flavoured category challenge is on deck, with the data model already prepared behind the scenes.",
+    description: "Sort sixteen movie titles into four hidden categories before the fourth mistake lands.",
     href: "/games/connections",
-    availability: "coming-soon",
+    availability: "available",
     icon: Grid2X2,
     sourceFormatName: "Category / Movie 1 / Movie 2 / Movie 3 / Movie 4"
   },
@@ -27,9 +27,9 @@ export const gameRegistry: GameDefinition[] = [
     type: "guessing",
     title: "Guessing Game",
     shortTitle: "Guessing Game",
-    description: "Match deliciously specific Letterboxed reviews to the right film when the next phase lands.",
+    description: "Match lovingly specific movie-review blurbs to the right film, one question at a time.",
     href: "/games/guessing",
-    availability: "coming-soon",
+    availability: "available",
     icon: ScanSearch,
     sourceFormatName: "Right Answer / Answer 2 / Answer 3 / Answer 4 / Letterboxed Reviews"
   }
@@ -38,4 +38,3 @@ export const gameRegistry: GameDefinition[] = [
 export function getGameDefinition(type: GameType) {
   return gameRegistry.find((game) => game.type === type);
 }
-

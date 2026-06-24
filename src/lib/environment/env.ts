@@ -6,6 +6,7 @@ const publicEnvSchema = z.object({
 
 const serverEnvSchema = z.object({
   DATABASE_URL: z.string().min(1).optional(),
+  ADMIN_USERNAME: z.string().min(1),
   ADMIN_PASSWORD: z.string().min(1),
   SESSION_SECRET: z.string().min(1),
   NEXT_PUBLIC_APP_NAME: z.string().min(1).default("Tara's 30th")
@@ -22,4 +23,3 @@ export function readServerEnv() {
 export function safeReadServerEnv() {
   return serverEnvSchema.safeParse(process.env);
 }
-

@@ -15,3 +15,19 @@ export type GuessingGameData = {
   questions: GuessingQuestion[];
 };
 
+export type GuessingAnswerRecord = {
+  questionId: string;
+  selectedChoiceId: string;
+  correct: boolean;
+};
+
+export type GuessingProgress = {
+  schemaVersion: 1;
+  currentQuestionIndex: number;
+  answers: GuessingAnswerRecord[];
+  score: number;
+  streak: number;
+  bestStreak: number;
+  startedAt: string | null;
+  completedAt: string | null;
+};
