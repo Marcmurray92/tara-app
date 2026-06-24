@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { CrosswordAuthoringInitialData } from "@/features/crossword/admin/crossword-authoring-state";
 import { compileCrossword } from "@/features/crossword/generator/crossword-generator";
 import type { CrosswordCompilationResult } from "@/features/crossword/generator/crossword-generator.types";
+import { createCrosswordSourceDataEnvelope } from "@/features/crossword/source/crossword-source-data";
 import { parseCrosswordSource } from "@/features/crossword/source/crossword-source.parser";
 import type { CrosswordCompleteSourceRow, CrosswordSourceRow } from "@/features/crossword/source/crossword-source.types";
 import type { ImportResult } from "@/features/content/import.types";
@@ -163,7 +164,24 @@ export function CrosswordAuthoringStudio({
           subtitle,
           description,
           status,
-          sourceData: importResult.rows,
+          sourceData: createCrosswordSourceDataEnvelope({
+            rows: importResult.rows,
+            authoring: {
+              selectedRowIds: Array.from(selectedRowIds),
+              seed,
+              completion: {
+                title: completionTitle,
+                message: completionMessage,
+                actionLabel: "Back home",
+                actionHref: "/"
+              },
+              importMetadata: {
+                detectedHeaders: importResult.detectedHeaders,
+                unknownHeaders: importResult.unknownHeaders,
+                ignoredBlankRows: importResult.ignoredBlankRows
+              }
+            }
+          }),
           compiledData: compilation?.compiledData
         })
       });

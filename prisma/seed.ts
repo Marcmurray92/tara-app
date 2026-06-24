@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import {
   placeholderCrosswordCompiledData,
-  placeholderCrosswordSourceRows
+  placeholderCrosswordSourceData
 } from "../src/features/crossword/seed/placeholder-crossword";
 
 const prisma = new PrismaClient();
@@ -25,7 +25,7 @@ async function main() {
       sourceSchemaVersion: 1,
       compiledSchemaVersion: 1,
       contentVersion: 1,
-      sourceData: placeholderCrosswordSourceRows,
+      sourceData: placeholderCrosswordSourceData,
       compiledData: placeholderCrosswordCompiledData,
       publishedAt: new Date()
     },
@@ -37,7 +37,7 @@ async function main() {
       sourceSchemaVersion: 1,
       compiledSchemaVersion: 1,
       contentVersion: 1,
-      sourceData: placeholderCrosswordSourceRows,
+      sourceData: placeholderCrosswordSourceData,
       compiledData: placeholderCrosswordCompiledData,
       publishedAt: new Date()
     }

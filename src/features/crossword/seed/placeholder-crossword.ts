@@ -1,4 +1,5 @@
 import { compileCrossword } from "@/features/crossword/generator/crossword-generator";
+import { createCrosswordSourceDataEnvelope } from "@/features/crossword/source/crossword-source-data";
 import type { CrosswordCompleteSourceRow } from "@/features/crossword/source/crossword-source.types";
 
 const placeholderRows: CrosswordCompleteSourceRow[] = [
@@ -101,6 +102,25 @@ if (!compilation.compiledData) {
 }
 
 export const placeholderCrosswordSourceRows = placeholderRows;
+export const placeholderCrosswordSourceData = createCrosswordSourceDataEnvelope({
+  rows: placeholderRows,
+  authoring: {
+    selectedRowIds: placeholderRows.map((row) => row.id),
+    seed: "tara-placeholder-v1",
+    completion: {
+      title: "Placeholder puzzle complete",
+      message:
+        "This is the temporary birthday crossword. The final clue set can replace it later without changing the app architecture.",
+      actionLabel: "Back to home",
+      actionHref: "/"
+    },
+    importMetadata: {
+      detectedHeaders: ["Clue", "Answer", "Category"],
+      unknownHeaders: [],
+      ignoredBlankRows: 0
+    }
+  }
+});
 export const placeholderCrosswordCompiledData = compilation.compiledData;
 
 export function getPlaceholderCrosswordSummary() {
@@ -110,4 +130,3 @@ export function getPlaceholderCrosswordSummary() {
     contentVersion: 1
   };
 }
-

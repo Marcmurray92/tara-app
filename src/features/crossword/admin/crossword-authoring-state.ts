@@ -2,9 +2,12 @@ import type { GameContentRecord } from "@/features/content/content.types";
 import type { ImportResult } from "@/features/content/import.types";
 import type { CrosswordCompiledData } from "@/features/crossword/game/crossword-game.types";
 import type { CrosswordCompilationResult } from "@/features/crossword/generator/crossword-generator.types";
-import type { CrosswordCompleteSourceRow, CrosswordSourceRow } from "@/features/crossword/source/crossword-source.types";
-
-const DEFAULT_HEADERS = ["Clue", "Answer", "Category"];
+import { normalizeCrosswordSourceData } from "@/features/crossword/source/crossword-source-data";
+import type {
+  CrosswordCompleteSourceRow,
+  CrosswordSourceDataEnvelope,
+  CrosswordSourceRow
+} from "@/features/crossword/source/crossword-source.types";
 
 export type CrosswordAuthoringInitialData = {
   contentId?: string;
@@ -21,13 +24,13 @@ export type CrosswordAuthoringInitialData = {
   status?: "draft" | "published" | "archived";
 };
 
-export function createImportResultFromSourceRows(rows: CrosswordSourceRow[]): ImportResult<CrosswordSourceRow> {
+export function createImportResultFromEnvelope(sourceData: CrosswordSourceDataEnvelope): ImportResult<CrosswordSourceRow> {
   return {
-    rows,
-    ignoredBlankRows: 0,
-    issues: rows.flatMap((row) => row.issues),
-    detectedHeaders: DEFAULT_HEADERS,
-    unknownHeaders: []
+    rows: sourceData.rows,
+    ignoredBlankRows: sourceData.authoring?.importMetadata?.ignoredBlankRows ?? 0,
+    issues: sourceData.rows.flatMap((row) => row.issues),
+    detectedHeaders: sourceData.authoring?.importMetadata?.detectedHeaders ?? ["Clue", "Answer", "Category"],
+    unknownHeaders: sourceData.authoring?.importMetadata?.unknownHeaders ?? []
   };
 }
 
@@ -73,10 +76,18 @@ export function buildSavedCompilation(
 }
 
 export function buildCrosswordAuthoringInitialData(record: GameContentRecord): CrosswordAuthoringInitialData {
-  const sourceRows = record.sourceData as CrosswordSourceRow[];
+  const sourceData = normalizeCrosswordSourceData(record.sourceData);
+  const sourceRows = sourceData.rows;
   const compiledData = record.compiledData as CrosswordCompiledData | undefined;
-  const importResult = createImportResultFromSourceRows(sourceRows);
-  const selectedRows = getSelectedCompleteRows(sourceRows, compiledData);
+  const importResult = createImportResultFromEnvelope(sourceData);
+  const authoredSelectedIds = sourceData.authoring?.selectedRowIds ?? [];
+  const selectedRows =
+    authoredSelectedIds.length > 0
+      ? sourceRows.filter(
+        (row): row is CrosswordCompleteSourceRow =>
+            row.status === "complete" && authoredSelectedIds.includes(row.id)
+        )
+      : getSelectedCompleteRows(sourceRows, compiledData);
 
   return {
     contentId: record.id,
@@ -84,9 +95,10 @@ export function buildCrosswordAuthoringInitialData(record: GameContentRecord): C
     slug: record.slug,
     subtitle: record.subtitle ?? "",
     description: record.description ?? "",
-    completionTitle: compiledData?.completion.title ?? "You did it",
-    completionMessage: compiledData?.completion.message ?? "",
-    seed: compiledData?.generation.seed ?? "tara-admin-seed",
+    completionTitle: sourceData.authoring?.completion.title ?? compiledData?.completion.title ?? "You did it",
+    completionMessage:
+      sourceData.authoring?.completion.message ?? compiledData?.completion.message ?? "",
+    seed: sourceData.authoring?.seed ?? compiledData?.generation.seed ?? "tara-admin-seed",
     importResult,
     selectedRowIds: selectedRows.map((row) => row.id),
     compilation: buildSavedCompilation(sourceRows, compiledData),

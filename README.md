@@ -64,6 +64,7 @@ This keeps the content system shared without forcing gameplay state into one abs
 ## Source Data vs Compiled Data
 
 - Source data mirrors spreadsheet authoring rows, including incomplete draft content.
+- For crossword drafts, source data now also preserves editor state such as selected row ids, generation seed, completion copy, and import metadata.
 - Compiled data stores only validated playable structures.
 - Crossword compilation is required because the source sheet does not contain a finished grid.
 
