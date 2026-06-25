@@ -412,13 +412,8 @@ export function CrosswordGame({
         <div className="flex h-[100svh] flex-col overflow-x-hidden bg-background">
           <div className="safe-top border-b border-white/10 bg-background/95 backdrop-blur">
             <div className="flex items-center justify-between gap-3 px-2 py-1.5">
-              <div className="flex items-center gap-1.5">
-                <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[0.95rem] font-semibold text-text">
-                  {timerLabel}
-                </div>
-                <div className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-muted">
-                  {statusLabel}
-                </div>
+              <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[0.95rem] font-semibold text-text">
+                {timerLabel}
               </div>
 
               <button
