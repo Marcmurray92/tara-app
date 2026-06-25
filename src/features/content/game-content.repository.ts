@@ -94,6 +94,18 @@ export async function getLatestPublishedGameContent(gameType: GameType) {
   return record ? mapRecord(record) : null;
 }
 
+export async function listPublishedGameContent(gameType: GameType) {
+  const records = await prisma.gameContent.findMany({
+    where: {
+      gameType: toPrismaGameType(gameType),
+      status: "PUBLISHED"
+    },
+    orderBy: [{ slug: "asc" }, { publishedAt: "asc" }, { updatedAt: "asc" }]
+  });
+
+  return records.map((record) => mapRecord(record));
+}
+
 function toJsonValue(value: unknown) {
   return value as Prisma.InputJsonValue;
 }

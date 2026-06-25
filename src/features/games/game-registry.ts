@@ -5,10 +5,10 @@ import type { GameDefinition, GameType } from "@/features/games/game.types";
 export const gameRegistry: GameDefinition[] = [
   {
     type: "crossword",
-    title: "Tara's Birthday Crossword",
+    title: "Tara's Crosswords",
     shortTitle: "Crossword",
     description: "A polished, clue-driven birthday grid with saves, checks, reveals, and a celebratory finish.",
-    href: "/games/crossword/taras-birthday-crossword",
+    href: "/games/crossword",
     availability: "available",
     icon: Puzzle,
     sourceFormatName: "Clue / Answer / Category"

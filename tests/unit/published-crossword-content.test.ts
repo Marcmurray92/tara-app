@@ -46,7 +46,7 @@ describe("published crossword content", () => {
     vi.clearAllMocks();
   });
 
-  it("falls back to the placeholder crossword when the database is unavailable", async () => {
+  it("falls back to the seeded crossword when the database is unavailable", async () => {
     safeReadServerEnv.mockReturnValue({ success: false });
 
     const featured = await getFeaturedCrossword();
@@ -54,8 +54,8 @@ describe("published crossword content", () => {
     expect(featured).toMatchObject({
       slug: "taras-birthday-crossword",
       href: "/games/crossword/taras-birthday-crossword",
-      title: "Tara's Birthday Crossword",
-      contentVersion: 1
+      title: "Tara's Crossword 1",
+      contentVersion: 2
     });
     expect(getLatestPublishedGameContent).not.toHaveBeenCalled();
   });

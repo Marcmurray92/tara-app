@@ -1,73 +1,28 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-import { GameCard, type GameCardState } from "@/components/games/game-card";
-import { readLocalConnectionsStatus } from "@/features/connections/game/connections-storage";
 import { gameRegistry } from "@/features/games/game-registry";
-import { readLocalGuessingStatus } from "@/features/guessing/game/guessing-storage";
-import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
-import {
-  placeholderConnectionsContentVersion,
-  placeholderConnectionsSlug
-} from "@/features/connections/seed/placeholder-connections";
-import {
-  placeholderGuessingContentVersion,
-  placeholderGuessingSlug
-} from "@/features/guessing/seed/placeholder-guessing";
+import Link from "next/link";
 
-type FeaturedCrossword = {
-  slug: string;
-  contentVersion: number;
-  href: string;
-  title: string;
-  subtitle?: string | null;
-  description?: string | null;
-};
-
-export function HomeGameCards({ featuredCrossword }: { featuredCrossword: FeaturedCrossword }) {
-  const [states, setStates] = useState<Record<"crossword" | "connections" | "guessing", GameCardState>>({
-    crossword: "play",
-    connections: "play",
-    guessing: "play"
-  });
-
-  useEffect(() => {
-    const toCardState = (progressState: "none" | "in-progress" | "completed"): GameCardState => {
-      if (progressState === "completed") {
-        return "completed";
-      }
-
-      if (progressState === "in-progress") {
-        return "continue";
-      }
-
-      return "play";
-    };
-
-    setStates({
-      crossword: toCardState(readLocalCrosswordStatus(featuredCrossword.slug, featuredCrossword.contentVersion)),
-      connections: toCardState(readLocalConnectionsStatus(placeholderConnectionsSlug, placeholderConnectionsContentVersion)),
-      guessing: toCardState(readLocalGuessingStatus(placeholderGuessingSlug, placeholderGuessingContentVersion))
-    });
-  }, [featuredCrossword.contentVersion, featuredCrossword.slug]);
-
+export function HomeGameCards() {
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      {gameRegistry.map((game) => {
-        const resolvedGame =
-          game.type === "crossword"
-            ? {
-                ...game,
-                title: featuredCrossword.title,
-                description: featuredCrossword.description?.trim() || game.description,
-                href: featuredCrossword.href
-              }
-            : game;
-        const state = states[game.type];
+    <div className="w-full overflow-x-auto px-3 py-4 sm:px-6">
+      <div className="flex snap-x snap-mandatory gap-3 pb-1">
+        {gameRegistry.map((game) => {
+          const Icon = game.icon;
 
-        return <GameCard key={game.type} game={resolvedGame} state={state} />;
-      })}
+          return (
+            <Link
+              key={game.type}
+              href={game.href}
+              aria-label={game.title}
+              className="flex min-h-[11rem] w-[calc(100vw-1.5rem)] shrink-0 snap-center flex-col items-center justify-center gap-4 rounded-[1.5rem] border border-white/10 bg-surface/90 px-6 text-center transition hover:border-accent/45 hover:bg-surface-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:w-[24rem]"
+            >
+              <span className="inline-flex h-16 w-16 items-center justify-center rounded-[1.35rem] border border-accent/25 bg-accent-soft text-accent">
+                <Icon className="h-7 w-7" />
+              </span>
+              <span className="font-display text-3xl leading-tight text-text">{game.shortTitle}</span>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }

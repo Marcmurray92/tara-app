@@ -7,7 +7,15 @@ const guessingChoiceSchema = z.object({
 
 const guessingQuestionSchema = z.object({
   id: z.string(),
-  reviewText: z.string().min(1),
+  reviewText: z.string().min(1).optional(),
+  reviewImage: z
+    .object({
+      src: z.string().min(1),
+      width: z.number().int().positive(),
+      height: z.number().int().positive(),
+      alt: z.string().min(1)
+    })
+    .optional(),
   choices: z.tuple([
     guessingChoiceSchema,
     guessingChoiceSchema,

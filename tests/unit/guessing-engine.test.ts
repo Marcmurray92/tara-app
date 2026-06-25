@@ -27,7 +27,7 @@ describe("guessing engine", () => {
     const first = answerGuessingQuestion({
       gameData,
       progress: createGuessingProgress(),
-      choiceId: "arrival",
+      choiceId: "mean-girls",
       now: "2026-06-24T10:00:00.000Z"
     });
 
@@ -38,7 +38,7 @@ describe("guessing engine", () => {
     const second = answerGuessingQuestion({
       gameData,
       progress: advanceGuessingQuestion(gameData, first.progress),
-      choiceId: "spotlight",
+      choiceId: "possession",
       now: "2026-06-24T10:05:00.000Z"
     });
 

@@ -389,7 +389,7 @@ export function compileCrossword(input: CrosswordGeneratorInput): CrosswordCompi
     };
   }
 
-  const attempts = Array.from({ length: Math.max(8, Math.min(18, completeRows.length * 2)) }, (_, index) =>
+  const attempts = Array.from({ length: Math.max(18, Math.min(72, completeRows.length * 6)) }, (_, index) =>
     attemptLayout(completeRows, `${input.seed}:${index}`)
   );
 
@@ -400,12 +400,34 @@ export function compileCrossword(input: CrosswordGeneratorInput): CrosswordCompi
 
     const leftBounds = left.placedEntries.length > 0 ? getBounds(left.placedEntries) : null;
     const rightBounds = right.placedEntries.length > 0 ? getBounds(right.placedEntries) : null;
+    const leftHeight = leftBounds ? leftBounds.maxRow - leftBounds.minRow + 1 : Number.POSITIVE_INFINITY;
+    const rightHeight = rightBounds ? rightBounds.maxRow - rightBounds.minRow + 1 : Number.POSITIVE_INFINITY;
+    const leftWidth = leftBounds ? leftBounds.maxColumn - leftBounds.minColumn + 1 : Number.POSITIVE_INFINITY;
+    const rightWidth = rightBounds ? rightBounds.maxColumn - rightBounds.minColumn + 1 : Number.POSITIVE_INFINITY;
     const leftArea = leftBounds
-      ? (leftBounds.maxRow - leftBounds.minRow + 1) * (leftBounds.maxColumn - leftBounds.minColumn + 1)
+      ? leftHeight * leftWidth
       : Number.POSITIVE_INFINITY;
     const rightArea = rightBounds
-      ? (rightBounds.maxRow - rightBounds.minRow + 1) * (rightBounds.maxColumn - rightBounds.minColumn + 1)
+      ? rightHeight * rightWidth
       : Number.POSITIVE_INFINITY;
+    const leftMaxDimension = Math.max(leftHeight, leftWidth);
+    const rightMaxDimension = Math.max(rightHeight, rightWidth);
+    const leftAspectPenalty = Math.max(leftHeight / leftWidth, leftWidth / leftHeight);
+    const rightAspectPenalty = Math.max(rightHeight / rightWidth, rightWidth / rightHeight);
+    const leftSkew = Math.abs(leftHeight - leftWidth);
+    const rightSkew = Math.abs(rightHeight - rightWidth);
+
+    if (leftMaxDimension !== rightMaxDimension) {
+      return leftMaxDimension - rightMaxDimension;
+    }
+
+    if (leftAspectPenalty !== rightAspectPenalty) {
+      return leftAspectPenalty - rightAspectPenalty;
+    }
+
+    if (leftSkew !== rightSkew) {
+      return leftSkew - rightSkew;
+    }
 
     return leftArea - rightArea;
   })[0];
@@ -454,4 +476,3 @@ export function compileCrossword(input: CrosswordGeneratorInput): CrosswordCompi
     issues: []
   };
 }
-
