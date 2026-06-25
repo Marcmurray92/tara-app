@@ -23,17 +23,17 @@ export function CrosswordTouchKeyboard({
   return (
     <div
       className={cn(
-        "lg:hidden",
+        "shrink-0 lg:hidden",
         compact
-          ? "w-full border-y border-white/10 bg-[#d8d9de] px-2 py-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+          ? "w-full border-t border-white/10 bg-[#d8d9de] px-2 py-2 pb-[max(0.4rem,env(safe-area-inset-bottom))]"
           : "rounded-[1.25rem] border border-white/10 bg-surface/90 p-3.5"
       )}
     >
-      <div className={cn(compact ? "space-y-2" : "space-y-2")}>
+      <div className={cn(compact ? "space-y-1.5" : "space-y-2")}>
         {(compact ? KEYBOARD_ROWS.slice(0, 2) : KEYBOARD_ROWS).map((row, rowIndex) => (
           <div
             key={row}
-            className={cn("grid", compact ? "gap-2" : "gap-2")}
+            className={cn("grid", compact ? "gap-1.5" : "gap-2")}
             style={{
               gridTemplateColumns:
                 compact && rowIndex === 1
@@ -50,7 +50,7 @@ export function CrosswordTouchKeyboard({
                 onClick={() => onKeyPress(letter)}
                 className={cn(
                   "border border-black/10 bg-white font-semibold text-[#111827] shadow-[0_1px_0_rgba(255,255,255,0.7)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
-                  compact ? "min-h-[3.75rem] rounded-[0.8rem] px-0 text-[1.9rem] leading-none" : "min-h-12 rounded-xl px-2 text-sm"
+                  compact ? "min-h-[3.25rem] rounded-[0.75rem] px-0 text-[1.7rem] leading-none" : "min-h-12 rounded-xl px-2 text-sm"
                 )}
               >
                 {letter}
@@ -63,7 +63,7 @@ export function CrosswordTouchKeyboard({
 
       {compact ? (
         <div
-          className="mt-2 grid gap-2"
+          className="mt-1.5 grid gap-1.5"
           style={{
             gridTemplateColumns: "1.45fr repeat(7, minmax(0, 1fr)) 1.45fr"
           }}
@@ -72,7 +72,7 @@ export function CrosswordTouchKeyboard({
             type="button"
             onPointerDown={preserveGridFocus}
             onClick={onOpenMenu}
-            className="inline-flex min-h-[3.75rem] items-center justify-center rounded-[0.8rem] border border-black/10 bg-white px-0 text-[1.9rem] font-semibold leading-none text-[#111827] shadow-[0_1px_0_rgba(255,255,255,0.7)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            className="inline-flex min-h-[3.25rem] items-center justify-center rounded-[0.75rem] border border-black/10 bg-white px-0 text-[1.7rem] font-semibold leading-none text-[#111827] shadow-[0_1px_0_rgba(255,255,255,0.7)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
             aria-label="Open menu"
           >
             <span aria-hidden="true">…</span>
@@ -83,7 +83,7 @@ export function CrosswordTouchKeyboard({
               type="button"
               onPointerDown={preserveGridFocus}
               onClick={() => onKeyPress(letter)}
-              className="inline-flex min-h-[3.75rem] items-center justify-center rounded-[0.8rem] border border-black/10 bg-white px-0 text-[1.9rem] font-semibold leading-none text-[#111827] shadow-[0_1px_0_rgba(255,255,255,0.7)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+              className="inline-flex min-h-[3.25rem] items-center justify-center rounded-[0.75rem] border border-black/10 bg-white px-0 text-[1.7rem] font-semibold leading-none text-[#111827] shadow-[0_1px_0_rgba(255,255,255,0.7)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
             >
               {letter}
             </button>
@@ -92,10 +92,10 @@ export function CrosswordTouchKeyboard({
             type="button"
             onPointerDown={preserveGridFocus}
             onClick={onBackspace}
-            className="inline-flex min-h-[3.75rem] items-center justify-center rounded-[0.8rem] border border-black/10 bg-white px-0 text-[#111827] shadow-[0_1px_0_rgba(255,255,255,0.7)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            className="inline-flex min-h-[3.25rem] items-center justify-center rounded-[0.75rem] border border-black/10 bg-white px-0 text-[#111827] shadow-[0_1px_0_rgba(255,255,255,0.7)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
             aria-label="Delete"
           >
-            <Delete className="h-7 w-7" aria-hidden="true" />
+            <Delete className="h-6 w-6" aria-hidden="true" />
             <span className="sr-only">Delete</span>
           </button>
         </div>
