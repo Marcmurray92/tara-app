@@ -31,14 +31,27 @@ export function CrosswordGrid({
     <div
       className={cn(
         "border border-white/10 bg-black/20",
-        compact ? "w-full border-x-0 px-1 py-1" : "rounded-[1.4rem] p-2.5 sm:p-3.5"
+        compact
+          ? "flex h-full w-full items-center justify-center overflow-hidden border-x-0 px-0.5 py-0.5"
+          : "rounded-[1.4rem] p-2.5 sm:p-3.5"
       )}
     >
       <div
-        className={cn("grid", compact ? "gap-px" : "gap-0.5 sm:gap-1")}
-        style={{
-          gridTemplateColumns: `repeat(${puzzle.columns}, minmax(0, 1fr))`
-        }}
+        className={cn(
+          "grid",
+          compact ? "mx-auto h-full max-h-full max-w-full shrink-0 gap-px" : "gap-0.5 sm:gap-1"
+        )}
+        style={
+          compact
+            ? {
+                gridTemplateColumns: `repeat(${puzzle.columns}, minmax(0, 1fr))`,
+                gridTemplateRows: `repeat(${puzzle.rows}, minmax(0, 1fr))`,
+                aspectRatio: `${puzzle.columns} / ${puzzle.rows}`
+              }
+            : {
+                gridTemplateColumns: `repeat(${puzzle.columns}, minmax(0, 1fr))`
+              }
+        }
       >
         {puzzle.cells.flat().map((cell) => {
           const playerCell = progress.cells[cell.row]?.[cell.column];
@@ -54,6 +67,7 @@ export function CrosswordGrid({
               revealed={playerCell?.revealed ?? false}
               isBlock={!cell.solution}
               density={density}
+              fillContainer={compact}
               onClick={() => onSelectCell(cell.row, cell.column)}
             />
           );

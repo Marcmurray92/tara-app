@@ -10,6 +10,7 @@ type CrosswordCellProps = {
   revealed: boolean;
   isBlock: boolean;
   density?: "regular" | "compact" | "dense";
+  fillContainer?: boolean;
   onClick: () => void;
 };
 
@@ -23,6 +24,7 @@ export function CrosswordCell({
   revealed,
   isBlock,
   density = "regular",
+  fillContainer = false,
   onClick
 }: CrosswordCellProps) {
   const numberClass =
@@ -46,7 +48,9 @@ export function CrosswordCell({
         : "rounded-[0.28rem] sm:rounded-[0.42rem]";
 
   if (isBlock) {
-    return <div className={cn("aspect-square bg-black/70", blockRadiusClass)} aria-hidden="true" />;
+    return (
+      <div className={cn(fillContainer ? "h-full w-full" : "aspect-square", "bg-black/70", blockRadiusClass)} aria-hidden="true" />
+    );
   }
 
   return (
@@ -56,7 +60,8 @@ export function CrosswordCell({
       aria-pressed={selected}
       onClick={onClick}
       className={cn(
-        "relative aspect-square border text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
+        "relative border text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
+        fillContainer ? "h-full w-full" : "aspect-square",
         cellRadiusClass,
         highlighted ? "bg-active-entry/75" : "bg-surface-strong",
         selected ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(231,200,96,0.9),0_0_0_1px_rgba(212,175,55,0.45)]" : "border-border",

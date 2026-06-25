@@ -287,15 +287,15 @@ export function CrosswordGame({
       <section className="lg:hidden">
         <div className="flex h-[100svh] flex-col overflow-x-hidden bg-background">
           <div className="safe-top border-b border-white/10 bg-background/95 backdrop-blur">
-            <div className="flex items-center justify-between gap-3 px-2 py-2">
-              <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1.5 text-sm font-semibold text-text">
+            <div className="flex items-center justify-between gap-3 px-2 py-1.5">
+              <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[0.95rem] font-semibold text-text">
                 {timerLabel}
               </div>
 
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(true)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-surface/90 text-text transition hover:border-accent/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-surface/90 text-text transition hover:border-accent/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                 aria-label="Open crossword menu"
               >
                 <Menu className="h-4 w-4" />
@@ -486,8 +486,8 @@ export function CrosswordGame({
               </div>
             </div>
           ) : null}
-          <div className="flex min-h-0 flex-1 flex-col">
-            <div className="flex min-h-0 basis-[44%] items-center justify-center py-0.5">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+            <div className="min-h-0 flex-1 overflow-hidden">
               <CrosswordGrid
                 puzzle={puzzle}
                 progress={progress}
@@ -498,7 +498,7 @@ export function CrosswordGame({
               />
             </div>
 
-            <div className="basis-[13%] py-0">
+            <div className="shrink-0">
               <CrosswordCurrentClue
                 entry={activeEntry}
                 direction={activeDirection}
@@ -509,7 +509,7 @@ export function CrosswordGame({
               />
             </div>
 
-            <div className="min-h-0 basis-[43%]">
+            <div className="shrink-0">
               <CrosswordTouchKeyboard
                 compact
                 onKeyPress={applyInput}
