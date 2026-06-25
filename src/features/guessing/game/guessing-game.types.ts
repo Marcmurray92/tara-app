@@ -3,9 +3,17 @@ export type GuessingChoice = {
   label: string;
 };
 
+export type GuessingReviewImage = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
 export type GuessingQuestion = {
   id: string;
-  reviewText: string;
+  reviewText?: string;
+  reviewImage?: GuessingReviewImage;
   choices: [GuessingChoice, GuessingChoice, GuessingChoice, GuessingChoice];
   correctChoiceId: string;
 };

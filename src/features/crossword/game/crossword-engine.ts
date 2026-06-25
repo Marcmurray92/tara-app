@@ -15,7 +15,22 @@ function cloneProgress(progress: CrosswordProgress): CrosswordProgress {
 }
 
 export function getFirstSelection(puzzle: CrosswordCompiledData): CrosswordSelection | null {
-  const firstEntry = [...puzzle.entries].sort((left, right) => left.number - right.number)[0];
+  const firstAcrossEntry = [...puzzle.entries]
+    .filter((entry) => entry.direction === "across")
+    .sort((left, right) => left.number - right.number)[0];
+  const firstEntry =
+    firstAcrossEntry ??
+    [...puzzle.entries].sort((left, right) => {
+      if (left.number !== right.number) {
+        return left.number - right.number;
+      }
+
+      if (left.direction === right.direction) {
+        return 0;
+      }
+
+      return left.direction === "across" ? -1 : 1;
+    })[0];
   if (!firstEntry) {
     return null;
   }

@@ -21,37 +21,29 @@ export function CrosswordCurrentClue({
 }) {
   if (compact) {
     return (
-      <div className="rounded-[1rem] border border-white/10 bg-surface/90 px-2.5 py-2.5">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" onClick={onPrevious} aria-label="Previous clue" className="h-9 w-9 px-0">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm" onClick={onNext} aria-label="Next clue" className="h-9 w-9 px-0">
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-
+      <div className="w-full border-y border-white/10 bg-surface/90 px-1 py-1">
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="sm" onClick={onPrevious} aria-label="Previous clue" className="h-11 w-11 px-0">
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
           <button
             type="button"
             onClick={onToggleDirection}
-            className="min-w-0 flex-1 rounded-[0.9rem] px-1.5 py-1.5 text-left transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
-            aria-label={`Current clue. Tap to switch direction. ${direction}.`}
+            className="min-w-0 flex-1 rounded-[0.9rem] px-2 py-2 text-left transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            aria-label={`Current clue ${entry?.number ?? ""}. ${entry?.clue ?? "Select a cell to begin."} Switches direction when tapped. Current direction ${direction}.`}
           >
-            <p className="text-[0.62rem] uppercase tracking-[0.22em] text-muted">
-              {entry ? `${entry.number}` : "Current clue"}
-            </p>
             {entry ? (
               <>
+                <p className="text-[0.7rem] uppercase tracking-[0.2em] text-muted">{entry.number}</p>
                 <p className="mt-1 text-sm leading-5 text-text">{entry.clue}</p>
-                <p className="mt-1 text-[0.62rem] uppercase tracking-[0.18em] text-muted">
-                  Tap clue to switch direction
-                </p>
               </>
             ) : (
-              <p className="mt-1 text-sm text-muted">Select a cell to begin.</p>
+              <p className="text-sm text-muted">Select a cell to begin.</p>
             )}
           </button>
+          <Button variant="ghost" size="sm" onClick={onNext} aria-label="Next clue" className="h-11 w-11 px-0">
+            <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
       </div>
     );

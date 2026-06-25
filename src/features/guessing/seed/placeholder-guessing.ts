@@ -2,68 +2,125 @@ import type { GuessingGameData } from "@/features/guessing/game/guessing-game.ty
 
 export const placeholderGuessingSlug = "tara-movie-guessing";
 export const placeholderGuessingTitle = "Guessing Game";
-export const placeholderGuessingSubtitle = "Match the lovingly specific movie blurb to the right film.";
+export const placeholderGuessingSubtitle = "Match the Letterboxd review screenshot to the right film.";
 export const placeholderGuessingDescription =
-  "Work through the review clues, pick the right movie from four choices, and see how long a streak you can keep going.";
-export const placeholderGuessingContentVersion = 1;
+  "Work through the review screenshots, pick the right movie from four choices, and see how long a streak you can keep going.";
+export const placeholderGuessingContentVersion = 2;
 
 export const placeholderGuessingGameData: GuessingGameData = {
   schemaVersion: 1,
   questions: [
     {
+      id: "mean-girls",
+      reviewImage: {
+        src: "/guessing-reviews/mean-girls.png",
+        width: 920,
+        height: 284,
+        alt: "Letterboxd review screenshot for Mean Girls"
+      },
+      choices: [
+        { id: "mean-girls", label: "Mean Girls" },
+        { id: "heathers", label: "Heathers" },
+        { id: "clueless", label: "Clueless" },
+        { id: "easy-a", label: "Easy A" }
+      ],
+      correctChoiceId: "mean-girls"
+    },
+    {
+      id: "the-bride",
+      reviewImage: {
+        src: "/guessing-reviews/the-bride.png",
+        width: 1018,
+        height: 250,
+        alt: "Letterboxd review screenshot for The Bride"
+      },
+      choices: [
+        { id: "the-bride", label: "The Bride" },
+        { id: "possession", label: "Possession" },
+        { id: "the-substance", label: "The Substance" },
+        { id: "pearl", label: "Pearl" }
+      ],
+      correctChoiceId: "the-bride"
+    },
+    {
       id: "arrival",
-      reviewText: "Alien linguistics, grief, and a sci-fi ending that quietly rearranges your whole brain.",
+      reviewImage: {
+        src: "/guessing-reviews/arrival.png",
+        width: 1380,
+        height: 726,
+        alt: "Letterboxd review screenshot for Arrival"
+      },
       choices: [
         { id: "arrival", label: "Arrival" },
+        { id: "contact", label: "Contact" },
         { id: "interstellar", label: "Interstellar" },
-        { id: "gravity", label: "Gravity" },
-        { id: "contact", label: "Contact" }
+        { id: "annihilation", label: "Annihilation" }
       ],
       correctChoiceId: "arrival"
     },
     {
-      id: "broadcast-news",
-      reviewText: "Everyone is competent, sweaty, ambitious, and just a tiny bit in love inside a gloriously stressed newsroom.",
+      id: "american-beauty",
+      reviewImage: {
+        src: "/guessing-reviews/american-beauty.png",
+        width: 848,
+        height: 236,
+        alt: "Letterboxd review screenshot for American Beauty"
+      },
       choices: [
-        { id: "broadcast-news", label: "Broadcast News" },
-        { id: "spotlight", label: "Spotlight" },
-        { id: "morning-glory", label: "Morning Glory" },
-        { id: "network", label: "Network" }
+        { id: "american-beauty", label: "American Beauty" },
+        { id: "fight-club", label: "Fight Club" },
+        { id: "magnolia", label: "Magnolia" },
+        { id: "donnie-darko", label: "Donnie Darko" }
       ],
-      correctChoiceId: "broadcast-news"
+      correctChoiceId: "american-beauty"
     },
     {
-      id: "gone-girl",
-      reviewText: "Marriage as a blood sport, media as accelerant, and one of the all-time icy smile reveals.",
+      id: "oddity",
+      reviewImage: {
+        src: "/guessing-reviews/oddity.png",
+        width: 1368,
+        height: 306,
+        alt: "Letterboxd review screenshot for Oddity"
+      },
       choices: [
-        { id: "gone-girl", label: "Gone Girl" },
-        { id: "basic-instinct", label: "Basic Instinct" },
-        { id: "girl-on-the-train", label: "The Girl on the Train" },
-        { id: "a-simple-favor", label: "A Simple Favor" }
+        { id: "oddity", label: "Oddity" },
+        { id: "longlegs", label: "Longlegs" },
+        { id: "talk-to-me", label: "Talk to Me" },
+        { id: "smile", label: "Smile" }
       ],
-      correctChoiceId: "gone-girl"
+      correctChoiceId: "oddity"
     },
     {
-      id: "mamma-mia",
-      reviewText: "Sunshine, ABBA, impossible waterfront real estate, and a cast having an openly ridiculous amount of fun.",
+      id: "the-quiet-girl",
+      reviewImage: {
+        src: "/guessing-reviews/the-quiet-girl.png",
+        width: 1390,
+        height: 374,
+        alt: "Letterboxd review screenshot for The Quiet Girl"
+      },
       choices: [
-        { id: "mamma-mia", label: "Mamma Mia!" },
-        { id: "bridesmaids", label: "Bridesmaids" },
-        { id: "moulin-rouge", label: "Moulin Rouge!" },
-        { id: "the-intern", label: "The Intern" }
+        { id: "the-quiet-girl", label: "The Quiet Girl" },
+        { id: "aftersun", label: "Aftersun" },
+        { id: "petite-maman", label: "Petite Maman" },
+        { id: "room", label: "Room" }
       ],
-      correctChoiceId: "mamma-mia"
+      correctChoiceId: "the-quiet-girl"
     },
     {
-      id: "palm-springs",
-      reviewText: "A millennial time-loop romcom where emotional growth somehow feels both sincere and slightly hungover.",
+      id: "harold-and-maude",
+      reviewImage: {
+        src: "/guessing-reviews/harold-and-maude.png",
+        width: 1240,
+        height: 264,
+        alt: "Letterboxd review screenshot for Harold and Maude"
+      },
       choices: [
-        { id: "palm-springs", label: "Palm Springs" },
-        { id: "groundhog-day", label: "Groundhog Day" },
-        { id: "about-time", label: "About Time" },
-        { id: "50-first-dates", label: "50 First Dates" }
+        { id: "harold-and-maude", label: "Harold and Maude" },
+        { id: "rushmore", label: "Rushmore" },
+        { id: "the-graduate", label: "The Graduate" },
+        { id: "being-there", label: "Being There" }
       ],
-      correctChoiceId: "palm-springs"
+      correctChoiceId: "harold-and-maude"
     }
   ]
 };

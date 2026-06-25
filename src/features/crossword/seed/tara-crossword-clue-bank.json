@@ -1,0 +1,836 @@
+[
+  {
+    "bankNumber": 1,
+    "sourceRowNumber": 2,
+    "answer": "STANLEY YELNATS",
+    "clue": "Unfortunate ambigrammatic protagonist"
+  },
+  {
+    "bankNumber": 2,
+    "sourceRowNumber": 3,
+    "answer": "JON VOIGHT",
+    "clue": "He's been a cowboy the last two times we saw him"
+  },
+  {
+    "bankNumber": 3,
+    "sourceRowNumber": 4,
+    "answer": "ELYA YELNATS",
+    "clue": "No-good-dirty-rotten-pig-stealing great-great-grandfather"
+  },
+  {
+    "bankNumber": 4,
+    "sourceRowNumber": 5,
+    "answer": "SWEET FEET",
+    "clue": "Clyde Livingston’s ironic baseball nickname"
+  },
+  {
+    "bankNumber": 5,
+    "sourceRowNumber": 6,
+    "answer": "BOB ODENKIRK",
+    "clue": "Oh, that… that deal just came through. I’ve got triples of the Barracuda now. Triples is best."
+  },
+  {
+    "bankNumber": 6,
+    "sourceRowNumber": 7,
+    "answer": "DAVID FISHER",
+    "clue": "Very gay and didn't enjoy crack really"
+  },
+  {
+    "bankNumber": 7,
+    "sourceRowNumber": 8,
+    "answer": "NATE FISHER",
+    "clue": "Your favourite funeral-adjacent worker"
+  },
+  {
+    "bankNumber": 8,
+    "sourceRowNumber": 9,
+    "answer": "MOUNTAIN LION",
+    "clue": "Most shocking RIP cold open"
+  },
+  {
+    "bankNumber": 9,
+    "sourceRowNumber": 10,
+    "answer": "PAUL ATREIDES",
+    "clue": "Muad'Dib"
+  },
+  {
+    "bankNumber": 10,
+    "sourceRowNumber": 11,
+    "answer": "SALLY ROONEY",
+    "clue": "This author loves sending young people on holiday to argue"
+  },
+  {
+    "bankNumber": 11,
+    "sourceRowNumber": 12,
+    "answer": "CARRICKLEA",
+    "clue": "Normal People setting"
+  },
+  {
+    "bankNumber": 12,
+    "sourceRowNumber": 13,
+    "answer": "EMAIL",
+    "clue": "Why does everyone in Sally Rooney books do this?"
+  },
+  {
+    "bankNumber": 13,
+    "sourceRowNumber": 14,
+    "answer": "MIKE EHRMANTRAUT",
+    "clue": "Alcoholic cop with a dead son"
+  },
+  {
+    "bankNumber": 14,
+    "sourceRowNumber": 15,
+    "answer": "CUCUMBER WATER",
+    "clue": "_ _ for customers only!"
+  },
+  {
+    "bankNumber": 15,
+    "sourceRowNumber": 16,
+    "answer": "KIM WEXLER",
+    "clue": "Mesa Verde lead attorney"
+  },
+  {
+    "bankNumber": 16,
+    "sourceRowNumber": 17,
+    "answer": "RHEA SEEHORN",
+    "clue": "Sound lawyer, very not-sound author"
+  },
+  {
+    "bankNumber": 17,
+    "sourceRowNumber": 18,
+    "answer": "TWO DOOR CINEMA CLUB",
+    "clue": "Shrooms band outside, very good"
+  },
+  {
+    "bankNumber": 18,
+    "sourceRowNumber": 19,
+    "answer": "AHMED",
+    "clue": "_ is on a bike"
+  },
+  {
+    "bankNumber": 19,
+    "sourceRowNumber": 20,
+    "answer": "COCAINE",
+    "clue": "Sounds great after 3 pints"
+  },
+  {
+    "bankNumber": 20,
+    "sourceRowNumber": 21,
+    "answer": "VAPES",
+    "clue": "Digital inhalant"
+  },
+  {
+    "bankNumber": 21,
+    "sourceRowNumber": 22,
+    "answer": "JOHNNY DEPP",
+    "clue": "A mega pint?"
+  },
+  {
+    "bankNumber": 22,
+    "sourceRowNumber": 23,
+    "answer": "MANCHESTER CITY COUNCIL",
+    "clue": "Really bad parking administrators"
+  },
+  {
+    "bankNumber": 23,
+    "sourceRowNumber": 24,
+    "answer": "MUNCHIE BOX",
+    "clue": "Great on a Thursday around 11.45pm"
+  },
+  {
+    "bankNumber": 24,
+    "sourceRowNumber": 25,
+    "answer": "LIVERPUDLIANS",
+    "clue": "Very Irish Brits"
+  },
+  {
+    "bankNumber": 25,
+    "sourceRowNumber": 26,
+    "answer": "THE BEATLES",
+    "clue": "Secretly overrated band"
+  },
+  {
+    "bankNumber": 26,
+    "sourceRowNumber": 27,
+    "answer": "MOROCCO",
+    "clue": "So many cats and motorbikes"
+  },
+  {
+    "bankNumber": 27,
+    "sourceRowNumber": 28,
+    "answer": "BREAD MEATS BREAD",
+    "clue": "Edinburgh sandwich purveyor"
+  },
+  {
+    "bankNumber": 28,
+    "sourceRowNumber": 29,
+    "answer": "SIX FEET UNDER",
+    "clue": "About 1.8 metres deep"
+  },
+  {
+    "bankNumber": 29,
+    "sourceRowNumber": 30,
+    "answer": "MULLINGAR",
+    "clue": "_ boys don't stop!"
+  },
+  {
+    "bankNumber": 30,
+    "sourceRowNumber": 31,
+    "answer": "THE FLORIDA PROJECT",
+    "clue": "Movie that opens with spitting"
+  },
+  {
+    "bankNumber": 31,
+    "sourceRowNumber": 32,
+    "answer": "JD VANCE",
+    "clue": "Eyeliner politician"
+  },
+  {
+    "bankNumber": 32,
+    "sourceRowNumber": 33,
+    "answer": "SUSAN",
+    "clue": "The worst housewife"
+  },
+  {
+    "bankNumber": 33,
+    "sourceRowNumber": 34,
+    "answer": "HARRISON FORD",
+    "clue": "Ex-carpenter, actor, rogue"
+  },
+  {
+    "bankNumber": 34,
+    "sourceRowNumber": 35,
+    "answer": "JAMIE DORNAN",
+    "clue": "Robert Pattinson roommate #1"
+  },
+  {
+    "bankNumber": 35,
+    "sourceRowNumber": 36,
+    "answer": "ANDREW GARFIELD",
+    "clue": "Robert Pattinson roommate #2"
+  },
+  {
+    "bankNumber": 36,
+    "sourceRowNumber": 37,
+    "answer": "CHARLIE COX",
+    "clue": "Robert Pattinson roommate #3"
+  },
+  {
+    "bankNumber": 37,
+    "sourceRowNumber": 38,
+    "answer": "GAA SHORTS",
+    "clue": "Sad thighs fashion trend"
+  },
+  {
+    "bankNumber": 38,
+    "sourceRowNumber": 39,
+    "answer": "ROBERT LOPEZ",
+    "clue": "Youngest EGOT winner"
+  },
+  {
+    "bankNumber": 39,
+    "sourceRowNumber": 40,
+    "answer": "HELEN HAYES",
+    "clue": "First female EGOT winner"
+  },
+  {
+    "bankNumber": 40,
+    "sourceRowNumber": 41,
+    "answer": "OWEN STRATHERN",
+    "clue": "General Fiasco singer"
+  },
+  {
+    "bankNumber": 41,
+    "sourceRowNumber": 42,
+    "answer": "IF YOU WANNA",
+    "clue": "Well, I don't want to do things independently, but I can't make you stay."
+  },
+  {
+    "bankNumber": 42,
+    "sourceRowNumber": 43,
+    "answer": "WILLIE",
+    "clue": "Little ginger car fella"
+  },
+  {
+    "bankNumber": 43,
+    "sourceRowNumber": 44,
+    "answer": "PRINCESS DONUT",
+    "clue": "Cat in Marc's stupid books"
+  },
+  {
+    "bankNumber": 44,
+    "sourceRowNumber": 45,
+    "answer": "MEAN GIRLS",
+    "clue": "That's why her hair is so big. It's full of secrets."
+  },
+  {
+    "bankNumber": 45,
+    "sourceRowNumber": 46,
+    "answer": "LEO VARADKAR",
+    "clue": "The Limit Does Not Exist"
+  },
+  {
+    "bankNumber": 46,
+    "sourceRowNumber": 47,
+    "answer": "YOU",
+    "clue": "DNA is not real"
+  },
+  {
+    "bankNumber": 47,
+    "sourceRowNumber": 48,
+    "answer": "LUMON",
+    "clue": "Fuck You ___!"
+  },
+  {
+    "bankNumber": 48,
+    "sourceRowNumber": 49,
+    "answer": "BURT",
+    "clue": "Adorable gay office worker"
+  },
+  {
+    "bankNumber": 49,
+    "sourceRowNumber": 50,
+    "answer": "REFINEMENT",
+    "clue": "The work is mysterious and important!"
+  },
+  {
+    "bankNumber": 50,
+    "sourceRowNumber": 51,
+    "answer": "ROMAN ROY",
+    "clue": "Little Slime Puppy"
+  },
+  {
+    "bankNumber": 51,
+    "sourceRowNumber": 52,
+    "answer": "GREG",
+    "clue": "Tallest Disgusting Brother"
+  },
+  {
+    "bankNumber": 52,
+    "sourceRowNumber": 53,
+    "answer": "JIMMY MCGILL",
+    "clue": "OG Saul"
+  },
+  {
+    "bankNumber": 53,
+    "sourceRowNumber": 54,
+    "answer": "SETH ROGEN",
+    "clue": "You LOVE watching this lad in movies all the time."
+  },
+  {
+    "bankNumber": 54,
+    "sourceRowNumber": 55,
+    "answer": "GONE GIRL",
+    "clue": "A lot of people lacked that gift: knowing when to fuck off."
+  },
+  {
+    "bankNumber": 55,
+    "sourceRowNumber": 56,
+    "answer": "OSLO",
+    "clue": "Norway's capital"
+  },
+  {
+    "bankNumber": 56,
+    "sourceRowNumber": 57,
+    "answer": "EMU",
+    "clue": "Flightless Australian bird"
+  },
+  {
+    "bankNumber": 57,
+    "sourceRowNumber": 58,
+    "answer": "ARIA",
+    "clue": "Solo at the opera"
+  },
+  {
+    "bankNumber": 58,
+    "sourceRowNumber": 59,
+    "answer": "EPEE",
+    "clue": "Fencer's blade"
+  },
+  {
+    "bankNumber": 59,
+    "sourceRowNumber": 60,
+    "answer": "ERIE",
+    "clue": "One of the Great Lakes"
+  },
+  {
+    "bankNumber": 60,
+    "sourceRowNumber": 61,
+    "answer": "OASIS",
+    "clue": "Desert refuge"
+  },
+  {
+    "bankNumber": 61,
+    "sourceRowNumber": 62,
+    "answer": "NADIR",
+    "clue": "Lowest point"
+  },
+  {
+    "bankNumber": 62,
+    "sourceRowNumber": 63,
+    "answer": "ALIBI",
+    "clue": "Suspect's excuse"
+  },
+  {
+    "bankNumber": 63,
+    "sourceRowNumber": 64,
+    "answer": "ORBIT",
+    "clue": "Path around a planet"
+  },
+  {
+    "bankNumber": 64,
+    "sourceRowNumber": 65,
+    "answer": "EMBER",
+    "clue": "Fire's fading glow"
+  },
+  {
+    "bankNumber": 65,
+    "sourceRowNumber": 66,
+    "answer": "CONNOR ROY",
+    "clue": "Interested in politics from a very young age"
+  },
+  {
+    "bankNumber": 66,
+    "sourceRowNumber": 67,
+    "answer": "TOM WAMBSGANS",
+    "clue": "Human pain sponge"
+  },
+  {
+    "bankNumber": 67,
+    "sourceRowNumber": 68,
+    "answer": "NACHO",
+    "clue": "Delicious Better Call Saul antagonist"
+  },
+  {
+    "bankNumber": 68,
+    "sourceRowNumber": 69,
+    "answer": "SERENA",
+    "clue": "She has to go"
+  },
+  {
+    "bankNumber": 69,
+    "sourceRowNumber": 70,
+    "answer": "KRIS HUMPHRIES",
+    "clue": "Kim’s 72-day husband"
+  },
+  {
+    "bankNumber": 70,
+    "sourceRowNumber": 71,
+    "answer": "COSMOPOLITAN",
+    "clue": "Magazine with dangerous sex tips"
+  },
+  {
+    "bankNumber": 71,
+    "sourceRowNumber": 72,
+    "answer": "BRAT",
+    "clue": "_ SUMMER!"
+  },
+  {
+    "bankNumber": 72,
+    "sourceRowNumber": 73,
+    "answer": "PHOEBE",
+    "clue": "If I take a picture, will you say cheese? / My favourite character in Friends is _"
+  },
+  {
+    "bankNumber": 73,
+    "sourceRowNumber": 74,
+    "answer": "COLIN FARRELL",
+    "clue": "Class actor, probably really tiring to be around"
+  },
+  {
+    "bankNumber": 74,
+    "sourceRowNumber": 75,
+    "answer": "ZOHRAN MAMDANI",
+    "clue": "Sexy little socialist"
+  },
+  {
+    "bankNumber": 75,
+    "sourceRowNumber": 76,
+    "answer": "LOVE LANGUAGE",
+    "clue": "Overused Love Island phrase 2026"
+  },
+  {
+    "bankNumber": 76,
+    "sourceRowNumber": 77,
+    "answer": "SLAY",
+    "clue": "Marc, consistently"
+  },
+  {
+    "bankNumber": 77,
+    "sourceRowNumber": 78,
+    "answer": "NOAH BAUMBACH",
+    "clue": "Director of Frances Ha and Marriage Story."
+  },
+  {
+    "bankNumber": 78,
+    "sourceRowNumber": 79,
+    "answer": "CAPTAIN LEE",
+    "clue": "Handsome old seaman"
+  },
+  {
+    "bankNumber": 79,
+    "sourceRowNumber": 80,
+    "answer": "HANNAH",
+    "clue": "June, June, ___"
+  },
+  {
+    "bankNumber": 80,
+    "sourceRowNumber": 81,
+    "answer": "SANDY",
+    "clue": "The worst captain"
+  },
+  {
+    "bankNumber": 81,
+    "sourceRowNumber": 82,
+    "answer": "BEN",
+    "clue": "The best chef"
+  },
+  {
+    "bankNumber": 82,
+    "sourceRowNumber": 83,
+    "answer": "TRAP",
+    "clue": "Unreal nepo baby musical"
+  },
+  {
+    "bankNumber": 83,
+    "sourceRowNumber": 84,
+    "answer": "THE MENU",
+    "clue": "Yum yum eat the rich"
+  },
+  {
+    "bankNumber": 84,
+    "sourceRowNumber": 85,
+    "answer": "CASTRO",
+    "clue": "The best dictator"
+  },
+  {
+    "bankNumber": 85,
+    "sourceRowNumber": 86,
+    "answer": "SOPRANOS",
+    "clue": "The best show we'll never watch"
+  },
+  {
+    "bankNumber": 86,
+    "sourceRowNumber": 87,
+    "answer": "EPIPHANY",
+    "clue": "Just an inspiring word"
+  },
+  {
+    "bankNumber": 87,
+    "sourceRowNumber": 88,
+    "answer": "BANANA",
+    "clue": "There's always money in the _ stand!"
+  },
+  {
+    "bankNumber": 88,
+    "sourceRowNumber": 89,
+    "answer": "TOBIAS",
+    "clue": "Dr __ Fünke"
+  },
+  {
+    "bankNumber": 89,
+    "sourceRowNumber": 90,
+    "answer": "CAT",
+    "clue": "Obsession sandwich"
+  },
+  {
+    "bankNumber": 90,
+    "sourceRowNumber": 91,
+    "answer": "SCAVO",
+    "clue": "_ Pizzeria — the bad idea"
+  },
+  {
+    "bankNumber": 91,
+    "sourceRowNumber": 92,
+    "answer": "BAFFLING",
+    "clue": "Hard to comprehend"
+  },
+  {
+    "bankNumber": 92,
+    "sourceRowNumber": 93,
+    "answer": "GUINNESS",
+    "clue": "Yummy pints"
+  },
+  {
+    "bankNumber": 93,
+    "sourceRowNumber": 94,
+    "answer": "BABY DUCK",
+    "clue": "Bauld pints"
+  },
+  {
+    "bankNumber": 94,
+    "sourceRowNumber": 95,
+    "answer": "ORE",
+    "clue": "Something to be refined"
+  },
+  {
+    "bankNumber": 95,
+    "sourceRowNumber": 96,
+    "answer": "SALAMANDER",
+    "clue": "I wanna move like a new _"
+  },
+  {
+    "bankNumber": 96,
+    "sourceRowNumber": 97,
+    "answer": "CHEERS",
+    "clue": "Eggs on toast"
+  },
+  {
+    "bankNumber": 97,
+    "sourceRowNumber": 98,
+    "answer": "OFTENTIMES",
+    "clue": "Of of of of of of of of of of"
+  },
+  {
+    "bankNumber": 98,
+    "sourceRowNumber": 99,
+    "answer": "NEAT",
+    "clue": "A cool way to order alcohol"
+  },
+  {
+    "bankNumber": 99,
+    "sourceRowNumber": 100,
+    "answer": "LOST",
+    "clue": "Smoke monster island"
+  },
+  {
+    "bankNumber": 100,
+    "sourceRowNumber": 101,
+    "answer": "VINN",
+    "clue": "Diesel often found in muscle cars"
+  },
+  {
+    "bankNumber": 101,
+    "sourceRowNumber": 102,
+    "answer": "SUCKS",
+    "clue": "Good or bad hoover review"
+  },
+  {
+    "bankNumber": 102,
+    "sourceRowNumber": 103,
+    "answer": "NO MORE",
+    "clue": "I just don’t like you _."
+  },
+  {
+    "bankNumber": 103,
+    "sourceRowNumber": 104,
+    "answer": "PREGGO",
+    "clue": "Your eggo is _."
+  },
+  {
+    "bankNumber": 104,
+    "sourceRowNumber": 105,
+    "answer": "MONTAUK",
+    "clue": "Meet me in _."
+  },
+  {
+    "bankNumber": 105,
+    "sourceRowNumber": 106,
+    "answer": "KID",
+    "clue": "Here’s looking at you, _."
+  },
+  {
+    "bankNumber": 106,
+    "sourceRowNumber": 107,
+    "answer": "YUTES",
+    "clue": "The two _."
+  },
+  {
+    "bankNumber": 107,
+    "sourceRowNumber": 108,
+    "answer": "IMPORTANT",
+    "clue": "You is kind. You is smart. You is _."
+  },
+  {
+    "bankNumber": 108,
+    "sourceRowNumber": 109,
+    "answer": "BRUGES",
+    "clue": "Maybe that’s what hell is: the entire rest of eternity spent in fucking _."
+  },
+  {
+    "bankNumber": 109,
+    "sourceRowNumber": 110,
+    "answer": "DEAD",
+    "clue": "I’m so much happier now that I’m _."
+  },
+  {
+    "bankNumber": 110,
+    "sourceRowNumber": 111,
+    "answer": "MAN",
+    "clue": "Why are you wearing that stupid _ suit?"
+  },
+  {
+    "bankNumber": 111,
+    "sourceRowNumber": 112,
+    "answer": "CHIANTI",
+    "clue": "I ate his liver with some fava beans and a nice _."
+  },
+  {
+    "bankNumber": 112,
+    "sourceRowNumber": 113,
+    "answer": "NICOSIA",
+    "clue": "Cyprus capital"
+  },
+  {
+    "bankNumber": 113,
+    "sourceRowNumber": 114,
+    "answer": "ZAGREB",
+    "clue": "Croatia capital"
+  },
+  {
+    "bankNumber": 114,
+    "sourceRowNumber": 115,
+    "answer": "TBILISI",
+    "clue": "Georgia capital"
+  },
+  {
+    "bankNumber": 115,
+    "sourceRowNumber": 116,
+    "answer": "ASTANA",
+    "clue": "Kazakhstan capital"
+  },
+  {
+    "bankNumber": 116,
+    "sourceRowNumber": 117,
+    "answer": "MONACO",
+    "clue": "Monaco capital"
+  },
+  {
+    "bankNumber": 117,
+    "sourceRowNumber": 118,
+    "answer": "LJUBLJANA",
+    "clue": "Slovenia capital"
+  },
+  {
+    "bankNumber": 118,
+    "sourceRowNumber": 119,
+    "answer": "BELGRADE",
+    "clue": "Serbia capital"
+  },
+  {
+    "bankNumber": 119,
+    "sourceRowNumber": 120,
+    "answer": "BAKU",
+    "clue": "Azerbaijan capital"
+  },
+  {
+    "bankNumber": 120,
+    "sourceRowNumber": 121,
+    "answer": "ALBANY",
+    "clue": "New York state capital"
+  },
+  {
+    "bankNumber": 121,
+    "sourceRowNumber": 122,
+    "answer": "AUSTIN",
+    "clue": "Texas state capital"
+  },
+  {
+    "bankNumber": 122,
+    "sourceRowNumber": 123,
+    "answer": "DENVER",
+    "clue": "Colorado state capital"
+  },
+  {
+    "bankNumber": 123,
+    "sourceRowNumber": 124,
+    "answer": "PHOENIX",
+    "clue": "Arizona state capital"
+  },
+  {
+    "bankNumber": 124,
+    "sourceRowNumber": 125,
+    "answer": "ATLANTA",
+    "clue": "Georgia state capital"
+  },
+  {
+    "bankNumber": 125,
+    "sourceRowNumber": 126,
+    "answer": "BOSTON",
+    "clue": "Massachusetts state capital"
+  },
+  {
+    "bankNumber": 126,
+    "sourceRowNumber": 127,
+    "answer": "HONOLULU",
+    "clue": "Hawaii state capital"
+  },
+  {
+    "bankNumber": 127,
+    "sourceRowNumber": 128,
+    "answer": "MADISON",
+    "clue": "Wisconsin state capital"
+  },
+  {
+    "bankNumber": 128,
+    "sourceRowNumber": 129,
+    "answer": "NASHVILLE",
+    "clue": "Tennessee state capital"
+  },
+  {
+    "bankNumber": 129,
+    "sourceRowNumber": 130,
+    "answer": "SACRAMENTO",
+    "clue": "California state capital"
+  },
+  {
+    "bankNumber": 130,
+    "sourceRowNumber": 131,
+    "answer": "MULLINGAR",
+    "clue": "Westmeath county town"
+  },
+  {
+    "bankNumber": 131,
+    "sourceRowNumber": 132,
+    "answer": "NAAS",
+    "clue": "Kildare county town"
+  },
+  {
+    "bankNumber": 132,
+    "sourceRowNumber": 133,
+    "answer": "WEXFORD",
+    "clue": "Wexford county town"
+  },
+  {
+    "bankNumber": 133,
+    "sourceRowNumber": 134,
+    "answer": "ENNIS",
+    "clue": "Clare county town"
+  },
+  {
+    "bankNumber": 134,
+    "sourceRowNumber": 135,
+    "answer": "TRALEE",
+    "clue": "Kerry county town"
+  },
+  {
+    "bankNumber": 135,
+    "sourceRowNumber": 136,
+    "answer": "CASTLEBAR",
+    "clue": "Mayo county town"
+  },
+  {
+    "bankNumber": 136,
+    "sourceRowNumber": 137,
+    "answer": "MOBY DICK",
+    "clue": "Melville novel featuring Captain Ahab"
+  },
+  {
+    "bankNumber": 137,
+    "sourceRowNumber": 138,
+    "answer": "DRACULA",
+    "clue": "Bram Stoker’s famous vampire novel"
+  },
+  {
+    "bankNumber": 138,
+    "sourceRowNumber": 139,
+    "answer": "JANE EYRE",
+    "clue": "Charlotte Brontë novel set partly at Thornfield Hall"
+  },
+  {
+    "bankNumber": 139,
+    "sourceRowNumber": 140,
+    "answer": "THE HOBBIT",
+    "clue": "Tolkien novel featuring Bilbo Baggins"
+  }
+]

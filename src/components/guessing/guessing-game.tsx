@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, RotateCcw, Trophy } from "lucide-react";
 
@@ -172,9 +173,24 @@ export function GuessingGame({
               <CardContent className="space-y-4 p-4 pt-2 lg:space-y-6 lg:p-6 lg:pt-3">
                 <div className="rounded-[1rem] border border-white/10 bg-black/20 p-3.5 sm:p-5">
                   <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Review clue</p>
-                  <p className="mt-2.5 whitespace-pre-line font-display text-[1.35rem] leading-7 text-text sm:text-[2rem] sm:leading-10">
-                    {currentQuestion.reviewText}
-                  </p>
+                  {currentQuestion.reviewImage ? (
+                    <div className="mt-3 overflow-hidden rounded-[0.9rem] border border-white/10 bg-black/40">
+                      <Image
+                        src={currentQuestion.reviewImage.src}
+                        alt={currentQuestion.reviewImage.alt}
+                        width={currentQuestion.reviewImage.width}
+                        height={currentQuestion.reviewImage.height}
+                        priority={progress.currentQuestionIndex === 0}
+                        className="h-auto w-full"
+                        sizes="(max-width: 1024px) 100vw, 900px"
+                      />
+                    </div>
+                  ) : null}
+                  {currentQuestion.reviewText ? (
+                    <p className="mt-2.5 whitespace-pre-line font-display text-[1.35rem] leading-7 text-text sm:text-[2rem] sm:leading-10">
+                      {currentQuestion.reviewText}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="grid gap-2.5 lg:gap-3">

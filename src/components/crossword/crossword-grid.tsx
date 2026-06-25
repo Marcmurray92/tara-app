@@ -15,6 +15,8 @@ export function CrosswordGrid({
   compact?: boolean;
 }) {
   const activeEntry = getEntryForSelection(puzzle, progress.selection);
+  const maxDimension = Math.max(puzzle.rows, puzzle.columns);
+  const density = maxDimension >= 19 ? "dense" : maxDimension >= 17 ? "compact" : "regular";
   const highlightedCoords = new Set(
     activeEntry
       ? Array.from({ length: activeEntry.length }, (_, index) => {
@@ -29,7 +31,7 @@ export function CrosswordGrid({
     <div
       className={cn(
         "border border-white/10 bg-black/20",
-        compact ? "rounded-[1rem] p-1.5" : "rounded-[1.4rem] p-2.5 sm:p-3.5"
+        compact ? "w-full border-x-0 px-1 py-1" : "rounded-[1.4rem] p-2.5 sm:p-3.5"
       )}
     >
       <div
@@ -51,6 +53,7 @@ export function CrosswordGrid({
               incorrect={playerCell?.checkedIncorrect ?? false}
               revealed={playerCell?.revealed ?? false}
               isBlock={!cell.solution}
+              density={density}
               onClick={() => onSelectCell(cell.row, cell.column)}
             />
           );
