@@ -98,7 +98,7 @@ export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
 
     return {
       ...item,
-      status: readLocalGuessingStatus("tara-movie-guessing", 2)
+      status: readLocalGuessingStatus("tara-movie-guessing", 3)
     };
   });
 
