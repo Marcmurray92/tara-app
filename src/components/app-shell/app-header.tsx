@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { usePathname } from "next/navigation";
 
+import { TransitionLink } from "@/components/ui/transition-link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 
@@ -49,7 +49,7 @@ export function AppHeader({
     >
       <div className="safe-top">
         <div className={cn("mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 sm:px-6", compact ? "py-3" : "py-4")}>
-          <Link href="/" className="inline-flex min-w-0 items-center gap-3">
+          <TransitionLink href="/" direction={pathname === "/" ? "fade" : "back"} className="inline-flex min-w-0 items-center gap-3">
             <span
               className={cn(
                 "inline-flex items-center justify-center rounded-full border border-accent/40 bg-accent-soft text-accent",
@@ -62,16 +62,13 @@ export function AppHeader({
               <p className={cn("truncate font-display tracking-wide text-text", compact ? "text-lg" : "text-xl")}>
                 Tara&apos;s 30th
               </p>
-              <p className={cn("truncate text-xs uppercase tracking-[0.25em] text-muted", compact ? "hidden sm:block" : "")}>
-                Birthday games collection
-              </p>
             </div>
-          </Link>
+          </TransitionLink>
 
           <div className="flex items-center gap-2">
             {showMobileHome ? (
               <Button asChild variant="outline" size="sm" className="md:hidden">
-                <Link href="/">Home</Link>
+                <TransitionLink href="/" direction="back">Home</TransitionLink>
               </Button>
             ) : null}
 
@@ -81,7 +78,7 @@ export function AppHeader({
 
                 return (
                   <Button key={link.href} asChild variant={active ? "secondary" : link.href === "/admin" ? "outline" : "ghost"}>
-                    <Link href={link.href}>{link.label}</Link>
+                    <TransitionLink href={link.href}>{link.label}</TransitionLink>
                   </Button>
                 );
               })}

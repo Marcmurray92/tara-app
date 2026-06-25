@@ -2,6 +2,7 @@ import { guessingProgressSchema } from "@/features/guessing/game/guessing-game.s
 import type { GuessingProgress } from "@/features/guessing/game/guessing-game.types";
 import { getGuessingStatusSummary } from "@/features/guessing/game/guessing-engine";
 import type { GameProgressEnvelope } from "@/features/games/progress-envelope";
+import { dispatchBirthdayProgressEvent } from "@/features/games/progress-events";
 
 const STORAGE_PREFIX = "tara30:guessing";
 const PROGRESS_SCHEMA_VERSION = 1;
@@ -60,6 +61,7 @@ export function saveGuessingProgress({
   };
 
   window.localStorage.setItem(getGuessingProgressKey(slug, contentVersion), JSON.stringify(envelope));
+  dispatchBirthdayProgressEvent();
 }
 
 export function clearGuessingProgress(slug: string, contentVersion: number) {
@@ -68,6 +70,7 @@ export function clearGuessingProgress(slug: string, contentVersion: number) {
   }
 
   window.localStorage.removeItem(getGuessingProgressKey(slug, contentVersion));
+  dispatchBirthdayProgressEvent();
 }
 
 export function readLocalGuessingStatus(slug: string, contentVersion: number) {

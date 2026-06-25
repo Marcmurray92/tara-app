@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = {
   default:
-    "bg-accent text-slate-950 hover:bg-[color:var(--color-accent-strong)] focus-visible:ring-focus",
+    "bg-accent text-white hover:bg-[color:var(--color-accent-strong)] focus-visible:ring-focus",
   secondary:
     "bg-surface-strong text-text hover:bg-white/10 focus-visible:ring-focus",
   ghost:
@@ -30,7 +30,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
     const classes = cn(
-      "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60",
+      "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.985] disabled:pointer-events-none disabled:opacity-60",
       buttonVariants[variant],
       buttonSizes[size],
       className

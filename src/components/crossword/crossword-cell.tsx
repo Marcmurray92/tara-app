@@ -9,6 +9,9 @@ type CrosswordCellProps = {
   incorrect: boolean;
   revealed: boolean;
   isBlock: boolean;
+  pulse?: boolean;
+  intro?: boolean;
+  waveDelayMs?: number;
   density?: "regular" | "compact" | "dense";
   fillContainer?: boolean;
   onClick: () => void;
@@ -23,6 +26,9 @@ export function CrosswordCell({
   incorrect,
   revealed,
   isBlock,
+  pulse = false,
+  intro = false,
+  waveDelayMs,
   density = "regular",
   fillContainer = false,
   onClick
@@ -64,10 +70,12 @@ export function CrosswordCell({
         fillContainer ? "h-full w-full" : "aspect-square",
         cellRadiusClass,
         highlighted ? "bg-active-entry/75" : "bg-surface-strong",
-        selected ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(231,200,96,0.9),0_0_0_1px_rgba(212,175,55,0.45)]" : "border-border",
+        selected ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(198,179,255,0.92),0_0_0_1px_rgba(157,124,245,0.42)]" : "border-border",
         incorrect ? "text-error" : "text-text",
-        revealed ? "bg-revealed/80" : ""
+        revealed ? "bg-revealed/80" : "",
+        waveDelayMs !== undefined ? "animate-glow-wave" : pulse ? "animate-subtle-pop" : intro ? "animate-focus-pulse" : ""
       )}
+      style={waveDelayMs !== undefined ? { animationDelay: `${waveDelayMs}ms` } : undefined}
     >
       {number ? (
         <span className={cn("absolute leading-none text-muted", numberClass)}>

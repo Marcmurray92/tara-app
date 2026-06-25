@@ -16,7 +16,7 @@ export type SeededCrosswordContent = {
   slug: string;
   href: string;
   title: string;
-  subtitle: string;
+  subtitle?: string | null;
   description: string;
   contentVersion: number;
   clueCount: number;
@@ -28,12 +28,12 @@ export type SeededCrosswordContent = {
 type SeededCrosswordBlueprint = {
   slug: string;
   title: string;
-  subtitle: string;
+  subtitle?: string | null;
   description: string;
-  selectedBankNumbers: number[];
+  selectedSourceRowNumbers: number[];
 };
 
-const CONTENT_VERSION = 2;
+const CONTENT_VERSION = 3;
 
 const DEFAULT_COMPLETION = {
   title: "Puzzle complete",
@@ -45,65 +45,65 @@ const DEFAULT_COMPLETION = {
 const CROSSWORD_BLUEPRINTS: SeededCrosswordBlueprint[] = [
   {
     slug: "taras-birthday-crossword",
-    title: "Tara's Crossword 1",
-    subtitle: "Films, books, and a little Holes",
-    description: "A balanced opener pulling from the clue bank's movie, book, and Holes entries.",
-    selectedBankNumbers: [1, 2, 3, 4, 9, 10, 11, 12, 25, 33, 44, 54, 55, 56, 57, 58, 59, 64]
+    title: "Crossword 1",
+    subtitle: null,
+    description: "Compact mix of films, places, and short-fill crossings.",
+    selectedSourceRowNumbers: [21, 22, 32, 68, 81, 90, 91, 101, 112, 113, 123, 129, 148, 151, 155, 164, 166, 171]
   },
   {
     slug: "taras-birthday-crossword-2",
-    title: "Tara's Crossword 2",
-    subtitle: "Very important work",
-    description: "TV favourites, a little pop culture, and shorter glue clues to keep the crossings fair.",
-    selectedBankNumbers: [6, 7, 16, 28, 60, 61, 62, 63, 68, 70, 71, 72, 73, 74, 76, 86, 88, 92]
+    title: "Crossword 2",
+    subtitle: null,
+    description: "Books, TV, and cleaner short answers for steadier solving.",
+    selectedSourceRowNumbers: [12, 27, 37, 77, 94, 95, 100, 107, 110, 115, 120, 137, 138, 142, 144, 145, 160, 174]
   },
   {
     slug: "taras-birthday-crossword-3",
-    title: "Tara's Crossword 3",
-    subtitle: "Office weirdos and dinner drama",
-    description: "A mix of Succession, Severance, food, and assorted chaos from the clue bank.",
-    selectedBankNumbers: [31, 45, 47, 48, 50, 51, 66, 75, 77, 79, 81, 82, 83, 84, 89, 90, 93, 94]
+    title: "Crossword 3",
+    subtitle: null,
+    description: "A compact grid with TV names, travel clues, and easier crosses.",
+    selectedSourceRowNumbers: [13, 16, 30, 42, 43, 79, 92, 106, 114, 119, 121, 133, 141, 143, 147, 162, 163, 178]
   },
   {
     slug: "taras-birthday-crossword-4",
-    title: "Tara's Crossword 4",
-    subtitle: "Actors, quotes, and pints",
-    description: "Screen people, memorable lines, and a few easier crossings for breathing room.",
-    selectedBankNumbers: [34, 35, 36, 38, 39, 53, 69, 96, 97, 98, 100, 101, 102, 103, 104, 105, 107, 108]
+    title: "Crossword 4",
+    subtitle: null,
+    description: "Movie, food, and quote-heavy clues with a tight footprint.",
+    selectedSourceRowNumbers: [24, 33, 73, 80, 93, 99, 102, 105, 111, 117, 122, 124, 140, 152, 156, 165, 168, 179]
   },
   {
     slug: "taras-birthday-crossword-5",
-    title: "Tara's Crossword 5",
-    subtitle: "Snacks, towns, and one stupid book cat",
-    description: "Irish places, food, film lines, and a few very specific Tara-and-Marc clues.",
-    selectedBankNumbers: [18, 19, 20, 23, 24, 26, 42, 43, 46, 109, 110, 111, 130, 131, 132, 133, 134, 135]
+    title: "Crossword 5",
+    subtitle: null,
+    description: "Irish towns, drinks, quotes, and a few sharper cultural clues.",
+    selectedSourceRowNumbers: [8, 20, 40, 66, 87, 97, 125, 132, 134, 135, 139, 153, 159, 161, 167, 170, 173, 177]
   },
   {
     slug: "taras-birthday-crossword-6",
-    title: "Tara's Crossword 6",
-    subtitle: "Capitals and classics",
-    description: "General-knowledge capitals with a couple of literary anchors to keep the set warm.",
-    selectedBankNumbers: [112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 127, 128, 129, 138, 139]
+    title: "Crossword 6",
+    subtitle: null,
+    description: "Travel, classics, and short fill built for a smaller grid.",
+    selectedSourceRowNumbers: [19, 26, 38, 85, 88, 96, 104, 109, 118, 127, 130, 136, 149, 150, 157, 169, 181, 182]
   },
   {
     slug: "taras-birthday-crossword-7",
-    title: "Tara's Crossword 7",
-    subtitle: "Bonus troublemakers",
-    description: "The trickier leftovers from the clue bank, balanced with a few friendlier crossings.",
-    selectedBankNumbers: [13, 14, 15, 17, 21, 30, 32, 37, 41, 67, 80, 85, 95, 106, 123, 126, 136, 137]
+    title: "Crossword 7",
+    subtitle: null,
+    description: "Final compact board with movies, TV, and faster fill words.",
+    selectedSourceRowNumbers: [5, 69, 72, 82, 83, 86, 89, 98, 108, 116, 126, 128, 146, 154, 158, 172, 183, 184]
   }
 ];
 
-const clueBankByNumber = new Map<number, CrosswordClueBankRow>(
-  (crosswordClueBank as CrosswordClueBankRow[]).map((row) => [row.bankNumber, row])
+const clueBankBySourceRow = new Map<number, CrosswordClueBankRow>(
+  (crosswordClueBank as CrosswordClueBankRow[]).map((row) => [row.sourceRowNumber, row])
 );
 
-function buildRows(slug: string, selectedBankNumbers: number[]) {
-  return selectedBankNumbers.map<CrosswordCompleteSourceRow>((bankNumber) => {
-    const source = clueBankByNumber.get(bankNumber);
+function buildRows(slug: string, selectedSourceRowNumbers: number[]) {
+  return selectedSourceRowNumbers.map<CrosswordCompleteSourceRow>((sourceRowNumber) => {
+    const source = clueBankBySourceRow.get(sourceRowNumber);
 
     if (!source) {
-      throw new Error(`Missing crossword clue bank row ${bankNumber} for ${slug}.`);
+      throw new Error(`Missing crossword clue bank row ${sourceRowNumber} for ${slug}.`);
     }
 
     const normalized = normalizeGridAnswer(source.answer);
@@ -112,7 +112,7 @@ function buildRows(slug: string, selectedBankNumbers: number[]) {
     }
 
     return {
-      id: `${slug}-clue-${bankNumber}`,
+      id: `${slug}-clue-${source.sourceRowNumber}`,
       sourceRowNumber: source.sourceRowNumber,
       clue: source.clue,
       answer: source.answer,
@@ -124,7 +124,7 @@ function buildRows(slug: string, selectedBankNumbers: number[]) {
 }
 
 function buildSeededCrossword(blueprint: SeededCrosswordBlueprint): SeededCrosswordContent {
-  const rows = buildRows(blueprint.slug, blueprint.selectedBankNumbers);
+  const rows = buildRows(blueprint.slug, blueprint.selectedSourceRowNumbers);
   const seed = `${blueprint.slug}-v${CONTENT_VERSION}`;
   const compilation = compileCrossword({
     rows,
@@ -143,9 +143,9 @@ function buildSeededCrossword(blueprint: SeededCrosswordBlueprint): SeededCrossw
       seed,
       completion: DEFAULT_COMPLETION,
       importMetadata: {
-        detectedHeaders: ["Number", "Answer", "Clue"],
+        detectedHeaders: ["ANSWER", "CLUE"],
         unknownHeaders: [],
-        ignoredBlankRows: 0
+        ignoredBlankRows: 22
       }
     }
   });

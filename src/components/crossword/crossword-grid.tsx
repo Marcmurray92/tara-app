@@ -7,12 +7,18 @@ export function CrosswordGrid({
   puzzle,
   progress,
   onSelectCell,
-  compact = false
+  compact = false,
+  pulsingCellKey,
+  introCellKey,
+  animatedCellDelays = {}
 }: {
   puzzle: CrosswordCompiledData;
   progress: CrosswordProgress;
   onSelectCell: (row: number, column: number) => void;
   compact?: boolean;
+  pulsingCellKey?: string | null;
+  introCellKey?: string | null;
+  animatedCellDelays?: Record<string, number>;
 }) {
   const activeEntry = getEntryForSelection(puzzle, progress.selection);
   const maxDimension = Math.max(puzzle.rows, puzzle.columns);
@@ -55,6 +61,7 @@ export function CrosswordGrid({
       >
         {puzzle.cells.flat().map((cell) => {
           const playerCell = progress.cells[cell.row]?.[cell.column];
+          const cellKey = `${cell.row},${cell.column}`;
           return (
             <CrosswordCell
               key={`${cell.row}-${cell.column}`}
@@ -66,6 +73,9 @@ export function CrosswordGrid({
               incorrect={playerCell?.checkedIncorrect ?? false}
               revealed={playerCell?.revealed ?? false}
               isBlock={!cell.solution}
+              pulse={pulsingCellKey === cellKey}
+              intro={introCellKey === cellKey}
+              waveDelayMs={animatedCellDelays[cellKey]}
               density={density}
               fillContainer={compact}
               onClick={() => onSelectCell(cell.row, cell.column)}

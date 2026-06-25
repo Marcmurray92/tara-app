@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 
 import { ClientSwRegister } from "@/components/app-shell/client-sw-register";
+import { PageTransitionReset } from "@/components/app-shell/page-transition-reset";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0f16",
+  themeColor: "#07060b",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -31,9 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="font-body">
         <ClientSwRegister />
+        <PageTransitionReset />
         {children}
       </body>
     </html>
   );
 }
-

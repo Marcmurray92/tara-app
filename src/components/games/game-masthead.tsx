@@ -23,13 +23,15 @@ export function GameMasthead({
   className?: string;
 }) {
   return (
-    <div className={cn("rounded-[1.35rem] border border-white/10 bg-surface/90 p-4 sm:p-5", className)}>
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-2">
+    <div className={cn("rounded-[1.2rem] border border-white/10 bg-surface/90 p-3.5 sm:p-4", className)}>
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-1.5">
           {eyebrow ? <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">{eyebrow}</p> : null}
-          <div className="space-y-1.5">
-            <h1 className="font-display text-[1.9rem] leading-tight sm:text-[2.35rem]">{title}</h1>
-            {subtitle ? <p className="max-w-3xl text-sm leading-6 text-muted">{subtitle}</p> : null}
+          <div className="space-y-1">
+            <h1 data-page-title="true" tabIndex={-1} className="font-display text-[1.9rem] leading-tight sm:text-[2.35rem]">
+              {title}
+            </h1>
+            {subtitle ? <p className="max-w-3xl text-sm leading-5 text-muted">{subtitle}</p> : null}
           </div>
         </div>
 

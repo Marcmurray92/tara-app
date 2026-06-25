@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --color-background: #0c0f16;
-  --color-surface: rgba(21, 27, 40, 0.82);
-  --color-surface-strong: rgba(26, 33, 49, 0.96);
-  --color-text: #f6f0df;
-  --color-muted: #b7b1a2;
-  --color-accent: #d4af37;
-  --color-accent-strong: #e7c860;
-  --color-accent-soft: rgba(212, 175, 55, 0.12);
-  --color-success: #86d7a2;
-  --color-error: #e87d7d;
-  --color-revealed: #355d6a;
-  --color-active: #e7c860;
-  --color-active-entry: rgba(212, 175, 55, 0.18);
-  --color-border: rgba(246, 240, 223, 0.12);
-  --color-focus: rgba(212, 175, 55, 0.7);
+  --color-background: #07060b;
+  --color-surface: rgba(24, 20, 35, 0.88);
+  --color-surface-strong: rgba(32, 26, 47, 0.97);
+  --color-text: #f4eeff;
+  --color-muted: #aea5c7;
+  --color-accent: #9d7cf5;
+  --color-accent-strong: #ba9aff;
+  --color-accent-soft: rgba(157, 124, 245, 0.18);
+  --color-success: #a893ff;
+  --color-error: #f08ca8;
+  --color-revealed: #4f3d77;
+  --color-active: #c6b3ff;
+  --color-active-entry: rgba(198, 179, 255, 0.18);
+  --color-border: rgba(244, 238, 255, 0.12);
+  --color-focus: rgba(186, 154, 255, 0.72);
   --radius-xl: 1.5rem;
   --radius-lg: 1rem;
   --radius-md: 0.75rem;
@@ -36,11 +36,18 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   background:
-    radial-gradient(circle at top, rgba(212, 175, 55, 0.08), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(68, 107, 168, 0.12), transparent 26%),
-    linear-gradient(180deg, #0b0f18 0%, #0f1320 100%);
+    radial-gradient(circle at top, rgba(157, 124, 245, 0.16), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(106, 74, 172, 0.14), transparent 24%),
+    radial-gradient(circle at bottom left, rgba(78, 61, 119, 0.16), transparent 22%),
+    linear-gradient(180deg, #050409 0%, #0a0811 52%, #100d1a 100%);
   color: var(--color-text);
   overflow-x: hidden;
+}
+
+[data-page-shell="true"] {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
 }
 
 a {
@@ -56,7 +63,7 @@ select {
 }
 
 ::selection {
-  background: rgba(212, 175, 55, 0.28);
+  background: rgba(157, 124, 245, 0.32);
   color: var(--color-text);
 }
 
@@ -71,6 +78,130 @@ select {
 
 .safe-bottom {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+html.page-transition-out-forward [data-page-shell="true"] {
+  opacity: 0.18;
+  transform: translate3d(-14px, 0, 0);
+}
+
+html.page-transition-out-back [data-page-shell="true"] {
+  opacity: 0.18;
+  transform: translate3d(14px, 0, 0);
+}
+
+html.page-transition-out-fade [data-page-shell="true"] {
+  opacity: 0.14;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+html.page-transition-in [data-page-shell="true"] {
+  animation: page-enter 260ms ease both;
+}
+
+@keyframes subtle-pop {
+  0% {
+    transform: scale(0.98);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes focus-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(157, 124, 245, 0.32);
+  }
+
+  70% {
+    box-shadow: 0 0 0 12px rgba(157, 124, 245, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+@keyframes nudge-x {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(-6px, 0, 0);
+  }
+
+  75% {
+    transform: translate3d(6px, 0, 0);
+  }
+}
+
+@keyframes glow-wave {
+  0% {
+    filter: brightness(1);
+  }
+
+  45% {
+    filter: brightness(1.35);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes solved-lift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.98);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translate3d(0, -4px, 0) scale(1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.animate-subtle-pop {
+  animation: subtle-pop 220ms ease;
+}
+
+.animate-focus-pulse {
+  animation: focus-pulse 1400ms ease-out 2;
+}
+
+.animate-nudge-x {
+  animation: nudge-x 220ms ease;
+}
+
+.animate-glow-wave {
+  animation: glow-wave 620ms ease both;
+}
+
+.animate-solved-lift {
+  animation: solved-lift 360ms ease both;
 }
 
 @media (prefers-reduced-motion: reduce) {
