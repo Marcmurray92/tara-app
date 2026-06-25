@@ -1,4 +1,5 @@
 import type { GameProgressEnvelope } from "@/features/games/progress-envelope";
+import { dispatchBirthdayProgressEvent } from "@/features/games/progress-events";
 import { crosswordProgressSchema } from "@/features/crossword/game/crossword-game.schema";
 import type { CrosswordProgress } from "@/features/crossword/game/crossword-game.types";
 
@@ -62,6 +63,7 @@ export function saveCrosswordProgress({
   };
 
   window.localStorage.setItem(key, JSON.stringify(envelope));
+  dispatchBirthdayProgressEvent();
 }
 
 export function clearCrosswordProgress(slug: string, contentVersion: number) {
@@ -70,6 +72,7 @@ export function clearCrosswordProgress(slug: string, contentVersion: number) {
   }
 
   window.localStorage.removeItem(getCrosswordProgressKey(slug, contentVersion));
+  dispatchBirthdayProgressEvent();
 }
 
 export function readLocalCrosswordStatus(slug: string, contentVersion: number) {

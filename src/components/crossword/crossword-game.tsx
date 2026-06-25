@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Menu, X } from "lucide-react";
 
+import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { CrosswordClueList } from "@/components/crossword/crossword-clue-list";
 import { CrosswordCompletionDialog } from "@/components/crossword/crossword-completion-dialog";
 import { CrosswordConfirmDialog } from "@/components/crossword/crossword-confirm-dialog";
@@ -12,8 +12,13 @@ import { CrosswordGrid } from "@/components/crossword/crossword-grid";
 import { CrosswordTouchKeyboard } from "@/components/crossword/crossword-touch-keyboard";
 import { CrosswordToolbar } from "@/components/crossword/crossword-toolbar";
 import { GameMasthead } from "@/components/games/game-masthead";
+import { TransitionLink } from "@/components/ui/transition-link";
 import { Button } from "@/components/ui/button";
-import type { CrosswordCompiledData, CrosswordProgress } from "@/features/crossword/game/crossword-game.types";
+import type {
+  CrosswordCompiledData,
+  CrosswordCompiledEntry,
+  CrosswordProgress
+} from "@/features/crossword/game/crossword-game.types";
 import {
   backspaceCell,
   checkCurrentLetter,
@@ -23,6 +28,8 @@ import {
   clearEntirePuzzle,
   createEmptyProgress,
   deleteCell,
+  getCellEntries,
+  getEntryCells,
   getFirstSelection,
   getEntryForSelection,
   getOrderedEntries,
@@ -41,6 +48,7 @@ import {
   loadCrosswordProgress,
   saveCrosswordProgress
 } from "@/features/crossword/game/crossword-storage";
+import { getCelebrationCopy } from "@/features/games/celebration-copy";
 import { formatDuration } from "@/lib/utils/strings";
 
 type PendingAction =
@@ -51,13 +59,34 @@ type PendingAction =
   | "clear-puzzle"
   | "reset-progress";
 
+function isSolvedEntry(puzzle: CrosswordCompiledData, progress: CrosswordProgress, entryId: string) {
+  const entry = puzzle.entries.find((candidate) => candidate.id === entryId);
+  if (!entry) {
+    return false;
+  }
+
+  return getEntryCells(entry).every(({ row, column }) => {
+    const solution = puzzle.cells[row]?.[column]?.solution;
+    const playerValue = progress.cells[row]?.[column]?.value;
+    return Boolean(solution) && playerValue === solution;
+  });
+}
+
+function createWaveDelays(coords: Array<{ row: number; column: number }>) {
+  const delays: Record<string, number> = {};
+
+  coords.forEach(({ row, column }, index) => {
+    delays[`${row},${column}`] = index * 40;
+  });
+
+  return delays;
+}
+
 export function CrosswordGame({
   puzzle,
   slug,
   contentVersion,
-  title = "Tara's Birthday Crossword",
-  subtitle,
-  eyebrow = "Published crossword"
+  title = "Tara's Birthday Crossword"
 }: {
   puzzle: CrosswordCompiledData;
   slug: string;
@@ -66,32 +95,55 @@ export function CrosswordGame({
   subtitle?: string | null;
   eyebrow?: string;
 }) {
-  const [progress, setProgress] = useState<CrosswordProgress>(() => {
+  const [loadState] = useState(() => {
     const defaultSelection = getFirstSelection(puzzle);
 
     if (typeof window === "undefined") {
-      return createEmptyProgress(puzzle);
+      return {
+        progress: createEmptyProgress(puzzle),
+        restored: false,
+        completed: false
+      };
     }
 
     const savedProgress = loadCrosswordProgress(slug, contentVersion);
 
-    return savedProgress
-      ? {
-          ...savedProgress,
-          selection: defaultSelection
-        }
-      : createEmptyProgress(puzzle);
+    return {
+      progress: savedProgress
+        ? {
+            ...savedProgress,
+            selection: defaultSelection
+          }
+        : createEmptyProgress(puzzle),
+      restored: Boolean(savedProgress?.startedAt && !savedProgress?.completedAt),
+      completed: Boolean(savedProgress?.completedAt)
+    };
   });
-  const [announcement, setAnnouncement] = useState("Crossword ready.");
+  const [progress, setProgress] = useState<CrosswordProgress>(loadState.progress);
+  const [announcement, setAnnouncement] = useState(
+    loadState.completed
+      ? "Completed crossword restored."
+      : loadState.restored
+        ? "Saved crossword progress restored."
+        : "Crossword ready."
+  );
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
   const [showCompletion, setShowCompletion] = useState(Boolean(progress.completedAt));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [pulsingCellKey, setPulsingCellKey] = useState<string | null>(null);
+  const [animatedCellDelays, setAnimatedCellDelays] = useState<Record<string, number>>({});
 
   const orderedEntries = useMemo(() => getOrderedEntries(puzzle), [puzzle]);
   const activeEntry = useMemo(() => getEntryForSelection(puzzle, progress.selection), [progress.selection, puzzle]);
   const acrossEntries = orderedEntries.filter((entry) => entry.direction === "across");
   const downEntries = orderedEntries.filter((entry) => entry.direction === "down");
   const activeDirection = progress.selection?.direction ?? activeEntry?.direction ?? "across";
+  const solvedEntryIds = useMemo(
+    () => orderedEntries.filter((entry) => isSolvedEntry(puzzle, progress, entry.id)).map((entry) => entry.id),
+    [orderedEntries, progress, puzzle]
+  );
+  const introCellKey = !progress.startedAt && progress.selection ? `${progress.selection.row},${progress.selection.column}` : null;
+  const statusLabel = progress.completedAt ? "Victory lap" : progress.startedAt ? "Continue" : "Fresh grid";
   const timerLabel = useMemo(() => {
     if (!progress.startedAt) {
       return "00:00";
@@ -129,9 +181,36 @@ export function CrosswordGame({
   useEffect(() => {
     if (progress.completedAt) {
       setShowCompletion(true);
-      setAnnouncement("Crossword complete.");
     }
   }, [progress.completedAt]);
+
+  useEffect(() => {
+    if (!pulsingCellKey) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setPulsingCellKey(null);
+    }, 260);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [pulsingCellKey]);
+
+  useEffect(() => {
+    if (Object.keys(animatedCellDelays).length === 0) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setAnimatedCellDelays({});
+    }, 880);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [animatedCellDelays]);
 
   function updateProgress(nextProgress: CrosswordProgress) {
     setProgress(nextProgress);
@@ -146,12 +225,52 @@ export function CrosswordGame({
       return;
     }
 
+    const selectionBefore = progress.selection ? { ...progress.selection } : null;
+    const normalizedValue = value.slice(-1).toUpperCase();
     const nextProgress = setCellValue({
       puzzle,
       progress,
-      value: value.slice(-1),
+      value: normalizedValue,
       now: new Date().toISOString()
     });
+
+    if (selectionBefore) {
+      const solution = puzzle.cells[selectionBefore.row]?.[selectionBefore.column]?.solution;
+      const cellKey = `${selectionBefore.row},${selectionBefore.column}`;
+      const relatedEntries = Object.values(getCellEntries(puzzle, selectionBefore.row, selectionBefore.column)).filter(
+        (entry): entry is CrosswordCompiledEntry => Boolean(entry)
+      );
+      const newlySolvedEntries = relatedEntries.filter(
+        (entry) => entry && !isSolvedEntry(puzzle, progress, entry.id) && isSolvedEntry(puzzle, nextProgress, entry.id)
+      );
+
+      if (solution && solution === normalizedValue) {
+        setPulsingCellKey(cellKey);
+        if (newlySolvedEntries.length === 0) {
+          setAnnouncement(getCelebrationCopy("correct", Date.now()));
+        }
+      }
+
+      if (newlySolvedEntries.length > 0) {
+        setAnimatedCellDelays(createWaveDelays(newlySolvedEntries.flatMap((entry) => getEntryCells(entry))));
+        setAnnouncement(`${getCelebrationCopy("group", Date.now())}. ${newlySolvedEntries[0].number} ${newlySolvedEntries[0].direction} is done.`);
+      }
+    }
+
+    if (!progress.completedAt && nextProgress.completedAt) {
+      setAnimatedCellDelays(
+        createWaveDelays(
+          puzzle.cells.flatMap((row) =>
+            row.filter((cell) => cell.solution).map((cell) => ({
+              row: cell.row,
+              column: cell.column
+            }))
+          )
+        )
+      );
+      setAnnouncement(`${getCelebrationCopy("complete", puzzle.entries.length)}. Crossword complete.`);
+    }
+
     updateProgress(nextProgress);
     focusKeyboard();
   }
@@ -168,6 +287,7 @@ export function CrosswordGame({
 
   function handleToggleDirection() {
     updateProgress(toggleSelectionDirection(progress, puzzle));
+    setAnnouncement(`Direction switched to ${activeDirection === "across" ? "down" : "across"}.`);
     focusKeyboard();
   }
 
@@ -284,12 +404,21 @@ export function CrosswordGame({
 
   return (
     <div className="relative" onKeyDown={handleKeyDown}>
+      <h1 data-page-title="true" tabIndex={-1} className="sr-only lg:hidden">
+        {title}
+      </h1>
+
       <section className="lg:hidden">
         <div className="flex h-[100svh] flex-col overflow-x-hidden bg-background">
           <div className="safe-top border-b border-white/10 bg-background/95 backdrop-blur">
             <div className="flex items-center justify-between gap-3 px-2 py-1.5">
-              <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[0.95rem] font-semibold text-text">
-                {timerLabel}
+              <div className="flex items-center gap-1.5">
+                <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[0.95rem] font-semibold text-text">
+                  {timerLabel}
+                </div>
+                <div className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-muted">
+                  {statusLabel}
+                </div>
               </div>
 
               <button
@@ -328,7 +457,7 @@ export function CrosswordGame({
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-[0.62rem] uppercase tracking-[0.22em] text-muted">Navigate</p>
                     <Button asChild variant="ghost" size="sm" className="h-8 px-2">
-                      <Link href="/">Home</Link>
+                      <TransitionLink href="/" direction="back">Home</TransitionLink>
                     </Button>
                   </div>
 
@@ -456,6 +585,7 @@ export function CrosswordGame({
                         title="Across"
                         entries={acrossEntries}
                         activeEntryId={activeEntry?.id}
+                        solvedEntryIds={solvedEntryIds}
                         className="border-0 bg-transparent p-0"
                         showHeading={false}
                         onSelectEntry={(entry) => {
@@ -473,6 +603,7 @@ export function CrosswordGame({
                         title="Down"
                         entries={downEntries}
                         activeEntryId={activeEntry?.id}
+                        solvedEntryIds={solvedEntryIds}
                         className="border-0 bg-transparent p-0"
                         showHeading={false}
                         onSelectEntry={(entry) => {
@@ -492,6 +623,9 @@ export function CrosswordGame({
                 puzzle={puzzle}
                 progress={progress}
                 compact
+                pulsingCellKey={pulsingCellKey}
+                introCellKey={introCellKey}
+                animatedCellDelays={animatedCellDelays}
                 onSelectCell={(row, column) => {
                   updateProgress(selectCell(puzzle, progress, row, column));
                 }}
@@ -524,10 +658,11 @@ export function CrosswordGame({
       <div className="hidden gap-5 lg:grid lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-4">
           <GameMasthead
-            eyebrow={eyebrow}
             title={title}
-            subtitle={subtitle}
-            items={[{ label: "elapsed", value: timerLabel }]}
+            items={[
+              { label: "status", value: statusLabel },
+              { label: "elapsed", value: timerLabel }
+            ]}
             actions={
               <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
                 Reset
@@ -547,6 +682,9 @@ export function CrosswordGame({
             <CrosswordGrid
               puzzle={puzzle}
               progress={progress}
+              pulsingCellKey={pulsingCellKey}
+              introCellKey={introCellKey}
+              animatedCellDelays={animatedCellDelays}
               onSelectCell={(row, column) => {
                 updateProgress(selectCell(puzzle, progress, row, column));
                 focusKeyboard();
@@ -568,19 +706,12 @@ export function CrosswordGame({
         </div>
 
         <aside className="space-y-4">
-          <div className="rounded-[1.25rem] border border-white/10 bg-surface/90 p-4">
-            <p className="text-xs uppercase tracking-[0.24em] text-muted">Keyboard help</p>
-            <ul className="mt-3 space-y-2 text-sm leading-6 text-muted">
-              <li>Tap or click a cell to select it.</li>
-              <li>Use arrow keys to move and Space to switch direction.</li>
-              <li>Touch devices can also solve with the on-screen keyboard.</li>
-              <li>Use Tab and Shift+Tab to move through clues.</li>
-            </ul>
-          </div>
+          <BirthdayProgress compact currentGame="crossword" />
           <CrosswordClueList
             title="Across"
             entries={acrossEntries}
             activeEntryId={activeEntry?.id}
+            solvedEntryIds={solvedEntryIds}
             onSelectEntry={(entry) => {
               updateProgress(selectEntry(progress, entry));
               focusKeyboard();
@@ -590,6 +721,7 @@ export function CrosswordGame({
             title="Down"
             entries={downEntries}
             activeEntryId={activeEntry?.id}
+            solvedEntryIds={solvedEntryIds}
             onSelectEntry={(entry) => {
               updateProgress(selectEntry(progress, entry));
               focusKeyboard();
@@ -628,7 +760,7 @@ export function CrosswordGame({
         onConfirm={confirmPendingAction}
       />
 
-      <CrosswordCompletionDialog open={showCompletion} puzzle={puzzle} />
+      <CrosswordCompletionDialog open={showCompletion} puzzle={puzzle} timeLabel={timerLabel} clueCount={orderedEntries.length} />
     </div>
   );
 }

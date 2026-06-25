@@ -2,6 +2,7 @@ import { connectionsProgressSchema } from "@/features/connections/game/connectio
 import type { ConnectionsProgress } from "@/features/connections/game/connections-game.types";
 import { getConnectionsStatusSummary } from "@/features/connections/game/connections-engine";
 import type { GameProgressEnvelope } from "@/features/games/progress-envelope";
+import { dispatchBirthdayProgressEvent } from "@/features/games/progress-events";
 
 const STORAGE_PREFIX = "tara30:connections";
 const PROGRESS_SCHEMA_VERSION = 1;
@@ -62,6 +63,7 @@ export function saveConnectionsProgress({
   };
 
   window.localStorage.setItem(getConnectionsProgressKey(slug, contentVersion), JSON.stringify(envelope));
+  dispatchBirthdayProgressEvent();
 }
 
 export function clearConnectionsProgress(slug: string, contentVersion: number) {
@@ -70,6 +72,7 @@ export function clearConnectionsProgress(slug: string, contentVersion: number) {
   }
 
   window.localStorage.removeItem(getConnectionsProgressKey(slug, contentVersion));
+  dispatchBirthdayProgressEvent();
 }
 
 export function readLocalConnectionsStatus(slug: string, contentVersion: number) {

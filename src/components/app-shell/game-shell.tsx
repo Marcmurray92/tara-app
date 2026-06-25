@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { AppFooter } from "@/components/app-shell/app-footer";
 import { AppHeader } from "@/components/app-shell/app-header";
 import { cn } from "@/lib/utils/cn";
 
@@ -15,6 +14,7 @@ export function GameShell({
     <div className="min-h-app bg-background bg-halo text-text">
       <AppHeader compact={chrome === "game"} hideOnMobile={chrome === "game"} />
       <main
+        data-page-shell="true"
         className={cn(
           "mx-auto w-full",
           chrome === "game"
@@ -24,7 +24,6 @@ export function GameShell({
       >
         {children}
       </main>
-      {chrome === "default" ? <AppFooter /> : null}
     </div>
   );
 }
