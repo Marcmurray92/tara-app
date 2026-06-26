@@ -35,7 +35,7 @@ export function GameCard({ game, state, eyebrow }: GameCardProps) {
 
   return (
     <Card className="group relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-accent/80 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-1 bg-accent/55" />
       <CardHeader>
         <div className="flex items-start justify-between gap-4">
           <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-accent/30 bg-accent-soft text-accent">
