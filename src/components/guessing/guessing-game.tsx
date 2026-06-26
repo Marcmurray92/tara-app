@@ -326,7 +326,7 @@ export function GuessingGame({
                     ) : null}
                   </div>
 
-                  <div className="grid gap-2.5 lg:gap-3">
+                  <div className="grid grid-cols-2 gap-2.5 lg:gap-3">
                     {orderedChoices.map((choice) => {
                       const answered = currentAnswer !== null;
                       const selected = currentAnswer?.selectedChoiceId === choice.id;
@@ -338,7 +338,7 @@ export function GuessingGame({
                           type="button"
                           disabled={answered}
                           className={cn(
-                            "min-h-12 rounded-[0.95rem] border px-3 py-3 text-left text-sm font-medium leading-5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:min-h-14 sm:rounded-[1.1rem] sm:px-4 sm:py-4 sm:leading-6",
+                            "flex min-h-[5.25rem] h-full items-center rounded-[0.95rem] border px-3 py-3 text-left text-sm font-medium leading-5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:min-h-[5.75rem] sm:rounded-[1.1rem] sm:px-4 sm:py-4 sm:leading-6",
                             !answered && "border-white/10 bg-surface/90 hover:border-accent/45 hover:bg-surface-strong",
                             answered && selected && correct && "animate-subtle-pop border-success/35 bg-success/10 text-text",
                             answered && selected && !correct && "animate-nudge-x border-error/35 bg-error/10 text-text",
