@@ -94,6 +94,7 @@ export function BirthdayProgress({
       aria-label="Birthday game progress"
       className={cn(
         "rounded-[1.3rem] border border-white/10 bg-surface/85 shadow-glow backdrop-blur-sm",
+        snapshot.allCompleted ? "animate-status-bloom border-accent/25" : "",
         compact ? "p-3" : "p-4 sm:p-5",
         className
       )}
