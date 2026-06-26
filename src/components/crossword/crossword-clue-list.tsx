@@ -6,6 +6,7 @@ export function CrosswordClueList({
   entries,
   activeEntryId,
   solvedEntryIds = [],
+  recentSolvedEntryIds = [],
   onSelectEntry,
   className,
   showHeading = true
@@ -14,11 +15,13 @@ export function CrosswordClueList({
   entries: CrosswordCompiledEntry[];
   activeEntryId?: string;
   solvedEntryIds?: string[];
+  recentSolvedEntryIds?: string[];
   onSelectEntry: (entry: CrosswordCompiledEntry) => void;
   className?: string;
   showHeading?: boolean;
 }) {
   const solvedEntryIdSet = new Set(solvedEntryIds);
+  const recentSolvedEntryIdSet = new Set(recentSolvedEntryIds);
 
   return (
     <section aria-label={title} className={cn("rounded-[1.25rem] border border-white/10 bg-surface/85 p-4", className)}>
@@ -26,6 +29,7 @@ export function CrosswordClueList({
       <ul className="space-y-2">
         {entries.map((entry) => {
           const solved = solvedEntryIdSet.has(entry.id);
+          const recentlySolved = recentSolvedEntryIdSet.has(entry.id);
 
           return (
             <li key={entry.id}>
@@ -39,7 +43,8 @@ export function CrosswordClueList({
                     ? "border-accent bg-accent-soft text-text"
                     : solved
                       ? "border-success/25 bg-success/10 text-text"
-                      : "border-transparent text-muted hover:border-white/10 hover:bg-white/5 hover:text-text"
+                      : "border-transparent text-muted hover:border-white/10 hover:bg-white/5 hover:text-text",
+                  recentlySolved ? "animate-solved-lift border-success/35 bg-success/12" : ""
                 )}
               >
                 <span className="flex items-center justify-between gap-3">

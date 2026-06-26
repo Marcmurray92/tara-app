@@ -12,6 +12,7 @@ import { CrosswordGrid } from "@/components/crossword/crossword-grid";
 import { CrosswordTouchKeyboard } from "@/components/crossword/crossword-touch-keyboard";
 import { CrosswordToolbar } from "@/components/crossword/crossword-toolbar";
 import { GameMasthead } from "@/components/games/game-masthead";
+import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { Button } from "@/components/ui/button";
 import type {
@@ -132,6 +133,7 @@ export function CrosswordGame({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pulsingCellKey, setPulsingCellKey] = useState<string | null>(null);
   const [animatedCellDelays, setAnimatedCellDelays] = useState<Record<string, number>>({});
+  const [recentSolvedEntryIds, setRecentSolvedEntryIds] = useState<string[]>([]);
 
   const orderedEntries = useMemo(() => getOrderedEntries(puzzle), [puzzle]);
   const activeEntry = useMemo(() => getEntryForSelection(puzzle, progress.selection), [progress.selection, puzzle]);
@@ -212,12 +214,47 @@ export function CrosswordGame({
     };
   }, [animatedCellDelays]);
 
+  useEffect(() => {
+    if (recentSolvedEntryIds.length === 0) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setRecentSolvedEntryIds([]);
+    }, 720);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [recentSolvedEntryIds]);
+
   function updateProgress(nextProgress: CrosswordProgress) {
     setProgress(nextProgress);
   }
 
   function focusKeyboard() {
     return;
+  }
+
+  function announceEntrySelection(entry: CrosswordCompiledEntry | null) {
+    if (!entry) {
+      return;
+    }
+
+    setAnnouncement(`${entry.number} ${entry.direction}. ${entry.clue}`);
+  }
+
+  function handleMoveClue(step: -1 | 1) {
+    const nextProgress = moveToAdjacentClue(puzzle, progress, step);
+    updateProgress(nextProgress);
+    announceEntrySelection(getEntryForSelection(puzzle, nextProgress.selection));
+    focusKeyboard();
+  }
+
+  function handleSelectEntry(entry: CrosswordCompiledEntry) {
+    updateProgress(selectEntry(progress, entry));
+    announceEntrySelection(entry);
+    focusKeyboard();
   }
 
   function applyInput(value: string) {
@@ -252,6 +289,7 @@ export function CrosswordGame({
       }
 
       if (newlySolvedEntries.length > 0) {
+        setRecentSolvedEntryIds(newlySolvedEntries.map((entry) => entry.id));
         setAnimatedCellDelays(createWaveDelays(newlySolvedEntries.flatMap((entry) => getEntryCells(entry))));
         setAnnouncement(`${getCelebrationCopy("group", Date.now())}. ${newlySolvedEntries[0].number} ${newlySolvedEntries[0].direction} is done.`);
       }
@@ -581,10 +619,11 @@ export function CrosswordGame({
                         entries={acrossEntries}
                         activeEntryId={activeEntry?.id}
                         solvedEntryIds={solvedEntryIds}
+                        recentSolvedEntryIds={recentSolvedEntryIds}
                         className="border-0 bg-transparent p-0"
                         showHeading={false}
                         onSelectEntry={(entry) => {
-                          updateProgress(selectEntry(progress, entry));
+                          handleSelectEntry(entry);
                           setMobileMenuOpen(false);
                         }}
                       />
@@ -599,10 +638,11 @@ export function CrosswordGame({
                         entries={downEntries}
                         activeEntryId={activeEntry?.id}
                         solvedEntryIds={solvedEntryIds}
+                        recentSolvedEntryIds={recentSolvedEntryIds}
                         className="border-0 bg-transparent p-0"
                         showHeading={false}
                         onSelectEntry={(entry) => {
-                          updateProgress(selectEntry(progress, entry));
+                          handleSelectEntry(entry);
                           setMobileMenuOpen(false);
                         }}
                       />
@@ -632,8 +672,9 @@ export function CrosswordGame({
                 entry={activeEntry}
                 direction={activeDirection}
                 compact
-                onPrevious={() => updateProgress(moveToAdjacentClue(puzzle, progress, -1))}
-                onNext={() => updateProgress(moveToAdjacentClue(puzzle, progress, 1))}
+                solved={Boolean(activeEntry && solvedEntryIds.includes(activeEntry.id))}
+                onPrevious={() => handleMoveClue(-1)}
+                onNext={() => handleMoveClue(1)}
                 onToggleDirection={handleToggleDirection}
               />
             </div>
@@ -652,76 +693,87 @@ export function CrosswordGame({
 
       <div className="hidden gap-5 lg:grid lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-4">
-          <GameMasthead
-            title={title}
-            items={[
-              { label: "status", value: statusLabel },
-              { label: "elapsed", value: timerLabel }
-            ]}
-            actions={
-              <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
-                Reset
-              </Button>
-            }
-          />
+          <Reveal disabled={loadState.restored || loadState.completed} delay={40}>
+            <GameMasthead
+              title={title}
+              items={[
+                { label: "status", value: statusLabel },
+                { label: "elapsed", value: timerLabel }
+              ]}
+              actions={
+                <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
+                  Reset
+                </Button>
+              }
+            />
+          </Reveal>
 
           <div className="flex flex-col gap-4">
-            <CrosswordCurrentClue
-              entry={activeEntry}
-              direction={activeDirection}
-              onPrevious={() => updateProgress(moveToAdjacentClue(puzzle, progress, -1))}
-              onNext={() => updateProgress(moveToAdjacentClue(puzzle, progress, 1))}
-              onToggleDirection={handleToggleDirection}
-            />
+            <Reveal disabled={loadState.restored || loadState.completed} delay={90}>
+              <CrosswordCurrentClue
+                entry={activeEntry}
+                direction={activeDirection}
+                solved={Boolean(activeEntry && solvedEntryIds.includes(activeEntry.id))}
+                onPrevious={() => handleMoveClue(-1)}
+                onNext={() => handleMoveClue(1)}
+                onToggleDirection={handleToggleDirection}
+              />
+            </Reveal>
 
-            <CrosswordGrid
-              puzzle={puzzle}
-              progress={progress}
-              pulsingCellKey={pulsingCellKey}
-              introCellKey={introCellKey}
-              animatedCellDelays={animatedCellDelays}
-              onSelectCell={(row, column) => {
-                updateProgress(selectCell(puzzle, progress, row, column));
-                focusKeyboard();
-              }}
-            />
+            <Reveal disabled={loadState.restored || loadState.completed} delay={130}>
+              <CrosswordGrid
+                puzzle={puzzle}
+                progress={progress}
+                pulsingCellKey={pulsingCellKey}
+                introCellKey={introCellKey}
+                animatedCellDelays={animatedCellDelays}
+                onSelectCell={(row, column) => {
+                  updateProgress(selectCell(puzzle, progress, row, column));
+                  focusKeyboard();
+                }}
+              />
+            </Reveal>
 
-            <CrosswordToolbar
-              onCheckLetter={handleCheckLetter}
-              onCheckWord={handleCheckWord}
-              onCheckPuzzle={handleCheckPuzzle}
-              onRevealLetter={() => setPendingAction("reveal-letter")}
-              onRevealWord={() => setPendingAction("reveal-word")}
-              onRevealPuzzle={() => setPendingAction("reveal-puzzle")}
-              onClearWord={() => setPendingAction("clear-word")}
-              onClearPuzzle={() => setPendingAction("clear-puzzle")}
-              onResetProgress={() => setPendingAction("reset-progress")}
-            />
+            <Reveal disabled={loadState.restored || loadState.completed} delay={170}>
+              <CrosswordToolbar
+                onCheckLetter={handleCheckLetter}
+                onCheckWord={handleCheckWord}
+                onCheckPuzzle={handleCheckPuzzle}
+                onRevealLetter={() => setPendingAction("reveal-letter")}
+                onRevealWord={() => setPendingAction("reveal-word")}
+                onRevealPuzzle={() => setPendingAction("reveal-puzzle")}
+                onClearWord={() => setPendingAction("clear-word")}
+                onClearPuzzle={() => setPendingAction("clear-puzzle")}
+                onResetProgress={() => setPendingAction("reset-progress")}
+              />
+            </Reveal>
           </div>
         </div>
 
         <aside className="space-y-4">
-          <BirthdayProgress compact currentGame="crossword" />
-          <CrosswordClueList
-            title="Across"
-            entries={acrossEntries}
-            activeEntryId={activeEntry?.id}
-            solvedEntryIds={solvedEntryIds}
-            onSelectEntry={(entry) => {
-              updateProgress(selectEntry(progress, entry));
-              focusKeyboard();
-            }}
-          />
-          <CrosswordClueList
-            title="Down"
-            entries={downEntries}
-            activeEntryId={activeEntry?.id}
-            solvedEntryIds={solvedEntryIds}
-            onSelectEntry={(entry) => {
-              updateProgress(selectEntry(progress, entry));
-              focusKeyboard();
-            }}
-          />
+          <Reveal disabled={loadState.restored || loadState.completed} delay={70}>
+            <BirthdayProgress compact currentGame="crossword" />
+          </Reveal>
+          <Reveal disabled={loadState.restored || loadState.completed} delay={120}>
+            <CrosswordClueList
+              title="Across"
+              entries={acrossEntries}
+              activeEntryId={activeEntry?.id}
+              solvedEntryIds={solvedEntryIds}
+              recentSolvedEntryIds={recentSolvedEntryIds}
+              onSelectEntry={handleSelectEntry}
+            />
+          </Reveal>
+          <Reveal disabled={loadState.restored || loadState.completed} delay={160}>
+            <CrosswordClueList
+              title="Down"
+              entries={downEntries}
+              activeEntryId={activeEntry?.id}
+              solvedEntryIds={solvedEntryIds}
+              recentSolvedEntryIds={recentSolvedEntryIds}
+              onSelectEntry={handleSelectEntry}
+            />
+          </Reveal>
         </aside>
       </div>
 

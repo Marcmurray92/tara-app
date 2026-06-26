@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils/cn";
 export function CrosswordCurrentClue({
   entry,
   direction,
+  solved = false,
   onPrevious,
   onNext,
   onToggleDirection,
@@ -14,6 +15,7 @@ export function CrosswordCurrentClue({
 }: {
   entry: CrosswordCompiledEntry | null;
   direction: CrosswordDirection;
+  solved?: boolean;
   onPrevious: () => void;
   onNext: () => void;
   onToggleDirection: () => void;
@@ -29,17 +31,25 @@ export function CrosswordCurrentClue({
           <button
             type="button"
             onClick={onToggleDirection}
-            className="min-w-0 flex-1 rounded-[0.9rem] px-2 py-1.5 text-left transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            className={cn(
+              "min-w-0 flex-1 rounded-[0.9rem] px-2 py-1.5 text-left transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
+              solved ? "bg-success/10" : ""
+            )}
             aria-label={`Current clue ${entry?.number ?? ""}. ${entry?.clue ?? "Select a cell to begin."} Switches direction when tapped. Current direction ${direction}.`}
           >
-            {entry ? (
-              <>
-                <p className="text-[0.62rem] uppercase tracking-[0.18em] text-muted">{entry.number}</p>
-                <p className="mt-0.5 text-[0.94rem] leading-5 text-text">{entry.clue}</p>
-              </>
-            ) : (
-              <p className="text-[0.94rem] text-muted">Select a cell to begin.</p>
-            )}
+            <div key={`${entry?.id ?? "none"}-${direction}`} className="animate-subtle-pop">
+              {entry ? (
+                <>
+                  <p className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-muted">
+                    <span>{entry.number}</span>
+                    {solved ? <span className="text-success">Done</span> : null}
+                  </p>
+                  <p className="mt-0.5 text-[0.94rem] leading-5 text-text">{entry.clue}</p>
+                </>
+              ) : (
+                <p className="text-[0.94rem] text-muted">Select a cell to begin.</p>
+              )}
+            </div>
           </button>
           <Button variant="ghost" size="sm" onClick={onNext} aria-label="Next clue" className="h-10 w-10 px-0">
             <ChevronRight className="h-5 w-5" />
@@ -50,7 +60,7 @@ export function CrosswordCurrentClue({
   }
 
   return (
-    <div className={cn("rounded-[1.25rem] border border-white/10 bg-surface/90 p-3.5 sm:p-4")}>
+    <div className={cn("rounded-[1.25rem] border border-white/10 bg-surface/90 p-3.5 sm:p-4", solved ? "border-success/25" : "")}>
       <div className="flex items-center gap-2">
         <Button variant="ghost" size="sm" onClick={onPrevious} aria-label="Previous clue" className="shrink-0">
           <ChevronLeft className="h-4 w-4" />
@@ -73,6 +83,11 @@ export function CrosswordCurrentClue({
                 <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-muted">
                   {direction}
                 </span>
+                {solved ? (
+                  <span className="rounded-full border border-success/25 bg-success/10 px-2.5 py-1 text-success">
+                    Done
+                  </span>
+                ) : null}
               </div>
               <p className="mt-3 text-sm leading-6 text-text sm:text-base sm:leading-7">{entry.clue}</p>
             </div>

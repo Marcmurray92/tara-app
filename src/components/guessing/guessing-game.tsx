@@ -71,6 +71,7 @@ export function GuessingGame({
   );
   const [feedbackTone, setFeedbackTone] = useState<"neutral" | "success" | "error">("neutral");
   const [questionMotion, setQuestionMotion] = useState<"idle" | "out" | "in">("idle");
+  const [answerFeedback, setAnswerFeedback] = useState<null | "success" | "error">(null);
 
   const birthdaySnapshot = useBirthdayProgress();
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -97,6 +98,12 @@ export function GuessingGame({
   const totalQuestions = gameData.questions.length;
   const answeredQuestions = progress.answers.length;
   const statusLabel = progress.completedAt ? "Round complete" : progress.startedAt ? "Continue" : "Fresh round";
+  const correctChoiceLabel =
+    currentQuestion?.choices.find((choice) => choice.id === currentQuestion.correctChoiceId)?.label ?? "the correct answer";
+  const selectedChoiceLabel =
+    currentQuestion && currentAnswer
+      ? currentQuestion.choices.find((choice) => choice.id === currentAnswer.selectedChoiceId)?.label ?? "that guess"
+      : null;
 
   useEffect(() => {
     saveGuessingProgress({
@@ -120,6 +127,20 @@ export function GuessingGame({
     };
   }, [questionMotion]);
 
+  useEffect(() => {
+    if (!answerFeedback) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setAnswerFeedback(null);
+    }, 320);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [answerFeedback]);
+
   function handleAnswer(choiceId: string) {
     if (!currentQuestion || currentAnswer) {
       return;
@@ -131,11 +152,10 @@ export function GuessingGame({
       choiceId,
       now: new Date().toISOString()
     });
-    const correctChoiceLabel =
-      currentQuestion.choices.find((choice) => choice.id === currentQuestion.correctChoiceId)?.label ?? "the correct answer";
 
     setProgress(result.progress);
     setFeedbackTone(result.correct ? "success" : "error");
+    setAnswerFeedback(result.correct ? "success" : "error");
     setMessage(
       result.correct
         ? `${getCelebrationCopy("correct", progress.answers.length)}. ${correctChoiceLabel}.`
@@ -166,6 +186,7 @@ export function GuessingGame({
     setProgress(createGuessingProgress());
     setFeedbackTone("neutral");
     setQuestionMotion("idle");
+    setAnswerFeedback(null);
     setMessage("Fresh round loaded. Choose the film that best matches the review.");
   }
 
@@ -211,69 +232,7 @@ export function GuessingGame({
         </div>
       </div>
 
-      {progress.completedAt ? (
-        <Card className="animate-solved-lift border-accent/25">
-          <CardHeader className="p-4 pb-2 lg:p-6 lg:pb-3">
-            <CardTitle className="flex items-center gap-3">
-              <Trophy className="h-5 w-5 text-accent" />
-              Round complete
-            </CardTitle>
-            <CardDescription>
-              {birthdaySnapshot.allCompleted
-                ? getCelebrationCopy("final", progress.score)
-                : getCelebrationCopy(progress.score === totalQuestions ? "perfect" : "complete", progress.score)}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 p-4 pt-2 lg:p-6 lg:pt-3">
-            <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted">
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
-                <span className="text-text">{progress.score}</span>
-                <span className="ml-1.5">correct</span>
-              </span>
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
-                <span className="text-text">{progress.bestStreak}</span>
-                <span className="ml-1.5">best streak</span>
-              </span>
-            </div>
-
-            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-              {recapItems.map((item) => (
-                <div
-                  key={item.question.id}
-                  className={cn(
-                    "rounded-[1rem] border px-3 py-3 text-sm leading-6",
-                    item.answer?.correct ? "border-success/25 bg-success/10 text-text" : "border-white/10 bg-black/20 text-muted"
-                  )}
-                >
-                  <p className="font-medium">{item.correctLabel}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em]">
-                    {item.answer?.correct ? "Correct" : "Missed"}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <BirthdayProgress compact currentGame="guessing" />
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              {nextGame ? (
-                <Button asChild className="sm:w-auto">
-                  <TransitionLink href={nextGame.href} direction="forward">
-                    Play {nextGame.shortTitle}
-                    <ArrowRight className="h-4 w-4" />
-                  </TransitionLink>
-                </Button>
-              ) : null}
-              <Button variant={nextGame ? "outline" : "default"} className="sm:w-auto" onClick={handleRestart}>
-                <RotateCcw className="h-4 w-4" />
-                Play again
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      ) : null}
-
-      {!progress.completedAt && currentQuestion ? (
+      {currentQuestion ? (
         <div className="grid gap-3 px-2 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-5 lg:px-0">
           <div className="space-y-3 lg:space-y-4">
             <Reveal disabled={loadState.restored} delay={120}>
@@ -326,7 +285,12 @@ export function GuessingGame({
                     ) : null}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2.5 lg:gap-3">
+                  <div
+                    className={cn(
+                      "grid grid-cols-2 gap-2.5 rounded-[1rem] lg:gap-3",
+                      answerFeedback === "success" ? "animate-result-ring" : ""
+                    )}
+                  >
                     {orderedChoices.map((choice) => {
                       const answered = currentAnswer !== null;
                       const selected = currentAnswer?.selectedChoiceId === choice.id;
@@ -367,14 +331,48 @@ export function GuessingGame({
                   </div>
 
                   {currentAnswer ? (
-                    <div className="flex flex-col gap-3 rounded-[1rem] border border-white/10 bg-surface/90 p-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-4">
-                      <div className="text-sm leading-6 text-muted sm:leading-7">
-                        {currentAnswer.correct ? "Correct. Keep the streak warm." : "Not this time. Reset the streak and keep moving."}
+                    <div
+                      className={cn(
+                        "animate-answer-reveal flex flex-col gap-3 rounded-[1rem] border p-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-4",
+                        currentAnswer.correct ? "border-success/25 bg-success/10" : "border-white/10 bg-surface/90"
+                      )}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex flex-wrap gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-muted">
+                          <span
+                            className={cn(
+                              "rounded-full border px-2.5 py-1",
+                              currentAnswer.correct ? "border-success/25 bg-black/20 text-text" : "border-white/10 bg-black/20"
+                            )}
+                          >
+                            {currentAnswer.correct ? "Correct and gorgeous" : "Answer reveal"}
+                          </span>
+                          <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1">
+                            Streak {progress.streak}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="font-display text-[1.2rem] leading-tight text-text sm:text-[1.45rem]">
+                            {correctChoiceLabel}
+                          </p>
+                          <p className="mt-1 text-sm leading-6 text-muted sm:leading-7">
+                            {currentAnswer.correct
+                              ? "Cinema, actually. That one was clean."
+                              : `You picked ${selectedChoiceLabel}. The right film was ${correctChoiceLabel}.`}
+                          </p>
+                        </div>
                       </div>
-                      <Button className="h-10 px-4 sm:h-11" onClick={handleNext} disabled={progress.currentQuestionIndex >= totalQuestions - 1}>
-                        Next question
-                        <ArrowRight className="h-4 w-4" />
-                      </Button>
+
+                      {!progress.completedAt ? (
+                        <Button className="h-10 px-4 sm:h-11" onClick={handleNext} disabled={progress.currentQuestionIndex >= totalQuestions - 1}>
+                          Next question
+                          <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      ) : (
+                        <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-text">
+                          Round complete
+                        </div>
+                      )}
                     </div>
                   ) : null}
                 </CardContent>
@@ -388,10 +386,10 @@ export function GuessingGame({
           </div>
 
           <aside className="hidden space-y-4 lg:block">
-            <BirthdayProgress compact currentGame="guessing" />
-            <Card>
-              <CardHeader>
-                <CardTitle>Round feel</CardTitle>
+              <BirthdayProgress compact currentGame="guessing" />
+              <Card>
+                <CardHeader>
+                  <CardTitle>Round feel</CardTitle>
                 <CardDescription>Choice order is shuffled consistently so refreshes do not reshuffle a live question.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 text-sm leading-7 text-muted">
@@ -414,6 +412,79 @@ export function GuessingGame({
             </Card>
           </aside>
         </div>
+      ) : null}
+
+      {progress.completedAt ? (
+        <Card className="animate-solved-lift border-accent/25">
+          <CardHeader className="p-4 pb-2 lg:p-6 lg:pb-3">
+            <CardTitle className="flex items-center gap-3">
+              <Trophy className="h-5 w-5 text-accent" />
+              Round complete
+            </CardTitle>
+            <CardDescription>
+              {birthdaySnapshot.allCompleted
+                ? getCelebrationCopy("final", progress.score)
+                : getCelebrationCopy(progress.score === totalQuestions ? "perfect" : "complete", progress.score)}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 p-4 pt-2 lg:p-6 lg:pt-3">
+            {birthdaySnapshot.allCompleted ? (
+              <div className="rounded-[1rem] border border-accent/25 bg-accent-soft px-4 py-3 text-sm leading-6 text-text">
+                All three birthday games are done. The crown remains secure.
+              </div>
+            ) : null}
+
+            <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted">
+              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
+                <span className="text-text">{progress.score}</span>
+                <span className="ml-1.5">correct</span>
+              </span>
+              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
+                <span className="text-text">{progress.bestStreak}</span>
+                <span className="ml-1.5">best streak</span>
+              </span>
+            </div>
+
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+              {recapItems.map((item, index) => (
+                <div
+                  key={item.question.id}
+                  className={cn(
+                    "animate-answer-reveal rounded-[1rem] border px-3 py-3 text-sm leading-6",
+                    item.answer?.correct ? "border-success/25 bg-success/10 text-text" : "border-white/10 bg-black/20 text-muted"
+                  )}
+                  style={{ animationDelay: `${index * 55}ms` }}
+                >
+                  <p className="font-medium">{item.correctLabel}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em]">
+                    {item.answer?.correct ? "Correct" : "Missed"}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <BirthdayProgress compact currentGame="guessing" />
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              {nextGame ? (
+                <Button asChild className="sm:w-auto">
+                  <TransitionLink href={nextGame.href} direction="forward">
+                    Play {nextGame.shortTitle}
+                    <ArrowRight className="h-4 w-4" />
+                  </TransitionLink>
+                </Button>
+              ) : (
+                <Button asChild className="sm:w-auto">
+                  <TransitionLink href="/" direction="back">Back to all games</TransitionLink>
+                </Button>
+              )}
+              <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
+                <RotateCcw className="h-4 w-4" />
+                Play again
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       ) : null}
 
       <p className="sr-only" aria-live="polite">
