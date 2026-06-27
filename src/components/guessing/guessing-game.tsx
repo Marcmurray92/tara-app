@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Home, RotateCcw, Sparkles, Trophy } from "lucide-react";
+import { ArrowLeft, ArrowRight, Home, RotateCcw, Trophy } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
@@ -40,27 +40,80 @@ const FAILURE_LINES = [
   "Cinema has humbled you."
 ] as const;
 
-const POSTER_TONES = [
-  "from-[#1c1627] via-[#120f1a] to-[#08070d]",
-  "from-[#26163a] via-[#171125] to-[#0b0911]",
-  "from-[#161b2a] via-[#100f18] to-[#07070d]",
-  "from-[#25111f] via-[#130d17] to-[#09070d]"
-] as const;
-
 type ChoiceVisualState = "idle" | "incorrect" | "correct" | "revealed" | "inactive";
 
 function getChoiceTitle(choice: GuessingChoice) {
   return choice.year ? `${choice.label} (${choice.year})` : choice.label;
 }
 
-function getPosterTone(choiceId: string) {
-  const score = choiceId.split("").reduce((total, character) => total + character.charCodeAt(0), 0);
-
-  return POSTER_TONES[score % POSTER_TONES.length];
-}
-
 function renderMistakeLabel(mistakesRemaining: number) {
   return `${mistakesRemaining} mistake${mistakesRemaining === 1 ? "" : "s"} remaining`;
+}
+
+function GuessingRoundDialog({
+  open,
+  solved,
+  roundLabel,
+  movieTitle,
+  celebrationQuote,
+  continueLabel,
+  onContinue
+}: {
+  open: boolean;
+  solved: boolean;
+  roundLabel: string;
+  movieTitle: string;
+  celebrationQuote?: string | null;
+  continueLabel: string;
+  onContinue: () => void;
+}) {
+  if (!open) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-[2px]">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="guessing-round-dialog-title"
+        className={cn(
+          "w-full max-w-md rounded-[1.5rem] border p-5 shadow-glow",
+          solved ? "border-success/25 bg-surface-strong" : "border-error/25 bg-surface-strong"
+        )}
+      >
+        <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">{roundLabel}</p>
+        <h2 id="guessing-round-dialog-title" className="mt-2 font-display text-[2rem] leading-none text-text">
+          {movieTitle}
+        </h2>
+        <p className="mt-3 text-sm leading-6 text-muted">
+          {solved ? "Correct. Cinema literacy intact." : "Nope. The review dragged you this time."}
+        </p>
+
+        {solved && celebrationQuote ? (
+          <blockquote className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 text-muted">
+            Tara review: “{celebrationQuote}”
+          </blockquote>
+        ) : null}
+
+        <div className="mt-5 flex flex-col gap-3">
+          <Button onClick={onContinue}>
+            {continueLabel}
+            {solved ? <ArrowRight className="h-4 w-4" /> : null}
+          </Button>
+
+          {!solved ? (
+            <Button asChild variant="outline">
+              <TransitionLink href="/" direction="back">
+                <Home className="h-4 w-4" />
+                Back to Home
+              </TransitionLink>
+            </Button>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function GuessingGame({
@@ -117,7 +170,6 @@ export function GuessingGame({
   const currentCorrectChoice = currentRound?.choices.find((choice) => choice.id === currentRound.correctChoiceId) ?? null;
   const mistakesRemaining =
     currentRound && currentRecord ? getGuessingMistakesRemaining(currentRound, currentRecord) : 0;
-  const solvedCount = progress.roundRecords.filter((record) => record.result === "solved").length;
   const showVictory = Boolean(progress.completedAt && showResults);
   const recapItems = useMemo(
     () =>
@@ -288,228 +340,156 @@ export function GuessingGame({
   const wrongAttemptIds = currentRecord.attemptedChoiceIds.filter((choiceId) => choiceId !== currentRound.correctChoiceId);
   const successState = currentRecord.result === "solved";
   const failedState = currentRecord.result === "failed";
+  const roundDialogOpen = successState || failedState;
 
   return (
-    <section className="mx-auto max-w-5xl space-y-4 px-2 lg:px-0">
+    <section className="mx-auto max-w-5xl px-2 lg:px-0">
       <h1 data-page-title="true" tabIndex={-1} className="sr-only lg:hidden">
         {title}
       </h1>
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
-        <Card className="border-white/10">
-          <CardHeader className="space-y-4 p-4 pb-2 sm:p-5 sm:pb-3">
-            <div className="flex flex-wrap items-center gap-2 text-[0.68rem] uppercase tracking-[0.22em] text-muted">
-              <span className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-accent">
-                {currentRound.difficulty}
-              </span>
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1">
-                Round {progress.currentRoundIndex + 1}/{gameData.rounds.length}
-              </span>
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-text">
-                {renderMistakeLabel(mistakesRemaining)}
-              </span>
-            </div>
+      <div className="flex min-h-[100svh] flex-col gap-4 py-3 lg:min-h-0 lg:py-4">
+        <div className="flex items-center justify-between gap-3">
+          <TransitionLink
+            href="/"
+            direction="back"
+            className="inline-flex items-center gap-2 text-sm text-text transition hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </TransitionLink>
 
-            <div>
-              <CardTitle>Match the review to the movie.</CardTitle>
-              <CardDescription>
-                {successState
-                  ? `${currentRound.difficulty} complete.`
-                  : failedState
-                    ? `${currentRound.difficulty} failed.`
-                    : wrongAttemptIds.length > 0
-                      ? "One miss locks. Choose carefully."
-                      : "Pick the poster that best fits the screenshot."}
-              </CardDescription>
-            </div>
-          </CardHeader>
+          <div className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[0.68rem] uppercase tracking-[0.22em] text-muted">
+            {currentRound.difficulty}
+          </div>
+        </div>
 
-          <CardContent className="space-y-4 p-4 pt-2 sm:p-5 sm:pt-3">
-            <div className="overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/25">
-              <Image
-                src={currentRound.reviewImage.src}
-                alt={currentRound.reviewImage.alt}
-                width={currentRound.reviewImage.width}
-                height={currentRound.reviewImage.height}
-                priority={progress.currentRoundIndex === 0}
-                sizes="(max-width: 1024px) 100vw, 840px"
-                className="h-auto w-full"
-                onError={() =>
-                  setBrokenReviewRounds((current) => ({
-                    ...current,
-                    [currentRound.id]: true
-                  }))
-                }
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              {orderedChoices.map((choice) => {
-                const selectedWrong = wrongAttemptIds.includes(choice.id);
-                const isCorrect = choice.id === currentRound.correctChoiceId;
-
-                let state: ChoiceVisualState = "idle";
-                if (successState && isCorrect) {
-                  state = "correct";
-                } else if (failedState && isCorrect) {
-                  state = "revealed";
-                } else if (selectedWrong) {
-                  state = "incorrect";
-                } else if (successState || failedState) {
-                  state = "inactive";
-                }
-
-                const disabled = state !== "idle";
+        <div className="space-y-3">
+          <p className="text-lg leading-7 text-text">What movie is this review about?</p>
+          <div className="flex items-center gap-3 text-sm text-muted">
+            <span>Round:</span>
+            <div className="flex items-center gap-2">
+              {gameData.rounds.map((round, index) => {
+                const record = progress.roundRecords.find((candidate) => candidate.roundId === round.id);
+                const current = index === progress.currentRoundIndex;
+                const cleared = record?.result === "solved";
 
                 return (
-                  <button
-                    key={choice.id}
-                    type="button"
-                    disabled={disabled}
-                    aria-label={getChoiceTitle(choice)}
-                    onClick={() => handleChoice(choice.id)}
+                  <span
+                    key={round.id}
                     className={cn(
-                      "group overflow-hidden rounded-[0.95rem] border text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:rounded-[1.15rem]",
-                      state === "idle" && "border-white/10 bg-surface/90 hover:border-accent/40 hover:bg-surface-strong",
-                      state === "incorrect" && "border-error/35 bg-error/10",
-                      state === "correct" && "border-success/35 bg-success/10",
-                      state === "revealed" && "border-accent/35 bg-accent-soft",
-                      state === "inactive" && "border-white/10 bg-black/20"
+                      "flex h-6 w-6 items-center justify-center rounded-full border text-xs",
+                      current || cleared
+                        ? "border-accent bg-accent-soft text-text"
+                        : "border-white/20 bg-black/20 text-muted"
                     )}
                   >
-                    <div className="relative aspect-[2/3] overflow-hidden bg-black/20">
-                      {choice.posterImage ? (
-                        <Image
-                          src={choice.posterImage.src}
-                          alt={choice.posterImage.alt}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 50vw, 220px"
-                        />
-                      ) : (
-                        <div
-                          className={cn(
-                            "flex h-full w-full flex-col justify-between bg-gradient-to-b p-2 text-left",
-                            getPosterTone(choice.id)
-                          )}
-                        >
-                          <div className="flex items-center justify-between text-[0.5rem] uppercase tracking-[0.14em] text-muted">
-                            <span>{choice.year ?? "Film"}</span>
-                            <span>Guess</span>
-                          </div>
-                          <div className="space-y-1.5">
-                            <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-black/25 px-1.5 py-0.5 text-[0.5rem] uppercase tracking-[0.12em] text-muted">
-                              <Sparkles className="h-3 w-3 text-accent" />
-                              Poster
-                            </span>
-                            <p className="font-display text-[0.85rem] leading-tight text-text sm:text-[1rem]">
-                              {choice.label}
-                            </p>
-                          </div>
-                        </div>
-                      )}
-
-                      {state !== "idle" ? (
-                        <div className="absolute inset-x-0 top-0 flex justify-end p-1.5 sm:p-2">
-                          <span
-                            className={cn(
-                              "rounded-full border px-1.5 py-0.5 text-[0.5rem] font-medium uppercase tracking-[0.12em] sm:text-[0.58rem]",
-                              state === "correct" && "border-success/30 bg-success/85 text-background",
-                              state === "revealed" && "border-accent/30 bg-accent/85 text-background",
-                              state === "incorrect" && "border-error/30 bg-error/85 text-background",
-                              state === "inactive" && "border-white/15 bg-black/55 text-white/75"
-                            )}
-                          >
-                            {state === "correct"
-                              ? "Correct"
-                              : state === "revealed"
-                                ? "Answer"
-                                : state === "incorrect"
-                                  ? "Miss"
-                                  : "Seen"}
-                          </span>
-                        </div>
-                      ) : null}
-
-                      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent px-1.5 pb-1.5 pt-4 sm:px-2 sm:pb-2 sm:pt-6">
-                        <p className="line-clamp-2 text-[0.55rem] font-medium leading-tight text-white/92 sm:text-[0.68rem]">
-                          {choice.label}
-                        </p>
-                        <span className="mt-1 block text-[0.48rem] uppercase tracking-[0.12em] text-white/65 sm:text-[0.56rem]">
-                          {choice.year ?? "Film"}
-                        </span>
-                      </div>
-                    </div>
-                  </button>
+                    {index + 1}
+                  </span>
                 );
               })}
             </div>
+          </div>
+        </div>
 
-            {successState ? (
-              <div className="rounded-[1.1rem] border border-success/25 bg-success/10 p-4 text-sm leading-6 text-text">
-                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">{currentRound.difficulty} complete</p>
-                <p className="mt-2 font-display text-[1.35rem] leading-tight">{currentCorrectChoice?.label}</p>
-                <p className="mt-2">{SUCCESS_LINES[progress.currentRoundIndex % SUCCESS_LINES.length]}</p>
-                {currentRound.celebrationQuote ? (
-                  <blockquote className="mt-3 rounded-[0.95rem] border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 text-muted">
-                    Tara review: “{currentRound.celebrationQuote}”
-                  </blockquote>
-                ) : null}
-                <div className="mt-4">
-                  <Button onClick={handleAdvance}>
-                    {progress.completedAt ? "See Results" : "Next Round"}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+        <div className="overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/25">
+          <Image
+            src={currentRound.reviewImage.src}
+            alt={currentRound.reviewImage.alt}
+            width={currentRound.reviewImage.width}
+            height={currentRound.reviewImage.height}
+            priority={progress.currentRoundIndex === 0}
+            sizes="(max-width: 1024px) 100vw, 840px"
+            className="h-auto max-h-[38svh] w-full object-contain"
+            onError={() =>
+              setBrokenReviewRounds((current) => ({
+                ...current,
+                [currentRound.id]: true
+              }))
+            }
+          />
+        </div>
+
+        <div className="grid grid-cols-4 gap-2 sm:gap-3">
+          {orderedChoices.map((choice) => {
+            const selectedWrong = wrongAttemptIds.includes(choice.id);
+            const isCorrect = choice.id === currentRound.correctChoiceId;
+
+            let state: ChoiceVisualState = "idle";
+            if (successState && isCorrect) {
+              state = "correct";
+            } else if (failedState && isCorrect) {
+              state = "revealed";
+            } else if (selectedWrong) {
+              state = "incorrect";
+            } else if (successState || failedState) {
+              state = "inactive";
+            }
+
+            const disabled = state !== "idle";
+
+            return (
+              <button
+                key={choice.id}
+                type="button"
+                disabled={disabled}
+                aria-label={getChoiceTitle(choice)}
+                onClick={() => handleChoice(choice.id)}
+                className={cn(
+                  "min-w-0 rounded-[1rem] border p-1.5 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:p-2",
+                  state === "idle" && "border-white/10 bg-surface/90 hover:border-accent/40 hover:bg-surface-strong",
+                  state === "incorrect" && "border-error/35 bg-error/10 opacity-70",
+                  state === "correct" && "border-success/35 bg-success/10",
+                  state === "revealed" && "border-accent/35 bg-accent-soft",
+                  state === "inactive" && "border-white/10 bg-black/20 opacity-75"
+                )}
+              >
+                <div className="relative aspect-[2/3] overflow-hidden rounded-[0.7rem] border border-white/10 bg-black/30">
+                  {choice.posterImage ? (
+                    <Image
+                      src={choice.posterImage.src}
+                      alt={choice.posterImage.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 25vw, 180px"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center px-2 text-center font-display text-[0.8rem] leading-tight text-text">
+                      {choice.label}
+                    </div>
+                  )}
                 </div>
-              </div>
-            ) : failedState ? (
-              <div className="rounded-[1.1rem] border border-error/25 bg-error/10 p-4 text-sm leading-6 text-text">
-                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">{currentRound.difficulty} failed</p>
-                <p className="mt-2 font-display text-[1.35rem] leading-tight">{currentCorrectChoice?.label}</p>
-                <p className="mt-2">{FAILURE_LINES[progress.currentRoundIndex % FAILURE_LINES.length]}</p>
-                <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                  <Button onClick={handleRetryRound}>
-                    <RotateCcw className="h-4 w-4" />
-                    Try Again
-                  </Button>
-                  <Button asChild variant="outline">
-                    <TransitionLink href="/" direction="back">
-                      <Home className="h-4 w-4" />
-                      Back to Home
-                    </TransitionLink>
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="rounded-[1.1rem] border border-white/10 bg-black/20 px-4 py-3 text-sm leading-6 text-muted">
-                {wrongAttemptIds.length > 0
-                  ? `One miss banked. ${renderMistakeLabel(mistakesRemaining)}.`
-                  : "Two misses per round. Wrong posters lock and stay dead."}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                <p className="mt-2 line-clamp-2 text-[0.68rem] leading-tight text-text sm:text-xs">{choice.label}</p>
+              </button>
+            );
+          })}
+        </div>
 
-        <aside className="hidden space-y-4 lg:block">
-          <BirthdayProgress compact currentGame="guessing" />
-
-          <Card className="border-white/10">
-            <CardHeader className="p-4 pb-2">
-              <CardTitle className="text-base">Run status</CardTitle>
-              <CardDescription>Progress is saved locally on this device.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2 p-4 pt-2 text-sm leading-6 text-muted">
-              <p>{solvedCount}/{gameData.rounds.length} reviews cleared.</p>
-              <p>{renderMistakeLabel(mistakesRemaining)} in the current round.</p>
-            </CardContent>
-          </Card>
-
-          <Button variant="outline" className="w-full" onClick={handleRestart}>
-            <RotateCcw className="h-4 w-4" />
-            Restart Run
-          </Button>
-        </aside>
+        <div className="mt-auto flex items-center gap-3 text-sm text-muted">
+          <span>Mistakes Remaining</span>
+          <div className="flex items-center gap-2">
+            {Array.from({ length: 2 }).map((_, index) => (
+              <span
+                key={index}
+                className={cn(
+                  "h-4 w-4 rounded-full border",
+                  index < mistakesRemaining ? "border-white bg-white" : "border-white/70 bg-transparent"
+                )}
+              />
+            ))}
+          </div>
+        </div>
       </div>
+
+      <GuessingRoundDialog
+        open={roundDialogOpen}
+        solved={successState}
+        roundLabel={successState ? `${currentRound.difficulty} complete` : `${currentRound.difficulty} failed`}
+        movieTitle={currentCorrectChoice?.label ?? "Unknown film"}
+        celebrationQuote={successState ? currentRound.celebrationQuote : null}
+        continueLabel={successState ? (progress.completedAt ? "See Results" : "Next Round") : "Try Again"}
+        onContinue={successState ? handleAdvance : handleRetryRound}
+      />
 
       <p className="sr-only" aria-live="polite">
         {announcement}

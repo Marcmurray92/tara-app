@@ -3,12 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Home, RefreshCw, RotateCcw, Sparkles } from "lucide-react";
 
-import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { GameMasthead } from "@/components/games/game-masthead";
 import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   clearConnectionsSelection,
   createConnectionsProgress,
@@ -37,13 +35,13 @@ import { cn } from "@/lib/utils/cn";
 function difficultyTone(difficulty?: 1 | 2 | 3 | 4) {
   switch (difficulty) {
     case 1:
-      return "border-success/30 bg-success/10";
+      return "border-[#99b95d] bg-[#99b95d] [&_p]:text-[#18131c]";
     case 2:
-      return "border-accent/35 bg-accent-soft";
+      return "border-[#d2c268] bg-[#d2c268] [&_p]:text-[#18131c]";
     case 3:
-      return "border-active/35 bg-active/10";
+      return "border-[#8ea8d4] bg-[#8ea8d4] [&_p]:text-[#18131c]";
     case 4:
-      return "border-error/35 bg-error/10";
+      return "border-[#a57ad0] bg-[#a57ad0] [&_p]:text-[#18131c]";
     default:
       return "border-white/10 bg-white/5";
   }
@@ -51,6 +49,73 @@ function difficultyTone(difficulty?: 1 | 2 | 3 | 4) {
 
 function hasSelectionLimit(progress: ConnectionsProgress) {
   return progress.selectedItemIds.length >= 4;
+}
+
+function ConnectionsResultDialog({
+  open,
+  won,
+  emojiRows,
+  groups,
+  onRestart
+}: {
+  open: boolean;
+  won: boolean;
+  emojiRows: string[];
+  groups: ConnectionsGameData["groups"][number][];
+  onRestart: () => void;
+}) {
+  if (!open) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/72 px-4 backdrop-blur-[2px]">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="connections-result-title"
+        className="w-full max-w-xl rounded-[1.6rem] border border-white/10 bg-surface-strong p-5 shadow-glow"
+      >
+        <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">{won ? "Connections cleared" : "Out of mistakes"}</p>
+        <h2 id="connections-result-title" className="mt-2 font-display text-[2rem] leading-none text-text">
+          {won ? "You got all 4." : "Next time."}
+        </h2>
+
+        {emojiRows.length > 0 ? (
+          <div className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-4 py-3">
+            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">Guess grid</p>
+            <div className="mt-3 font-mono text-lg leading-7 text-text" aria-label="Connections guess emoji grid">
+              {emojiRows.map((row, index) => (
+                <div key={`${row}-${index}`}>{row}</div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        <div className="mt-4 space-y-2">
+          {groups.map((group) => (
+            <div key={group.id} className={cn("rounded-[1rem] border px-3 py-3 text-center", difficultyTone(group.difficulty))}>
+              <p className="text-sm font-semibold uppercase tracking-[0.08em]">{group.category}</p>
+              <p className="mt-1 text-sm leading-6">{group.items.join(", ")}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+          <Button className="sm:w-auto" onClick={onRestart}>
+            <RotateCcw className="h-4 w-4" />
+            Play another Connections
+          </Button>
+          <Button asChild variant="outline" className="sm:w-auto">
+            <TransitionLink href="/" direction="back">
+              <Home className="h-4 w-4" />
+              Back to Home
+            </TransitionLink>
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function ConnectionsGame({
@@ -316,16 +381,13 @@ export function ConnectionsGame({
         </div>
       </div>
 
-      <div className="grid gap-3 px-2 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-5 lg:px-0">
+      <div className="grid gap-3 px-2 lg:px-0">
         <div className="space-y-3 lg:space-y-4">
           <Reveal disabled={loadState.restored || loadState.completed} delay={120}>
             <div className="rounded-[1.05rem] border border-white/10 bg-surface/90 p-2.5 sm:p-5">
               <div className="mb-2 flex items-center justify-between gap-3 lg:mb-4">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Create four groups of four</p>
-                  <p className="mt-1 hidden text-sm leading-6 text-muted lg:block">
-                    Select four movie titles that belong together.
-                  </p>
                 </div>
                 <div className="hidden rounded-full border border-white/10 bg-black/20 px-3.5 py-2 text-sm text-muted lg:block">
                   <span className="text-text">{progress.selectedItemIds.length}/4</span>
@@ -493,109 +555,16 @@ export function ConnectionsGame({
               ) : null}
             </div>
           </Reveal>
-
-          {progress.status !== "playing" ? (
-            <Card
-              className={cn(
-                "animate-solved-lift",
-                progress.status === "won" ? "border-accent/25" : "border-error/25"
-              )}
-            >
-              <CardHeader className="p-4 pb-2 lg:p-6 lg:pb-3">
-                <CardTitle>{progress.status === "won" ? "Connections cleared" : "Out of mistakes"}</CardTitle>
-                <CardDescription>
-                  {progress.status === "won"
-                    ? `${getCelebrationCopy("complete", progress.solvedGroupIds.length)}. You found all four groups.`
-                    : "The game ends after the fourth miss. Your full guess grid is below."}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 p-4 pt-2 lg:p-6 lg:pt-3">
-                <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted">
-                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
-                    <span className="text-text">{progress.status === "won" ? "You won" : "You lost"}</span>
-                  </span>
-                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
-                    <span className="text-text">{progress.solvedGroupIds.length}</span>
-                    <span className="ml-1.5">groups</span>
-                  </span>
-                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
-                    <span className="text-text">{progress.mistakes}</span>
-                    <span className="ml-1.5">mistakes used</span>
-                  </span>
-                </div>
-
-                {guessEmojiRows.length > 0 ? (
-                  <div className="rounded-[1rem] border border-white/10 bg-black/20 px-4 py-3">
-                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">Guess grid</p>
-                    <div className="mt-3 font-mono text-lg leading-7 text-text" aria-label="Connections guess emoji grid">
-                      {guessEmojiRows.map((row, index) => (
-                        <div key={`${row}-${index}`}>{row}</div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-
-                {progress.status === "won" ? (
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {solvedGroups.map((group, index) => (
-                      <div
-                        key={group.id}
-                        className={cn(
-                          "animate-answer-reveal rounded-[1rem] border px-3 py-3 text-sm leading-6",
-                          difficultyTone(group.difficulty)
-                        )}
-                        style={{ animationDelay: `${index * 70}ms` }}
-                      >
-                        <p className="font-medium text-text">{group.category}</p>
-                        <p className="mt-1 text-muted">{group.items.join(" • ")}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-3 text-sm text-muted">
-                    {remainingGroups.map((group) => (
-                      <div key={group.id} className={cn("rounded-xl border p-3", difficultyTone(group.difficulty))}>
-                        <p className="font-medium text-text">{group.category}</p>
-                        <p className="mt-1 text-sm leading-6 text-muted">{group.items.join(" • ")}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <BirthdayProgress compact currentGame="connections" />
-
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Button className="sm:w-auto" onClick={handleRestart}>
-                    <RotateCcw className="h-4 w-4" />
-                    Play another Connections
-                  </Button>
-                  <Button asChild variant="outline" className="sm:w-auto">
-                    <TransitionLink href="/" direction="back">
-                      <Home className="h-4 w-4" />
-                      Back to Home
-                    </TransitionLink>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ) : null}
         </div>
-
-        <aside className="hidden space-y-4 lg:block">
-          <BirthdayProgress compact currentGame="connections" />
-          <Card>
-            <CardHeader>
-              <CardTitle>How it works</CardTitle>
-              <CardDescription>Find all four categories before the fourth mistake lands.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm leading-7 text-muted">
-              <p>Select up to four tiles at once.</p>
-              <p>Use Shuffle when a visual regroup helps.</p>
-              <p>One-away feedback appears when exactly three titles belong together.</p>
-            </CardContent>
-          </Card>
-        </aside>
       </div>
+
+      <ConnectionsResultDialog
+        open={progress.status !== "playing"}
+        won={progress.status === "won"}
+        emojiRows={guessEmojiRows}
+        groups={revealedGroups}
+        onRestart={handleRestart}
+      />
 
       <p className="sr-only" aria-live="polite">
         {message}

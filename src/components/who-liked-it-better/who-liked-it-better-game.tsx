@@ -98,6 +98,7 @@ function WhoLikedItBetterResultDialog({
   correct,
   question,
   celebrityImage,
+  sourceImage,
   continueLabel,
   onContinue
 }: {
@@ -105,6 +106,7 @@ function WhoLikedItBetterResultDialog({
   correct: boolean;
   question: WhoLikedItBetterGameData["questions"][number];
   celebrityImage?: WhoLikedItBetterImageAsset | null;
+  sourceImage?: WhoLikedItBetterImageAsset | null;
   continueLabel: string;
   onContinue: () => void;
 }) {
@@ -150,6 +152,19 @@ function WhoLikedItBetterResultDialog({
         {question.explanation ? (
           <div className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 text-muted">
             {question.explanation}
+          </div>
+        ) : null}
+
+        {sourceImage ? (
+          <div className="mt-4 overflow-hidden rounded-[1rem] border border-white/10 bg-black/25">
+            <Image
+              src={sourceImage.src}
+              alt={sourceImage.alt}
+              width={sourceImage.width}
+              height={sourceImage.height}
+              sizes="(max-width: 640px) 100vw, 480px"
+              className="h-auto w-full object-contain"
+            />
           </div>
         ) : null}
 
@@ -202,6 +217,7 @@ export function WhoLikedItBetterGame({
         : "Guess who rated the movie higher."
   );
   const [brokenPosterQuestionIds, setBrokenPosterQuestionIds] = useState<string[]>([]);
+  const [hiddenCelebrityImageIds, setHiddenCelebrityImageIds] = useState<string[]>([]);
   const [hiddenSourceImageIds, setHiddenSourceImageIds] = useState<string[]>([]);
 
   const birthdaySnapshot = useBirthdayProgress();
@@ -217,8 +233,11 @@ export function WhoLikedItBetterGame({
   );
   const showResults = resultsScreenOpen;
   const visibleCelebrityImage =
+    currentQuestion?.celebrityImage && !hiddenCelebrityImageIds.includes(currentQuestion.id)
+      ? currentQuestion.celebrityImage
+      : null;
+  const visibleSourceImage =
     currentQuestion?.sourceImage && !hiddenSourceImageIds.includes(currentQuestion.id) ? currentQuestion.sourceImage : null;
-  const solvedCount = progress.answers.length;
   const isFinalQuestion = progress.currentQuestionIndex >= gameData.questions.length - 1;
 
   useEffect(() => {
@@ -421,9 +440,6 @@ export function WhoLikedItBetterGame({
                     <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1">
                       {currentQuestion.year ?? "Film"}
                     </span>
-                    <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1">
-                      Rating face-off
-                    </span>
                   </div>
                   <CardTitle className="text-[1.75rem] leading-[0.95] sm:text-[2.2rem]">
                     {currentQuestion.movieTitle}
@@ -479,7 +495,7 @@ export function WhoLikedItBetterGame({
                   monogram={getMonogram(currentQuestion.celebrityName)}
                   accent="neutral"
                   onImageError={() =>
-                    setHiddenSourceImageIds((current) =>
+                    setHiddenCelebrityImageIds((current) =>
                       current.includes(currentQuestion.id) ? current : [...current, currentQuestion.id]
                     )
                   }
@@ -496,17 +512,6 @@ export function WhoLikedItBetterGame({
         <aside className="hidden space-y-4 lg:block">
           <BirthdayProgress compact currentGame="who-liked-it-better" />
 
-          <Card className="border-white/10">
-            <CardHeader className="p-4 pb-2">
-              <CardTitle className="text-base">Run status</CardTitle>
-              <CardDescription>Progress saves locally while we build.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2 p-4 pt-2 text-sm leading-6 text-muted">
-              <p>{solvedCount}/{gameData.questions.length} answered.</p>
-              <p>Current celeb: {currentQuestion.celebrityName}</p>
-            </CardContent>
-          </Card>
-
           <Button variant="outline" className="w-full" onClick={handleRestart}>
             <RotateCcw className="h-4 w-4" />
             Restart Run
@@ -519,6 +524,7 @@ export function WhoLikedItBetterGame({
         correct={Boolean(currentAnswer?.correct)}
         question={currentQuestion}
         celebrityImage={visibleCelebrityImage}
+        sourceImage={visibleSourceImage}
         continueLabel={isFinalQuestion ? "See Results" : "Next"}
         onContinue={handleAdvance}
       />

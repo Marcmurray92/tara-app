@@ -37,7 +37,8 @@ Expected behaviour:
 - The active answer/word is visually distinct from the rest of the grid.
 - Entering a letter fills the selected cell and advances to the next cell.
 - Backspace clears the current cell or moves backward, depending on existing behaviour.
-- Completed/correct cells should not become visually noisy.
+- Do not visibly mark words as complete just because the typed letters happen to be correct.
+- The player should need to use a check action to discover incorrect letters.
 - The grid should remain usable on a phone-sized viewport.
 
 ## Clue row
@@ -47,7 +48,8 @@ Expected behaviour:
 - Shows the active clue.
 - Includes clue number and direction where practical.
 - Updates when the selected cell or active word changes.
-- Tapping next/previous clue controls should move between clues if those controls exist.
+- Tapping next/previous clue controls should move between unfinished clues if any unfinished clues remain.
+- Moving to another clue should focus the first empty tile in that clue where possible.
 - Long clues should wrap or scroll gracefully without breaking the layout.
 - The clue row should remain readable without zooming.
 
@@ -81,6 +83,17 @@ Suggested copy style:
 - `Tara supremacy confirmed.`
 
 Avoid corporate completion copy.
+
+## Checking and clearing
+- `Check Puzzle` should mark incorrect filled letters.
+- `Clear Puzzle` should clear only the letters currently marked incorrect by checking.
+- `Clear Puzzle` should not wipe correct progress unless explicitly requested.
+
+## Full but incorrect state
+If the player fills the entire grid but it is not fully correct:
+- Show a compact modal/dialog such as `Not quite!`
+- Explain that the puzzle is full but some letters are still wrong.
+- Do not silently leave the player wondering why the puzzle has not completed.
 
 ## Navigation after completion
 After winning:

@@ -261,7 +261,7 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
           return (
             <Reveal key={section.type} delay={70 + index * 45}>
               <section className="space-y-3" aria-label={section.title}>
-                <div className="space-y-1 px-1">
+                <div className="px-1">
                   <div className="flex items-center gap-3">
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-[1rem] border border-accent/20 bg-accent-soft text-accent">
                       <Icon className="h-5 w-5" />
@@ -270,7 +270,6 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
                       {section.title}
                     </h2>
                   </div>
-                  <p className="max-w-[34rem] text-sm leading-6 text-muted">{section.description}</p>
                 </div>
 
                 <div className="-mx-3 overflow-x-auto px-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
@@ -285,7 +284,7 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
                           direction="forward"
                           aria-label={`${section.title}: ${item.title}. ${item.badge}.`}
                           className={cn(
-                            "flex min-h-[11.25rem] w-[15.75rem] shrink-0 snap-start flex-col rounded-[1.35rem] border p-4 transition hover:border-accent/45 hover:bg-surface-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:w-[17.5rem]",
+                            "flex min-h-[10.5rem] w-[15.75rem] shrink-0 snap-start flex-col rounded-[1.35rem] border p-4 transition hover:border-accent/45 hover:bg-surface-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:w-[17.5rem]",
                             item.status === "completed"
                               ? "animate-status-bloom border-accent/30 bg-accent-soft/70"
                               : item.status === "in-progress"
@@ -311,9 +310,6 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
 
                           <div className="mt-auto space-y-2">
                             <h3 className="font-display text-[1.9rem] leading-tight text-text">{item.title}</h3>
-                            {item.description ? (
-                              <p className="line-clamp-2 text-sm leading-6 text-muted">{item.description}</p>
-                            ) : null}
                             <p className="text-xs uppercase tracking-[0.2em] text-muted">{item.meta}</p>
                           </div>
                         </TransitionLink>

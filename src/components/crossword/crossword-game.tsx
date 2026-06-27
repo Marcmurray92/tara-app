@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Menu, X } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
@@ -9,6 +9,7 @@ import { CrosswordCompletionDialog } from "@/components/crossword/crossword-comp
 import { CrosswordConfirmDialog } from "@/components/crossword/crossword-confirm-dialog";
 import { CrosswordCurrentClue } from "@/components/crossword/crossword-current-clue";
 import { CrosswordGrid } from "@/components/crossword/crossword-grid";
+import { CrosswordStatusDialog } from "@/components/crossword/crossword-status-dialog";
 import { CrosswordTouchKeyboard } from "@/components/crossword/crossword-touch-keyboard";
 import { CrosswordToolbar } from "@/components/crossword/crossword-toolbar";
 import { GameMasthead } from "@/components/games/game-masthead";
@@ -29,11 +30,11 @@ import {
   clearEntirePuzzle,
   createEmptyProgress,
   deleteCell,
-  getCellEntries,
   getEntryCells,
   getFirstSelection,
   getEntryForSelection,
   getOrderedEntries,
+  isCrosswordFilled,
   moveGeometrically,
   moveToAdjacentClue,
   revealCurrentLetter,
@@ -59,19 +60,6 @@ type PendingAction =
   | "clear-word"
   | "clear-puzzle"
   | "reset-progress";
-
-function isSolvedEntry(puzzle: CrosswordCompiledData, progress: CrosswordProgress, entryId: string) {
-  const entry = puzzle.entries.find((candidate) => candidate.id === entryId);
-  if (!entry) {
-    return false;
-  }
-
-  return getEntryCells(entry).every(({ row, column }) => {
-    const solution = puzzle.cells[row]?.[column]?.solution;
-    const playerValue = progress.cells[row]?.[column]?.value;
-    return Boolean(solution) && playerValue === solution;
-  });
-}
 
 function createWaveDelays(coords: Array<{ row: number; column: number }>) {
   const delays: Record<string, number> = {};
@@ -130,20 +118,18 @@ export function CrosswordGame({
   );
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
   const [showCompletion, setShowCompletion] = useState(Boolean(progress.completedAt));
+  const [showNotQuite, setShowNotQuite] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pulsingCellKey, setPulsingCellKey] = useState<string | null>(null);
   const [animatedCellDelays, setAnimatedCellDelays] = useState<Record<string, number>>({});
-  const [recentSolvedEntryIds, setRecentSolvedEntryIds] = useState<string[]>([]);
+  const previouslyFilledRef = useRef(isCrosswordFilled(puzzle, loadState.progress));
 
   const orderedEntries = useMemo(() => getOrderedEntries(puzzle), [puzzle]);
   const activeEntry = useMemo(() => getEntryForSelection(puzzle, progress.selection), [progress.selection, puzzle]);
   const acrossEntries = orderedEntries.filter((entry) => entry.direction === "across");
   const downEntries = orderedEntries.filter((entry) => entry.direction === "down");
   const activeDirection = progress.selection?.direction ?? activeEntry?.direction ?? "across";
-  const solvedEntryIds = useMemo(
-    () => orderedEntries.filter((entry) => isSolvedEntry(puzzle, progress, entry.id)).map((entry) => entry.id),
-    [orderedEntries, progress, puzzle]
-  );
+  const puzzleFilled = useMemo(() => isCrosswordFilled(puzzle, progress), [progress, puzzle]);
   const introCellKey = !progress.startedAt && progress.selection ? `${progress.selection.row},${progress.selection.column}` : null;
   const statusLabel = progress.completedAt ? "Victory lap" : progress.startedAt ? "Continue" : "Fresh grid";
   const timerLabel = useMemo(() => {
@@ -215,18 +201,17 @@ export function CrosswordGame({
   }, [animatedCellDelays]);
 
   useEffect(() => {
-    if (recentSolvedEntryIds.length === 0) {
-      return;
+    if (puzzleFilled && !previouslyFilledRef.current && !progress.completedAt) {
+      setShowNotQuite(true);
+      setAnnouncement("Not quite. A few letters still need work.");
     }
 
-    const timeoutId = window.setTimeout(() => {
-      setRecentSolvedEntryIds([]);
-    }, 720);
+    if (!puzzleFilled) {
+      setShowNotQuite(false);
+    }
 
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [recentSolvedEntryIds]);
+    previouslyFilledRef.current = puzzleFilled;
+  }, [progress.completedAt, puzzleFilled]);
 
   function updateProgress(nextProgress: CrosswordProgress) {
     setProgress(nextProgress);
@@ -272,27 +257,8 @@ export function CrosswordGame({
     });
 
     if (selectionBefore) {
-      const solution = puzzle.cells[selectionBefore.row]?.[selectionBefore.column]?.solution;
       const cellKey = `${selectionBefore.row},${selectionBefore.column}`;
-      const relatedEntries = Object.values(getCellEntries(puzzle, selectionBefore.row, selectionBefore.column)).filter(
-        (entry): entry is CrosswordCompiledEntry => Boolean(entry)
-      );
-      const newlySolvedEntries = relatedEntries.filter(
-        (entry) => entry && !isSolvedEntry(puzzle, progress, entry.id) && isSolvedEntry(puzzle, nextProgress, entry.id)
-      );
-
-      if (solution && solution === normalizedValue) {
-        setPulsingCellKey(cellKey);
-        if (newlySolvedEntries.length === 0) {
-          setAnnouncement(getCelebrationCopy("correct", Date.now()));
-        }
-      }
-
-      if (newlySolvedEntries.length > 0) {
-        setRecentSolvedEntryIds(newlySolvedEntries.map((entry) => entry.id));
-        setAnimatedCellDelays(createWaveDelays(newlySolvedEntries.flatMap((entry) => getEntryCells(entry))));
-        setAnnouncement(`${getCelebrationCopy("group", Date.now())}. ${newlySolvedEntries[0].number} ${newlySolvedEntries[0].direction} is done.`);
-      }
+      setPulsingCellKey(cellKey);
     }
 
     if (!progress.completedAt && nextProgress.completedAt) {
@@ -399,6 +365,9 @@ export function CrosswordGame({
   function handleCheckPuzzle() {
     const result = checkPuzzle(puzzle, progress);
     updateProgress(result.progress);
+    if (result.incorrectCount > 0 && puzzleFilled) {
+      setShowNotQuite(true);
+    }
     setAnnouncement(result.incorrectCount > 0 ? "Puzzle check found incorrect letters." : "No incorrect filled letters found.");
   }
 
@@ -427,7 +396,7 @@ export function CrosswordGame({
 
     if (pendingAction === "clear-puzzle") {
       updateProgress(clearEntirePuzzle(puzzle, progress, now));
-      setAnnouncement("Entire puzzle cleared.");
+      setAnnouncement("Checked incorrect letters cleared.");
     }
 
     if (pendingAction === "reset-progress") {
@@ -435,6 +404,7 @@ export function CrosswordGame({
       updateProgress(createEmptyProgress(puzzle));
       setAnnouncement("Local crossword progress reset.");
       setShowCompletion(false);
+      setShowNotQuite(false);
     }
 
     setPendingAction(null);
@@ -451,7 +421,7 @@ export function CrosswordGame({
           <div className="safe-top border-b border-white/10 bg-background/95 backdrop-blur">
             <div className="flex items-center justify-between gap-3 px-2 py-1.5">
               <Button asChild variant="ghost" size="sm" className="h-9 w-9 rounded-full border border-white/10 bg-surface/90 p-0">
-                <TransitionLink href="/games/crossword" direction="back" aria-label="Back to crosswords">
+                <TransitionLink href="/" direction="back" aria-label="Back to Home">
                   <ArrowLeft className="h-4 w-4" />
                 </TransitionLink>
               </Button>
@@ -624,8 +594,6 @@ export function CrosswordGame({
                         title="Across"
                         entries={acrossEntries}
                         activeEntryId={activeEntry?.id}
-                        solvedEntryIds={solvedEntryIds}
-                        recentSolvedEntryIds={recentSolvedEntryIds}
                         className="border-0 bg-transparent p-0"
                         showHeading={false}
                         onSelectEntry={(entry) => {
@@ -643,8 +611,6 @@ export function CrosswordGame({
                         title="Down"
                         entries={downEntries}
                         activeEntryId={activeEntry?.id}
-                        solvedEntryIds={solvedEntryIds}
-                        recentSolvedEntryIds={recentSolvedEntryIds}
                         className="border-0 bg-transparent p-0"
                         showHeading={false}
                         onSelectEntry={(entry) => {
@@ -678,7 +644,6 @@ export function CrosswordGame({
                 entry={activeEntry}
                 direction={activeDirection}
                 compact
-                solved={Boolean(activeEntry && solvedEntryIds.includes(activeEntry.id))}
                 onPrevious={() => handleMoveClue(-1)}
                 onNext={() => handleMoveClue(1)}
                 onToggleDirection={handleToggleDirection}
@@ -719,7 +684,6 @@ export function CrosswordGame({
               <CrosswordCurrentClue
                 entry={activeEntry}
                 direction={activeDirection}
-                solved={Boolean(activeEntry && solvedEntryIds.includes(activeEntry.id))}
                 onPrevious={() => handleMoveClue(-1)}
                 onNext={() => handleMoveClue(1)}
                 onToggleDirection={handleToggleDirection}
@@ -765,8 +729,6 @@ export function CrosswordGame({
               title="Across"
               entries={acrossEntries}
               activeEntryId={activeEntry?.id}
-              solvedEntryIds={solvedEntryIds}
-              recentSolvedEntryIds={recentSolvedEntryIds}
               onSelectEntry={handleSelectEntry}
             />
           </Reveal>
@@ -775,8 +737,6 @@ export function CrosswordGame({
               title="Down"
               entries={downEntries}
               activeEntryId={activeEntry?.id}
-              solvedEntryIds={solvedEntryIds}
-              recentSolvedEntryIds={recentSolvedEntryIds}
               onSelectEntry={handleSelectEntry}
             />
           </Reveal>
@@ -803,14 +763,21 @@ export function CrosswordGame({
               ? "This will reveal the full current answer and mark those cells as revealed."
               : pendingAction === "reveal-puzzle"
                 ? "This will fill the entire crossword with the correct answers."
-                : pendingAction === "clear-word"
-                  ? "This will clear the currently selected answer."
-                  : pendingAction === "clear-puzzle"
-                    ? "This will clear every filled cell in the crossword."
+                  : pendingAction === "clear-word"
+                    ? "This will clear the currently selected answer."
+                    : pendingAction === "clear-puzzle"
+                    ? "This will clear only the letters currently marked incorrect by Check Puzzle."
                     : "This will erase local progress saved on this device."
         }
         onCancel={() => setPendingAction(null)}
         onConfirm={confirmPendingAction}
+      />
+
+      <CrosswordStatusDialog
+        open={showNotQuite}
+        title="Not quite!"
+        description="The grid is full, but a few letters are still off. Try Check Puzzle to spot the wrong ones, then Clear Puzzle to wipe just those mistakes."
+        onClose={() => setShowNotQuite(false)}
       />
 
       <CrosswordCompletionDialog

@@ -17,6 +17,7 @@ Expected layout:
   - Shuffle
   - Deselect
   - Submit
+- Avoid duplicate explanatory copy blocks under the board title unless explicitly requested.
 
 ### Tile selection
 When the player taps an unselected unsolved tile:
@@ -93,6 +94,7 @@ On completion:
 
 - Show whether the player won or lost.
 - Show the guess composition as an emoji grid.
+- Present the completion summary in a modal/dialog so the player does not need to scroll to see the result or continue.
 - Mark the puzzle complete if the player won.
 - Completion should persist after refresh if persistence exists.
 - Offer:

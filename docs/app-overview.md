@@ -30,6 +30,7 @@ Home -> choose game/puzzle -> play -> complete -> victory/reward -> next puzzle 
 - Do not collapse everything into one mixed carousel of top-level game types.
 - The individual cards are the tappable entry points.
 - Keep the section headings visible and the card rows swipeable on mobile.
+- Avoid extra landing-page copy or marketing-style intro fluff above the lists.
 
 ## Current/planned game types
 1. Crossword
@@ -40,7 +41,7 @@ Home -> choose game/puzzle -> play -> complete -> victory/reward -> next puzzle 
 ## Current intended shape of Movie Review Guess
 - 3 rounds: `Easy`, `Medium`, `Hard`
 - each round uses one Letterboxd-style review screenshot
-- each round shows a 2x2 poster grid with 4 movie options
+- each round shows 4 movie options in a single horizontal row
 - each round allows 2 incorrect guesses before failure
 - after all 3 rounds, the player sees a dedicated final victory screen
 

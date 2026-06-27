@@ -61,7 +61,7 @@ This plan compares the current app against the new local docs created from Notio
 - The shipped format is now the intended simple version:
   - 3 rounds
   - `Easy / Medium / Hard`
-  - 4 poster options in a 2x2 grid per round
+  - 4 poster options in a single horizontal row per round
 - Remaining gap:
   - the shipped poster set is still a curated placeholder library rather than final poster artwork
   - the final content pass is now mainly about round curation and deciding whether placeholders are good enough for launch
@@ -98,7 +98,7 @@ Likely file areas:
 ### 2. Finish the last Movie Review Guess asset/content pass
 Current app status:
 - The route now uses a round-based `Easy / Medium / Hard` model with saved progress and final victory flow.
-- Each round already has one review screenshot, four answer options in a 2x2 grid, a visible mistake counter, and retry handling.
+- Each round already has one review screenshot, four answer options in a single row, a visible mistake counter, and retry handling.
 - The current seeded rounds already point at dedicated review and poster asset directories.
 
 Required work:

@@ -43,6 +43,19 @@ function toPosterImage(movieSlug: string, movieTitle: string) {
   };
 }
 
+function toCelebrityImage(celebrityName: string) {
+  if (celebrityName.toLowerCase() === "kanye") {
+    return {
+      src: "/images/games/who-liked-it-better/celebrities/kanye-west.svg",
+      width: 640,
+      height: 640,
+      alt: "Kanye West portrait illustration"
+    };
+  }
+
+  return null;
+}
+
 function getQuestion(candidateId: (typeof READY_IDS)[number]) {
   const candidate = READY_CANDIDATES.get(candidateId);
 
@@ -58,6 +71,7 @@ function getQuestion(candidateId: (typeof READY_IDS)[number]) {
     posterImage: toPosterImage(candidate.movieSlug, candidate.movieTitle),
     taraRating: candidate.taraRating,
     celebrityName: candidate.celebrityName,
+    celebrityImage: toCelebrityImage(candidate.celebrityName),
     celebrityRating: candidate.celebrityRating,
     correctAnswer: candidate.correctAnswer,
     explanation: candidate.notes ?? null,

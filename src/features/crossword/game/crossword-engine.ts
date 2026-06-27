@@ -494,12 +494,52 @@ export function clearCurrentWord(puzzle: CrosswordCompiledData, progress: Crossw
 }
 
 export function clearEntirePuzzle(puzzle: CrosswordCompiledData, progress: CrosswordProgress, now: string) {
-  const coords = puzzle.cells.flatMap((row) => row.filter((cell) => cell.solution).map((cell) => ({
-    row: cell.row,
-    column: cell.column
-  })));
+  const coords = puzzle.cells.flatMap((row) =>
+    row
+      .filter((cell) => {
+        if (!cell.solution) {
+          return false;
+        }
+
+        return progress.cells[cell.row]?.[cell.column]?.checkedIncorrect ?? false;
+      })
+      .map((cell) => ({
+        row: cell.row,
+        column: cell.column
+      }))
+  );
 
   return clearCoords(puzzle, progress, coords, now);
+}
+
+export function isEntryFilled(
+  puzzle: CrosswordCompiledData,
+  progress: CrosswordProgress,
+  entry: CrosswordCompiledEntry
+) {
+  return getEntryCells(entry).every(({ row, column }) => {
+    if (!puzzle.cells[row]?.[column]?.solution) {
+      return true;
+    }
+
+    return Boolean(progress.cells[row]?.[column]?.value);
+  });
+}
+
+export function isCrosswordFilled(puzzle: CrosswordCompiledData, progress: CrosswordProgress) {
+  for (const row of puzzle.cells) {
+    for (const cell of row) {
+      if (!cell.solution) {
+        continue;
+      }
+
+      if (!progress.cells[cell.row]?.[cell.column]?.value) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 export function isCrosswordComplete(puzzle: CrosswordCompiledData, progress: CrosswordProgress) {
@@ -541,8 +581,39 @@ export function moveToAdjacentClue(
   }
 
   const currentIndex = orderedEntries.findIndex((entry) => entry.id === activeEntry.id);
-  const nextIndex = (currentIndex + delta + orderedEntries.length) % orderedEntries.length;
-  return selectEntry(progress, orderedEntries[nextIndex]);
+  const hasUnfilledEntries = orderedEntries.some((entry) => !isEntryFilled(puzzle, progress, entry));
+
+  for (let step = 1; step <= orderedEntries.length; step += 1) {
+    const nextIndex = (currentIndex + delta * step + orderedEntries.length) % orderedEntries.length;
+    const nextEntry = orderedEntries[nextIndex];
+
+    if (!nextEntry) {
+      continue;
+    }
+
+    if (hasUnfilledEntries && isEntryFilled(puzzle, progress, nextEntry)) {
+      continue;
+    }
+
+    const firstEmptyCell = getEntryCells(nextEntry).find(
+      ({ row, column }) => !progress.cells[row]?.[column]?.value
+    );
+    const targetCell = firstEmptyCell ?? getEntryCells(nextEntry)[0];
+
+    if (!targetCell) {
+      return progress;
+    }
+
+    const next = cloneProgress(progress);
+    next.selection = {
+      row: targetCell.row,
+      column: targetCell.column,
+      direction: nextEntry.direction
+    };
+    return next;
+  }
+
+  return progress;
 }
 
 export function getCellAccessibleLabel(

@@ -15,6 +15,7 @@ const questionSchema = z.object({
   posterImage: imageAssetSchema,
   taraRating: z.number().min(0).max(5),
   celebrityName: z.string().min(1),
+  celebrityImage: imageAssetSchema.nullable().optional(),
   celebrityRating: z.number().min(0).max(5),
   correctAnswer: z.enum(["tara", "celebrity"]),
   explanation: z.string().nullable().optional(),

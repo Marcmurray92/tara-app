@@ -7,7 +7,7 @@ The movie review guessing game has 3 rounds: Easy, Medium, and Hard.
 
 Each round presents:
 - A Letterboxd-style review screenshot at the top.
-- A 2x2 grid of movie poster options underneath.
+- A single-row set of 4 movie poster options underneath.
 - A mistake counter for the current round.
 
 The player wins a round by selecting the poster for the movie that matches the review.
@@ -21,7 +21,7 @@ Each game contains 3 review rounds:
 Expected flow:
 1. Show the round label, e.g. `Easy`, `Medium`, or `Hard`.
 2. Show the review screenshot.
-3. Show 4 poster options in a 2x2 grid.
+3. Show 4 poster options in one horizontal row.
 4. Player selects one poster.
 5. If correct, show round success feedback.
 6. Move to the next round.
@@ -82,24 +82,26 @@ Expected behaviour:
 - Scale responsively.
 - Do not crop important review text.
 - Do not place controls over the review.
+- The main gameplay view should stay compact enough to avoid scrolling on a phone.
 
 If the review image cannot load:
 - Show a clear missing-image message.
 - Do not show a playable poster grid without the clue.
 
 ### Poster grid
-The answer options are shown as a 2x2 grid of movie posters.
+The answer options are shown as 4 posters in a single row.
 
 Expected behaviour:
 - Posters are tappable.
 - Poster aspect ratios are preserved.
 - Poster title is available for accessibility.
 - Correct and incorrect states are visually distinct.
-- Poster labels may be hidden visually if the posters are clear.
+- Show only the poster and the movie title underneath each option.
+- Do not add extra flavour text or clutter around the answer options.
 - The grid should feel simple and quick, not like a large search task.
 
 ### Round success state
-After a correct guess, show a compact success state before moving on.
+After a correct guess, show a compact modal/dialog before moving on.
 
 Expected UI:
 - Correct movie title.
@@ -165,7 +167,7 @@ Example copy style:
 
 ### Mobile UX expectations
 - Review image remains readable.
-- 2x2 poster grid fits comfortably on a phone.
+- The 4-poster row fits comfortably on a phone without needing page scroll.
 - Poster buttons are large enough to tap.
 - Mistake count and round label are easy to see.
 - Primary actions are easy to reach.

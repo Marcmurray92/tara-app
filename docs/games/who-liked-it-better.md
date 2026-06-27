@@ -11,6 +11,7 @@ Each question includes:
 - Celebrity name.
 - Celebrity image where available.
 - Rating reveal after guessing.
+- Optional source/review image shown only in the result modal where relevant.
 
 The game should feel like a gothic cinema face-off, not a form or quiz module.
 
@@ -39,6 +40,7 @@ Tara and the celebrity should be presented as equal side-by-side choices.
 Expected behaviour:
 - Each answer card is a large tappable button.
 - Celebrity card uses the celebrity image where available.
+- Do not use source/review screenshots as the celebrity face-off image.
 - Tara card may use a Tara image, avatar, initials, or styled placeholder depending on available assets.
 - The selected card should have a clear pressed/selected state.
 - Cards must be easy to tap on mobile.
@@ -62,6 +64,7 @@ The modal should show:
 - Celebrity rating.
 - Celebrity name.
 - Celebrity image if available.
+- Source/review screenshot if that image is part of the joke or evidence for the round.
 - `Next` or `See Results` action.
 
 The user should not need to scroll to see the result or continue.
