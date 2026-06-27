@@ -55,7 +55,7 @@ describe("published crossword content", () => {
       slug: "taras-birthday-crossword",
       href: "/games/crossword/taras-birthday-crossword",
       title: "Crossword 1",
-      contentVersion: 3
+      contentVersion: 5
     });
     expect(getLatestPublishedGameContent).not.toHaveBeenCalled();
   });

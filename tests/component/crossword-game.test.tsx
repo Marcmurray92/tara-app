@@ -11,7 +11,7 @@ describe("CrosswordGame", () => {
     const user = userEvent.setup();
     render(<CrosswordGame puzzle={placeholderCrosswordCompiledData} slug="test-puzzle" contentVersion={1} />);
 
-    const firstPlayableCell = screen.getAllByLabelText(/Row 1, column 1/i)[0];
+    const firstPlayableCell = screen.getAllByRole("button", { name: /Row \d+, column \d+/i })[0];
     await user.click(firstPlayableCell);
     await user.keyboard("H");
 
@@ -26,7 +26,7 @@ describe("CrosswordGame", () => {
     const user = userEvent.setup();
     render(<CrosswordGame puzzle={placeholderCrosswordCompiledData} slug="touch-puzzle" contentVersion={1} />);
 
-    const firstPlayableCell = screen.getAllByLabelText(/Row 1, column 1/i)[0];
+    const firstPlayableCell = screen.getAllByRole("button", { name: /Row \d+, column \d+/i })[0];
     await user.click(firstPlayableCell);
     await user.click(screen.getByRole("button", { name: "H" }));
 

@@ -1,0 +1,3658 @@
+{
+  "generatedAt": "2026-06-27T15:08:10.406Z",
+  "source": {
+    "ratingsCsv": "/Users/marcmurray/Downloads/letterboxd-tarak_42-2026-05-05-15-44-utc/ratings.csv",
+    "reviewsCsv": "/Users/marcmurray/Downloads/letterboxd-tarak_42-2026-05-05-15-44-utc/reviews.csv"
+  },
+  "count": 456,
+  "ratings": [
+    {
+      "slug": "fight-club",
+      "title": "Fight Club",
+      "year": 1999,
+      "rating": 4,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/2a9q"
+    },
+    {
+      "slug": "love-rosie",
+      "title": "Love, Rosie",
+      "year": 2014,
+      "rating": 4,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/62hE"
+    },
+    {
+      "slug": "about-time",
+      "title": "About Time",
+      "year": 2013,
+      "rating": 4,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/43bI"
+    },
+    {
+      "slug": "silver-linings-playbook",
+      "title": "Silver Linings Playbook",
+      "year": 2012,
+      "rating": 5,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/2TTo"
+    },
+    {
+      "slug": "midsommar",
+      "title": "Midsommar",
+      "year": 2019,
+      "rating": 5,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/jhxe"
+    },
+    {
+      "slug": "split",
+      "title": "Split",
+      "year": 2016,
+      "rating": 2,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/dgSy"
+    },
+    {
+      "slug": "little-miss-sunshine",
+      "title": "Little Miss Sunshine",
+      "year": 2006,
+      "rating": 3,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/29EW"
+    },
+    {
+      "slug": "eternal-sunshine-of-the-spotless-mind",
+      "title": "Eternal Sunshine of the Spotless Mind",
+      "year": 2004,
+      "rating": 5,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/6YK"
+    },
+    {
+      "slug": "500-days-of-summer",
+      "title": "(500) Days of Summer",
+      "year": 2009,
+      "rating": 5,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/1EmM"
+    },
+    {
+      "slug": "requiem-for-a-dream",
+      "title": "Requiem for a Dream",
+      "year": 2000,
+      "rating": 5,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/29VI"
+    },
+    {
+      "slug": "when-harry-met-sally",
+      "title": "When Harry Met Sally...",
+      "year": 1989,
+      "rating": 5,
+      "ratedOn": "2022-06-28",
+      "letterboxdUri": "https://boxd.it/29W2"
+    },
+    {
+      "slug": "lady-bird",
+      "title": "Lady Bird",
+      "year": 2017,
+      "rating": 4,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/dGNE"
+    },
+    {
+      "slug": "don-t-worry-darling",
+      "title": "Don't Worry Darling",
+      "year": 2022,
+      "rating": 3,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/mViu"
+    },
+    {
+      "slug": "the-banshees-of-inisherin",
+      "title": "The Banshees of Inisherin",
+      "year": 2022,
+      "rating": 5,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/p7XS"
+    },
+    {
+      "slug": "10-cloverfield-lane",
+      "title": "10 Cloverfield Lane",
+      "year": 2016,
+      "rating": 3,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/aZiu"
+    },
+    {
+      "slug": "gone-girl",
+      "title": "Gone Girl",
+      "year": 2014,
+      "rating": 5,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/6hQu"
+    },
+    {
+      "slug": "12-angry-men",
+      "title": "12 Angry Men",
+      "year": 1957,
+      "rating": 5,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/2auI"
+    },
+    {
+      "slug": "whiplash",
+      "title": "Whiplash",
+      "year": 2014,
+      "rating": 3,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/7bQA"
+    },
+    {
+      "slug": "pulp-fiction",
+      "title": "Pulp Fiction",
+      "year": 1994,
+      "rating": 2,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/29Pq"
+    },
+    {
+      "slug": "one-flew-over-the-cuckoo-s-nest",
+      "title": "One Flew Over the Cuckoo's Nest",
+      "year": 1975,
+      "rating": 4,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/2aeA"
+    },
+    {
+      "slug": "the-father",
+      "title": "The Father",
+      "year": 2020,
+      "rating": 4,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/m8Ie"
+    },
+    {
+      "slug": "prisoners",
+      "title": "Prisoners",
+      "year": 2013,
+      "rating": 5,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/4E5i"
+    },
+    {
+      "slug": "american-beauty",
+      "title": "American Beauty",
+      "year": 1999,
+      "rating": 5,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/71Y"
+    },
+    {
+      "slug": "us",
+      "title": "Us",
+      "year": 2019,
+      "rating": 2,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/gnV6"
+    },
+    {
+      "slug": "i-tonya",
+      "title": "I, Tonya",
+      "year": 2017,
+      "rating": 4,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/dzR0"
+    },
+    {
+      "slug": "clueless",
+      "title": "Clueless",
+      "year": 1995,
+      "rating": 5,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/1Ygk"
+    },
+    {
+      "slug": "shutter-island",
+      "title": "Shutter Island",
+      "year": 2010,
+      "rating": 5,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/1U82"
+    },
+    {
+      "slug": "the-lighthouse",
+      "title": "The Lighthouse",
+      "year": 2019,
+      "rating": 2,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/icFU"
+    },
+    {
+      "slug": "the-incredibles",
+      "title": "The Incredibles",
+      "year": 2004,
+      "rating": 4,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/1XLm"
+    },
+    {
+      "slug": "get-out",
+      "title": "Get Out",
+      "year": 2017,
+      "rating": 4,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/eOCm"
+    },
+    {
+      "slug": "drop-dead-gorgeous",
+      "title": "Drop Dead Gorgeous",
+      "year": 1999,
+      "rating": 4,
+      "ratedOn": "2022-11-25",
+      "letterboxdUri": "https://boxd.it/1W8e"
+    },
+    {
+      "slug": "aftersun",
+      "title": "Aftersun",
+      "year": 2022,
+      "rating": 5,
+      "ratedOn": "2022-12-04",
+      "letterboxdUri": "https://boxd.it/Arw0"
+    },
+    {
+      "slug": "god-s-creatures",
+      "title": "God's Creatures",
+      "year": 2022,
+      "rating": 4,
+      "ratedOn": "2022-12-04",
+      "letterboxdUri": "https://boxd.it/veBc"
+    },
+    {
+      "slug": "barbarian",
+      "title": "Barbarian",
+      "year": 2022,
+      "rating": 4,
+      "ratedOn": "2022-12-04",
+      "letterboxdUri": "https://boxd.it/yohi"
+    },
+    {
+      "slug": "where-the-crawdads-sing",
+      "title": "Where the Crawdads Sing",
+      "year": 2022,
+      "rating": 3,
+      "ratedOn": "2022-12-04",
+      "letterboxdUri": "https://boxd.it/psLS"
+    },
+    {
+      "slug": "home-alone",
+      "title": "Home Alone",
+      "year": 1990,
+      "rating": 4,
+      "ratedOn": "2022-12-29",
+      "letterboxdUri": "https://boxd.it/29Fg"
+    },
+    {
+      "slug": "the-menu",
+      "title": "The Menu",
+      "year": 2022,
+      "rating": 4,
+      "ratedOn": "2023-01-11",
+      "letterboxdUri": "https://boxd.it/lScm"
+    },
+    {
+      "slug": "21-jump-street",
+      "title": "21 Jump Street",
+      "year": 2012,
+      "rating": 4,
+      "ratedOn": "2023-01-11",
+      "letterboxdUri": "https://boxd.it/J0"
+    },
+    {
+      "slug": "no-hard-feelings",
+      "title": "No Hard Feelings",
+      "year": 2023,
+      "rating": 3,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/xouu"
+    },
+    {
+      "slug": "everything-everywhere-all-at-once",
+      "title": "Everything Everywhere All at Once",
+      "year": 2022,
+      "rating": 2,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/jUk4"
+    },
+    {
+      "slug": "beau-is-afraid",
+      "title": "Beau Is Afraid",
+      "year": 2023,
+      "rating": 4,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/u2gE"
+    },
+    {
+      "slug": "hereditary",
+      "title": "Hereditary",
+      "year": 2018,
+      "rating": 3,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/hNVe"
+    },
+    {
+      "slug": "legally-blonde",
+      "title": "Legally Blonde",
+      "year": 2001,
+      "rating": 5,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/1ZNa"
+    },
+    {
+      "slug": "gangster-squad",
+      "title": "Gangster Squad",
+      "year": 2013,
+      "rating": 4,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/2TVa"
+    },
+    {
+      "slug": "walk-the-line",
+      "title": "Walk the Line",
+      "year": 2005,
+      "rating": 5,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/2bdS"
+    },
+    {
+      "slug": "changeling",
+      "title": "Changeling",
+      "year": 2008,
+      "rating": 5,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/25aS"
+    },
+    {
+      "slug": "gran-torino",
+      "title": "Gran Torino",
+      "year": 2008,
+      "rating": 5,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/1Qzy"
+    },
+    {
+      "slug": "up-in-the-air",
+      "title": "Up in the Air",
+      "year": 2009,
+      "rating": 5,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/1zPY"
+    },
+    {
+      "slug": "remember-me",
+      "title": "Remember Me",
+      "year": 2010,
+      "rating": 4,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/1zyI"
+    },
+    {
+      "slug": "a-quiet-place",
+      "title": "A Quiet Place",
+      "year": 2018,
+      "rating": 4,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/fVJQ"
+    },
+    {
+      "slug": "the-big-short",
+      "title": "The Big Short",
+      "year": 2015,
+      "rating": 4,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/ajZw"
+    },
+    {
+      "slug": "her",
+      "title": "Her",
+      "year": 2013,
+      "rating": 3,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/4O24"
+    },
+    {
+      "slug": "captain-fantastic",
+      "title": "Captain Fantastic",
+      "year": 2016,
+      "rating": 1,
+      "ratedOn": "2023-06-30",
+      "letterboxdUri": "https://boxd.it/b2K2"
+    },
+    {
+      "slug": "the-killer",
+      "title": "The Killer",
+      "year": 2023,
+      "rating": 2,
+      "ratedOn": "2023-11-23",
+      "letterboxdUri": "https://boxd.it/u6WE"
+    },
+    {
+      "slug": "saltburn",
+      "title": "Saltburn",
+      "year": 2023,
+      "rating": 4,
+      "ratedOn": "2023-11-23",
+      "letterboxdUri": "https://boxd.it/z4eg"
+    },
+    {
+      "slug": "oppenheimer",
+      "title": "Oppenheimer",
+      "year": 2023,
+      "rating": 4,
+      "ratedOn": "2023-11-23",
+      "letterboxdUri": "https://boxd.it/wUow"
+    },
+    {
+      "slug": "barbie",
+      "title": "Barbie",
+      "year": 2023,
+      "rating": 3,
+      "ratedOn": "2023-11-23",
+      "letterboxdUri": "https://boxd.it/bCLK"
+    },
+    {
+      "slug": "may-december",
+      "title": "May December",
+      "year": 2023,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/vEE2"
+    },
+    {
+      "slug": "one-hour-photo",
+      "title": "One Hour Photo",
+      "year": 2002,
+      "rating": 2,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/1YT2"
+    },
+    {
+      "slug": "little-women",
+      "title": "Little Women",
+      "year": 2019,
+      "rating": 3,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/aSVk"
+    },
+    {
+      "slug": "don-t-breathe",
+      "title": "Don't Breathe",
+      "year": 2016,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/9yzw"
+    },
+    {
+      "slug": "signs",
+      "title": "Signs",
+      "year": 2002,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/26t2"
+    },
+    {
+      "slug": "the-mist",
+      "title": "The Mist",
+      "year": 2007,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/22r2"
+    },
+    {
+      "slug": "american-psycho",
+      "title": "American Psycho",
+      "year": 2000,
+      "rating": 3,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/28Vs"
+    },
+    {
+      "slug": "a-quiet-place-part-ii",
+      "title": "A Quiet Place Part II",
+      "year": 2020,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/iTx0"
+    },
+    {
+      "slug": "million-dollar-baby",
+      "title": "Million Dollar Baby",
+      "year": 2004,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/2bdI"
+    },
+    {
+      "slug": "ex-machina",
+      "title": "Ex Machina",
+      "year": 2015,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/7T2k"
+    },
+    {
+      "slug": "the-guard",
+      "title": "The Guard",
+      "year": 2011,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/2eBS"
+    },
+    {
+      "slug": "the-green-mile",
+      "title": "The Green Mile",
+      "year": 1999,
+      "rating": 4,
+      "ratedOn": "2024-01-01",
+      "letterboxdUri": "https://boxd.it/2agG"
+    },
+    {
+      "slug": "the-terminator",
+      "title": "The Terminator",
+      "year": 1984,
+      "rating": 3,
+      "ratedOn": "2024-02-15",
+      "letterboxdUri": "https://boxd.it/2aQY"
+    },
+    {
+      "slug": "two-weeks-notice",
+      "title": "Two Weeks Notice",
+      "year": 2002,
+      "rating": 2.5,
+      "ratedOn": "2024-02-15",
+      "letterboxdUri": "https://boxd.it/26wK"
+    },
+    {
+      "slug": "while-you-were-sleeping",
+      "title": "While You Were Sleeping",
+      "year": 1995,
+      "rating": 2,
+      "ratedOn": "2024-02-15",
+      "letterboxdUri": "https://boxd.it/27wm"
+    },
+    {
+      "slug": "maid-in-manhattan",
+      "title": "Maid in Manhattan",
+      "year": 2002,
+      "rating": 3,
+      "ratedOn": "2024-02-15",
+      "letterboxdUri": "https://boxd.it/210O"
+    },
+    {
+      "slug": "sleepless-in-seattle",
+      "title": "Sleepless in Seattle",
+      "year": 1993,
+      "rating": 3,
+      "ratedOn": "2024-02-15",
+      "letterboxdUri": "https://boxd.it/29re"
+    },
+    {
+      "slug": "foe",
+      "title": "Foe",
+      "year": 2023,
+      "rating": 1.5,
+      "ratedOn": "2024-02-15",
+      "letterboxdUri": "https://boxd.it/sy7U"
+    },
+    {
+      "slug": "past-lives",
+      "title": "Past Lives",
+      "year": 2023,
+      "rating": 4.5,
+      "ratedOn": "2024-02-19",
+      "letterboxdUri": "https://boxd.it/oNB8"
+    },
+    {
+      "slug": "anatomy-of-a-fall",
+      "title": "Anatomy of a Fall",
+      "year": 2023,
+      "rating": 4.5,
+      "ratedOn": "2024-02-25",
+      "letterboxdUri": "https://boxd.it/yuDE"
+    },
+    {
+      "slug": "poor-things",
+      "title": "Poor Things",
+      "year": 2023,
+      "rating": 5,
+      "ratedOn": "2024-02-25",
+      "letterboxdUri": "https://boxd.it/tNWU"
+    },
+    {
+      "slug": "all-of-us-strangers",
+      "title": "All of Us Strangers",
+      "year": 2023,
+      "rating": 4,
+      "ratedOn": "2024-02-25",
+      "letterboxdUri": "https://boxd.it/Bz3C"
+    },
+    {
+      "slug": "the-field",
+      "title": "The Field",
+      "year": 1990,
+      "rating": 4.5,
+      "ratedOn": "2024-02-25",
+      "letterboxdUri": "https://boxd.it/1iCy"
+    },
+    {
+      "slug": "talk-to-me",
+      "title": "Talk to Me",
+      "year": 2022,
+      "rating": 4.5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/C6uQ"
+    },
+    {
+      "slug": "immaculate",
+      "title": "Immaculate",
+      "year": 2024,
+      "rating": 3.5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/Douw"
+    },
+    {
+      "slug": "dune-part-two",
+      "title": "Dune: Part Two",
+      "year": 2024,
+      "rating": 3.5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/pUfA"
+    },
+    {
+      "slug": "dune",
+      "title": "Dune",
+      "year": 2021,
+      "rating": 2.5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/fA7G"
+    },
+    {
+      "slug": "the-zone-of-interest",
+      "title": "The Zone of Interest",
+      "year": 2023,
+      "rating": 3,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/gJsA"
+    },
+    {
+      "slug": "maestro",
+      "title": "Maestro",
+      "year": 2023,
+      "rating": 1,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/j0DE"
+    },
+    {
+      "slug": "killers-of-the-flower-moon",
+      "title": "Killers of the Flower Moon",
+      "year": 2023,
+      "rating": 3,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/gHp0"
+    },
+    {
+      "slug": "black-swan",
+      "title": "Black Swan",
+      "year": 2010,
+      "rating": 4,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/Sw0"
+    },
+    {
+      "slug": "normal-people",
+      "title": "Normal People",
+      "year": 2020,
+      "rating": 5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/q2VY"
+    },
+    {
+      "slug": "brokeback-mountain",
+      "title": "Brokeback Mountain",
+      "year": 2005,
+      "rating": 4.5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/2b2q"
+    },
+    {
+      "slug": "the-graduate",
+      "title": "The Graduate",
+      "year": 1967,
+      "rating": 4.5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/18Im"
+    },
+    {
+      "slug": "the-terminal",
+      "title": "The Terminal",
+      "year": 2004,
+      "rating": 4,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/2a2O"
+    },
+    {
+      "slug": "in-bruges",
+      "title": "In Bruges",
+      "year": 2008,
+      "rating": 5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/20n8"
+    },
+    {
+      "slug": "the-lobster",
+      "title": "The Lobster",
+      "year": 2015,
+      "rating": 2,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/7tnw"
+    },
+    {
+      "slug": "late-night-with-the-devil",
+      "title": "Late Night with the Devil",
+      "year": 2023,
+      "rating": 4.5,
+      "ratedOn": "2024-03-27",
+      "letterboxdUri": "https://boxd.it/zo6G"
+    },
+    {
+      "slug": "sense-and-sensibility",
+      "title": "Sense and Sensibility",
+      "year": 1995,
+      "rating": 3,
+      "ratedOn": "2024-04-11",
+      "letterboxdUri": "https://boxd.it/244E"
+    },
+    {
+      "slug": "ghostbusters",
+      "title": "Ghostbusters",
+      "year": 1984,
+      "rating": 4,
+      "ratedOn": "2024-04-18",
+      "letterboxdUri": "https://boxd.it/g2w"
+    },
+    {
+      "slug": "oldboy",
+      "title": "Oldboy",
+      "year": 2003,
+      "rating": 3,
+      "ratedOn": "2024-04-18",
+      "letterboxdUri": "https://boxd.it/29R2"
+    },
+    {
+      "slug": "anyone-but-you",
+      "title": "Anyone But You",
+      "year": 2023,
+      "rating": 3.5,
+      "ratedOn": "2024-04-18",
+      "letterboxdUri": "https://boxd.it/EzA8"
+    },
+    {
+      "slug": "the-invitation",
+      "title": "The Invitation",
+      "year": 2015,
+      "rating": 3.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/9OUU"
+    },
+    {
+      "slug": "malignant",
+      "title": "Malignant",
+      "year": 2021,
+      "rating": 3.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/mViE"
+    },
+    {
+      "slug": "dead-poets-society",
+      "title": "Dead Poets Society",
+      "year": 1989,
+      "rating": 2.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/2aSg"
+    },
+    {
+      "slug": "coraline",
+      "title": "Coraline",
+      "year": 2009,
+      "rating": 4,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/1NhQ"
+    },
+    {
+      "slug": "scott-pilgrim-vs-the-world",
+      "title": "Scott Pilgrim vs. the World",
+      "year": 2010,
+      "rating": 4,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/1Aq6"
+    },
+    {
+      "slug": "donnie-darko",
+      "title": "Donnie Darko",
+      "year": 2001,
+      "rating": 4.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/2b2A"
+    },
+    {
+      "slug": "knives-out",
+      "title": "Knives Out",
+      "year": 2019,
+      "rating": 3.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/jWEA"
+    },
+    {
+      "slug": "there-will-be-blood",
+      "title": "There Will Be Blood",
+      "year": 2007,
+      "rating": 2.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/20Z2"
+    },
+    {
+      "slug": "baby-driver",
+      "title": "Baby Driver",
+      "year": 2017,
+      "rating": 4.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/bhF2"
+    },
+    {
+      "slug": "the-prestige",
+      "title": "The Prestige",
+      "year": 2006,
+      "rating": 2,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/293w"
+    },
+    {
+      "slug": "joker",
+      "title": "Joker",
+      "year": 2019,
+      "rating": 4,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/h4cS"
+    },
+    {
+      "slug": "the-notebook",
+      "title": "The Notebook",
+      "year": 2004,
+      "rating": 4.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/1UNE"
+    },
+    {
+      "slug": "twilight",
+      "title": "Twilight",
+      "year": 2008,
+      "rating": 3.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/1Zui"
+    },
+    {
+      "slug": "the-breakfast-club",
+      "title": "The Breakfast Club",
+      "year": 1985,
+      "rating": 3.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/27q4"
+    },
+    {
+      "slug": "how-to-lose-a-guy-in-10-days",
+      "title": "How to Lose a Guy in 10 Days",
+      "year": 2003,
+      "rating": 3.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/1XwG"
+    },
+    {
+      "slug": "pitch-perfect",
+      "title": "Pitch Perfect",
+      "year": 2012,
+      "rating": 4,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/3OsE"
+    },
+    {
+      "slug": "saw",
+      "title": "Saw",
+      "year": 2004,
+      "rating": 4.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/2aWW"
+    },
+    {
+      "slug": "the-parent-trap",
+      "title": "The Parent Trap",
+      "year": 1998,
+      "rating": 3.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/1XJq"
+    },
+    {
+      "slug": "brooklyn",
+      "title": "Brooklyn",
+      "year": 2015,
+      "rating": 4.5,
+      "ratedOn": "2024-04-19",
+      "letterboxdUri": "https://boxd.it/5bdk"
+    },
+    {
+      "slug": "the-shawshank-redemption",
+      "title": "The Shawshank Redemption",
+      "year": 1994,
+      "rating": 4.5,
+      "ratedOn": "2024-04-21",
+      "letterboxdUri": "https://boxd.it/2aHi"
+    },
+    {
+      "slug": "clue",
+      "title": "Clue",
+      "year": 1985,
+      "rating": 3,
+      "ratedOn": "2024-04-22",
+      "letterboxdUri": "https://boxd.it/1MDQ"
+    },
+    {
+      "slug": "the-shining",
+      "title": "The Shining",
+      "year": 1980,
+      "rating": 4,
+      "ratedOn": "2024-04-23",
+      "letterboxdUri": "https://boxd.it/29Nu"
+    },
+    {
+      "slug": "terminator-2-judgment-day",
+      "title": "Terminator 2: Judgment Day",
+      "year": 1991,
+      "rating": 3.5,
+      "ratedOn": "2024-04-23",
+      "letterboxdUri": "https://boxd.it/2aGY"
+    },
+    {
+      "slug": "enemy",
+      "title": "Enemy",
+      "year": 2013,
+      "rating": 2.5,
+      "ratedOn": "2024-05-13",
+      "letterboxdUri": "https://boxd.it/5xtO"
+    },
+    {
+      "slug": "the-cabin-in-the-woods",
+      "title": "The Cabin in the Woods",
+      "year": 2011,
+      "rating": 2,
+      "ratedOn": "2024-05-13",
+      "letterboxdUri": "https://boxd.it/1zOc"
+    },
+    {
+      "slug": "the-idea-of-you",
+      "title": "The Idea of You",
+      "year": 2024,
+      "rating": 3,
+      "ratedOn": "2024-05-29",
+      "letterboxdUri": "https://boxd.it/vOW6"
+    },
+    {
+      "slug": "the-hating-game",
+      "title": "The Hating Game",
+      "year": 2021,
+      "rating": 2.5,
+      "ratedOn": "2024-05-29",
+      "letterboxdUri": "https://boxd.it/mhiE"
+    },
+    {
+      "slug": "leap-year",
+      "title": "Leap Year",
+      "year": 2010,
+      "rating": 3,
+      "ratedOn": "2024-05-29",
+      "letterboxdUri": "https://boxd.it/1wdC"
+    },
+    {
+      "slug": "the-switch",
+      "title": "The Switch",
+      "year": 2010,
+      "rating": 3.5,
+      "ratedOn": "2024-05-29",
+      "letterboxdUri": "https://boxd.it/ZVw"
+    },
+    {
+      "slug": "the-florida-project",
+      "title": "The Florida Project",
+      "year": 2017,
+      "rating": 4.5,
+      "ratedOn": "2024-10-28",
+      "letterboxdUri": "https://boxd.it/dMG0"
+    },
+    {
+      "slug": "the-substance",
+      "title": "The Substance",
+      "year": 2024,
+      "rating": 3,
+      "ratedOn": "2024-11-02",
+      "letterboxdUri": "https://boxd.it/zanS"
+    },
+    {
+      "slug": "heretic",
+      "title": "Heretic",
+      "year": 2024,
+      "rating": 3.5,
+      "ratedOn": "2024-11-02",
+      "letterboxdUri": "https://boxd.it/H1lY"
+    },
+    {
+      "slug": "the-iron-claw",
+      "title": "The Iron Claw",
+      "year": 2023,
+      "rating": 4.5,
+      "ratedOn": "2024-11-02",
+      "letterboxdUri": "https://boxd.it/w5Pm"
+    },
+    {
+      "slug": "juror-2",
+      "title": "Juror #2",
+      "year": 2024,
+      "rating": 5,
+      "ratedOn": "2024-11-03",
+      "letterboxdUri": "https://boxd.it/FRwU"
+    },
+    {
+      "slug": "anora",
+      "title": "Anora",
+      "year": 2024,
+      "rating": 5,
+      "ratedOn": "2024-11-07",
+      "letterboxdUri": "https://boxd.it/Egcw"
+    },
+    {
+      "slug": "conclave",
+      "title": "Conclave",
+      "year": 2024,
+      "rating": 3,
+      "ratedOn": "2024-12-03",
+      "letterboxdUri": "https://boxd.it/AO8q"
+    },
+    {
+      "slug": "slumdog-millionaire",
+      "title": "Slumdog Millionaire",
+      "year": 2008,
+      "rating": 3.5,
+      "ratedOn": "2025-01-02",
+      "letterboxdUri": "https://boxd.it/1S3E"
+    },
+    {
+      "slug": "bird",
+      "title": "Bird",
+      "year": 2024,
+      "rating": 3,
+      "ratedOn": "2025-01-06",
+      "letterboxdUri": "https://boxd.it/GGhm"
+    },
+    {
+      "slug": "gladiator-ii",
+      "title": "Gladiator II",
+      "year": 2024,
+      "rating": 2.5,
+      "ratedOn": "2025-01-06",
+      "letterboxdUri": "https://boxd.it/kqQQ"
+    },
+    {
+      "slug": "nosferatu",
+      "title": "Nosferatu",
+      "year": 2024,
+      "rating": 3.5,
+      "ratedOn": "2025-01-12",
+      "letterboxdUri": "https://boxd.it/f5eG"
+    },
+    {
+      "slug": "we-live-in-time",
+      "title": "We Live in Time",
+      "year": 2024,
+      "rating": 3,
+      "ratedOn": "2025-01-13",
+      "letterboxdUri": "https://boxd.it/FC5u"
+    },
+    {
+      "slug": "a-real-pain",
+      "title": "A Real Pain",
+      "year": 2024,
+      "rating": 4,
+      "ratedOn": "2025-01-16",
+      "letterboxdUri": "https://boxd.it/CjNG"
+    },
+    {
+      "slug": "chef",
+      "title": "Chef",
+      "year": 2014,
+      "rating": 3,
+      "ratedOn": "2025-01-20",
+      "letterboxdUri": "https://boxd.it/6lCG"
+    },
+    {
+      "slug": "ocean-s-eleven",
+      "title": "Ocean's Eleven",
+      "year": 2001,
+      "rating": 3.5,
+      "ratedOn": "2025-02-04",
+      "letterboxdUri": "https://boxd.it/2aZm"
+    },
+    {
+      "slug": "father-of-the-bride",
+      "title": "Father of the Bride",
+      "year": 1991,
+      "rating": 3.5,
+      "ratedOn": "2025-02-04",
+      "letterboxdUri": "https://boxd.it/1SWY"
+    },
+    {
+      "slug": "meet-dave",
+      "title": "Meet Dave",
+      "year": 2008,
+      "rating": 3,
+      "ratedOn": "2025-02-04",
+      "letterboxdUri": "https://boxd.it/1Uf8"
+    },
+    {
+      "slug": "the-devil-wears-prada",
+      "title": "The Devil Wears Prada",
+      "year": 2006,
+      "rating": 4.5,
+      "ratedOn": "2025-02-09",
+      "letterboxdUri": "https://boxd.it/2awE"
+    },
+    {
+      "slug": "babygirl",
+      "title": "Babygirl",
+      "year": 2024,
+      "rating": 2.5,
+      "ratedOn": "2025-02-19",
+      "letterboxdUri": "https://boxd.it/Fvai"
+    },
+    {
+      "slug": "triangle",
+      "title": "Triangle",
+      "year": 2009,
+      "rating": 3,
+      "ratedOn": "2025-02-19",
+      "letterboxdUri": "https://boxd.it/1tQG"
+    },
+    {
+      "slug": "definitely-maybe",
+      "title": "Definitely, Maybe",
+      "year": 2008,
+      "rating": 4.5,
+      "ratedOn": "2025-03-14",
+      "letterboxdUri": "https://boxd.it/20eU"
+    },
+    {
+      "slug": "paris-texas",
+      "title": "Paris, Texas",
+      "year": 1984,
+      "rating": 5,
+      "ratedOn": "2025-03-30",
+      "letterboxdUri": "https://boxd.it/29Ts"
+    },
+    {
+      "slug": "lost-in-translation",
+      "title": "Lost in Translation",
+      "year": 2003,
+      "rating": 4,
+      "ratedOn": "2025-04-05",
+      "letterboxdUri": "https://boxd.it/2b0E"
+    },
+    {
+      "slug": "bring-it-on",
+      "title": "Bring It On",
+      "year": 2000,
+      "rating": 2,
+      "ratedOn": "2025-05-04",
+      "letterboxdUri": "https://boxd.it/28x6"
+    },
+    {
+      "slug": "the-virgin-suicides",
+      "title": "The Virgin Suicides",
+      "year": 1999,
+      "rating": 3.5,
+      "ratedOn": "2025-05-04",
+      "letterboxdUri": "https://boxd.it/28JG"
+    },
+    {
+      "slug": "titanic",
+      "title": "Titanic",
+      "year": 1997,
+      "rating": 2.5,
+      "ratedOn": "2025-05-24",
+      "letterboxdUri": "https://boxd.it/2a2k"
+    },
+    {
+      "slug": "children-of-men",
+      "title": "Children of Men",
+      "year": 2006,
+      "rating": 4.5,
+      "ratedOn": "2025-05-24",
+      "letterboxdUri": "https://boxd.it/1Y2i"
+    },
+    {
+      "slug": "american-splendor",
+      "title": "American Splendor",
+      "year": 2003,
+      "rating": 2,
+      "ratedOn": "2025-05-25",
+      "letterboxdUri": "https://boxd.it/26kE"
+    },
+    {
+      "slug": "up",
+      "title": "Up",
+      "year": 2009,
+      "rating": 4,
+      "ratedOn": "2025-05-25",
+      "letterboxdUri": "https://boxd.it/1OEc"
+    },
+    {
+      "slug": "the-favourite",
+      "title": "The Favourite",
+      "year": 2018,
+      "rating": 3,
+      "ratedOn": "2025-05-25",
+      "letterboxdUri": "https://boxd.it/d2hI"
+    },
+    {
+      "slug": "call-me-by-your-name",
+      "title": "Call Me by Your Name",
+      "year": 2017,
+      "rating": 4,
+      "ratedOn": "2025-05-25",
+      "letterboxdUri": "https://boxd.it/dYmm"
+    },
+    {
+      "slug": "bones-and-all",
+      "title": "Bones and All",
+      "year": 2022,
+      "rating": 3,
+      "ratedOn": "2025-05-25",
+      "letterboxdUri": "https://boxd.it/tLd4"
+    },
+    {
+      "slug": "the-hunger-games",
+      "title": "The Hunger Games",
+      "year": 2012,
+      "rating": 4,
+      "ratedOn": "2025-06-01",
+      "letterboxdUri": "https://boxd.it/2uds"
+    },
+    {
+      "slug": "the-hunger-games-catching-fire",
+      "title": "The Hunger Games: Catching Fire",
+      "year": 2013,
+      "rating": 4,
+      "ratedOn": "2025-06-01",
+      "letterboxdUri": "https://boxd.it/3sAw"
+    },
+    {
+      "slug": "la-haine",
+      "title": "La Haine",
+      "year": 1995,
+      "rating": 4,
+      "ratedOn": "2025-06-01",
+      "letterboxdUri": "https://boxd.it/2as8"
+    },
+    {
+      "slug": "rear-window",
+      "title": "Rear Window",
+      "year": 1954,
+      "rating": 4.5,
+      "ratedOn": "2025-06-03",
+      "letterboxdUri": "https://boxd.it/2a6Q"
+    },
+    {
+      "slug": "primal-fear",
+      "title": "Primal Fear",
+      "year": 1996,
+      "rating": 4.5,
+      "ratedOn": "2025-07-06",
+      "letterboxdUri": "https://boxd.it/28ws"
+    },
+    {
+      "slug": "jagged-edge",
+      "title": "Jagged Edge",
+      "year": 1985,
+      "rating": 3.5,
+      "ratedOn": "2025-07-06",
+      "letterboxdUri": "https://boxd.it/1SdO"
+    },
+    {
+      "slug": "groundhog-day",
+      "title": "Groundhog Day",
+      "year": 1993,
+      "rating": 3,
+      "ratedOn": "2025-07-07",
+      "letterboxdUri": "https://boxd.it/2b3e"
+    },
+    {
+      "slug": "vertigo",
+      "title": "Vertigo",
+      "year": 1958,
+      "rating": 3,
+      "ratedOn": "2025-07-08",
+      "letterboxdUri": "https://boxd.it/2apI"
+    },
+    {
+      "slug": "the-birds",
+      "title": "The Birds",
+      "year": 1963,
+      "rating": 4,
+      "ratedOn": "2025-07-09",
+      "letterboxdUri": "https://boxd.it/2a6m"
+    },
+    {
+      "slug": "friendship",
+      "title": "Friendship",
+      "year": 2024,
+      "rating": 2,
+      "ratedOn": "2025-07-30",
+      "letterboxdUri": "https://boxd.it/L6Dc"
+    },
+    {
+      "slug": "marriage-story",
+      "title": "Marriage Story",
+      "year": 2019,
+      "rating": 4,
+      "ratedOn": "2025-08-02",
+      "letterboxdUri": "https://boxd.it/hJAw"
+    },
+    {
+      "slug": "crazy-stupid-love",
+      "title": "Crazy, Stupid, Love.",
+      "year": 2011,
+      "rating": 5,
+      "ratedOn": "2025-08-03",
+      "letterboxdUri": "https://boxd.it/D9A"
+    },
+    {
+      "slug": "nightcrawler",
+      "title": "Nightcrawler",
+      "year": 2014,
+      "rating": 3.5,
+      "ratedOn": "2025-08-03",
+      "letterboxdUri": "https://boxd.it/780m"
+    },
+    {
+      "slug": "nocturnal-animals",
+      "title": "Nocturnal Animals",
+      "year": 2016,
+      "rating": 2.5,
+      "ratedOn": "2025-08-03",
+      "letterboxdUri": "https://boxd.it/bkFu"
+    },
+    {
+      "slug": "the-guilty",
+      "title": "The Guilty",
+      "year": 2021,
+      "rating": 3.5,
+      "ratedOn": "2025-08-03",
+      "letterboxdUri": "https://boxd.it/kOPW"
+    },
+    {
+      "slug": "love-and-other-drugs",
+      "title": "Love & Other Drugs",
+      "year": 2010,
+      "rating": 2.5,
+      "ratedOn": "2025-08-03",
+      "letterboxdUri": "https://boxd.it/UIi"
+    },
+    {
+      "slug": "the-usual-suspects",
+      "title": "The Usual Suspects",
+      "year": 1995,
+      "rating": 3.5,
+      "ratedOn": "2025-08-03",
+      "letterboxdUri": "https://boxd.it/29XE"
+    },
+    {
+      "slug": "the-naked-gun",
+      "title": "The Naked Gun",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-08-05",
+      "letterboxdUri": "https://boxd.it/Da9k"
+    },
+    {
+      "slug": "who-framed-roger-rabbit",
+      "title": "Who Framed Roger Rabbit",
+      "year": 1988,
+      "rating": 3.5,
+      "ratedOn": "2025-08-06",
+      "letterboxdUri": "https://boxd.it/29ry"
+    },
+    {
+      "slug": "now-you-see-me",
+      "title": "Now You See Me",
+      "year": 2013,
+      "rating": 3.5,
+      "ratedOn": "2025-08-06",
+      "letterboxdUri": "https://boxd.it/2Bsu"
+    },
+    {
+      "slug": "annihilation",
+      "title": "Annihilation",
+      "year": 2018,
+      "rating": 3,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/9yzm"
+    },
+    {
+      "slug": "parasite",
+      "title": "Parasite",
+      "year": 2019,
+      "rating": 4.5,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/hTha"
+    },
+    {
+      "slug": "almost-famous",
+      "title": "Almost Famous",
+      "year": 2000,
+      "rating": 2.5,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/29CQ"
+    },
+    {
+      "slug": "blade-runner",
+      "title": "Blade Runner",
+      "year": 1982,
+      "rating": 2.5,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/2bcA"
+    },
+    {
+      "slug": "candyman",
+      "title": "Candyman",
+      "year": 1992,
+      "rating": 3,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/1Ys6"
+    },
+    {
+      "slug": "candyman",
+      "title": "Candyman",
+      "year": 2021,
+      "rating": 3.5,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/kHFg"
+    },
+    {
+      "slug": "bridget-jones-s-diary",
+      "title": "Bridget Jones's Diary",
+      "year": 2001,
+      "rating": 4,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/29WQ"
+    },
+    {
+      "slug": "about-a-boy",
+      "title": "About a Boy",
+      "year": 2002,
+      "rating": 4,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/2aMC"
+    },
+    {
+      "slug": "50-first-dates",
+      "title": "50 First Dates",
+      "year": 2004,
+      "rating": 4.5,
+      "ratedOn": "2025-08-07",
+      "letterboxdUri": "https://boxd.it/285c"
+    },
+    {
+      "slug": "doctor-sleep",
+      "title": "Doctor Sleep",
+      "year": 2019,
+      "rating": 3.5,
+      "ratedOn": "2025-08-08",
+      "letterboxdUri": "https://boxd.it/i5vI"
+    },
+    {
+      "slug": "holes",
+      "title": "Holes",
+      "year": 2003,
+      "rating": 5,
+      "ratedOn": "2025-08-08",
+      "letterboxdUri": "https://boxd.it/20mE"
+    },
+    {
+      "slug": "22-jump-street",
+      "title": "22 Jump Street",
+      "year": 2014,
+      "rating": 3.5,
+      "ratedOn": "2025-08-09",
+      "letterboxdUri": "https://boxd.it/5Fvy"
+    },
+    {
+      "slug": "manchester-by-the-sea",
+      "title": "Manchester by the Sea",
+      "year": 2016,
+      "rating": 5,
+      "ratedOn": "2025-08-09",
+      "letterboxdUri": "https://boxd.it/b2L0"
+    },
+    {
+      "slug": "tyrannosaur",
+      "title": "Tyrannosaur",
+      "year": 2011,
+      "rating": 4,
+      "ratedOn": "2025-08-10",
+      "letterboxdUri": "https://boxd.it/2DUA"
+    },
+    {
+      "slug": "weapons",
+      "title": "Weapons",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-08-10",
+      "letterboxdUri": "https://boxd.it/EMTM"
+    },
+    {
+      "slug": "decision-to-leave",
+      "title": "Decision to Leave",
+      "year": 2022,
+      "rating": 3,
+      "ratedOn": "2025-08-10",
+      "letterboxdUri": "https://boxd.it/qp9e"
+    },
+    {
+      "slug": "memories-of-murder",
+      "title": "Memories of Murder",
+      "year": 2003,
+      "rating": 4,
+      "ratedOn": "2025-08-11",
+      "letterboxdUri": "https://boxd.it/1TSo"
+    },
+    {
+      "slug": "freakier-friday",
+      "title": "Freakier Friday",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-08-11",
+      "letterboxdUri": "https://boxd.it/GxwW"
+    },
+    {
+      "slug": "zodiac",
+      "title": "Zodiac",
+      "year": 2007,
+      "rating": 2,
+      "ratedOn": "2025-08-12",
+      "letterboxdUri": "https://boxd.it/27MO"
+    },
+    {
+      "slug": "grizzly-man",
+      "title": "Grizzly Man",
+      "year": 2005,
+      "rating": 4,
+      "ratedOn": "2025-08-12",
+      "letterboxdUri": "https://boxd.it/2ag2"
+    },
+    {
+      "slug": "train-to-busan",
+      "title": "Train to Busan",
+      "year": 2016,
+      "rating": 5,
+      "ratedOn": "2025-08-12",
+      "letterboxdUri": "https://boxd.it/dSQU"
+    },
+    {
+      "slug": "booksmart",
+      "title": "Booksmart",
+      "year": 2019,
+      "rating": 3,
+      "ratedOn": "2025-08-12",
+      "letterboxdUri": "https://boxd.it/igNS"
+    },
+    {
+      "slug": "grave-of-the-fireflies",
+      "title": "Grave of the Fireflies",
+      "year": 1988,
+      "rating": 3.5,
+      "ratedOn": "2025-08-13",
+      "letterboxdUri": "https://boxd.it/1RUM"
+    },
+    {
+      "slug": "gravity",
+      "title": "Gravity",
+      "year": 2013,
+      "rating": 2.5,
+      "ratedOn": "2025-08-13",
+      "letterboxdUri": "https://boxd.it/GZY"
+    },
+    {
+      "slug": "borat-cultural-learnings-of-america-for-make-benefit-glorious-nation-of-kazakhstan",
+      "title": "Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan",
+      "year": 2006,
+      "rating": 3,
+      "ratedOn": "2025-08-14",
+      "letterboxdUri": "https://boxd.it/2agQ"
+    },
+    {
+      "slug": "fish-tank",
+      "title": "Fish Tank",
+      "year": 2009,
+      "rating": 4,
+      "ratedOn": "2025-08-14",
+      "letterboxdUri": "https://boxd.it/1xBg"
+    },
+    {
+      "slug": "get-smart",
+      "title": "Get Smart",
+      "year": 2008,
+      "rating": 3.5,
+      "ratedOn": "2025-08-17",
+      "letterboxdUri": "https://boxd.it/1Tig"
+    },
+    {
+      "slug": "punch-drunk-love",
+      "title": "Punch-Drunk Love",
+      "year": 2002,
+      "rating": 2.5,
+      "ratedOn": "2025-08-17",
+      "letterboxdUri": "https://boxd.it/20E4"
+    },
+    {
+      "slug": "blade-runner-2049",
+      "title": "Blade Runner 2049",
+      "year": 2017,
+      "rating": 2,
+      "ratedOn": "2025-08-18",
+      "letterboxdUri": "https://boxd.it/b8wK"
+    },
+    {
+      "slug": "perfect-days",
+      "title": "Perfect Days",
+      "year": 2023,
+      "rating": 4,
+      "ratedOn": "2025-08-18",
+      "letterboxdUri": "https://boxd.it/ATh8"
+    },
+    {
+      "slug": "materialists",
+      "title": "Materialists",
+      "year": 2025,
+      "rating": 2,
+      "ratedOn": "2025-08-23",
+      "letterboxdUri": "https://boxd.it/GZlW"
+    },
+    {
+      "slug": "pride-and-prejudice",
+      "title": "Pride & Prejudice",
+      "year": 2005,
+      "rating": 4.5,
+      "ratedOn": "2025-08-24",
+      "letterboxdUri": "https://boxd.it/24u8"
+    },
+    {
+      "slug": "incendies",
+      "title": "Incendies",
+      "year": 2010,
+      "rating": 4.5,
+      "ratedOn": "2025-08-24",
+      "letterboxdUri": "https://boxd.it/Msm"
+    },
+    {
+      "slug": "la-la-land",
+      "title": "La La Land",
+      "year": 2016,
+      "rating": 3.5,
+      "ratedOn": "2025-08-25",
+      "letterboxdUri": "https://boxd.it/a5fa"
+    },
+    {
+      "slug": "challengers",
+      "title": "Challengers",
+      "year": 2024,
+      "rating": 5,
+      "ratedOn": "2025-08-25",
+      "letterboxdUri": "https://boxd.it/zld0"
+    },
+    {
+      "slug": "mad-max-fury-road",
+      "title": "Mad Max: Fury Road",
+      "year": 2015,
+      "rating": 3.5,
+      "ratedOn": "2025-08-25",
+      "letterboxdUri": "https://boxd.it/2DjO"
+    },
+    {
+      "slug": "the-naked-gun-from-the-files-of-police-squad",
+      "title": "The Naked Gun: From the Files of Police Squad!",
+      "year": 1988,
+      "rating": 2.5,
+      "ratedOn": "2025-08-27",
+      "letterboxdUri": "https://boxd.it/18YE"
+    },
+    {
+      "slug": "michael-clayton",
+      "title": "Michael Clayton",
+      "year": 2007,
+      "rating": 3,
+      "ratedOn": "2025-08-29",
+      "letterboxdUri": "https://boxd.it/2466"
+    },
+    {
+      "slug": "the-worst-person-in-the-world",
+      "title": "The Worst Person in the World",
+      "year": 2021,
+      "rating": 4.5,
+      "ratedOn": "2025-08-29",
+      "letterboxdUri": "https://boxd.it/oyws"
+    },
+    {
+      "slug": "idiocracy",
+      "title": "Idiocracy",
+      "year": 2006,
+      "rating": 3,
+      "ratedOn": "2025-08-30",
+      "letterboxdUri": "https://boxd.it/20RW"
+    },
+    {
+      "slug": "memento",
+      "title": "Memento",
+      "year": 2000,
+      "rating": 3.5,
+      "ratedOn": "2025-08-30",
+      "letterboxdUri": "https://boxd.it/2bcK"
+    },
+    {
+      "slug": "the-visit",
+      "title": "The Visit",
+      "year": 2015,
+      "rating": 3,
+      "ratedOn": "2025-09-01",
+      "letterboxdUri": "https://boxd.it/9ssO"
+    },
+    {
+      "slug": "unknown-number-the-high-school-catfish",
+      "title": "Unknown Number: The High School Catfish",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-09-03",
+      "letterboxdUri": "https://boxd.it/WtQq"
+    },
+    {
+      "slug": "west-of-memphis",
+      "title": "West of Memphis",
+      "year": 2012,
+      "rating": 5,
+      "ratedOn": "2025-09-03",
+      "letterboxdUri": "https://boxd.it/2Y0I"
+    },
+    {
+      "slug": "good-boys",
+      "title": "Good Boys",
+      "year": 2019,
+      "rating": 4,
+      "ratedOn": "2025-09-03",
+      "letterboxdUri": "https://boxd.it/iW1G"
+    },
+    {
+      "slug": "suspiria",
+      "title": "Suspiria",
+      "year": 1977,
+      "rating": 4.5,
+      "ratedOn": "2025-09-05",
+      "letterboxdUri": "https://boxd.it/1SNW"
+    },
+    {
+      "slug": "the-killing-of-a-sacred-deer",
+      "title": "The Killing of a Sacred Deer",
+      "year": 2017,
+      "rating": 3.5,
+      "ratedOn": "2025-09-05",
+      "letterboxdUri": "https://boxd.it/dZ5G"
+    },
+    {
+      "slug": "the-hunt",
+      "title": "The Hunt",
+      "year": 2012,
+      "rating": 3.5,
+      "ratedOn": "2025-09-07",
+      "letterboxdUri": "https://boxd.it/3wEC"
+    },
+    {
+      "slug": "another-round",
+      "title": "Another Round",
+      "year": 2020,
+      "rating": 3,
+      "ratedOn": "2025-09-07",
+      "letterboxdUri": "https://boxd.it/lkba"
+    },
+    {
+      "slug": "in-the-mood-for-love",
+      "title": "In the Mood for Love",
+      "year": 2000,
+      "rating": 3.5,
+      "ratedOn": "2025-09-08",
+      "letterboxdUri": "https://boxd.it/29tE"
+    },
+    {
+      "slug": "spirited-away",
+      "title": "Spirited Away",
+      "year": 2001,
+      "rating": 4,
+      "ratedOn": "2025-09-08",
+      "letterboxdUri": "https://boxd.it/2b4m"
+    },
+    {
+      "slug": "my-oxford-year",
+      "title": "My Oxford Year",
+      "year": 2025,
+      "rating": 2.5,
+      "ratedOn": "2025-09-10",
+      "letterboxdUri": "https://boxd.it/NSLi"
+    },
+    {
+      "slug": "blue-velvet",
+      "title": "Blue Velvet",
+      "year": 1986,
+      "rating": 3.5,
+      "ratedOn": "2025-09-11",
+      "letterboxdUri": "https://boxd.it/29BI"
+    },
+    {
+      "slug": "fruitvale-station",
+      "title": "Fruitvale Station",
+      "year": 2013,
+      "rating": 3.5,
+      "ratedOn": "2025-09-12",
+      "letterboxdUri": "https://boxd.it/4VRy"
+    },
+    {
+      "slug": "blink-twice",
+      "title": "Blink Twice",
+      "year": 2024,
+      "rating": 3.5,
+      "ratedOn": "2025-09-23",
+      "letterboxdUri": "https://boxd.it/vIOg"
+    },
+    {
+      "slug": "kneecap",
+      "title": "Kneecap",
+      "year": 2024,
+      "rating": 4.5,
+      "ratedOn": "2025-09-23",
+      "letterboxdUri": "https://boxd.it/ILxI"
+    },
+    {
+      "slug": "spider-man-into-the-spider-verse",
+      "title": "Spider-Man: Into the Spider-Verse",
+      "year": 2018,
+      "rating": 3.5,
+      "ratedOn": "2025-09-23",
+      "letterboxdUri": "https://boxd.it/azpY"
+    },
+    {
+      "slug": "spider-man",
+      "title": "Spider-Man",
+      "year": 2002,
+      "rating": 3.5,
+      "ratedOn": "2025-09-23",
+      "letterboxdUri": "https://boxd.it/2a8i"
+    },
+    {
+      "slug": "the-spectacular-now",
+      "title": "The Spectacular Now",
+      "year": 2013,
+      "rating": 2.5,
+      "ratedOn": "2025-09-25",
+      "letterboxdUri": "https://boxd.it/4VSG"
+    },
+    {
+      "slug": "submarine",
+      "title": "Submarine",
+      "year": 2010,
+      "rating": 4.5,
+      "ratedOn": "2025-09-25",
+      "letterboxdUri": "https://boxd.it/H4a"
+    },
+    {
+      "slug": "spotlight",
+      "title": "Spotlight",
+      "year": 2015,
+      "rating": 5,
+      "ratedOn": "2025-09-26",
+      "letterboxdUri": "https://boxd.it/a84k"
+    },
+    {
+      "slug": "anchorman-the-legend-of-ron-burgundy",
+      "title": "Anchorman: The Legend of Ron Burgundy",
+      "year": 2004,
+      "rating": 3.5,
+      "ratedOn": "2025-09-27",
+      "letterboxdUri": "https://boxd.it/1ZVo"
+    },
+    {
+      "slug": "let-the-right-one-in",
+      "title": "Let the Right One In",
+      "year": 2008,
+      "rating": 4.5,
+      "ratedOn": "2025-09-27",
+      "letterboxdUri": "https://boxd.it/1Qr0"
+    },
+    {
+      "slug": "after-yang",
+      "title": "After Yang",
+      "year": 2021,
+      "rating": 3.5,
+      "ratedOn": "2025-09-27",
+      "letterboxdUri": "https://boxd.it/lx5a"
+    },
+    {
+      "slug": "rocky",
+      "title": "Rocky",
+      "year": 1976,
+      "rating": 4,
+      "ratedOn": "2025-09-27",
+      "letterboxdUri": "https://boxd.it/28Uk"
+    },
+    {
+      "slug": "in-the-name-of-the-father",
+      "title": "In the Name of the Father",
+      "year": 1993,
+      "rating": 4,
+      "ratedOn": "2025-09-28",
+      "letterboxdUri": "https://boxd.it/20I6"
+    },
+    {
+      "slug": "the-dry",
+      "title": "The Dry",
+      "year": 2020,
+      "rating": 2.5,
+      "ratedOn": "2025-09-28",
+      "letterboxdUri": "https://boxd.it/kOXG"
+    },
+    {
+      "slug": "rugrats-in-paris-the-movie",
+      "title": "Rugrats in Paris: The Movie",
+      "year": 2000,
+      "rating": 3.5,
+      "ratedOn": "2025-09-28",
+      "letterboxdUri": "https://boxd.it/1KjO"
+    },
+    {
+      "slug": "crocodile-dundee",
+      "title": "Crocodile Dundee",
+      "year": 1986,
+      "rating": 3.5,
+      "ratedOn": "2025-09-29",
+      "letterboxdUri": "https://boxd.it/1Y5Q"
+    },
+    {
+      "slug": "click",
+      "title": "Click",
+      "year": 2006,
+      "rating": 3,
+      "ratedOn": "2025-09-29",
+      "letterboxdUri": "https://boxd.it/1YVM"
+    },
+    {
+      "slug": "snatch",
+      "title": "Snatch",
+      "year": 2000,
+      "rating": 4,
+      "ratedOn": "2025-09-30",
+      "letterboxdUri": "https://boxd.it/2b7U"
+    },
+    {
+      "slug": "garden-state",
+      "title": "Garden State",
+      "year": 2004,
+      "rating": 3,
+      "ratedOn": "2025-09-30",
+      "letterboxdUri": "https://boxd.it/2asW"
+    },
+    {
+      "slug": "high-fidelity",
+      "title": "High Fidelity",
+      "year": 2000,
+      "rating": 2.5,
+      "ratedOn": "2025-10-01",
+      "letterboxdUri": "https://boxd.it/2aMW"
+    },
+    {
+      "slug": "promising-young-woman",
+      "title": "Promising Young Woman",
+      "year": 2020,
+      "rating": 4.5,
+      "ratedOn": "2025-10-01",
+      "letterboxdUri": "https://boxd.it/loRE"
+    },
+    {
+      "slug": "boogie-nights",
+      "title": "Boogie Nights",
+      "year": 1997,
+      "rating": 4,
+      "ratedOn": "2025-10-01",
+      "letterboxdUri": "https://boxd.it/23um"
+    },
+    {
+      "slug": "i-saw-the-devil",
+      "title": "I Saw the Devil",
+      "year": 2010,
+      "rating": 2.5,
+      "ratedOn": "2025-10-03",
+      "letterboxdUri": "https://boxd.it/FaK"
+    },
+    {
+      "slug": "oslo-august-31st",
+      "title": "Oslo, August 31st",
+      "year": 2011,
+      "rating": 4.5,
+      "ratedOn": "2025-10-07",
+      "letterboxdUri": "https://boxd.it/2xQC"
+    },
+    {
+      "slug": "falling-down",
+      "title": "Falling Down",
+      "year": 1993,
+      "rating": 4.5,
+      "ratedOn": "2025-10-08",
+      "letterboxdUri": "https://boxd.it/194M"
+    },
+    {
+      "slug": "twinless",
+      "title": "Twinless",
+      "year": 2025,
+      "rating": 2.5,
+      "ratedOn": "2025-10-10",
+      "letterboxdUri": "https://boxd.it/LkKc"
+    },
+    {
+      "slug": "it-follows",
+      "title": "It Follows",
+      "year": 2014,
+      "rating": 4,
+      "ratedOn": "2025-10-11",
+      "letterboxdUri": "https://boxd.it/87wo"
+    },
+    {
+      "slug": "the-silence-of-the-lambs",
+      "title": "The Silence of the Lambs",
+      "year": 1991,
+      "rating": 5,
+      "ratedOn": "2025-10-11",
+      "letterboxdUri": "https://boxd.it/2aHW"
+    },
+    {
+      "slug": "one-battle-after-another",
+      "title": "One Battle After Another",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2025-10-15",
+      "letterboxdUri": "https://boxd.it/DUHM"
+    },
+    {
+      "slug": "glass-onion",
+      "title": "Glass Onion",
+      "year": 2022,
+      "rating": 4.5,
+      "ratedOn": "2025-10-19",
+      "letterboxdUri": "https://boxd.it/oCkK"
+    },
+    {
+      "slug": "the-village",
+      "title": "The Village",
+      "year": 2004,
+      "rating": 5,
+      "ratedOn": "2025-10-19",
+      "letterboxdUri": "https://boxd.it/21iS"
+    },
+    {
+      "slug": "daddy-day-care",
+      "title": "Daddy Day Care",
+      "year": 2003,
+      "rating": 2.5,
+      "ratedOn": "2025-10-19",
+      "letterboxdUri": "https://boxd.it/1VAw"
+    },
+    {
+      "slug": "the-long-walk",
+      "title": "The Long Walk",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2025-10-26",
+      "letterboxdUri": "https://boxd.it/mic8"
+    },
+    {
+      "slug": "broadcast-news",
+      "title": "Broadcast News",
+      "year": 1987,
+      "rating": 4.5,
+      "ratedOn": "2025-10-26",
+      "letterboxdUri": "https://boxd.it/1RxS"
+    },
+    {
+      "slug": "another-year",
+      "title": "Another Year",
+      "year": 2010,
+      "rating": 4.5,
+      "ratedOn": "2025-10-27",
+      "letterboxdUri": "https://boxd.it/T1C"
+    },
+    {
+      "slug": "the-princess-bride",
+      "title": "The Princess Bride",
+      "year": 1987,
+      "rating": 3.5,
+      "ratedOn": "2025-10-28",
+      "letterboxdUri": "https://boxd.it/26EY"
+    },
+    {
+      "slug": "sorry-baby",
+      "title": "Sorry, Baby",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-10-30",
+      "letterboxdUri": "https://boxd.it/JKNi"
+    },
+    {
+      "slug": "the-social-network",
+      "title": "The Social Network",
+      "year": 2010,
+      "rating": 3,
+      "ratedOn": "2025-11-01",
+      "letterboxdUri": "https://boxd.it/17ue"
+    },
+    {
+      "slug": "eddington",
+      "title": "Eddington",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-11-02",
+      "letterboxdUri": "https://boxd.it/o6MC"
+    },
+    {
+      "slug": "an-education",
+      "title": "An Education",
+      "year": 2009,
+      "rating": 4,
+      "ratedOn": "2025-11-02",
+      "letterboxdUri": "https://boxd.it/1xcg"
+    },
+    {
+      "slug": "the-wind-that-shakes-the-barley",
+      "title": "The Wind That Shakes the Barley",
+      "year": 2006,
+      "rating": 5,
+      "ratedOn": "2025-11-03",
+      "letterboxdUri": "https://boxd.it/293Q"
+    },
+    {
+      "slug": "never-let-me-go",
+      "title": "Never Let Me Go",
+      "year": 2010,
+      "rating": 3.5,
+      "ratedOn": "2025-11-06",
+      "letterboxdUri": "https://boxd.it/Xw0"
+    },
+    {
+      "slug": "the-girl-with-the-dragon-tattoo",
+      "title": "The Girl with the Dragon Tattoo",
+      "year": 2011,
+      "rating": 4,
+      "ratedOn": "2025-11-06",
+      "letterboxdUri": "https://boxd.it/2Pa"
+    },
+    {
+      "slug": "forrest-gump",
+      "title": "Forrest Gump",
+      "year": 1994,
+      "rating": 5,
+      "ratedOn": "2025-11-09",
+      "letterboxdUri": "https://boxd.it/728"
+    },
+    {
+      "slug": "the-beach",
+      "title": "The Beach",
+      "year": 2000,
+      "rating": 3.5,
+      "ratedOn": "2025-11-11",
+      "letterboxdUri": "https://boxd.it/27T6"
+    },
+    {
+      "slug": "red-eye",
+      "title": "Red Eye",
+      "year": 2005,
+      "rating": 2.5,
+      "ratedOn": "2025-11-11",
+      "letterboxdUri": "https://boxd.it/1TNy"
+    },
+    {
+      "slug": "chronicle",
+      "title": "Chronicle",
+      "year": 2012,
+      "rating": 2,
+      "ratedOn": "2025-11-11",
+      "letterboxdUri": "https://boxd.it/2Emk"
+    },
+    {
+      "slug": "a-ghost-story",
+      "title": "A Ghost Story",
+      "year": 2017,
+      "rating": 4,
+      "ratedOn": "2025-11-12",
+      "letterboxdUri": "https://boxd.it/fb0K"
+    },
+    {
+      "slug": "under-the-skin",
+      "title": "Under the Skin",
+      "year": 2013,
+      "rating": 2,
+      "ratedOn": "2025-11-12",
+      "letterboxdUri": "https://boxd.it/3mDa"
+    },
+    {
+      "slug": "to-die-for",
+      "title": "To Die For",
+      "year": 1995,
+      "rating": 4.5,
+      "ratedOn": "2025-11-12",
+      "letterboxdUri": "https://boxd.it/2a5o"
+    },
+    {
+      "slug": "best-in-show",
+      "title": "Best in Show",
+      "year": 2000,
+      "rating": 4.5,
+      "ratedOn": "2025-11-12",
+      "letterboxdUri": "https://boxd.it/1Pqq"
+    },
+    {
+      "slug": "wild-things",
+      "title": "Wild Things",
+      "year": 1998,
+      "rating": 3,
+      "ratedOn": "2025-11-12",
+      "letterboxdUri": "https://boxd.it/29Zq"
+    },
+    {
+      "slug": "frances-ha",
+      "title": "Frances Ha",
+      "year": 2012,
+      "rating": 4.5,
+      "ratedOn": "2025-11-13",
+      "letterboxdUri": "https://boxd.it/41Xg"
+    },
+    {
+      "slug": "rope",
+      "title": "Rope",
+      "year": 1948,
+      "rating": 4.5,
+      "ratedOn": "2025-11-13",
+      "letterboxdUri": "https://boxd.it/28yo"
+    },
+    {
+      "slug": "spellbound",
+      "title": "Spellbound",
+      "year": 1945,
+      "rating": 3.5,
+      "ratedOn": "2025-11-14",
+      "letterboxdUri": "https://boxd.it/24Ji"
+    },
+    {
+      "slug": "matilda",
+      "title": "Matilda",
+      "year": 1996,
+      "rating": 5,
+      "ratedOn": "2025-11-14",
+      "letterboxdUri": "https://boxd.it/1VhY"
+    },
+    {
+      "slug": "boyz-n-the-hood",
+      "title": "Boyz n the Hood",
+      "year": 1991,
+      "rating": 3,
+      "ratedOn": "2025-11-14",
+      "letterboxdUri": "https://boxd.it/29Ug"
+    },
+    {
+      "slug": "beautiful-boy",
+      "title": "Beautiful Boy",
+      "year": 2018,
+      "rating": 3.5,
+      "ratedOn": "2025-11-14",
+      "letterboxdUri": "https://boxd.it/g76Q"
+    },
+    {
+      "slug": "the-history-of-sound",
+      "title": "The History of Sound",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-11-14",
+      "letterboxdUri": "https://boxd.it/xFY2"
+    },
+    {
+      "slug": "cure",
+      "title": "Cure",
+      "year": 1997,
+      "rating": 4,
+      "ratedOn": "2025-11-15",
+      "letterboxdUri": "https://boxd.it/1blA"
+    },
+    {
+      "slug": "rain-man",
+      "title": "Rain Man",
+      "year": 1988,
+      "rating": 4.5,
+      "ratedOn": "2025-11-15",
+      "letterboxdUri": "https://boxd.it/2avw"
+    },
+    {
+      "slug": "the-truman-show",
+      "title": "The Truman Show",
+      "year": 1998,
+      "rating": 2.5,
+      "ratedOn": "2025-11-16",
+      "letterboxdUri": "https://boxd.it/18U8"
+    },
+    {
+      "slug": "dream-scenario",
+      "title": "Dream Scenario",
+      "year": 2023,
+      "rating": 4,
+      "ratedOn": "2025-11-16",
+      "letterboxdUri": "https://boxd.it/v2h0"
+    },
+    {
+      "slug": "pan-s-labyrinth",
+      "title": "Pan's Labyrinth",
+      "year": 2006,
+      "rating": 3.5,
+      "ratedOn": "2025-11-16",
+      "letterboxdUri": "https://boxd.it/28No"
+    },
+    {
+      "slug": "charlie-s-angels",
+      "title": "Charlie's Angels",
+      "year": 2000,
+      "rating": 4.5,
+      "ratedOn": "2025-11-18",
+      "letterboxdUri": "https://boxd.it/24v6"
+    },
+    {
+      "slug": "if-i-had-legs-i-d-kick-you",
+      "title": "If I Had Legs I'd Kick You",
+      "year": 2025,
+      "rating": 5,
+      "ratedOn": "2025-11-20",
+      "letterboxdUri": "https://boxd.it/HUtS"
+    },
+    {
+      "slug": "now-you-see-me-now-you-don-t",
+      "title": "Now You See Me: Now You Don't",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-11-23",
+      "letterboxdUri": "https://boxd.it/f3i2"
+    },
+    {
+      "slug": "perfect-blue",
+      "title": "Perfect Blue",
+      "year": 1997,
+      "rating": 4,
+      "ratedOn": "2025-11-24",
+      "letterboxdUri": "https://boxd.it/1W7A"
+    },
+    {
+      "slug": "bend-it-like-beckham",
+      "title": "Bend It Like Beckham",
+      "year": 2002,
+      "rating": 3,
+      "ratedOn": "2025-11-24",
+      "letterboxdUri": "https://boxd.it/2am0"
+    },
+    {
+      "slug": "train-dreams",
+      "title": "Train Dreams",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-11-24",
+      "letterboxdUri": "https://boxd.it/LdDo"
+    },
+    {
+      "slug": "society-of-the-snow",
+      "title": "Society of the Snow",
+      "year": 2023,
+      "rating": 3,
+      "ratedOn": "2025-11-25",
+      "letterboxdUri": "https://boxd.it/y9aw"
+    },
+    {
+      "slug": "miss-congeniality",
+      "title": "Miss Congeniality",
+      "year": 2000,
+      "rating": 3.5,
+      "ratedOn": "2025-11-25",
+      "letterboxdUri": "https://boxd.it/28GM"
+    },
+    {
+      "slug": "sicario",
+      "title": "Sicario",
+      "year": 2015,
+      "rating": 3.5,
+      "ratedOn": "2025-11-25",
+      "letterboxdUri": "https://boxd.it/8i7u"
+    },
+    {
+      "slug": "small-things-like-these",
+      "title": "Small Things Like These",
+      "year": 2024,
+      "rating": 2.5,
+      "ratedOn": "2025-11-26",
+      "letterboxdUri": "https://boxd.it/FHIm"
+    },
+    {
+      "slug": "but-i-m-a-cheerleader",
+      "title": "But I'm a Cheerleader",
+      "year": 1999,
+      "rating": 4,
+      "ratedOn": "2025-11-26",
+      "letterboxdUri": "https://boxd.it/1CW4"
+    },
+    {
+      "slug": "wake-up-dead-man",
+      "title": "Wake Up Dead Man",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2025-11-27",
+      "letterboxdUri": "https://boxd.it/uAKS"
+    },
+    {
+      "slug": "corpse-bride",
+      "title": "Corpse Bride",
+      "year": 2005,
+      "rating": 2.5,
+      "ratedOn": "2025-11-29",
+      "letterboxdUri": "https://boxd.it/24WQ"
+    },
+    {
+      "slug": "the-princess-diaries",
+      "title": "The Princess Diaries",
+      "year": 2001,
+      "rating": 3,
+      "ratedOn": "2025-11-29",
+      "letterboxdUri": "https://boxd.it/1XCO"
+    },
+    {
+      "slug": "bugonia",
+      "title": "Bugonia",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-12-01",
+      "letterboxdUri": "https://boxd.it/qeWY"
+    },
+    {
+      "slug": "no-other-choice",
+      "title": "No Other Choice",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-12-01",
+      "letterboxdUri": "https://boxd.it/nKiA"
+    },
+    {
+      "slug": "trading-places",
+      "title": "Trading Places",
+      "year": 1983,
+      "rating": 3.5,
+      "ratedOn": "2025-12-02",
+      "letterboxdUri": "https://boxd.it/28sK"
+    },
+    {
+      "slug": "companion",
+      "title": "Companion",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-12-02",
+      "letterboxdUri": "https://boxd.it/F04o"
+    },
+    {
+      "slug": "the-sweet-hereafter",
+      "title": "The Sweet Hereafter",
+      "year": 1997,
+      "rating": 4,
+      "ratedOn": "2025-12-03",
+      "letterboxdUri": "https://boxd.it/1WNm"
+    },
+    {
+      "slug": "jay-kelly",
+      "title": "Jay Kelly",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-12-06",
+      "letterboxdUri": "https://boxd.it/EsWw"
+    },
+    {
+      "slug": "the-santa-clause",
+      "title": "The Santa Clause",
+      "year": 1994,
+      "rating": 4,
+      "ratedOn": "2025-12-07",
+      "letterboxdUri": "https://boxd.it/1TWK"
+    },
+    {
+      "slug": "uncut-gems",
+      "title": "Uncut Gems",
+      "year": 2019,
+      "rating": 3,
+      "ratedOn": "2025-12-08",
+      "letterboxdUri": "https://boxd.it/gXGc"
+    },
+    {
+      "slug": "blue-moon",
+      "title": "Blue Moon",
+      "year": 2025,
+      "rating": 4.5,
+      "ratedOn": "2025-12-09",
+      "letterboxdUri": "https://boxd.it/Nzwy"
+    },
+    {
+      "slug": "45-years",
+      "title": "45 Years",
+      "year": 2015,
+      "rating": 3,
+      "ratedOn": "2025-12-13",
+      "letterboxdUri": "https://boxd.it/9ZPG"
+    },
+    {
+      "slug": "my-secret-santa",
+      "title": "My Secret Santa",
+      "year": 2025,
+      "rating": 2,
+      "ratedOn": "2025-12-13",
+      "letterboxdUri": "https://boxd.it/Tlnu"
+    },
+    {
+      "slug": "the-holdovers",
+      "title": "The Holdovers",
+      "year": 2023,
+      "rating": 4.5,
+      "ratedOn": "2025-12-15",
+      "letterboxdUri": "https://boxd.it/vHza"
+    },
+    {
+      "slug": "the-holiday",
+      "title": "The Holiday",
+      "year": 2006,
+      "rating": 4.5,
+      "ratedOn": "2025-12-15",
+      "letterboxdUri": "https://boxd.it/28ye"
+    },
+    {
+      "slug": "bad-santa",
+      "title": "Bad Santa",
+      "year": 2003,
+      "rating": 0.5,
+      "ratedOn": "2025-12-15",
+      "letterboxdUri": "https://boxd.it/1WYk"
+    },
+    {
+      "slug": "shiva-baby",
+      "title": "Shiva Baby",
+      "year": 2020,
+      "rating": 3.5,
+      "ratedOn": "2025-12-15",
+      "letterboxdUri": "https://boxd.it/oIv0"
+    },
+    {
+      "slug": "die-my-love",
+      "title": "Die My Love",
+      "year": 2025,
+      "rating": 2.5,
+      "ratedOn": "2025-12-15",
+      "letterboxdUri": "https://boxd.it/D5cI"
+    },
+    {
+      "slug": "frankenstein",
+      "title": "Frankenstein",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-12-16",
+      "letterboxdUri": "https://boxd.it/Ecsg"
+    },
+    {
+      "slug": "the-mastermind",
+      "title": "The Mastermind",
+      "year": 2025,
+      "rating": 2,
+      "ratedOn": "2025-12-17",
+      "letterboxdUri": "https://boxd.it/Q7ge"
+    },
+    {
+      "slug": "dial-m-for-murder",
+      "title": "Dial M for Murder",
+      "year": 1954,
+      "rating": 4,
+      "ratedOn": "2025-12-17",
+      "letterboxdUri": "https://boxd.it/2adW"
+    },
+    {
+      "slug": "match-point",
+      "title": "Match Point",
+      "year": 2005,
+      "rating": 4,
+      "ratedOn": "2025-12-17",
+      "letterboxdUri": "https://boxd.it/2b6s"
+    },
+    {
+      "slug": "it-was-just-an-accident",
+      "title": "It Was Just an Accident",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-12-18",
+      "letterboxdUri": "https://boxd.it/TX2k"
+    },
+    {
+      "slug": "101-dalmatians",
+      "title": "101 Dalmatians",
+      "year": 1996,
+      "rating": 2.5,
+      "ratedOn": "2025-12-18",
+      "letterboxdUri": "https://boxd.it/1TgO"
+    },
+    {
+      "slug": "gremlins",
+      "title": "Gremlins",
+      "year": 1984,
+      "rating": 3,
+      "ratedOn": "2025-12-25",
+      "letterboxdUri": "https://boxd.it/29gg"
+    },
+    {
+      "slug": "spy-kids",
+      "title": "Spy Kids",
+      "year": 2001,
+      "rating": 3,
+      "ratedOn": "2025-12-25",
+      "letterboxdUri": "https://boxd.it/1Xcw"
+    },
+    {
+      "slug": "interstellar",
+      "title": "Interstellar",
+      "year": 2014,
+      "rating": 5,
+      "ratedOn": "2025-12-26",
+      "letterboxdUri": "https://boxd.it/4VZ8"
+    },
+    {
+      "slug": "my-cousin-vinny",
+      "title": "My Cousin Vinny",
+      "year": 1992,
+      "rating": 4.5,
+      "ratedOn": "2025-12-27",
+      "letterboxdUri": "https://boxd.it/1WpO"
+    },
+    {
+      "slug": "twelve-monkeys",
+      "title": "Twelve Monkeys",
+      "year": 1995,
+      "rating": 4,
+      "ratedOn": "2025-12-30",
+      "letterboxdUri": "https://boxd.it/2beQ"
+    },
+    {
+      "slug": "fargo",
+      "title": "Fargo",
+      "year": 1996,
+      "rating": 4,
+      "ratedOn": "2025-12-30",
+      "letterboxdUri": "https://boxd.it/2aHM"
+    },
+    {
+      "slug": "28-years-later",
+      "title": "28 Years Later",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2025-12-31",
+      "letterboxdUri": "https://boxd.it/FEGM"
+    },
+    {
+      "slug": "it-ends",
+      "title": "It Ends",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2025-12-31",
+      "letterboxdUri": "https://boxd.it/SBUi"
+    },
+    {
+      "slug": "the-pledge",
+      "title": "The Pledge",
+      "year": 2001,
+      "rating": 3.5,
+      "ratedOn": "2026-01-02",
+      "letterboxdUri": "https://boxd.it/22hc"
+    },
+    {
+      "slug": "what-women-want",
+      "title": "What Women Want",
+      "year": 2000,
+      "rating": 4,
+      "ratedOn": "2026-01-03",
+      "letterboxdUri": "https://boxd.it/24Sa"
+    },
+    {
+      "slug": "the-godfather",
+      "title": "The Godfather",
+      "year": 1972,
+      "rating": 5,
+      "ratedOn": "2026-01-03",
+      "letterboxdUri": "https://boxd.it/2aNK"
+    },
+    {
+      "slug": "jacob-s-ladder",
+      "title": "Jacob's Ladder",
+      "year": 1990,
+      "rating": 2.5,
+      "ratedOn": "2026-01-03",
+      "letterboxdUri": "https://boxd.it/270g"
+    },
+    {
+      "slug": "arlington-road",
+      "title": "Arlington Road",
+      "year": 1999,
+      "rating": 4,
+      "ratedOn": "2026-01-04",
+      "letterboxdUri": "https://boxd.it/295C"
+    },
+    {
+      "slug": "marty-supreme",
+      "title": "Marty Supreme",
+      "year": 2025,
+      "rating": 5,
+      "ratedOn": "2026-01-04",
+      "letterboxdUri": "https://boxd.it/Off0"
+    },
+    {
+      "slug": "edward-scissorhands",
+      "title": "Edward Scissorhands",
+      "year": 1990,
+      "rating": 3,
+      "ratedOn": "2026-01-05",
+      "letterboxdUri": "https://boxd.it/2aZc"
+    },
+    {
+      "slug": "nanny-mcphee",
+      "title": "Nanny McPhee",
+      "year": 2005,
+      "rating": 3,
+      "ratedOn": "2026-01-05",
+      "letterboxdUri": "https://boxd.it/1Uek"
+    },
+    {
+      "slug": "don-t-tell-mom-the-babysitter-s-dead",
+      "title": "Don't Tell Mom the Babysitter's Dead",
+      "year": 1991,
+      "rating": 2,
+      "ratedOn": "2026-01-05",
+      "letterboxdUri": "https://boxd.it/1Mi4"
+    },
+    {
+      "slug": "frewaka",
+      "title": "Fréwaka",
+      "year": 2024,
+      "rating": 3,
+      "ratedOn": "2026-01-05",
+      "letterboxdUri": "https://boxd.it/J7CA"
+    },
+    {
+      "slug": "eternity",
+      "title": "Eternity",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2026-01-06",
+      "letterboxdUri": "https://boxd.it/LYtK"
+    },
+    {
+      "slug": "war-of-the-buttons",
+      "title": "War of the Buttons",
+      "year": 1994,
+      "rating": 3,
+      "ratedOn": "2026-01-06",
+      "letterboxdUri": "https://boxd.it/16bK"
+    },
+    {
+      "slug": "intermission",
+      "title": "Intermission",
+      "year": 2003,
+      "rating": 4,
+      "ratedOn": "2026-01-06",
+      "letterboxdUri": "https://boxd.it/1JrM"
+    },
+    {
+      "slug": "jennifer-s-body",
+      "title": "Jennifer's Body",
+      "year": 2009,
+      "rating": 3.5,
+      "ratedOn": "2026-01-07",
+      "letterboxdUri": "https://boxd.it/1Efw"
+    },
+    {
+      "slug": "the-housemaid",
+      "title": "The Housemaid",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2026-01-08",
+      "letterboxdUri": "https://boxd.it/QFEO"
+    },
+    {
+      "slug": "people-we-meet-on-vacation",
+      "title": "People We Meet on Vacation",
+      "year": 2026,
+      "rating": 4,
+      "ratedOn": "2026-01-10",
+      "letterboxdUri": "https://boxd.it/D8ME"
+    },
+    {
+      "slug": "taken",
+      "title": "Taken",
+      "year": 2008,
+      "rating": 4,
+      "ratedOn": "2026-01-10",
+      "letterboxdUri": "https://boxd.it/1ZXa"
+    },
+    {
+      "slug": "the-conjuring-last-rites",
+      "title": "The Conjuring: Last Rites",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2026-01-12",
+      "letterboxdUri": "https://boxd.it/Dh8e"
+    },
+    {
+      "slug": "sinners",
+      "title": "Sinners",
+      "year": 2025,
+      "rating": 2.5,
+      "ratedOn": "2026-01-12",
+      "letterboxdUri": "https://boxd.it/KQMM"
+    },
+    {
+      "slug": "romy-and-michele-s-high-school-reunion",
+      "title": "Romy and Michele's High School Reunion",
+      "year": 1997,
+      "rating": 3,
+      "ratedOn": "2026-01-12",
+      "letterboxdUri": "https://boxd.it/1Yf2"
+    },
+    {
+      "slug": "a-time-to-kill",
+      "title": "A Time to Kill",
+      "year": 1996,
+      "rating": 4.5,
+      "ratedOn": "2026-01-13",
+      "letterboxdUri": "https://boxd.it/28pc"
+    },
+    {
+      "slug": "carol",
+      "title": "Carol",
+      "year": 2015,
+      "rating": 3,
+      "ratedOn": "2026-01-13",
+      "letterboxdUri": "https://boxd.it/7DPK"
+    },
+    {
+      "slug": "the-delinquent-season",
+      "title": "The Delinquent Season",
+      "year": 2018,
+      "rating": 1,
+      "ratedOn": "2026-01-13",
+      "letterboxdUri": "https://boxd.it/gLiC"
+    },
+    {
+      "slug": "women-talking",
+      "title": "Women Talking",
+      "year": 2022,
+      "rating": 4.5,
+      "ratedOn": "2026-01-15",
+      "letterboxdUri": "https://boxd.it/tdq4"
+    },
+    {
+      "slug": "zombieland",
+      "title": "Zombieland",
+      "year": 2009,
+      "rating": 3.5,
+      "ratedOn": "2026-01-16",
+      "letterboxdUri": "https://boxd.it/1En6"
+    },
+    {
+      "slug": "rebecca",
+      "title": "Rebecca",
+      "year": 1940,
+      "rating": 3.5,
+      "ratedOn": "2026-01-19",
+      "letterboxdUri": "https://boxd.it/2aQa"
+    },
+    {
+      "slug": "nancy-drew",
+      "title": "Nancy Drew",
+      "year": 2007,
+      "rating": 2,
+      "ratedOn": "2026-01-20",
+      "letterboxdUri": "https://boxd.it/1OSe"
+    },
+    {
+      "slug": "jaws",
+      "title": "Jaws",
+      "year": 1975,
+      "rating": 2.5,
+      "ratedOn": "2026-01-20",
+      "letterboxdUri": "https://boxd.it/2a5e"
+    },
+    {
+      "slug": "secrets-and-lies",
+      "title": "Secrets & Lies",
+      "year": 1996,
+      "rating": 5,
+      "ratedOn": "2026-01-21",
+      "letterboxdUri": "https://boxd.it/1UuC"
+    },
+    {
+      "slug": "a-separation",
+      "title": "A Separation",
+      "year": 2011,
+      "rating": 4.5,
+      "ratedOn": "2026-01-21",
+      "letterboxdUri": "https://boxd.it/gvo"
+    },
+    {
+      "slug": "shallow-grave",
+      "title": "Shallow Grave",
+      "year": 1994,
+      "rating": 4.5,
+      "ratedOn": "2026-01-22",
+      "letterboxdUri": "https://boxd.it/1XyW"
+    },
+    {
+      "slug": "palm-springs",
+      "title": "Palm Springs",
+      "year": 2020,
+      "rating": 3,
+      "ratedOn": "2026-01-23",
+      "letterboxdUri": "https://boxd.it/lCXQ"
+    },
+    {
+      "slug": "the-perfect-neighbor",
+      "title": "The Perfect Neighbor",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2026-01-23",
+      "letterboxdUri": "https://boxd.it/RSG6"
+    },
+    {
+      "slug": "song-sung-blue",
+      "title": "Song Sung Blue",
+      "year": 2025,
+      "rating": 2.5,
+      "ratedOn": "2026-01-23",
+      "letterboxdUri": "https://boxd.it/QMqO"
+    },
+    {
+      "slug": "rental-family",
+      "title": "Rental Family",
+      "year": 2025,
+      "rating": 4,
+      "ratedOn": "2026-01-25",
+      "letterboxdUri": "https://boxd.it/JQOw"
+    },
+    {
+      "slug": "unforgiven",
+      "title": "Unforgiven",
+      "year": 1992,
+      "rating": 3.5,
+      "ratedOn": "2026-01-26",
+      "letterboxdUri": "https://boxd.it/6Z4"
+    },
+    {
+      "slug": "kidnapped-elizabeth-smart",
+      "title": "Kidnapped: Elizabeth Smart",
+      "year": 2026,
+      "rating": 3.5,
+      "ratedOn": "2026-01-27",
+      "letterboxdUri": "https://boxd.it/ZtaU"
+    },
+    {
+      "slug": "the-black-phone",
+      "title": "The Black Phone",
+      "year": 2021,
+      "rating": 2,
+      "ratedOn": "2026-01-29",
+      "letterboxdUri": "https://boxd.it/sqFE"
+    },
+    {
+      "slug": "casablanca",
+      "title": "Casablanca",
+      "year": 1942,
+      "rating": 5,
+      "ratedOn": "2026-01-29",
+      "letterboxdUri": "https://boxd.it/2aG0"
+    },
+    {
+      "slug": "forevergreen",
+      "title": "Forevergreen",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2026-01-29",
+      "letterboxdUri": "https://boxd.it/UQs8"
+    },
+    {
+      "slug": "retirement-plan",
+      "title": "Retirement Plan",
+      "year": 2024,
+      "rating": 5,
+      "ratedOn": "2026-01-29",
+      "letterboxdUri": "https://boxd.it/OeIK"
+    },
+    {
+      "slug": "jumanji",
+      "title": "Jumanji",
+      "year": 1995,
+      "rating": 3.5,
+      "ratedOn": "2026-02-03",
+      "letterboxdUri": "https://boxd.it/1ZLI"
+    },
+    {
+      "slug": "hamnet",
+      "title": "Hamnet",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2026-02-06",
+      "letterboxdUri": "https://boxd.it/woVy"
+    },
+    {
+      "slug": "phantom-thread",
+      "title": "Phantom Thread",
+      "year": 2017,
+      "rating": 4.5,
+      "ratedOn": "2026-02-07",
+      "letterboxdUri": "https://boxd.it/e4uc"
+    },
+    {
+      "slug": "frailty",
+      "title": "Frailty",
+      "year": 2001,
+      "rating": 4,
+      "ratedOn": "2026-02-10",
+      "letterboxdUri": "https://boxd.it/1Sqe"
+    },
+    {
+      "slug": "moon",
+      "title": "Moon",
+      "year": 2009,
+      "rating": 4,
+      "ratedOn": "2026-02-12",
+      "letterboxdUri": "https://boxd.it/1IGQ"
+    },
+    {
+      "slug": "beyond-a-reasonable-doubt",
+      "title": "Beyond a Reasonable Doubt",
+      "year": 2009,
+      "rating": 4,
+      "ratedOn": "2026-02-13",
+      "letterboxdUri": "https://boxd.it/1wke"
+    },
+    {
+      "slug": "moneyball",
+      "title": "Moneyball",
+      "year": 2011,
+      "rating": 3.5,
+      "ratedOn": "2026-02-15",
+      "letterboxdUri": "https://boxd.it/glS"
+    },
+    {
+      "slug": "sentimental-value",
+      "title": "Sentimental Value",
+      "year": 2025,
+      "rating": 5,
+      "ratedOn": "2026-02-18",
+      "letterboxdUri": "https://boxd.it/GwcG"
+    },
+    {
+      "slug": "good-boy",
+      "title": "Good Boy",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2026-02-24",
+      "letterboxdUri": "https://boxd.it/SC0q"
+    },
+    {
+      "slug": "basic-instinct",
+      "title": "Basic Instinct",
+      "year": 1992,
+      "rating": 2,
+      "ratedOn": "2026-02-24",
+      "letterboxdUri": "https://boxd.it/2asM"
+    },
+    {
+      "slug": "annie-hall",
+      "title": "Annie Hall",
+      "year": 1977,
+      "rating": 2,
+      "ratedOn": "2026-02-25",
+      "letterboxdUri": "https://boxd.it/29M2"
+    },
+    {
+      "slug": "evil-dead-ii",
+      "title": "Evil Dead II",
+      "year": 1987,
+      "rating": 2,
+      "ratedOn": "2026-02-27",
+      "letterboxdUri": "https://boxd.it/29Ge"
+    },
+    {
+      "slug": "cool-runnings",
+      "title": "Cool Runnings",
+      "year": 1993,
+      "rating": 3,
+      "ratedOn": "2026-02-27",
+      "letterboxdUri": "https://boxd.it/29qg"
+    },
+    {
+      "slug": "trap",
+      "title": "Trap",
+      "year": 2024,
+      "rating": 4,
+      "ratedOn": "2026-03-01",
+      "letterboxdUri": "https://boxd.it/D4nK"
+    },
+    {
+      "slug": "twister",
+      "title": "Twister",
+      "year": 1996,
+      "rating": 2.5,
+      "ratedOn": "2026-03-03",
+      "letterboxdUri": "https://boxd.it/29S0"
+    },
+    {
+      "slug": "the-moment",
+      "title": "The Moment",
+      "year": 2026,
+      "rating": 3.5,
+      "ratedOn": "2026-03-06",
+      "letterboxdUri": "https://boxd.it/SCkg"
+    },
+    {
+      "slug": "hard-truths",
+      "title": "Hard Truths",
+      "year": 2024,
+      "rating": 4,
+      "ratedOn": "2026-03-06",
+      "letterboxdUri": "https://boxd.it/CiDq"
+    },
+    {
+      "slug": "the-alabama-solution",
+      "title": "The Alabama Solution",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2026-03-10",
+      "letterboxdUri": "https://boxd.it/Slqc"
+    },
+    {
+      "slug": "fantastic-mr-fox",
+      "title": "Fantastic Mr. Fox",
+      "year": 2009,
+      "rating": 4,
+      "ratedOn": "2026-03-11",
+      "letterboxdUri": "https://boxd.it/1WyQ"
+    },
+    {
+      "slug": "louis-theroux-inside-the-manosphere",
+      "title": "Louis Theroux: Inside the Manosphere",
+      "year": 2026,
+      "rating": 3.5,
+      "ratedOn": "2026-03-13",
+      "letterboxdUri": "https://boxd.it/10VY6"
+    },
+    {
+      "slug": "the-secret-agent",
+      "title": "The Secret Agent",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2026-03-15",
+      "letterboxdUri": "https://boxd.it/KkUE"
+    },
+    {
+      "slug": "juno",
+      "title": "Juno",
+      "year": 2007,
+      "rating": 4.5,
+      "ratedOn": "2026-03-15",
+      "letterboxdUri": "https://boxd.it/210a"
+    },
+    {
+      "slug": "are-you-there-god-it-s-me-margaret",
+      "title": "Are You There God? It's Me, Margaret.",
+      "year": 2023,
+      "rating": 3.5,
+      "ratedOn": "2026-03-15",
+      "letterboxdUri": "https://boxd.it/kiYC"
+    },
+    {
+      "slug": "rosemary-s-baby",
+      "title": "Rosemary's Baby",
+      "year": 1968,
+      "rating": 4,
+      "ratedOn": "2026-03-16",
+      "letterboxdUri": "https://boxd.it/29zM"
+    },
+    {
+      "slug": "the-departed",
+      "title": "The Departed",
+      "year": 2006,
+      "rating": 4.5,
+      "ratedOn": "2026-03-17",
+      "letterboxdUri": "https://boxd.it/28MA"
+    },
+    {
+      "slug": "mysterious-skin",
+      "title": "Mysterious Skin",
+      "year": 2004,
+      "rating": 4.5,
+      "ratedOn": "2026-03-20",
+      "letterboxdUri": "https://boxd.it/1UsG"
+    },
+    {
+      "slug": "birdman-or-the-unexpected-virtue-of-ignorance",
+      "title": "Birdman or (The Unexpected Virtue of Ignorance)",
+      "year": 2014,
+      "rating": 3,
+      "ratedOn": "2026-03-21",
+      "letterboxdUri": "https://boxd.it/5RFA"
+    },
+    {
+      "slug": "the-apartment",
+      "title": "The Apartment",
+      "year": 1960,
+      "rating": 0.5,
+      "ratedOn": "2026-03-22",
+      "letterboxdUri": "https://boxd.it/2aGE"
+    },
+    {
+      "slug": "the-gentlemen",
+      "title": "The Gentlemen",
+      "year": 2019,
+      "rating": 4,
+      "ratedOn": "2026-03-22",
+      "letterboxdUri": "https://boxd.it/iYBQ"
+    },
+    {
+      "slug": "send-help",
+      "title": "Send Help",
+      "year": 2026,
+      "rating": 4,
+      "ratedOn": "2026-03-25",
+      "letterboxdUri": "https://boxd.it/JuhA"
+    },
+    {
+      "slug": "the-help",
+      "title": "The Help",
+      "year": 2011,
+      "rating": 4.5,
+      "ratedOn": "2026-03-26",
+      "letterboxdUri": "https://boxd.it/EDm"
+    },
+    {
+      "slug": "magnolia",
+      "title": "Magnolia",
+      "year": 1999,
+      "rating": 3,
+      "ratedOn": "2026-03-26",
+      "letterboxdUri": "https://boxd.it/2aze"
+    },
+    {
+      "slug": "good-will-hunting",
+      "title": "Good Will Hunting",
+      "year": 1997,
+      "rating": 4.5,
+      "ratedOn": "2026-03-29",
+      "letterboxdUri": "https://boxd.it/2ahY"
+    },
+    {
+      "slug": "searching",
+      "title": "Searching",
+      "year": 2018,
+      "rating": 2.5,
+      "ratedOn": "2026-04-01",
+      "letterboxdUri": "https://boxd.it/hDPg"
+    },
+    {
+      "slug": "heel",
+      "title": "Heel",
+      "year": 2025,
+      "rating": 3.5,
+      "ratedOn": "2026-04-01",
+      "letterboxdUri": "https://boxd.it/R9M4"
+    },
+    {
+      "slug": "serial-mom",
+      "title": "Serial Mom",
+      "year": 1994,
+      "rating": 4,
+      "ratedOn": "2026-04-01",
+      "letterboxdUri": "https://boxd.it/1Tty"
+    },
+    {
+      "slug": "mean-girls",
+      "title": "Mean Girls",
+      "year": 2004,
+      "rating": 5,
+      "ratedOn": "2026-04-02",
+      "letterboxdUri": "https://boxd.it/1VNg"
+    },
+    {
+      "slug": "kung-fu-panda",
+      "title": "Kung Fu Panda",
+      "year": 2008,
+      "rating": 4,
+      "ratedOn": "2026-04-06",
+      "letterboxdUri": "https://boxd.it/1Yws"
+    },
+    {
+      "slug": "polytechnique",
+      "title": "Polytechnique",
+      "year": 2009,
+      "rating": 2.5,
+      "ratedOn": "2026-04-07",
+      "letterboxdUri": "https://boxd.it/1AMG"
+    },
+    {
+      "slug": "psycho",
+      "title": "Psycho",
+      "year": 1960,
+      "rating": 4,
+      "ratedOn": "2026-04-07",
+      "letterboxdUri": "https://boxd.it/2ab2"
+    },
+    {
+      "slug": "game-night",
+      "title": "Game Night",
+      "year": 2018,
+      "rating": 4,
+      "ratedOn": "2026-04-07",
+      "letterboxdUri": "https://boxd.it/fRtu"
+    },
+    {
+      "slug": "nirvanna-the-band-the-show-the-movie",
+      "title": "Nirvanna the Band the Show the Movie",
+      "year": 2025,
+      "rating": 3,
+      "ratedOn": "2026-04-07",
+      "letterboxdUri": "https://boxd.it/HG9a"
+    },
+    {
+      "slug": "flipped",
+      "title": "Flipped",
+      "year": 2010,
+      "rating": 5,
+      "ratedOn": "2026-04-08",
+      "letterboxdUri": "https://boxd.it/Tb8"
+    },
+    {
+      "slug": "the-fall",
+      "title": "The Fall",
+      "year": 2006,
+      "rating": 3.5,
+      "ratedOn": "2026-04-08",
+      "letterboxdUri": "https://boxd.it/1NoM"
+    },
+    {
+      "slug": "the-bride",
+      "title": "The Bride!",
+      "year": 2026,
+      "rating": 1.5,
+      "ratedOn": "2026-04-09",
+      "letterboxdUri": "https://boxd.it/HSw6"
+    },
+    {
+      "slug": "kingsman-the-secret-service",
+      "title": "Kingsman: The Secret Service",
+      "year": 2014,
+      "rating": 3,
+      "ratedOn": "2026-04-10",
+      "letterboxdUri": "https://boxd.it/6dxe"
+    },
+    {
+      "slug": "28-years-later-the-bone-temple",
+      "title": "28 Years Later: The Bone Temple",
+      "year": 2026,
+      "rating": 3,
+      "ratedOn": "2026-04-10",
+      "letterboxdUri": "https://boxd.it/MwlA"
+    },
+    {
+      "slug": "bridget-jones-the-edge-of-reason",
+      "title": "Bridget Jones: The Edge of Reason",
+      "year": 2004,
+      "rating": 3.5,
+      "ratedOn": "2026-04-10",
+      "letterboxdUri": "https://boxd.it/1XMa"
+    },
+    {
+      "slug": "127-hours",
+      "title": "127 Hours",
+      "year": 2010,
+      "rating": 1.5,
+      "ratedOn": "2026-04-12",
+      "letterboxdUri": "https://boxd.it/SLa"
+    },
+    {
+      "slug": "the-conversation",
+      "title": "The Conversation",
+      "year": 1974,
+      "rating": 3,
+      "ratedOn": "2026-04-14",
+      "letterboxdUri": "https://boxd.it/2a38"
+    },
+    {
+      "slug": "project-hail-mary",
+      "title": "Project Hail Mary",
+      "year": 2026,
+      "rating": 4.5,
+      "ratedOn": "2026-04-14",
+      "letterboxdUri": "https://boxd.it/pEeQ"
+    },
+    {
+      "slug": "nomadland",
+      "title": "Nomadland",
+      "year": 2020,
+      "rating": 2,
+      "ratedOn": "2026-04-15",
+      "letterboxdUri": "https://boxd.it/lnRy"
+    },
+    {
+      "slug": "dallas-buyers-club",
+      "title": "Dallas Buyers Club",
+      "year": 2013,
+      "rating": 4,
+      "ratedOn": "2026-04-15",
+      "letterboxdUri": "https://boxd.it/4O8G"
+    },
+    {
+      "slug": "tangled",
+      "title": "Tangled",
+      "year": 2010,
+      "rating": 3.5,
+      "ratedOn": "2026-04-16",
+      "letterboxdUri": "https://boxd.it/15gO"
+    },
+    {
+      "slug": "reservoir-dogs",
+      "title": "Reservoir Dogs",
+      "year": 1992,
+      "rating": 4,
+      "ratedOn": "2026-04-16",
+      "letterboxdUri": "https://boxd.it/2agc"
+    },
+    {
+      "slug": "reminders-of-him",
+      "title": "Reminders of Him",
+      "year": 2026,
+      "rating": 3,
+      "ratedOn": "2026-04-17",
+      "letterboxdUri": "https://boxd.it/QEnW"
+    },
+    {
+      "slug": "the-drama",
+      "title": "The Drama",
+      "year": 2026,
+      "rating": 4,
+      "ratedOn": "2026-04-19",
+      "letterboxdUri": "https://boxd.it/OA2w"
+    },
+    {
+      "slug": "thief",
+      "title": "Thief",
+      "year": 1981,
+      "rating": 3.5,
+      "ratedOn": "2026-04-19",
+      "letterboxdUri": "https://boxd.it/1TEc"
+    },
+    {
+      "slug": "spring-breakers",
+      "title": "Spring Breakers",
+      "year": 2012,
+      "rating": 1.5,
+      "ratedOn": "2026-04-20",
+      "letterboxdUri": "https://boxd.it/421s"
+    },
+    {
+      "slug": "the-last-king-of-scotland",
+      "title": "The Last King of Scotland",
+      "year": 2006,
+      "rating": 3,
+      "ratedOn": "2026-04-20",
+      "letterboxdUri": "https://boxd.it/28FE"
+    },
+    {
+      "slug": "willy-wonka-and-the-chocolate-factory",
+      "title": "Willy Wonka & the Chocolate Factory",
+      "year": 1971,
+      "rating": 3.5,
+      "ratedOn": "2026-04-20",
+      "letterboxdUri": "https://boxd.it/2aLu"
+    },
+    {
+      "slug": "waves",
+      "title": "Waves",
+      "year": 2019,
+      "rating": 4,
+      "ratedOn": "2026-04-21",
+      "letterboxdUri": "https://boxd.it/jpmy"
+    },
+    {
+      "slug": "twin-peaks-fire-walk-with-me",
+      "title": "Twin Peaks: Fire Walk with Me",
+      "year": 1992,
+      "rating": 3,
+      "ratedOn": "2026-04-21",
+      "letterboxdUri": "https://boxd.it/27Qw"
+    },
+    {
+      "slug": "before-sunrise",
+      "title": "Before Sunrise",
+      "year": 1995,
+      "rating": 3.5,
+      "ratedOn": "2026-04-21",
+      "letterboxdUri": "https://boxd.it/2bcU"
+    },
+    {
+      "slug": "before-sunset",
+      "title": "Before Sunset",
+      "year": 2004,
+      "rating": 4,
+      "ratedOn": "2026-04-23",
+      "letterboxdUri": "https://boxd.it/2bcg"
+    },
+    {
+      "slug": "uptown-girls",
+      "title": "Uptown Girls",
+      "year": 2003,
+      "rating": 4,
+      "ratedOn": "2026-04-23",
+      "letterboxdUri": "https://boxd.it/1N64"
+    },
+    {
+      "slug": "moulin-rouge",
+      "title": "Moulin Rouge!",
+      "year": 2001,
+      "rating": 2,
+      "ratedOn": "2026-04-25",
+      "letterboxdUri": "https://boxd.it/29wI"
+    },
+    {
+      "slug": "inside-man",
+      "title": "Inside Man",
+      "year": 2006,
+      "rating": 4,
+      "ratedOn": "2026-04-27",
+      "letterboxdUri": "https://boxd.it/2auS"
+    },
+    {
+      "slug": "arrival",
+      "title": "Arrival",
+      "year": 2016,
+      "rating": 5,
+      "ratedOn": "2026-04-29",
+      "letterboxdUri": "https://boxd.it/aNGk"
+    },
+    {
+      "slug": "the-sixth-sense",
+      "title": "The Sixth Sense",
+      "year": 1999,
+      "rating": 4.5,
+      "ratedOn": "2026-04-30",
+      "letterboxdUri": "https://boxd.it/29Js"
+    },
+    {
+      "slug": "the-happening",
+      "title": "The Happening",
+      "year": 2008,
+      "rating": 3.5,
+      "ratedOn": "2026-04-30",
+      "letterboxdUri": "https://boxd.it/200o"
+    },
+    {
+      "slug": "three-billboards-outside-ebbing-missouri",
+      "title": "Three Billboards Outside Ebbing, Missouri",
+      "year": 2017,
+      "rating": 4.5,
+      "ratedOn": "2026-05-01",
+      "letterboxdUri": "https://boxd.it/ceBS"
+    },
+    {
+      "slug": "the-others",
+      "title": "The Others",
+      "year": 2001,
+      "rating": 4,
+      "ratedOn": "2026-05-04",
+      "letterboxdUri": "https://boxd.it/27Po"
+    },
+    {
+      "slug": "isle-of-dogs",
+      "title": "Isle of Dogs",
+      "year": 2018,
+      "rating": 3,
+      "ratedOn": "2026-05-04",
+      "letterboxdUri": "https://boxd.it/dZrW"
+    }
+  ]
+}
