@@ -1,83 +1,120 @@
-# Who Liked It Better
+# Who Liked It Better?
 
-## Who Liked It Better Interactions
-
-### Core model
+## Core model
 The player sees a movie and guesses who rated it higher: Tara or a celebrity.
-Each question should include:
+
+Each question includes:
 - Movie poster.
 - Movie title.
 - Tara option.
 - Celebrity option.
-- The celebrity name, e.g. Kanye, Martin Scorsese, or another configured celebrity.
+- Celebrity name.
+- Celebrity image where available.
 - Rating reveal after guessing.
 
-If a source image exists for the celebrity/movie pairing, show it.
+The game should feel like a gothic cinema face-off, not a form or quiz module.
 
-Use the exact celebrity names provided in the game data.
-
-### Layout
+## Layout
 Expected mobile layout:
 - Top row with back/navigation and progress.
 - Movie poster.
+- Movie year/category tags if available.
 - Movie title.
 - Prompt: `Who liked it better?`
-- Two large answer buttons:
-  - `Tara`
-  - celebrity name
-- Optional celebrity/source image if supplied
-- Feedback/reveal area after guessing.
+- Two side-by-side answer cards:
+  - Tara
+  - Celebrity
 
-### Guess interaction
+The player should never need to scroll to interact with core game elements.
+
+Core game elements that must stay visible/reachable:
+- movie poster/title
+- both answer choices
+- result feedback after guessing
+- `Next` action after guessing
+
+## Answer cards
+Tara and the celebrity should be presented as equal side-by-side choices.
+
+Expected behaviour:
+- Each answer card is a large tappable button.
+- Celebrity card uses the celebrity image where available.
+- Tara card may use a Tara image, avatar, initials, or styled placeholder depending on available assets.
+- The selected card should have a clear pressed/selected state.
+- Cards must be easy to tap on mobile.
+
+Avoid stacked full-width buttons unless the viewport is too narrow to support side-by-side cards safely.
+
+## Guess interaction
 When the player taps an answer:
-
-Correct guess:
-- Mark the selected answer as correct.
-- Reveal both ratings.
-- Show short success copy.
 - Disable further guessing.
-- Show `Next` or `See Results`.
+- Determine whether the choice is correct.
+- Immediately open a result modal/dialog.
+- Do not render the result below the fold as the main feedback mechanism.
 
-Incorrect guess:
-- Mark the selected answer as incorrect.
-- Reveal both ratings.
-- Show short failure copy.
-- Disable further guessing.
-- Show `Next` or `See Results`.
+## Result modal
+Correct/wrong feedback must appear in a modal or dialog.
 
-### Rating reveal
+The modal should show:
+- Correct or wrong state.
+- Who liked the movie better.
+- Tara’s rating.
+- Celebrity rating.
+- Celebrity name.
+- Celebrity image if available.
+- `Next` or `See Results` action.
+
+The user should not need to scroll to see the result or continue.
+
+Suggested copy style:
+- `You ate.`
+- `No crumbs.`
+- `Taste detected.`
+- `Cinema literacy: confirmed.`
+- `Letterboxd could never.`
+- `Tara supremacy confirmed.`
+- `Not very slay.`
+- `The vibes were incorrect.`
+
+Avoid dry copy such as:
+- `Answer submitted.`
+- `Correct answer selected.`
+- `Progress updated.`
+
+## Rating reveal
 After every guess, reveal:
-- Tara's rating.
+- Tara’s rating.
 - Celebrity rating.
 - Who rated it higher.
-- Optional short explanation if provided in data.
+- Optional explanation if provided in data.
 
-Example reveal structure:
+Example:
 
 ```text
-Tara: 4.5
-Scorsese: 2.0
+Tara: 2.5 stars
+Kid Cudi: 5.0 stars
 
-Tara liked it better.
+Kid Cudi liked it better.
 ```
 
-### Ties
-If Tara and the celebrity gave the same rating:
-- Treat the correct answer as `Tie` only if the game includes a visible tie option.
-- If there is no tie option, avoid tie data.
+## Ties
+Avoid tie data unless the game includes a visible `Tie` option.
+
+If there is no tie option:
+- Do not include tied rating comparisons.
 - Do not silently force a tie into Tara or celebrity.
 
-### Rounds
+## Rounds
 The game can contain multiple movie questions.
 
 Expected behaviour:
-- Show current progress, e.g. `2/10`.
+- Show current progress, e.g. `1/10`.
 - Move one question at a time.
 - Do not reveal future answers early.
 - Preserve progress if persistence exists.
 - Mark the game complete only after the final question/result screen.
 
-### Final results screen
+## Final results screen
 After the last question, show:
 - Result title.
 - Short personal/slangy message.
@@ -86,61 +123,51 @@ After the last question, show:
 - Primary action: `Next Puzzle` if available.
 - Secondary action: `Back to Home`.
 
-Suggested copy style:
-- `You ate.`
-- `No crumbs.`
-- `Taste detected.`
-- `Main character behaviour.`
-- `Cinema literacy: confirmed.`
-- `Tara supremacy confirmed.`
-
-### Movie poster
+## Movie poster
 The poster is required for each question.
 
 Expected behaviour:
 - Display poster prominently.
 - Preserve poster aspect ratio.
 - Do not stretch or crop awkwardly.
+- Rebalance poster size if needed so answer cards and core actions remain usable without scrolling.
 - If poster is missing, show a clear missing-image state.
 
-### Optional celebrity/source image
-If a round has a supplied source image:
-- render it as part of the question or reveal
-- keep the image readable
-- do not hide it behind an extra tap if there is space to show it
-- do not treat it as decorative only
-
-### Data rules
+## Data rules
 Each question should define:
 - id
 - movie title
+- year
 - poster image path
 - Tara rating
 - celebrity name
 - celebrity rating
+- celebrity image path if available
 - correct answer
 - optional explanation
-- optional source image path
-- optional source image alt text
-- optional rating source metadata kept in data for provenance
 
 Example:
 
-```text
+```typescript
 {
-  id: "goodfellas-scorsese",
-  movieTitle: "Goodfellas",
-  posterImage: "/images/games/who-liked-it-better/posters/goodfellas-poster.jpg",
-  taraRating: 4.5,
-  celebrityName: "Martin Scorsese",
+  id: "punch-drunk-love-kid-cudi",
+  movieTitle: "Punch-Drunk Love",
+  year: 2002,
+  posterImage: "/images/games/who-liked-it-better/posters/punch-drunk-love-poster.jpg",
+  taraRating: 2.5,
+  celebrityName: "Kid Cudi",
+  celebrityImage: "/images/games/who-liked-it-better/celebrities/kid-cudi.jpg",
   celebrityRating: 5,
   correctAnswer: "celebrity",
-  explanation: "Scorsese backed himself here, unsurprisingly."
+  explanation: "Kid Cudi liked it better."
 }
 ```
 
-### Mobile requirements
-- Poster is readable but does not push answer buttons too far down.
-- Tara and celebrity answer buttons are large and easy to tap.
-- Rating reveal is clear.
-- Next/result actions are easy to reach.
+## Mobile requirements
+- No scrolling should be required for core gameplay.
+- Poster, title, answer cards, modal feedback, and next action should fit comfortably on a phone.
+- Tara and celebrity answer cards are large and easy to tap.
+- Celebrity image is visible but not so large that it pushes controls off-screen.
+- Result modal must be immediately visible after answering.
+- `Next` action must be visible inside the modal.
+- Preserve the dark/gothic visual style.

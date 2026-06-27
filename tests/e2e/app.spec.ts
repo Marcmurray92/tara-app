@@ -52,11 +52,13 @@ test("who liked it better progress survives a refresh", async ({ page }) => {
   await page.goto("/games/who-liked-it-better");
 
   await page.getByRole("button", { name: "Kid Cudi" }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByText("Kid Cudi liked it better.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
 
   await page.reload();
 
+  await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByText("Kid Cudi liked it better.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
 });

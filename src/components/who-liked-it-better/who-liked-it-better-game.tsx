@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, RotateCcw, Star, Trophy } from "lucide-react";
+import { ArrowLeft, ArrowRight, Home, RotateCcw, Trophy } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
@@ -19,6 +19,7 @@ import {
 import type {
   WhoLikedItBetterChoice,
   WhoLikedItBetterGameData,
+  WhoLikedItBetterImageAsset,
   WhoLikedItBetterProgress
 } from "@/features/who-liked-it-better/game/who-liked-it-better-game.types";
 import {
@@ -36,6 +37,129 @@ function formatRating(value: number) {
 
 function getWinnerLabel(answer: WhoLikedItBetterChoice, celebrityName: string) {
   return answer === "tara" ? "Tara liked it better." : `${celebrityName} liked it better.`;
+}
+
+function getMonogram(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
+function FaceOffArt({
+  image,
+  label,
+  monogram,
+  accent = "accent",
+  onImageError
+}: {
+  image?: WhoLikedItBetterImageAsset | null;
+  label: string;
+  monogram: string;
+  accent?: "accent" | "neutral";
+  onImageError?: () => void;
+}) {
+  if (image) {
+    return (
+      <div className="overflow-hidden rounded-[1rem] border border-white/10 bg-black/25">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          sizes="(max-width: 640px) 40vw, 180px"
+          className="h-20 w-full object-contain"
+          onError={onImageError}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      aria-hidden="true"
+      className={cn(
+        "flex h-20 items-center justify-center rounded-[1rem] border border-white/10 text-[1.9rem] font-display",
+        accent === "accent"
+          ? "bg-[radial-gradient(circle_at_top,_rgba(177,139,255,0.34),_rgba(37,24,58,0.9)_72%)] text-text"
+          : "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.14),_rgba(24,18,35,0.95)_72%)] text-text"
+      )}
+    >
+      {monogram}
+      <span className="sr-only">{label}</span>
+    </div>
+  );
+}
+
+function WhoLikedItBetterResultDialog({
+  open,
+  correct,
+  question,
+  celebrityImage,
+  continueLabel,
+  onContinue
+}: {
+  open: boolean;
+  correct: boolean;
+  question: WhoLikedItBetterGameData["questions"][number];
+  celebrityImage?: WhoLikedItBetterImageAsset | null;
+  continueLabel: string;
+  onContinue: () => void;
+}) {
+  if (!open) {
+    return null;
+  }
+
+  const actionLabel = correct ? "Correct and gorgeous" : "The vibes were incorrect";
+  const celebrationLine = correct ? "Taste detected." : "Not very slay.";
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-[2px]">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="who-liked-it-better-result-title"
+        className="animate-answer-reveal w-full max-w-md rounded-[1.7rem] border border-accent/20 bg-surface-strong p-5 shadow-glow"
+      >
+        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">{actionLabel}</p>
+        <h2 id="who-liked-it-better-result-title" className="mt-2 font-display text-[2rem] leading-none text-text">
+          {getWinnerLabel(question.correctAnswer, question.celebrityName)}
+        </h2>
+        <p className="mt-3 text-sm leading-6 text-muted">{celebrationLine}</p>
+
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="rounded-[1.15rem] border border-white/10 bg-black/20 p-3">
+            <FaceOffArt label="Tara" monogram="T" accent="accent" />
+            <p className="mt-3 text-[0.68rem] uppercase tracking-[0.22em] text-muted">Tara</p>
+            <p className="mt-1 font-display text-[1.35rem] text-text">{formatRating(question.taraRating)}</p>
+          </div>
+          <div className="rounded-[1.15rem] border border-white/10 bg-black/20 p-3">
+            <FaceOffArt
+              image={celebrityImage}
+              label={question.celebrityName}
+              monogram={getMonogram(question.celebrityName)}
+              accent="neutral"
+            />
+            <p className="mt-3 text-[0.68rem] uppercase tracking-[0.22em] text-muted">{question.celebrityName}</p>
+            <p className="mt-1 font-display text-[1.35rem] text-text">{formatRating(question.celebrityRating)}</p>
+          </div>
+        </div>
+
+        {question.explanation ? (
+          <div className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 text-muted">
+            {question.explanation}
+          </div>
+        ) : null}
+
+        <Button className="mt-5 w-full" onClick={onContinue}>
+          {continueLabel}
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 export function WhoLikedItBetterGame({
@@ -69,6 +193,7 @@ export function WhoLikedItBetterGame({
     };
   });
   const [progress, setProgress] = useState<WhoLikedItBetterProgress>(loadState.progress);
+  const [resultsScreenOpen, setResultsScreenOpen] = useState(loadState.completed);
   const [announcement, setAnnouncement] = useState(
     loadState.completed
       ? "Completed rating run restored on this device."
@@ -90,10 +215,11 @@ export function WhoLikedItBetterGame({
     () => (currentQuestion ? getWhoLikedItBetterAnswerRecord(progress, currentQuestion.id) : null),
     [currentQuestion, progress]
   );
-  const showResults = Boolean(progress.completedAt);
-  const visibleSourceImage =
+  const showResults = resultsScreenOpen;
+  const visibleCelebrityImage =
     currentQuestion?.sourceImage && !hiddenSourceImageIds.includes(currentQuestion.id) ? currentQuestion.sourceImage : null;
   const solvedCount = progress.answers.length;
+  const isFinalQuestion = progress.currentQuestionIndex >= gameData.questions.length - 1;
 
   useEffect(() => {
     saveWhoLikedItBetterProgress({
@@ -119,11 +245,17 @@ export function WhoLikedItBetterGame({
     setAnnouncement(
       result.correct
         ? `${getCelebrationCopy("correct", progress.answers.length)}. ${getWinnerLabel(currentQuestion.correctAnswer, currentQuestion.celebrityName)}`
-        : `${getWinnerLabel(currentQuestion.correctAnswer, currentQuestion.celebrityName)}`
+        : `The vibes were incorrect. ${getWinnerLabel(currentQuestion.correctAnswer, currentQuestion.celebrityName)}`
     );
   }
 
   function handleAdvance() {
+    if (progress.completedAt || progress.currentQuestionIndex >= gameData.questions.length - 1) {
+      setResultsScreenOpen(true);
+      setAnnouncement("Final rating summary opened.");
+      return;
+    }
+
     setProgress((currentProgress) => advanceWhoLikedItBetterQuestion(gameData, currentProgress));
     setAnnouncement("Next rating round loaded.");
   }
@@ -131,6 +263,7 @@ export function WhoLikedItBetterGame({
   function handleRestart() {
     clearWhoLikedItBetterProgress(slug, contentVersion);
     setProgress(createWhoLikedItBetterProgress());
+    setResultsScreenOpen(false);
     setAnnouncement("Fresh rating run loaded.");
   }
 
@@ -264,120 +397,103 @@ export function WhoLikedItBetterGame({
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <Card className="border-white/10">
           <CardContent className="space-y-4 p-4 sm:p-5">
-            <div className="overflow-hidden rounded-[1.2rem] border border-white/10 bg-black/25">
-              <Image
-                src={currentQuestion.posterImage.src}
-                alt={currentQuestion.posterImage.alt}
-                width={currentQuestion.posterImage.width}
-                height={currentQuestion.posterImage.height}
-                priority={progress.currentQuestionIndex < 2}
-                sizes="(max-width: 1024px) 100vw, 520px"
-                className="h-auto w-full"
-                onError={() =>
-                  setBrokenPosterQuestionIds((current) =>
-                    current.includes(currentQuestion.id) ? current : [...current, currentQuestion.id]
-                  )
-                }
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2 text-[0.68rem] uppercase tracking-[0.22em] text-muted">
-                <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1">
-                  {currentQuestion.year ?? "Film"}
-                </span>
-                <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1">
-                  Rating face-off
-                </span>
+            <div className="grid grid-cols-[7.75rem_minmax(0,1fr)] gap-4 sm:grid-cols-[9rem_minmax(0,1fr)]">
+              <div className="overflow-hidden self-start rounded-[1.2rem] border border-white/10 bg-black/25">
+                <Image
+                  src={currentQuestion.posterImage.src}
+                  alt={currentQuestion.posterImage.alt}
+                  width={currentQuestion.posterImage.width}
+                  height={currentQuestion.posterImage.height}
+                  priority={progress.currentQuestionIndex < 2}
+                  sizes="(max-width: 640px) 124px, 144px"
+                  className="h-auto w-full"
+                  onError={() =>
+                    setBrokenPosterQuestionIds((current) =>
+                      current.includes(currentQuestion.id) ? current : [...current, currentQuestion.id]
+                    )
+                  }
+                />
               </div>
-              <CardTitle className="text-[1.8rem] leading-tight sm:text-[2.3rem]">{currentQuestion.movieTitle}</CardTitle>
-              <CardDescription className="text-base">Who liked it better?</CardDescription>
+
+              <div className="flex min-w-0 flex-col justify-between gap-3">
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-2 text-[0.68rem] uppercase tracking-[0.22em] text-muted">
+                    <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1">
+                      {currentQuestion.year ?? "Film"}
+                    </span>
+                    <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1">
+                      Rating face-off
+                    </span>
+                  </div>
+                  <CardTitle className="text-[1.75rem] leading-[0.95] sm:text-[2.2rem]">
+                    {currentQuestion.movieTitle}
+                  </CardTitle>
+                  <CardDescription className="text-lg leading-7">Who liked it better?</CardDescription>
+                </div>
+              </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               <Button
                 type="button"
                 onClick={() => handleAnswer("tara")}
                 disabled={Boolean(currentAnswer)}
+                aria-pressed={currentAnswer?.selectedAnswer === "tara"}
                 className={cn(
-                  "h-14 text-base",
+                  "h-auto min-h-[10.5rem] flex-col items-stretch rounded-[1.35rem] border border-white/10 bg-accent/85 p-3 text-left text-base shadow-none",
                   currentAnswer?.selectedAnswer === "tara" && currentAnswer.correct
-                    ? "border border-success/35 bg-success/15"
+                    ? "border-success/35 bg-success/15"
                     : currentAnswer?.selectedAnswer === "tara"
-                      ? "border border-error/35 bg-error/15"
-                      : ""
+                      ? "border-error/35 bg-error/15"
+                      : currentAnswer && currentQuestion.correctAnswer === "tara"
+                        ? "border-success/20 bg-success/10"
+                        : ""
                 )}
               >
-                Tara
+                <FaceOffArt label="Tara" monogram="T" accent="accent" />
+                <div className="mt-3 text-left">
+                  <p className="text-[0.62rem] uppercase tracking-[0.2em] text-white/70">Face-off choice</p>
+                  <p className="mt-1 font-display text-[1.35rem] leading-tight text-white">Tara</p>
+                </div>
               </Button>
               <Button
                 type="button"
                 onClick={() => handleAnswer("celebrity")}
                 disabled={Boolean(currentAnswer)}
-                variant="secondary"
+                aria-pressed={currentAnswer?.selectedAnswer === "celebrity"}
+                variant="outline"
                 className={cn(
-                  "h-14 text-base",
+                  "h-auto min-h-[10.5rem] flex-col items-stretch rounded-[1.35rem] border border-white/10 bg-surface-strong/95 p-3 text-left text-base shadow-none",
                   currentAnswer?.selectedAnswer === "celebrity" && currentAnswer.correct
-                    ? "border border-success/35 bg-success/15"
+                    ? "border-success/35 bg-success/15"
                     : currentAnswer?.selectedAnswer === "celebrity"
-                      ? "border border-error/35 bg-error/15"
-                      : ""
+                      ? "border-error/35 bg-error/15"
+                      : currentAnswer && currentQuestion.correctAnswer === "celebrity"
+                        ? "border-success/20 bg-success/10"
+                        : ""
                 )}
               >
-                {currentQuestion.celebrityName}
+                <FaceOffArt
+                  image={visibleCelebrityImage}
+                  label={currentQuestion.celebrityName}
+                  monogram={getMonogram(currentQuestion.celebrityName)}
+                  accent="neutral"
+                  onImageError={() =>
+                    setHiddenSourceImageIds((current) =>
+                      current.includes(currentQuestion.id) ? current : [...current, currentQuestion.id]
+                    )
+                  }
+                />
+                <div className="mt-3 text-left">
+                  <p className="text-[0.62rem] uppercase tracking-[0.2em] text-muted">Face-off choice</p>
+                  <p className="mt-1 font-display text-[1.35rem] leading-tight text-text">{currentQuestion.celebrityName}</p>
+                </div>
               </Button>
             </div>
-
-            {currentAnswer ? (
-              <div className="space-y-4 rounded-[1.1rem] border border-white/10 bg-black/20 p-4 text-sm leading-6 text-text">
-                <div>
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">
-                    {currentAnswer.correct ? "Correct" : "Not quite"}
-                  </p>
-                  <p className="mt-2 font-display text-[1.35rem] leading-tight">
-                    {getWinnerLabel(currentQuestion.correctAnswer, currentQuestion.celebrityName)}
-                  </p>
-                  <p className="mt-2">
-                    Tara: {formatRating(currentQuestion.taraRating)}
-                    <br />
-                    {currentQuestion.celebrityName}: {formatRating(currentQuestion.celebrityRating)}
-                  </p>
-                  {currentQuestion.explanation ? <p className="mt-2 text-muted">{currentQuestion.explanation}</p> : null}
-                  {currentQuestion.celebrityRatingSource ? (
-                    <p className="mt-2 text-xs uppercase tracking-[0.16em] text-muted">
-                      Source: {currentQuestion.celebrityRatingSource}
-                    </p>
-                  ) : null}
-                </div>
-
-                {visibleSourceImage ? (
-                  <div className="overflow-hidden rounded-[1rem] border border-white/10 bg-black/25">
-                    <Image
-                      src={visibleSourceImage.src}
-                      alt={visibleSourceImage.alt}
-                      width={visibleSourceImage.width}
-                      height={visibleSourceImage.height}
-                      sizes="(max-width: 1024px) 100vw, 600px"
-                      className="h-auto w-full"
-                      onError={() =>
-                        setHiddenSourceImageIds((current) =>
-                          current.includes(currentQuestion.id) ? current : [...current, currentQuestion.id]
-                        )
-                      }
-                    />
-                  </div>
-                ) : null}
-
-                <Button onClick={handleAdvance}>
-                  {progress.currentQuestionIndex >= gameData.questions.length - 1 ? "See Results" : "Next"}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-            ) : null}
           </CardContent>
         </Card>
 
-        <aside className="space-y-4">
+        <aside className="hidden space-y-4 lg:block">
           <BirthdayProgress compact currentGame="who-liked-it-better" />
 
           <Card className="border-white/10">
@@ -397,6 +513,15 @@ export function WhoLikedItBetterGame({
           </Button>
         </aside>
       </div>
+
+      <WhoLikedItBetterResultDialog
+        open={Boolean(currentAnswer)}
+        correct={Boolean(currentAnswer?.correct)}
+        question={currentQuestion}
+        celebrityImage={visibleCelebrityImage}
+        continueLabel={isFinalQuestion ? "See Results" : "Next"}
+        onContinue={handleAdvance}
+      />
 
       <p className="sr-only" aria-live="polite">
         {announcement}
