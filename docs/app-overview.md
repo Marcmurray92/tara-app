@@ -19,6 +19,18 @@ Tara, playing on her phone.
 Home -> choose game/puzzle -> play -> complete -> victory/reward -> next puzzle or Home
 ```
 
+## Home layout
+- The mobile home screen should be a vertical stack of game-type sections.
+- Each section represents one game type:
+  - Crossword
+  - Connections
+  - Movie Review Guess
+  - Who Liked It Better
+- Inside each section, show a horizontally scrollable row of the available individual games for that type.
+- Do not collapse everything into one mixed carousel of top-level game types.
+- The individual cards are the tappable entry points.
+- Keep the section headings visible and the card rows swipeable on mobile.
+
 ## Current/planned game types
 1. Crossword
 2. Connections
@@ -65,3 +77,6 @@ Avoid dry or corporate messaging.
 - Readable text without zooming.
 - No hover-dependent interactions.
 - Game interactions should feel fast and low-friction.
+- Home should feel browseable at a glance:
+  - vertical scan by game type
+  - horizontal swipe within each game-type row

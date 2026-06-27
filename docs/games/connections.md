@@ -1,57 +1,116 @@
 # Connections
 
-## Core model
-The player groups 16 movie titles into 4 hidden categories of 4.
+## Connections Interactions
+
+### Core model
+The player finds 4 hidden groups of 4 related tiles from a 4x4 grid.
+
+The game should feel fast, tactile, and satisfying on mobile.
+
+### Layout
+Expected layout:
+
+- Top row with back/navigation and puzzle status.
+- 4x4 answer grid.
+- Mistakes remaining row.
+- Button row:
+  - Shuffle
+  - Deselect
+  - Submit
+
+### Tile selection
+When the player taps an unselected unsolved tile:
+
+- The tile becomes selected.
+- The selected state is visually obvious.
+- The tile stays in place unless shuffled.
+
+When 4 tiles are selected:
+
+- Further unselected tiles cannot be selected until one is deselected.
+- Submit becomes active.
+- The UI clearly shows the player has selected enough tiles.
+
+### Submit button
+Submit is only active when 4 tiles are selected.
+
+The Submit button should use its background as a progress indicator:
+
+- 0 selected: empty/inactive
+- 1 selected: 25%
+- 2 selected: 50%
+- 3 selected: 75%
+- 4 selected: full/active
+
+### Deselect
+Deselect is only active when at least one tile is selected.
+
+Expected behaviour:
+
+- Clears all selected tiles.
+- Does not affect solved groups, mistakes, tile order, or progress.
+
+### Shuffle
+Shuffle rearranges remaining unsolved tiles.
+
+Expected behaviour:
+
+- Solved groups are not returned to the active grid.
+- Selected state should clear on shuffle.
+- Answer groups do not change.
+- Mistakes, solved count, and progress do not change.
+
+### Incorrect guess
+After an incorrect submitted guess:
+
+- The selected tiles bounce one at a time.
+- Then all selected incorrect tiles briefly shake side-to-side.
+- The selection remains active.
+- Mistakes remaining decreases by 1.
+
+### One-away feedback
+If exactly one of the 4 selected tiles is incorrect:
+
+- Show a small popup: `One Away...`
+- The popup disappears quickly.
+- Feedback appears only after submit, not during selection.
+
+### Correct guess
+When the player submits a correct group:
+
+- The 4 selected tiles visually shoot up into a solved answer row.
+- The solved row shows:
+  - category title
+  - 4 answers in a single comma-separated horizontal list
+- The solved row uses the group's difficulty colour.
+- Each group has a consistent difficulty colour.
+- The solved row should be the same height as one row of the 4x4 grid, so the total layout remains stable.
+
+### Win/loss state
 The game ends when all 4 groups are solved or the player runs out of allowed mistakes.
 
-## Board rules
-- The board shows 16 movie-title tiles.
-- The player can select up to 4 titles at a time.
-- Submitting a correct set solves that group.
-- Submitting an incorrect set uses a mistake.
-- `One away` feedback is allowed when exactly 3 selected titles belong together.
-
-## Win/loss
-The game ends when:
-- all 4 groups are solved, or
-- the player runs out of allowed mistakes
-
 On completion:
-- show whether the player won or lost
-- show the guess composition as an emoji grid
-- mark the puzzle complete if the player won
-- preserve completion after refresh if persistence exists
-- offer:
+
+- Show whether the player won or lost.
+- Show the guess composition as an emoji grid.
+- Mark the puzzle complete if the player won.
+- Completion should persist after refresh if persistence exists.
+- Offer:
   - `Play another Connections`
   - `Back to Home`
 
-## Completion expectations
-### Win
-- Show a clear win state.
-- Show the solved categories.
-- Show the emoji guess grid.
-- Keep the tone playful, personal, and a bit smug.
+Copy can use playful slang such as:
 
-### Loss
-- Show a clear loss state.
-- Reveal the unsolved categories.
-- Show the emoji guess grid.
-- Offer a fast restart path.
+- `Slay.`
+- `You ate.`
+- `No crumbs.`
+- `Actually iconic.`
+- `Main character behaviour.`
+- `Tara supremacy confirmed.`
 
-## Emoji grid
-Use an emoji-grid style summary of the submitted guesses.
-Each row should represent one submitted guess.
-Each square should reflect the category/difficulty colour for the guessed title.
-
-The grid should be readable on mobile and feel like a share-summary style recap, even if it is not literally being shared.
-
-## Mobile UX
-- Keep the full 4x4 board visible without turning the titles into tiny, unusable tap targets.
-- Tile selection should remain obvious.
-- Completion actions should be easy to hit.
-- The emoji recap should not feel buried.
-
-## Data rules
-- Keep groups/categories in data, not hard-coded into the component.
-- Preserve the four-groups-of-four structure.
-- Keep difficulty/category metadata available so the completion recap can render consistently.
+### Mobile requirements
+- Tiles are large enough to tap comfortably.
+- Selected state is clear.
+- Long labels wrap or scale gracefully.
+- Buttons are easy to tap.
+- Win/loss actions do not require precision tapping.

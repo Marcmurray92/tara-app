@@ -127,6 +127,7 @@ export function shuffleConnectionsTiles(progress: ConnectionsProgress, now: stri
 
   return {
     ...markStarted(progress, now),
+    selectedItemIds: [],
     shuffleSeed: nextSeed,
     remainingTileIds: sortTileIds(progress.remainingTileIds, nextSeed)
   };
@@ -238,7 +239,7 @@ export function submitConnectionsSelection({
   return {
     progress: {
       ...nextProgress,
-      selectedItemIds: [],
+      selectedItemIds: lost ? [] : progress.selectedItemIds,
       guessHistory: [
         ...nextProgress.guessHistory,
         {

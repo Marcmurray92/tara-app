@@ -16,10 +16,10 @@ test("connections route lets the player solve a group", async ({ page }) => {
   await page.getByRole("button", { name: "Palm Springs" }).click();
   await page.getByRole("button", { name: "Edge of Tomorrow" }).click();
   await page.getByRole("button", { name: "Happy Death Day" }).click();
-  await page.getByRole("button", { name: /Submit group/i }).click();
+  await page.getByRole("button", { name: /^Submit$/i }).click();
 
-  await expect(page.getByText("Solved: Time loops.")).toBeVisible();
-  await expect(page.getByText("Solved 1/4")).toBeVisible();
+  await expect(page.getByText("Time loops")).toBeVisible();
+  await expect(page.getByText(/Groundhog Day, Palm Springs, Edge of Tomorrow, Happy Death Day/i)).toBeVisible();
 });
 
 test("crossword progress survives a refresh", async ({ page }) => {

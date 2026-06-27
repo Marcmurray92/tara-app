@@ -68,7 +68,7 @@ This plan compares the current app against the new local docs created from Notio
 
 ### Who Liked It Better
 - Mostly aligned.
-- The route, progress model, results flow, home card, and app-wide fourth-game progress wiring now exist.
+- The route, progress model, results flow, home grouping, and app-wide fourth-game progress wiring now exist.
 - Optional source images are rendered on supported rounds.
 - The playable question set now includes the kept Kanye rounds that have Tara matches, with source receipts shown when available.
 - Remaining gap:
@@ -151,7 +151,7 @@ Current app status:
 - Home, registry, progress surfaces, and completion copy now understand four games.
 
 Required work:
-- Recheck ordering only if we later decide the fourth game should sit somewhere else in the home carousel or next-puzzle sequence.
+- Recheck ordering only if we later decide a section should move in the home stack or the next-puzzle sequence.
 
 ## Priority 1: medium gaps
 
