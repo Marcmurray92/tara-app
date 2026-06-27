@@ -1,0 +1,164 @@
+{
+  "generatedAt": "2026-06-27T15:08:10.406Z",
+  "source": {
+    "ratingsCsv": "/Users/marcmurray/Downloads/letterboxd-tarak_42-2026-05-05-15-44-utc/ratings.csv",
+    "reviewsCsv": "/Users/marcmurray/Downloads/letterboxd-tarak_42-2026-05-05-15-44-utc/reviews.csv"
+  },
+  "count": 22,
+  "quotes": [
+    {
+      "slug": "gladiator-ii",
+      "title": "Gladiator II",
+      "year": 2024,
+      "rating": 2.5,
+      "celebrationQuote": "not for me :)"
+    },
+    {
+      "slug": "blue-moon",
+      "title": "Blue Moon",
+      "year": 2025,
+      "rating": 4.5,
+      "celebrationQuote": "<3"
+    },
+    {
+      "slug": "interstellar",
+      "title": "Interstellar",
+      "year": 2014,
+      "rating": 5,
+      "celebrationQuote": "This movie is exactly what it thinks it is! The acting, the score, the emotions... 🤌"
+    },
+    {
+      "slug": "fargo",
+      "title": "Fargo",
+      "year": 1996,
+      "rating": 4,
+      "celebrationQuote": "Aw geez"
+    },
+    {
+      "slug": "marty-supreme",
+      "title": "Marty Supreme",
+      "year": 2025,
+      "rating": 5,
+      "celebrationQuote": "Dream fucking big"
+    },
+    {
+      "slug": "frewaka",
+      "title": "Fréwaka",
+      "year": 2024,
+      "rating": 3,
+      "celebrationQuote": "Glow in the dark Virgin Mary"
+    },
+    {
+      "slug": "a-time-to-kill",
+      "title": "A Time to Kill",
+      "year": 1996,
+      "rating": 4.5,
+      "celebrationQuote": "I get a real buzz off court room dramas"
+    },
+    {
+      "slug": "jaws",
+      "title": "Jaws",
+      "year": 1975,
+      "rating": 2.5,
+      "celebrationQuote": "Expected this to be really tense but it was just a bit boring and everyone was kind of asking for it by going in the water after the first people got killed?"
+    },
+    {
+      "slug": "retirement-plan",
+      "title": "Retirement Plan",
+      "year": 2024,
+      "rating": null,
+      "celebrationQuote": "Ouch"
+    },
+    {
+      "slug": "the-devil-is-busy",
+      "title": "The Devil Is Busy",
+      "year": 2024,
+      "rating": null,
+      "celebrationQuote": "Should win the Oscar but won't because of the political landscape in the US at the amount."
+    },
+    {
+      "slug": "the-voice-of-hind-rajab",
+      "title": "The Voice of Hind Rajab",
+      "year": 2025,
+      "rating": null,
+      "celebrationQuote": "🇵🇸 🇵🇸"
+    },
+    {
+      "slug": "louis-theroux-inside-the-manosphere",
+      "title": "Louis Theroux: Inside the Manosphere",
+      "year": 2026,
+      "rating": 3.5,
+      "celebrationQuote": "How are these men not exhausted?"
+    },
+    {
+      "slug": "the-help",
+      "title": "The Help",
+      "year": 2011,
+      "rating": 4.5,
+      "celebrationQuote": "Allison Janey, Emma Stone and Jessica Chastain are all brilliant in this but Viola Davis and Octavia Spencer steal the show"
+    },
+    {
+      "slug": "paris-texas",
+      "title": "Paris, Texas",
+      "year": 1984,
+      "rating": 5,
+      "celebrationQuote": "Beautiful"
+    },
+    {
+      "slug": "mean-girls",
+      "title": "Mean Girls",
+      "year": 2004,
+      "rating": 5,
+      "celebrationQuote": "Yo yo yo all you sucka MCs ain't got nothing on me, from my grades to my lines you can't touch Kevin G"
+    },
+    {
+      "slug": "flipped",
+      "title": "Flipped",
+      "year": 2010,
+      "rating": 5,
+      "celebrationQuote": "So slept on, can't remember the last time a film made me this emotional. Julie Baker goes straight in as one of my favourite characters of all time"
+    },
+    {
+      "slug": "the-bride",
+      "title": "The Bride!",
+      "year": 2026,
+      "rating": 1.5,
+      "celebrationQuote": "This was bad x"
+    },
+    {
+      "slug": "127-hours",
+      "title": "127 Hours",
+      "year": 2010,
+      "rating": 1.5,
+      "celebrationQuote": "I'm afraid of heights and enclosed spaces so don't know why I thought watching this would be a good idea"
+    },
+    {
+      "slug": "the-last-king-of-scotland",
+      "title": "The Last King of Scotland",
+      "year": 2006,
+      "rating": 3,
+      "celebrationQuote": "Forest Whitaker carried this whole thing"
+    },
+    {
+      "slug": "uptown-girls",
+      "title": "Uptown Girls",
+      "year": 2003,
+      "rating": 4,
+      "celebrationQuote": "Dakota Fanning must be one of the best child actors ever, powerful performance from an 8 year old!!"
+    },
+    {
+      "slug": "arrival",
+      "title": "Arrival",
+      "year": 2016,
+      "rating": 5,
+      "celebrationQuote": "I know Denis is more well known now for his big effects movies like Dune and Blade Runner, but I think he's at his best in his older movies that make you que..."
+    },
+    {
+      "slug": "american-beauty",
+      "title": "American Beauty",
+      "year": 1999,
+      "rating": 5,
+      "celebrationQuote": "Can't describe how much this film means to me, it's pretty much perfect. All the characters are so relatable in their own ways and I just love them 🌹"
+    }
+  ]
+}

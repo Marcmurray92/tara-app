@@ -33,7 +33,7 @@ type SeededCrosswordBlueprint = {
   selectedSourceRowNumbers: number[];
 };
 
-const CONTENT_VERSION = 3;
+const CONTENT_VERSION = 5;
 
 const DEFAULT_COMPLETION = {
   title: "Puzzle complete",
@@ -47,50 +47,50 @@ const CROSSWORD_BLUEPRINTS: SeededCrosswordBlueprint[] = [
     slug: "taras-birthday-crossword",
     title: "Crossword 1",
     subtitle: null,
-    description: "Compact mix of films, places, and short-fill crossings.",
-    selectedSourceRowNumbers: [21, 22, 32, 68, 81, 90, 91, 101, 112, 113, 123, 129, 148, 151, 155, 164, 166, 171]
+    description: "Indie bands, pop lyrics, and a denser little board.",
+    selectedSourceRowNumbers: [80, 82, 89, 95, 105, 134, 170, 172, 179, 185, 190, 194, 196, 213, 216, 218, 220, 227, 242, 243]
   },
   {
     slug: "taras-birthday-crossword-2",
     title: "Crossword 2",
     subtitle: null,
-    description: "Books, TV, and cleaner short answers for steadier solving.",
-    selectedSourceRowNumbers: [12, 27, 37, 77, 94, 95, 100, 107, 110, 115, 120, 137, 138, 142, 144, 145, 160, 174]
+    description: "Lyrics, capitals, and a tighter short-fill mix.",
+    selectedSourceRowNumbers: [32, 69, 111, 120, 122, 125, 156, 167, 174, 177, 184, 186, 187, 191, 195, 215, 233, 237, 238, 241]
   },
   {
     slug: "taras-birthday-crossword-3",
     title: "Crossword 3",
     subtitle: null,
-    description: "A compact grid with TV names, travel clues, and easier crosses.",
-    selectedSourceRowNumbers: [13, 16, 30, 42, 43, 79, 92, 106, 114, 119, 121, 133, 141, 143, 147, 162, 163, 178]
+    description: "Dublin nods, little words, and steadier geography fill.",
+    selectedSourceRowNumbers: [19, 77, 86, 90, 91, 116, 121, 128, 143, 145, 149, 151, 159, 180, 189, 198, 209, 222, 225, 244]
   },
   {
     slug: "taras-birthday-crossword-4",
     title: "Crossword 4",
     subtitle: null,
-    description: "Movie, food, and quote-heavy clues with a tight footprint.",
-    selectedSourceRowNumbers: [24, 33, 73, 80, 93, 99, 102, 105, 111, 117, 122, 124, 140, 152, 156, 165, 168, 179]
+    description: "Cult film bits, capitals, and a few strange little creatures.",
+    selectedSourceRowNumbers: [72, 83, 85, 107, 109, 117, 147, 155, 164, 165, 176, 182, 183, 203, 211, 214, 228, 231, 232, 240]
   },
   {
     slug: "taras-birthday-crossword-5",
     title: "Crossword 5",
     subtitle: null,
-    description: "Irish towns, drinks, quotes, and a few sharper cultural clues.",
-    selectedSourceRowNumbers: [8, 20, 40, 66, 87, 97, 125, 132, 134, 135, 139, 153, 159, 161, 167, 170, 173, 177]
+    description: "Pints, books, pub words, and a stronger Irish thread.",
+    selectedSourceRowNumbers: [68, 73, 81, 93, 115, 124, 132, 137, 152, 157, 166, 171, 178, 199, 206, 212, 219, 223, 229, 235]
   },
   {
     slug: "taras-birthday-crossword-6",
     title: "Crossword 6",
     subtitle: null,
-    description: "Travel, classics, and short fill built for a smaller grid.",
-    selectedSourceRowNumbers: [19, 26, 38, 85, 88, 96, 104, 109, 118, 127, 130, 136, 149, 150, 157, 169, 181, 182]
+    description: "Shorter punchy fill with books, cartoons, and critters.",
+    selectedSourceRowNumbers: [88, 92, 100, 102, 106, 114, 123, 139, 146, 154, 158, 161, 168, 173, 200, 202, 208, 224, 226, 234]
   },
   {
     slug: "taras-birthday-crossword-7",
     title: "Crossword 7",
     subtitle: null,
-    description: "Final compact board with movies, TV, and faster fill words.",
-    selectedSourceRowNumbers: [5, 69, 72, 82, 83, 86, 89, 98, 108, 116, 126, 128, 146, 154, 158, 172, 183, 184]
+    description: "Travel, pints, and a slightly sharper final board.",
+    selectedSourceRowNumbers: [13, 27, 87, 99, 101, 113, 119, 135, 148, 150, 160, 163, 169, 175, 181, 192, 201, 204, 236, 239]
   }
 ];
 
