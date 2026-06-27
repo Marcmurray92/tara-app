@@ -13,23 +13,29 @@ This plan compares the current app against the new local docs created from Notio
 - Implemented games today:
   1. Crossword
   2. Connections
-  3. Guessing Game / Movie Review Guess
-- Not implemented yet:
-  1. Who Liked It Better
+  3. Movie Review Guess
+  4. Who Liked It Better
 - The app is currently in an active playable state with public routes for:
   - `/`
   - `/games/crossword`
   - `/games/crossword/[slug]`
   - `/games/connections`
   - `/games/guessing`
-- There is still no `/games/who-liked-it-better` route.
+  - `/games/who-liked-it-better`
 - Local release validation on this branch:
   - `npm run typecheck` passed
   - `npm run test` passed
   - `npm run build` passed
+- Movie Review Guess now runs as a 3-round saved experience with:
+  - `Easy / Medium / Hard` round labels
+  - 2 mistakes per round
+  - failed-round retry flow
+  - final victory screen
+  - Tara quote delight copy sourced from processed Letterboxd data
 - The current crossword seed now uses seven regenerated 20-clue boards compiled for smaller mobile-friendly grid footprints.
 - A processed Letterboxd data layer now exists for Tara ratings, Tara reviews, Tara quote excerpts, and Who Liked It Better candidate comparisons.
-- The fetched Notion page for `connections.md` was empty, so there is currently no detailed Connections-specific spec beyond the shared rules in `AGENTS.md`.
+- Who Liked It Better now ships as a saved multi-question route using the kept Kanye rounds plus optional source receipts when available.
+- A dedicated local Connections spec now exists in `docs/games/connections.md`, and the game flow can now align against it directly.
 
 ## Alignment summary against the local docs
 
@@ -37,21 +43,37 @@ This plan compares the current app against the new local docs created from Notio
 - Partially aligned.
 - The clue-count target now matches the local docs more closely at 20 clues per puzzle.
 - The mobile-first board size work is in better shape than before.
+- The mobile header now includes the expected back control alongside the timer and menu.
+- The completion dialog now offers `Next Crossword`, `Next Puzzle`, and `Back to Home` where appropriate.
 - Remaining gap:
-  - mobile header still needs the explicit back control described in `docs/games/crossword.md`
-  - completion/navigation copy still needs a focused audit against the doc
+  - completion copy could still use one final tone pass against the doc
 
 ### Connections
-- Partially aligned by shared rules only.
-- The game exists and builds, but the dedicated Connections spec is still effectively missing.
+- Mostly aligned.
+- The game now has a dedicated local spec, saved progress, win/loss completion states, and an emoji-grid summary of submitted guesses.
+- Remaining gap:
+  - do one more device pass to check density and tap comfort on the live mobile board
 
 ### Movie Review Guess
-- Not aligned yet.
-- The current route is playable, but it still runs as the older multi-question text-choice version rather than the 3-round poster-grid experience described in `docs/games/movie-review-guess.md`.
+- Mostly aligned.
+- The route now uses the intended 3-round structure, round persistence, two-mistake loop, round success/failure states, and final victory state.
+- Review screenshots now resolve through the game-specific review asset directory and the answer options already use poster assets from a dedicated poster directory.
+- The shipped format is now the intended simple version:
+  - 3 rounds
+  - `Easy / Medium / Hard`
+  - 4 poster options in a 2x2 grid per round
+- Remaining gap:
+  - the shipped poster set is still a curated placeholder library rather than final poster artwork
+  - the final content pass is now mainly about round curation and deciding whether placeholders are good enough for launch
 
 ### Who Liked It Better
-- Not aligned because it is not implemented yet.
-- The data groundwork now exists, but the route, UI, and progress model still need to be built.
+- Mostly aligned.
+- The route, progress model, results flow, home card, and app-wide fourth-game progress wiring now exist.
+- Optional source images are rendered on supported rounds.
+- The playable question set now includes the kept Kanye rounds that have Tara matches, with source receipts shown when available.
+- Remaining gap:
+  - the current poster art is a generated gothic placeholder set rather than a final curated poster library
+  - the remaining curation call is whether every kept comparison round is fun enough to ship, not whether the app can technically support it
 
 ## Priority 0: major product/spec gaps
 
@@ -65,7 +87,7 @@ Required work:
 - Keep raw Letterboxd exports separate from app-ready data.
 - Continue maintaining the processed files from scriptable inputs rather than hand-editing them ad hoc.
 - Make future game UIs consume these processed files instead of duplicating hard-coded values.
-- Review the low-confidence inferred Kanye candidates before surfacing them in a live game.
+- Recheck low-confidence comparison candidates during curation, but the current fun-first ship set can stay in the playable build.
 
 Likely file areas:
 - `docs/letterboxd-data.md`
@@ -73,51 +95,38 @@ Likely file areas:
 - `scripts/sync-letterboxd-data.mjs`
 - future game seed files that consume the processed data
 
-### 2. Rebuild Movie Review Guess to match the new spec
+### 2. Finish the last Movie Review Guess asset/content pass
 Current app status:
-- The current implementation is a many-question quiz with one review screenshot and four text answer buttons.
-- It does not run as 3 rounds.
-- It does not use poster choices.
-- It does not expose explicit `Easy / Medium / Hard` round labels.
-- It does not have 2 mistakes per round.
-- It does not expose a per-round failure/retry loop.
+- The route now uses a round-based `Easy / Medium / Hard` model with saved progress and final victory flow.
+- Each round already has one review screenshot, four answer options in a 2x2 grid, a visible mistake counter, and retry handling.
+- The current seeded rounds already point at dedicated review and poster asset directories.
 
 Required work:
-- Replace the current `GuessingQuestion`/`GuessingProgress` model with a round-based structure.
-- Support 3 rounds per game.
-- Each round needs:
-  - one review screenshot
-  - 4 poster options in a 2x2 grid
-  - one correct poster + three decoys
-  - a visible difficulty label: `Easy`, `Medium`, or `Hard`
-  - 2 mistakes remaining
-  - per-round win/fail handling
-- Add explicit round success, failed-round, and final-victory states.
-- Keep progress persistence truthful and stable across refreshes.
+- Decide whether the shipped version needs curated final poster artwork, or whether the current placeholder poster set is sufficient.
+- If real poster art is wanted:
+  - replace the placeholder poster files
+  - keep the existing asset paths stable
+- Do one final content pass on which 3 rounds are most fun and best balanced.
 
 Likely file areas:
 - `src/features/guessing/game/*`
 - `src/features/guessing/seed/*`
 - `src/components/guessing/guessing-game.tsx`
 - `src/app/games/guessing/page.tsx`
+- review screenshots under `public/images/games/movie-review-guess/reviews/`
 - poster assets under `public/images/games/movie-review-guess/posters/`
 - tests for the new round model and UI flow
 
 ### 3. Build Who Liked It Better as a fourth game
 Current app status:
-- This game type does not exist in the repo yet.
-- Global game typing, registry, progress, nav, and home cards only support three games.
+- Done in this branch for the playable seeded version.
+- The game route, engine, storage, UI, poster placeholders, kept Kanye rounds, and global progress integration now exist.
 
 Required work:
-- Add a new game type and route.
-- Create game data, schema, progress storage, engine logic, and UI.
-- Build the mobile-first interaction flow from the spec:
-  - poster
-  - movie title
-  - Tara vs celebrity buttons
-  - ratings reveal after every guess
-  - final score/results screen
-- Add persistence if desired, and make sure copy/tone matches the rest of the app.
+- Do a final content curation pass on which candidate rows should ship.
+- Decide whether to replace the placeholder poster set with real poster artwork.
+- Reconfirm whether every kept Kanye row still feels fun enough to keep in the ship set.
+- If admin authoring for this game becomes important, extend the database-backed content pipeline rather than leaving it seed-only.
 
 Likely file areas:
 - `src/features/games/game.types.ts`
@@ -138,13 +147,11 @@ Additional data requirements:
 
 ### 4. Expand cross-app progression from 3 games to 4 games
 Current app status:
-- Progress, registry, and home/game surfacing only know about crossword, connections, and guessing.
+- Done in this branch.
+- Home, registry, progress surfaces, and completion copy now understand four games.
 
 Required work:
-- Update the global progress model to include Who Liked It Better.
-- Update completion logic and final all-games-cleared behaviour.
-- Add the fourth game to the home carousel and any persistent nav that should expose it.
-- Recheck "next puzzle" logic once a fourth game exists.
+- Recheck ordering only if we later decide the fourth game should sit somewhere else in the home carousel or next-puzzle sequence.
 
 ## Priority 1: medium gaps
 
@@ -174,13 +181,11 @@ Likely file areas:
 
 ### 6. Bring Crossword mobile header fully into spec
 Current app status:
-- Mobile crossword currently shows timer and hamburger/menu.
-- The spec expects back button + timer + hamburger.
+- Done in this branch.
+- Mobile crossword now shows back button + timer + hamburger on the compact top row.
 
 Required work:
-- Add an explicit back/home control on the mobile crossword top row.
-- Confirm the back action preserves progress and returns to the right location.
-- Keep the row compact so it does not break the established mobile fit.
+- None unless the interaction needs another round of visual polish after device testing.
 
 Likely file areas:
 - `src/components/crossword/crossword-game.tsx`
@@ -188,15 +193,15 @@ Likely file areas:
 
 ### 7. Audit Crossword completion/navigation against the new doc
 Current app status:
-- Crossword completion already exists and offers onward navigation.
-- Existing data currently routes back to the crossword list or home depending on puzzle content.
+- Mostly done in this branch.
+- The dialog now offers:
+  - next crossword when another seeded grid exists
+  - next puzzle when another game is still incomplete
+  - back to home
 
 Required work:
-- Check whether every crossword completion state clearly offers:
-  - next crossword when appropriate
-  - next puzzle when appropriate
-  - back to home
 - Confirm blank/missing puzzle states use the clearer tone and never render a broken grid.
+- Do a final wording pass on the victory copy if we want it even closer to the doc voice.
 
 Likely file areas:
 - `src/components/crossword/crossword-completion-dialog.tsx`
@@ -205,12 +210,13 @@ Likely file areas:
 
 ### 8. Rename/scope the current Guessing Game more explicitly as Movie Review Guess
 Current app status:
-- The code and UI still use the broader `guessing` naming.
-- The new docs define the game more specifically as Movie Review Guess.
+- Mostly done in this branch.
+- Player-facing labels now use `Movie Review Guess` / `Review Guess`.
+- The internal code namespace remains `guessing`, which is fine unless we want a larger filesystem rename later.
 
 Required work:
-- Decide whether to keep the internal code namespace as `guessing` and only change player-facing labels, or rename both code and UI.
-- At minimum, align player-facing copy and docs.
+- No urgent work required.
+- Only rename the internal code namespace if we later decide the extra churn is worth it.
 
 Likely file areas:
 - `src/features/games/game-registry.ts`
@@ -219,30 +225,30 @@ Likely file areas:
 
 ## Priority 2: documentation and structure gaps
 
-### 9. Fill in the missing Connections-specific spec
+### 9. Keep the Connections implementation aligned with the local spec
 Current app status:
-- `docs/games/connections.md` is only a placeholder because the source Notion page was empty.
+- `docs/games/connections.md` now exists as a real local spec.
 
 Required work:
-- Write or fetch a real Connections-specific spec before doing more focused redesign work there.
-- Until then, preserve current behaviour and use shared AGENTS rules only.
+- Keep the live game flow aligned with that doc:
+  - win or lose after the expected end states
+  - emoji-grid recap on completion
+  - `Play another Connections` and `Back to Home` actions
 
 ### 10. Formalise poster/review asset structure for upcoming game work
 Current app status:
-- Review screenshots live in `public/guessing-reviews/`.
-- There is no fully adopted poster/source-image directory structure for Movie Review Guess or Who Liked It Better.
+- Review screenshots, poster assets, and source evidence now have game-specific directories under `public/images/games/`.
+- A temporary legacy review screenshot copy still exists in `public/guessing-reviews/` while older references are phased out.
 
 Required work:
-- Decide and adopt stable poster and source-image directories before implementing the new poster-heavy specs.
-- Move slowly here: avoid renaming current working assets unless the new implementation actually needs it.
+- Keep new references on the `public/images/games/...` paths.
+- Remove the legacy `public/guessing-reviews/` copy only after we are confident nothing still points at it.
 
 ## Recommended execution order
-1. Decide the final asset/data model for poster-based games.
-2. Rebuild Movie Review Guess around 3 rounds + 4 posters + 2 mistakes.
-3. Add the fourth game type and implement Who Liked It Better with optional source images.
-4. Expand cross-game progress/navigation to 4 games.
-5. Finish the smaller crossword header/completion audit.
-6. Backfill tests and mobile smoke checks for the new game flows.
+1. Curate the final 3 Movie Review Guess rounds and decide whether placeholder posters are good enough for launch.
+2. Do the final candidate curation pass for Who Liked It Better.
+3. Keep the current Connections implementation aligned with the local spec after each UI pass.
+4. Backfill tests and mobile smoke checks for the four current game flows.
 
 ## Validation checklist for the future implementation pass
 - `npm run typecheck`

@@ -1,7 +1,14 @@
 import type { GameType } from "@/features/games/game.types";
 import { readLocalConnectionsStatus } from "@/features/connections/game/connections-storage";
 import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
+import { listSeededCrosswordSummaries } from "@/features/crossword/seed/tara-crosswords";
 import { readLocalGuessingStatus } from "@/features/guessing/game/guessing-storage";
+import { placeholderGuessingContentVersion, placeholderGuessingSlug } from "@/features/guessing/seed/placeholder-guessing";
+import { readLocalWhoLikedItBetterStatus } from "@/features/who-liked-it-better/game/who-liked-it-better-storage";
+import {
+  placeholderWhoLikedItBetterContentVersion,
+  placeholderWhoLikedItBetterSlug
+} from "@/features/who-liked-it-better/seed/placeholder-who-liked-it-better";
 
 export type BirthdayGameStatus = "none" | "in-progress" | "completed";
 
@@ -20,15 +27,10 @@ export type BirthdayProgressSnapshot = {
   allCompleted: boolean;
 };
 
-const CROSSWORD_PROGRESS_TARGETS = [
-  { slug: "taras-birthday-crossword", contentVersion: 3 },
-  { slug: "taras-birthday-crossword-2", contentVersion: 3 },
-  { slug: "taras-birthday-crossword-3", contentVersion: 3 },
-  { slug: "taras-birthday-crossword-4", contentVersion: 3 },
-  { slug: "taras-birthday-crossword-5", contentVersion: 3 },
-  { slug: "taras-birthday-crossword-6", contentVersion: 3 },
-  { slug: "taras-birthday-crossword-7", contentVersion: 3 }
-] as const;
+const CROSSWORD_PROGRESS_TARGETS = listSeededCrosswordSummaries().map((crossword) => ({
+  slug: crossword.slug,
+  contentVersion: crossword.contentVersion
+}));
 
 const BASE_ITEMS: Omit<BirthdayGameProgressItem, "status">[] = [
   {
@@ -47,10 +49,17 @@ const BASE_ITEMS: Omit<BirthdayGameProgressItem, "status">[] = [
   },
   {
     type: "guessing",
-    title: "Guessing Game",
-    shortTitle: "Guessing",
+    title: "Movie Review Guess",
+    shortTitle: "Review Guess",
     href: "/games/guessing",
-    teaser: "Match the review drag to the right film."
+    teaser: "Three review screenshots. Two mistakes each. Pure cinema pressure."
+  },
+  {
+    type: "who-liked-it-better",
+    title: "Who Liked It Better",
+    shortTitle: "Liked It Better",
+    href: "/games/who-liked-it-better",
+    teaser: "Choose whether Tara or the celeb went harder for the film."
   }
 ];
 
@@ -96,9 +105,19 @@ export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
       };
     }
 
+    if (item.type === "who-liked-it-better") {
+      return {
+        ...item,
+        status: readLocalWhoLikedItBetterStatus(
+          placeholderWhoLikedItBetterSlug,
+          placeholderWhoLikedItBetterContentVersion
+        )
+      };
+    }
+
     return {
       ...item,
-      status: readLocalGuessingStatus("tara-movie-guessing", 3)
+      status: readLocalGuessingStatus(placeholderGuessingSlug, placeholderGuessingContentVersion)
     };
   });
 

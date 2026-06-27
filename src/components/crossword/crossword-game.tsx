@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ArrowLeft, Menu, X } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { CrosswordClueList } from "@/components/crossword/crossword-clue-list";
@@ -450,6 +450,12 @@ export function CrosswordGame({
         <div className="flex h-[100svh] flex-col overflow-x-hidden bg-background">
           <div className="safe-top border-b border-white/10 bg-background/95 backdrop-blur">
             <div className="flex items-center justify-between gap-3 px-2 py-1.5">
+              <Button asChild variant="ghost" size="sm" className="h-9 w-9 rounded-full border border-white/10 bg-surface/90 p-0">
+                <TransitionLink href="/games/crossword" direction="back" aria-label="Back to crosswords">
+                  <ArrowLeft className="h-4 w-4" />
+                </TransitionLink>
+              </Button>
+
               <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[0.95rem] font-semibold text-text">
                 {timerLabel}
               </div>
@@ -807,7 +813,13 @@ export function CrosswordGame({
         onConfirm={confirmPendingAction}
       />
 
-      <CrosswordCompletionDialog open={showCompletion} puzzle={puzzle} timeLabel={timerLabel} clueCount={orderedEntries.length} />
+      <CrosswordCompletionDialog
+        open={showCompletion}
+        puzzle={puzzle}
+        slug={slug}
+        timeLabel={timerLabel}
+        clueCount={orderedEntries.length}
+      />
     </div>
   );
 }

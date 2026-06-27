@@ -26,6 +26,8 @@ describe("connections engine", () => {
       groupId: "time-loops"
     });
     expect(result.progress.solvedGroupIds).toEqual(["time-loops"]);
+    expect(result.progress.guessHistory).toHaveLength(1);
+    expect(result.progress.guessHistory[0]?.outcome).toBe("solved");
     expect(result.progress.remainingTileIds).toHaveLength(12);
     expect(result.progress.selectedItemIds).toEqual([]);
   });
@@ -50,6 +52,7 @@ describe("connections engine", () => {
       type: "one-away"
     });
     expect(first.progress.mistakes).toBe(1);
+    expect(first.progress.guessHistory[0]?.outcome).toBe("one-away");
 
     const second = submitConnectionsSelection({
       gameData: placeholderConnectionsGameData,
@@ -64,5 +67,6 @@ describe("connections engine", () => {
       type: "duplicate"
     });
     expect(second.progress.mistakes).toBe(1);
+    expect(second.progress.guessHistory).toHaveLength(1);
   });
 });

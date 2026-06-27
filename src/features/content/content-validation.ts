@@ -5,6 +5,7 @@ import { crosswordSourceDataSchema } from "@/features/crossword/source/crossword
 import { guessingGameSchema } from "@/features/guessing/game/guessing-game.schema";
 import { guessingSourceRowSchema } from "@/features/guessing/source/guessing-source.schema";
 import type { GameType } from "@/features/games/game.types";
+import { whoLikedItBetterGameSchema } from "@/features/who-liked-it-better/game/who-liked-it-better-game.schema";
 
 export function validateSourceData(gameType: GameType, sourceData: unknown) {
   switch (gameType) {
@@ -14,6 +15,8 @@ export function validateSourceData(gameType: GameType, sourceData: unknown) {
       return connectionsSourceRowSchema.array().parse(sourceData);
     case "guessing":
       return guessingSourceRowSchema.array().parse(sourceData);
+    case "who-liked-it-better":
+      return sourceData;
   }
 }
 
@@ -25,5 +28,7 @@ export function validateCompiledData(gameType: GameType, compiledData: unknown) 
       return connectionsGameSchema.parse(compiledData);
     case "guessing":
       return guessingGameSchema.parse(compiledData);
+    case "who-liked-it-better":
+      return whoLikedItBetterGameSchema.parse(compiledData);
   }
 }

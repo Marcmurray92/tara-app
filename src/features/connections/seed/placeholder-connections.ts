@@ -5,7 +5,7 @@ export const placeholderConnectionsTitle = "Connections";
 export const placeholderConnectionsSubtitle = "Four film categories, sixteen titles, and only four mistakes to spend.";
 export const placeholderConnectionsDescription =
   "Group the movie tiles into four hidden sets. Shuffle when you need fresh eyes, and try not to burn through all four mistakes.";
-export const placeholderConnectionsContentVersion = 1;
+export const placeholderConnectionsContentVersion = 2;
 
 export const placeholderConnectionsGameData: ConnectionsGameData = {
   schemaVersion: 1,

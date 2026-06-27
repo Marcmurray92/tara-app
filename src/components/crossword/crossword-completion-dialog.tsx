@@ -6,6 +6,7 @@ import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { Button } from "@/components/ui/button";
+import { listSeededCrosswordSummaries } from "@/features/crossword/seed/tara-crosswords";
 import type { CrosswordCompiledData } from "@/features/crossword/game/crossword-game.types";
 import { getNextBirthdayGame } from "@/features/games/birthday-progress";
 import { getCelebrationCopy } from "@/features/games/celebration-copy";
@@ -13,21 +14,27 @@ import { getCelebrationCopy } from "@/features/games/celebration-copy";
 export function CrosswordCompletionDialog({
   open,
   puzzle,
+  slug,
   timeLabel,
   clueCount
 }: {
   open: boolean;
   puzzle: CrosswordCompiledData;
+  slug: string;
   timeLabel: string;
   clueCount: number;
 }) {
   const snapshot = useBirthdayProgress();
+  const crosswordSummaries = listSeededCrosswordSummaries();
 
   if (!open) {
     return null;
   }
 
   const nextGame = getNextBirthdayGame(snapshot, "crossword");
+  const currentCrosswordIndex = crosswordSummaries.findIndex((crossword) => crossword.slug === slug);
+  const nextCrossword =
+    currentCrosswordIndex >= 0 ? crosswordSummaries[currentCrosswordIndex + 1] ?? null : null;
   const celebrationLine = snapshot.allCompleted ? getCelebrationCopy("final", clueCount) : getCelebrationCopy("complete", clueCount);
 
   return (
@@ -64,7 +71,7 @@ export function CrosswordCompletionDialog({
 
         {snapshot.allCompleted ? (
           <div className="mt-3 rounded-[1rem] border border-accent/20 bg-black/20 px-4 py-3 text-sm leading-6 text-text">
-            All three birthday games are done. The allegations are true: you&apos;re brilliant.
+            All {snapshot.items.length} birthday games are done. The allegations are true: you&apos;re brilliant.
           </div>
         ) : null}
 
@@ -73,14 +80,19 @@ export function CrosswordCompletionDialog({
         </div>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          {nextGame ? (
+          {nextCrossword ? (
             <Button asChild className="sm:w-auto">
-              <TransitionLink href={nextGame.href} direction="forward">Play {nextGame.shortTitle}</TransitionLink>
+              <TransitionLink href={nextCrossword.href} direction="forward">Next Crossword</TransitionLink>
             </Button>
           ) : null}
-          <Button asChild variant={nextGame ? "outline" : "default"} className="sm:w-auto">
-            <TransitionLink href={puzzle.completion.actionHref ?? "/"} direction={nextGame ? "fade" : "back"}>
-              {puzzle.completion.actionLabel ?? "Back home"}
+          {nextGame ? (
+            <Button asChild variant={nextCrossword ? "secondary" : "default"} className="sm:w-auto">
+              <TransitionLink href={nextGame.href} direction="forward">Next Puzzle</TransitionLink>
+            </Button>
+          ) : null}
+          <Button asChild variant={nextCrossword || nextGame ? "outline" : "default"} className="sm:w-auto">
+            <TransitionLink href="/" direction="back">
+              Back to Home
             </TransitionLink>
           </Button>
         </div>

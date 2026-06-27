@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, Circle, CircleDot, Grid2X2, Puzzle, ScanSearch } from "lucide-react";
+import { CheckCircle2, Circle, CircleDot, Grid2X2, Puzzle, ScanSearch, Star } from "lucide-react";
 
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { TransitionLink } from "@/components/ui/transition-link";
@@ -16,6 +16,8 @@ function getIcon(type: GameType) {
       return Grid2X2;
     case "guessing":
       return ScanSearch;
+    case "who-liked-it-better":
+      return Star;
   }
 }
 
@@ -54,7 +56,8 @@ export function BirthdayProgress({
   const previousStatusesRef = useRef<Record<GameType, "none" | "in-progress" | "completed">>({
     crossword: "none",
     connections: "none",
-    guessing: "none"
+    guessing: "none",
+    "who-liked-it-better": "none"
   });
   const [animatedTypes, setAnimatedTypes] = useState<GameType[]>([]);
 
@@ -71,7 +74,8 @@ export function BirthdayProgress({
       {
         crossword: "none",
         connections: "none",
-        guessing: "none"
+        guessing: "none",
+        "who-liked-it-better": "none"
       }
     );
 
@@ -103,7 +107,7 @@ export function BirthdayProgress({
         <div>
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Birthday run</p>
           <p className={cn("mt-1 font-display text-text", compact ? "text-lg" : "text-2xl")}>
-            {snapshot.completedCount}/3 cleared
+            {snapshot.completedCount}/{snapshot.items.length} cleared
           </p>
         </div>
         <div className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-muted">
@@ -111,7 +115,7 @@ export function BirthdayProgress({
         </div>
       </div>
 
-      <div className={cn("grid gap-2.5", compact ? "grid-cols-3" : "sm:grid-cols-3")}>
+      <div className={cn("grid gap-2.5", compact ? "grid-cols-2" : "sm:grid-cols-4")}>
         {snapshot.items.map((item) => {
           const Icon = getIcon(item.type);
           const StatusIcon = getStatusIcon(item.status);
@@ -145,7 +149,7 @@ export function BirthdayProgress({
       </div>
 
       {snapshot.allCompleted ? (
-        <p className="mt-4 text-sm leading-6 text-accent">All three games cleared. The crown remains secure.</p>
+        <p className="mt-4 text-sm leading-6 text-accent">All {snapshot.items.length} games cleared. The crown remains secure.</p>
       ) : null}
     </section>
   );

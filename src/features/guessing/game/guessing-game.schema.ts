@@ -1,48 +1,49 @@
 import { z } from "zod";
 
-const guessingChoiceSchema = z.object({
-  id: z.string(),
-  label: z.string().min(1)
+const guessingImageAssetSchema = z.object({
+  src: z.string().min(1),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  alt: z.string().min(1)
 });
 
-const guessingQuestionSchema = z.object({
+const guessingChoiceSchema = z.object({
   id: z.string(),
-  reviewText: z.string().min(1).optional(),
-  reviewImage: z
-    .object({
-      src: z.string().min(1),
-      width: z.number().int().positive(),
-      height: z.number().int().positive(),
-      alt: z.string().min(1)
-    })
-    .optional(),
+  label: z.string().min(1),
+  year: z.number().int().positive().optional(),
+  posterImage: guessingImageAssetSchema.optional()
+});
+
+const guessingRoundSchema = z.object({
+  id: z.string(),
+  difficulty: z.enum(["Easy", "Medium", "Hard"]),
+  reviewImage: guessingImageAssetSchema,
   choices: z.tuple([
     guessingChoiceSchema,
     guessingChoiceSchema,
     guessingChoiceSchema,
     guessingChoiceSchema
   ]),
-  correctChoiceId: z.string()
+  correctChoiceId: z.string(),
+  celebrationQuote: z.string().nullable().optional()
 });
 
 export const guessingGameSchema = z.object({
-  schemaVersion: z.literal(1),
-  questions: z.array(guessingQuestionSchema)
+  schemaVersion: z.literal(2),
+  rounds: z.tuple([guessingRoundSchema, guessingRoundSchema, guessingRoundSchema])
 });
 
-export const guessingAnswerRecordSchema = z.object({
-  questionId: z.string().min(1),
-  selectedChoiceId: z.string().min(1),
-  correct: z.boolean()
+export const guessingRoundRecordSchema = z.object({
+  roundId: z.string().min(1),
+  attemptedChoiceIds: z.array(z.string().min(1)),
+  result: z.enum(["active", "solved", "failed"]),
+  completedAt: z.string().nullable()
 });
 
 export const guessingProgressSchema = z.object({
-  schemaVersion: z.literal(1),
-  currentQuestionIndex: z.number().int().min(0),
-  answers: z.array(guessingAnswerRecordSchema),
-  score: z.number().int().min(0),
-  streak: z.number().int().min(0),
-  bestStreak: z.number().int().min(0),
+  schemaVersion: z.literal(2),
+  currentRoundIndex: z.number().int().min(0),
+  roundRecords: z.array(guessingRoundRecordSchema),
   startedAt: z.string().nullable(),
   completedAt: z.string().nullable()
 });

@@ -3,9 +3,10 @@ import { expect, test } from "@playwright/test";
 test("homepage renders the three game cards", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "Tara's Birthday Crossword" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Connections" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Guessing Game" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Crossword/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Connections/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Review Guess/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Liked It Better/i })).toBeVisible();
 });
 
 test("connections route lets the player solve a group", async ({ page }) => {
@@ -37,13 +38,27 @@ test("crossword progress survives a refresh", async ({ page }) => {
 test("guessing game progress survives a refresh", async ({ page }) => {
   await page.goto("/games/guessing");
 
-  await page.getByRole("button", { name: "Arrival" }).click();
-  await expect(page.getByText("Correct. Keep the streak warm.")).toBeVisible();
+  await page.getByRole("button", { name: /Mean Girls/i }).click();
+  await expect(page.getByText("Easy complete")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Next Round" })).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByText("Correct. Keep the streak warm.")).toBeVisible();
-  await expect(page.getByText("Score 1/5")).toBeVisible();
+  await expect(page.getByText("Easy complete")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Next Round" })).toBeVisible();
+});
+
+test("who liked it better progress survives a refresh", async ({ page }) => {
+  await page.goto("/games/who-liked-it-better");
+
+  await page.getByRole("button", { name: "Kid Cudi" }).click();
+  await expect(page.getByText("Kid Cudi liked it better.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
+
+  await page.reload();
+
+  await expect(page.getByText("Kid Cudi liked it better.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
 });
 
 test("admin requires login", async ({ page }) => {

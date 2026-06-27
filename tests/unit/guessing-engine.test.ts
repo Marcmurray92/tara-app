@@ -1,50 +1,112 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  advanceGuessingQuestion,
-  answerGuessingQuestion,
+  advanceGuessingRound,
+  answerGuessingRound,
   createGuessingProgress,
-  getGuessingChoiceOrder
+  getCurrentGuessingRoundRecord,
+  getGuessingChoiceOrder,
+  getGuessingMistakesRemaining,
+  retryCurrentGuessingRound
 } from "@/features/guessing/game/guessing-engine";
 import { placeholderGuessingGameData } from "@/features/guessing/seed/placeholder-guessing";
 
 describe("guessing engine", () => {
-  it("returns a stable shuffled order for a question", () => {
-    const question = placeholderGuessingGameData.questions[0];
+  it("returns a stable shuffled order for a round", () => {
+    const round = placeholderGuessingGameData.rounds[0];
 
-    expect(getGuessingChoiceOrder(question)).toEqual(getGuessingChoiceOrder(question));
-    expect(getGuessingChoiceOrder(question).map((choice) => choice.id).sort()).toEqual(
-      question.choices.map((choice) => choice.id).sort()
+    expect(getGuessingChoiceOrder(round)).toEqual(getGuessingChoiceOrder(round));
+    expect(getGuessingChoiceOrder(round).map((choice) => choice.id).sort()).toEqual(
+      round.choices.map((choice) => choice.id).sort()
     );
   });
 
-  it("tracks score, streak, and completion across a round", () => {
-    const gameData = {
-      ...placeholderGuessingGameData,
-      questions: placeholderGuessingGameData.questions.slice(0, 2)
-    };
+  it("tracks mistakes and solves a round without resetting the run", () => {
+    const progress = createGuessingProgress(placeholderGuessingGameData);
 
-    const first = answerGuessingQuestion({
-      gameData,
-      progress: createGuessingProgress(),
-      choiceId: "inside-the-manosphere",
-      now: "2026-06-24T10:00:00.000Z"
+    const firstGuess = answerGuessingRound({
+      gameData: placeholderGuessingGameData,
+      progress,
+      choiceId: "heathers",
+      now: "2026-06-27T18:00:00.000Z"
     });
 
-    expect(first.correct).toBe(true);
-    expect(first.progress.score).toBe(1);
-    expect(first.progress.streak).toBe(1);
+    expect(firstGuess.correct).toBe(false);
+    expect(firstGuess.result).toBe("active");
 
-    const second = answerGuessingQuestion({
-      gameData,
-      progress: advanceGuessingQuestion(gameData, first.progress),
-      choiceId: "jane-eyre",
-      now: "2026-06-24T10:05:00.000Z"
+    const firstRecord = getCurrentGuessingRoundRecord(placeholderGuessingGameData, firstGuess.progress);
+    expect(firstRecord?.attemptedChoiceIds).toEqual(["heathers"]);
+    expect(getGuessingMistakesRemaining(placeholderGuessingGameData.rounds[0], firstRecord!)).toBe(1);
+
+    const solvedGuess = answerGuessingRound({
+      gameData: placeholderGuessingGameData,
+      progress: firstGuess.progress,
+      choiceId: "mean-girls",
+      now: "2026-06-27T18:02:00.000Z"
     });
 
-    expect(second.correct).toBe(false);
-    expect(second.progress.score).toBe(1);
-    expect(second.progress.bestStreak).toBe(1);
-    expect(second.progress.completedAt).toBe("2026-06-24T10:05:00.000Z");
+    expect(solvedGuess.correct).toBe(true);
+    expect(solvedGuess.result).toBe("solved");
+    expect(solvedGuess.progress.completedAt).toBeNull();
+
+    const nextProgress = advanceGuessingRound(placeholderGuessingGameData, solvedGuess.progress);
+    expect(nextProgress.currentRoundIndex).toBe(1);
+  });
+
+  it("fails and retries the current round cleanly", () => {
+    const progress = createGuessingProgress(placeholderGuessingGameData);
+
+    const firstMiss = answerGuessingRound({
+      gameData: placeholderGuessingGameData,
+      progress,
+      choiceId: "heathers",
+      now: "2026-06-27T18:10:00.000Z"
+    });
+
+    const failedRound = answerGuessingRound({
+      gameData: placeholderGuessingGameData,
+      progress: firstMiss.progress,
+      choiceId: "clueless",
+      now: "2026-06-27T18:11:00.000Z"
+    });
+
+    expect(failedRound.correct).toBe(false);
+    expect(failedRound.result).toBe("failed");
+
+    const retried = retryCurrentGuessingRound(placeholderGuessingGameData, failedRound.progress);
+    const currentRecord = getCurrentGuessingRoundRecord(placeholderGuessingGameData, retried);
+
+    expect(currentRecord?.attemptedChoiceIds).toEqual([]);
+    expect(currentRecord?.result).toBe("active");
+  });
+
+  it("marks the full game complete after the hard round is solved", () => {
+    let progress = createGuessingProgress(placeholderGuessingGameData);
+
+    progress = answerGuessingRound({
+      gameData: placeholderGuessingGameData,
+      progress,
+      choiceId: "mean-girls",
+      now: "2026-06-27T18:20:00.000Z"
+    }).progress;
+    progress = advanceGuessingRound(placeholderGuessingGameData, progress);
+
+    progress = answerGuessingRound({
+      gameData: placeholderGuessingGameData,
+      progress,
+      choiceId: "arrival",
+      now: "2026-06-27T18:21:00.000Z"
+    }).progress;
+    progress = advanceGuessingRound(placeholderGuessingGameData, progress);
+
+    const finalRound = answerGuessingRound({
+      gameData: placeholderGuessingGameData,
+      progress,
+      choiceId: "american-beauty",
+      now: "2026-06-27T18:22:00.000Z"
+    });
+
+    expect(finalRound.correct).toBe(true);
+    expect(finalRound.progress.completedAt).toBe("2026-06-27T18:22:00.000Z");
   });
 });

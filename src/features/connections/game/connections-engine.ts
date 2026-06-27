@@ -1,5 +1,6 @@
 import type {
   ConnectionsGameData,
+  ConnectionsGuessRecord,
   ConnectionsGroup,
   ConnectionsProgress,
   ConnectionsSubmitFeedback,
@@ -33,6 +34,18 @@ function sortTileIds(tileIds: string[], seed: number) {
   });
 }
 
+function toGuessKey(tileIds: string[]) {
+  return [...tileIds].sort().join("|");
+}
+
+function asGuessRecordTileIds(tileIds: string[]): ConnectionsGuessRecord["tileIds"] {
+  if (tileIds.length !== 4) {
+    throw new Error("Connections guesses must contain exactly four tile ids.");
+  }
+
+  return [tileIds[0], tileIds[1], tileIds[2], tileIds[3]];
+}
+
 function markStarted(progress: ConnectionsProgress, now: string) {
   if (progress.startedAt) {
     return progress;
@@ -60,10 +73,10 @@ export function createConnectionsProgress(gameData: ConnectionsGameData): Connec
   const tileIds = flattenConnectionsTiles(gameData).map((tile) => tile.id);
 
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     selectedItemIds: [],
     solvedGroupIds: [],
-    submittedGuesses: [],
+    guessHistory: [],
     remainingTileIds: sortTileIds(tileIds, 0),
     mistakes: 0,
     shuffleSeed: 0,
@@ -155,9 +168,9 @@ export function submitConnectionsSelection({
     };
   }
 
-  const guessKey = [...progress.selectedItemIds].sort().join("|");
+  const guessKey = toGuessKey(progress.selectedItemIds);
 
-  if (progress.submittedGuesses.includes(guessKey)) {
+  if (progress.guessHistory.some((guess) => toGuessKey(guess.tileIds) === guessKey)) {
     return {
       progress,
       feedback: {
@@ -198,7 +211,14 @@ export function submitConnectionsSelection({
         ...nextProgress,
         selectedItemIds: [],
         solvedGroupIds,
-        submittedGuesses: [...nextProgress.submittedGuesses, guessKey],
+        guessHistory: [
+          ...nextProgress.guessHistory,
+          {
+            tileIds: asGuessRecordTileIds(progress.selectedItemIds),
+            outcome: "solved",
+            submittedAt: now
+          }
+        ],
         remainingTileIds,
         completedAt: complete ? now : null,
         status: complete ? "won" : "playing"
@@ -213,20 +233,65 @@ export function submitConnectionsSelection({
   const nextMistakes = nextProgress.mistakes + 1;
   const maxSharedGroupCount = Math.max(...groupCounts.values());
   const lost = nextMistakes >= MAX_MISTAKES;
+  const outcome = lost ? "lost" : maxSharedGroupCount === 3 ? "one-away" : "miss";
 
   return {
     progress: {
       ...nextProgress,
       selectedItemIds: [],
-      submittedGuesses: [...nextProgress.submittedGuesses, guessKey],
+      guessHistory: [
+        ...nextProgress.guessHistory,
+        {
+          tileIds: asGuessRecordTileIds(progress.selectedItemIds),
+          outcome,
+          submittedAt: now
+        }
+      ],
       mistakes: nextMistakes,
       completedAt: lost ? now : null,
       status: lost ? "lost" : "playing"
     },
     feedback: {
-      type: lost ? "lost" : maxSharedGroupCount === 3 ? "one-away" : "miss"
+      type: outcome
     }
   };
+}
+
+function getDifficultyEmoji(difficulty?: 1 | 2 | 3 | 4) {
+  switch (difficulty) {
+    case 1:
+      return "🟨";
+    case 2:
+      return "🟩";
+    case 3:
+      return "🟦";
+    case 4:
+      return "🟪";
+    default:
+      return "⬛";
+  }
+}
+
+export function getConnectionsGuessEmojiRows(gameData: ConnectionsGameData, progress: ConnectionsProgress) {
+  const tileMap = new Map(flattenConnectionsTiles(gameData).map((tile) => [tile.id, tile]));
+
+  return progress.guessHistory.map((guess) =>
+    guess.tileIds
+      .map((tileId) => tileMap.get(tileId))
+      .filter((tile): tile is ConnectionsTile => Boolean(tile))
+      .sort((left, right) => {
+        const leftDifficulty = left.difficulty ?? 99;
+        const rightDifficulty = right.difficulty ?? 99;
+
+        if (leftDifficulty === rightDifficulty) {
+          return left.label.localeCompare(right.label);
+        }
+
+        return leftDifficulty - rightDifficulty;
+      })
+      .map((tile) => getDifficultyEmoji(tile.difficulty))
+      .join("")
+  );
 }
 
 export function getConnectionsStatusSummary(progress: ConnectionsProgress) {

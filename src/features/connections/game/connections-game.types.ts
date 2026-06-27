@@ -20,11 +20,19 @@ export type ConnectionsTile = {
 
 export type ConnectionsProgressStatus = "playing" | "won" | "lost";
 
+export type ConnectionsGuessOutcome = "solved" | "one-away" | "miss" | "lost";
+
+export type ConnectionsGuessRecord = {
+  tileIds: [string, string, string, string];
+  outcome: ConnectionsGuessOutcome;
+  submittedAt: string;
+};
+
 export type ConnectionsProgress = {
-  schemaVersion: 1;
+  schemaVersion: 2;
   selectedItemIds: string[];
   solvedGroupIds: string[];
-  submittedGuesses: string[];
+  guessHistory: ConnectionsGuessRecord[];
   remainingTileIds: string[];
   mistakes: number;
   shuffleSeed: number;

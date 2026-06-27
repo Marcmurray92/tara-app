@@ -1,4 +1,4 @@
-import { Grid2X2, Puzzle, ScanSearch } from "lucide-react";
+import { Grid2X2, Puzzle, ScanSearch, Star } from "lucide-react";
 
 import type { GameDefinition, GameType } from "@/features/games/game.types";
 
@@ -25,13 +25,23 @@ export const gameRegistry: GameDefinition[] = [
   },
   {
     type: "guessing",
-    title: "Guessing Game",
-    shortTitle: "Guessing Game",
-    description: "Match lovingly specific movie-review blurbs to the right film, one question at a time.",
+    title: "Movie Review Guess",
+    shortTitle: "Review Guess",
+    description: "Read the Letterboxd screenshot, clock the right poster, and clear Easy, Medium, and Hard.",
     href: "/games/guessing",
     availability: "available",
     icon: ScanSearch,
-    sourceFormatName: "Right Answer / Answer 2 / Answer 3 / Answer 4 / Letterboxed Reviews"
+    sourceFormatName: "Round / Right Answer / Answer 2 / Answer 3 / Answer 4 / Letterboxd Review"
+  },
+  {
+    type: "who-liked-it-better",
+    title: "Who Liked It Better",
+    shortTitle: "Liked It Better",
+    description: "Guess whether Tara or the celeb rated the film higher, then see the receipt.",
+    href: "/games/who-liked-it-better",
+    availability: "available",
+    icon: Star,
+    sourceFormatName: "Movie / Poster / Tara Rating / Celebrity / Celebrity Rating / Optional Source Image"
   }
 ];
 
