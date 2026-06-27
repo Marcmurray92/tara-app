@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, RefreshCw, RotateCcw, Sparkles } from "lucide-react";
+import { Home, RefreshCw, RotateCcw, Sparkles } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
-import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { GameMasthead } from "@/components/games/game-masthead";
 import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
@@ -14,6 +13,7 @@ import {
   clearConnectionsSelection,
   createConnectionsProgress,
   flattenConnectionsTiles,
+  getConnectionsGuessEmojiRows,
   getConnectionsGroupById,
   getRemainingConnectionsGroups,
   getSolvedConnectionsGroups,
@@ -30,7 +30,6 @@ import {
   loadConnectionsProgress,
   saveConnectionsProgress
 } from "@/features/connections/game/connections-storage";
-import { getNextBirthdayGame } from "@/features/games/birthday-progress";
 import { getCelebrationCopy } from "@/features/games/celebration-copy";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils/cn";
@@ -99,9 +98,7 @@ export function ConnectionsGame({
   const [celebratingTileIds, setCelebratingTileIds] = useState<string[]>([]);
   const [boardLocked, setBoardLocked] = useState(false);
 
-  const birthdaySnapshot = useBirthdayProgress();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const nextGame = getNextBirthdayGame(birthdaySnapshot, "connections");
 
   const tileMap = useMemo(() => new Map(flattenConnectionsTiles(gameData).map((tile) => [tile.id, tile])), [gameData]);
   const selectedIds = useMemo(() => new Set(progress.selectedItemIds), [progress.selectedItemIds]);
@@ -120,9 +117,18 @@ export function ConnectionsGame({
     () => getRemainingConnectionsGroups(gameData, progress.solvedGroupIds),
     [gameData, progress.solvedGroupIds]
   );
+  const guessEmojiRows = useMemo(() => getConnectionsGuessEmojiRows(gameData, progress), [gameData, progress]);
   const mistakesLeft = Math.max(0, 4 - progress.mistakes);
   const introHighlightTileId = !progress.startedAt ? unsolvedTiles[0]?.id ?? null : null;
-  const statusLabel = progress.status === "won" ? "Cleared" : progress.startedAt ? "Continue" : "Fresh board";
+  const statusLabel =
+    progress.status === "won"
+      ? "Won"
+      : progress.status === "lost"
+        ? "Lost"
+        : progress.startedAt
+          ? "Continue"
+          : "Fresh board";
+  const canInteract = progress.status === "playing" && !boardLocked;
 
   useEffect(() => {
     saveConnectionsProgress({
@@ -165,7 +171,7 @@ export function ConnectionsGame({
   }
 
   function handleToggle(tileId: string) {
-    if (boardLocked) {
+    if (!canInteract) {
       return;
     }
 
@@ -180,7 +186,7 @@ export function ConnectionsGame({
   }
 
   function handleSubmit() {
-    if (boardLocked) {
+    if (!canInteract) {
       return;
     }
 
@@ -243,7 +249,7 @@ export function ConnectionsGame({
 
     setBoardFeedback("miss");
     setFeedbackTone(result.feedback.type === "lost" ? "error" : "warning");
-    setMessage(result.feedback.type === "lost" ? "That was the fourth miss. The remaining categories are below." : "Not quite. Try another combo.");
+    setMessage(result.feedback.type === "lost" ? "That was the fourth miss. The board is over." : "Not quite. Try another combo.");
   }
 
   function handleRestart() {
@@ -360,7 +366,7 @@ export function ConnectionsGame({
                       key={tile.id}
                       type="button"
                       aria-pressed={selected}
-                      disabled={boardLocked}
+                      disabled={!canInteract}
                       className={cn(
                         "aspect-square min-h-0 rounded-[0.9rem] border px-1.5 py-2 text-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:rounded-[1.25rem] sm:px-4 sm:py-5 sm:text-sm sm:leading-6",
                         "text-[0.72rem] leading-[0.95rem] sm:text-sm",
@@ -383,7 +389,7 @@ export function ConnectionsGame({
                   variant="outline"
                   className="h-10 px-2 text-xs sm:order-2 sm:h-11 sm:px-4 sm:text-sm"
                   onClick={() => updateProgress(shuffleConnectionsTiles(progress, new Date().toISOString()))}
-                  disabled={boardLocked}
+                  disabled={!canInteract}
                 >
                   <RefreshCw className="h-4 w-4" />
                   Shuffle
@@ -392,14 +398,14 @@ export function ConnectionsGame({
                   variant="outline"
                   className="h-10 px-2 text-xs sm:order-3 sm:h-11 sm:px-4 sm:text-sm"
                   onClick={() => updateProgress(clearConnectionsSelection(progress))}
-                  disabled={boardLocked}
+                  disabled={!canInteract}
                 >
                   Deselect
                 </Button>
                 <Button
                   className="h-10 px-2 text-xs sm:order-1 sm:col-span-2 sm:h-11 sm:px-4 sm:text-sm"
                   onClick={handleSubmit}
-                  disabled={progress.selectedItemIds.length !== 4 || progress.status !== "playing" || boardLocked}
+                  disabled={progress.selectedItemIds.length !== 4 || !canInteract}
                 >
                   <Sparkles className="h-4 w-4" />
                   Submit
@@ -432,39 +438,26 @@ export function ConnectionsGame({
             </div>
           </Reveal>
 
-          {progress.status === "lost" ? (
-            <Card className="animate-solved-lift">
+          {progress.status !== "playing" ? (
+            <Card
+              className={cn(
+                "animate-solved-lift",
+                progress.status === "won" ? "border-accent/25" : "border-error/25"
+              )}
+            >
               <CardHeader className="p-4 pb-2 lg:p-6 lg:pb-3">
-                <CardTitle>Remaining answers</CardTitle>
-                <CardDescription>The unsolved categories are revealed after the fourth miss.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 p-4 pt-2 text-sm text-muted lg:p-6 lg:pt-3">
-                {remainingGroups.map((group) => (
-                  <div key={group.id} className={cn("rounded-xl border p-3", difficultyTone(group.difficulty))}>
-                    <p className="font-medium text-text">{group.category}</p>
-                    <p className="mt-1 text-sm leading-6 text-muted">{group.items.join(" • ")}</p>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          ) : null}
-
-          {progress.status === "won" ? (
-            <Card className="animate-solved-lift border-accent/25">
-              <CardHeader className="p-4 pb-2 lg:p-6 lg:pb-3">
-                <CardTitle>Board cleared</CardTitle>
+                <CardTitle>{progress.status === "won" ? "Connections cleared" : "Out of mistakes"}</CardTitle>
                 <CardDescription>
-                  {birthdaySnapshot.allCompleted ? getCelebrationCopy("final", progress.mistakes) : getCelebrationCopy("complete", progress.solvedGroupIds.length)}
+                  {progress.status === "won"
+                    ? `${getCelebrationCopy("complete", progress.solvedGroupIds.length)}. You found all four groups.`
+                    : "The game ends after the fourth miss. Your full guess grid is below."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 p-4 pt-2 lg:p-6 lg:pt-3">
-                {birthdaySnapshot.allCompleted ? (
-                  <div className="rounded-[1rem] border border-accent/25 bg-accent-soft px-4 py-3 text-sm leading-6 text-text">
-                    All three birthday games are done. Another win for women.
-                  </div>
-                ) : null}
-
                 <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted">
+                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
+                    <span className="text-text">{progress.status === "won" ? "You won" : "You lost"}</span>
+                  </span>
                   <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
                     <span className="text-text">{progress.solvedGroupIds.length}</span>
                     <span className="ml-1.5">groups</span>
@@ -475,37 +468,56 @@ export function ConnectionsGame({
                   </span>
                 </div>
 
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {solvedGroups.map((group, index) => (
-                    <div
-                      key={group.id}
-                      className={cn("animate-answer-reveal rounded-[1rem] border px-3 py-3 text-sm leading-6", difficultyTone(group.difficulty))}
-                      style={{ animationDelay: `${index * 70}ms` }}
-                    >
-                      <p className="font-medium text-text">{group.category}</p>
-                      <p className="mt-1 text-muted">{group.items.join(" • ")}</p>
+                {guessEmojiRows.length > 0 ? (
+                  <div className="rounded-[1rem] border border-white/10 bg-black/20 px-4 py-3">
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">Guess grid</p>
+                    <div className="mt-3 font-mono text-lg leading-7 text-text" aria-label="Connections guess emoji grid">
+                      {guessEmojiRows.map((row, index) => (
+                        <div key={`${row}-${index}`}>{row}</div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ) : null}
+
+                {progress.status === "won" ? (
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {solvedGroups.map((group, index) => (
+                      <div
+                        key={group.id}
+                        className={cn(
+                          "animate-answer-reveal rounded-[1rem] border px-3 py-3 text-sm leading-6",
+                          difficultyTone(group.difficulty)
+                        )}
+                        style={{ animationDelay: `${index * 70}ms` }}
+                      >
+                        <p className="font-medium text-text">{group.category}</p>
+                        <p className="mt-1 text-muted">{group.items.join(" • ")}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-3 text-sm text-muted">
+                    {remainingGroups.map((group) => (
+                      <div key={group.id} className={cn("rounded-xl border p-3", difficultyTone(group.difficulty))}>
+                        <p className="font-medium text-text">{group.category}</p>
+                        <p className="mt-1 text-sm leading-6 text-muted">{group.items.join(" • ")}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <BirthdayProgress compact currentGame="connections" />
 
                 <div className="flex flex-col gap-3 sm:flex-row">
-                  {nextGame ? (
-                    <Button asChild className="sm:w-auto">
-                      <TransitionLink href={nextGame.href} direction="forward">
-                        Play {nextGame.shortTitle}
-                        <ArrowRight className="h-4 w-4" />
-                      </TransitionLink>
-                    </Button>
-                  ) : (
-                    <Button asChild className="sm:w-auto">
-                      <TransitionLink href="/" direction="back">Back to all games</TransitionLink>
-                    </Button>
-                  )}
-                  <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
+                  <Button className="sm:w-auto" onClick={handleRestart}>
                     <RotateCcw className="h-4 w-4" />
-                    Play again
+                    Play another Connections
+                  </Button>
+                  <Button asChild variant="outline" className="sm:w-auto">
+                    <TransitionLink href="/" direction="back">
+                      <Home className="h-4 w-4" />
+                      Back to Home
+                    </TransitionLink>
                   </Button>
                 </div>
               </CardContent>

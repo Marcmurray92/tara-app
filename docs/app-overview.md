@@ -28,7 +28,7 @@ Home -> choose game/puzzle -> play -> complete -> victory/reward -> next puzzle 
 ## Current intended shape of Movie Review Guess
 - 3 rounds: `Easy`, `Medium`, `Hard`
 - each round uses one Letterboxd-style review screenshot
-- each round shows a 2x2 poster grid
+- each round shows a 2x2 poster grid with 4 movie options
 - each round allows 2 incorrect guesses before failure
 - after all 3 rounds, the player sees a dedicated final victory screen
 

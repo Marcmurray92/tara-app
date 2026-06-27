@@ -41,7 +41,8 @@ export function HomeGameCards() {
     {
       crossword: "none",
       connections: "none",
-      guessing: "none"
+      guessing: "none",
+      "who-liked-it-better": "none"
     }
   );
 

@@ -20,8 +20,13 @@ const NAV_LINKS = [
   },
   {
     href: "/games/guessing",
-    label: "Guessing Game",
+    label: "Review Guess",
     match: (pathname: string) => pathname.startsWith("/games/guessing")
+  },
+  {
+    href: "/games/who-liked-it-better",
+    label: "Liked It Better",
+    match: (pathname: string) => pathname.startsWith("/games/who-liked-it-better")
   },
   {
     href: "/admin",

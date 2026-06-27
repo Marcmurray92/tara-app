@@ -5,7 +5,7 @@ import type { GameProgressEnvelope } from "@/features/games/progress-envelope";
 import { dispatchBirthdayProgressEvent } from "@/features/games/progress-events";
 
 const STORAGE_PREFIX = "tara30:connections";
-const PROGRESS_SCHEMA_VERSION = 1;
+const PROGRESS_SCHEMA_VERSION = 2;
 
 function hasWindow() {
   return typeof window !== "undefined";

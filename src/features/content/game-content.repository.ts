@@ -6,7 +6,16 @@ import type { GameType } from "@/features/games/game.types";
 import { prisma } from "@/lib/database/prisma";
 
 function toPrismaGameType(gameType: GameType) {
-  return gameType.toUpperCase() as "CROSSWORD" | "CONNECTIONS" | "GUESSING";
+  switch (gameType) {
+    case "crossword":
+      return "CROSSWORD" as const;
+    case "connections":
+      return "CONNECTIONS" as const;
+    case "guessing":
+      return "GUESSING" as const;
+    case "who-liked-it-better":
+      throw new Error("Who Liked It Better is not yet wired into admin database publishing.");
+  }
 }
 
 function fromPrismaGameType(gameType: "CROSSWORD" | "CONNECTIONS" | "GUESSING"): GameType {

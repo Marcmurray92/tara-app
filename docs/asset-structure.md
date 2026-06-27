@@ -10,8 +10,16 @@
 - Show a clear missing-image state rather than a broken layout.
 
 ## Current repo locations
+- `public/images/games/movie-review-guess/reviews/`
+  Active Letterboxd-style review screenshot directory for Movie Review Guess.
+- `public/images/games/movie-review-guess/posters/`
+  Poster-answer assets for Movie Review Guess.
+- `public/images/games/who-liked-it-better/posters/`
+  Poster assets for Who Liked It Better.
+- `public/images/games/who-liked-it-better/source-images/`
+  Optional celebrity/source evidence images for Who Liked It Better.
 - `public/guessing-reviews/`
-  Letterboxd-style review screenshots used by the current Movie Review Guess implementation.
+  Legacy review screenshot copy retained temporarily while older references are phased out.
 - `data/letterboxd/processed/`
   Curated Tara ratings, review text, quote excerpts, and comparison candidates generated from external Letterboxd exports.
 - `public/icons/`
@@ -22,11 +30,14 @@
 ## Data locations tied to assets
 - `src/features/guessing/seed/placeholder-guessing.ts`
   Current review-image mappings for the Movie Review Guess game.
+- `src/features/who-liked-it-better/seed/placeholder-who-liked-it-better.ts`
+  Current poster and optional source-image mappings for Who Liked It Better.
 - `src/features/crossword/seed/`
   Crossword source content and clue-bank data.
 
 ## Recommended game asset locations for new work
 When adding poster-heavy games or expanding existing ones, prefer:
+- `public/images/games/movie-review-guess/reviews/`
 - `public/images/games/movie-review-guess/posters/`
 - `public/images/games/who-liked-it-better/posters/`
 - `public/images/games/who-liked-it-better/source-images/`

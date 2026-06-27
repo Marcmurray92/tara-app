@@ -1,41 +1,46 @@
 export type GuessingChoice = {
   id: string;
   label: string;
+  year?: number;
+  posterImage?: GuessingImageAsset;
 };
 
-export type GuessingReviewImage = {
+export type GuessingImageAsset = {
   src: string;
   width: number;
   height: number;
   alt: string;
 };
 
-export type GuessingQuestion = {
+export type GuessingDifficulty = "Easy" | "Medium" | "Hard";
+
+export type GuessingRound = {
   id: string;
-  reviewText?: string;
-  reviewImage?: GuessingReviewImage;
+  difficulty: GuessingDifficulty;
+  reviewImage: GuessingImageAsset;
   choices: [GuessingChoice, GuessingChoice, GuessingChoice, GuessingChoice];
   correctChoiceId: string;
+  celebrationQuote?: string | null;
 };
 
 export type GuessingGameData = {
-  schemaVersion: 1;
-  questions: GuessingQuestion[];
+  schemaVersion: 2;
+  rounds: [GuessingRound, GuessingRound, GuessingRound];
 };
 
-export type GuessingAnswerRecord = {
-  questionId: string;
-  selectedChoiceId: string;
-  correct: boolean;
+export type GuessingRoundResult = "active" | "solved" | "failed";
+
+export type GuessingRoundRecord = {
+  roundId: string;
+  attemptedChoiceIds: string[];
+  result: GuessingRoundResult;
+  completedAt: string | null;
 };
 
 export type GuessingProgress = {
-  schemaVersion: 1;
-  currentQuestionIndex: number;
-  answers: GuessingAnswerRecord[];
-  score: number;
-  streak: number;
-  bestStreak: number;
+  schemaVersion: 2;
+  currentRoundIndex: number;
+  roundRecords: GuessingRoundRecord[];
   startedAt: string | null;
   completedAt: string | null;
 };

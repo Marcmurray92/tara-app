@@ -11,7 +11,7 @@ Use sources in this order:
 1. Tara's raw Letterboxd export for Tara's own ratings, reviews, dates, and titles
 2. explicit celebrity ratings supplied by Marc
 3. attached celebrity/source images
-4. low-confidence inferred celebrity ratings, only when clearly marked as inferred
+4. low-confidence inferred celebrity ratings when they are still fun, supported by supplied evidence, and worth shipping
 
 Do not invent Tara ratings, Tara review text, or watch dates.
 
@@ -39,14 +39,16 @@ data/
 Keep image evidence out of the raw data folders.
 
 Recommended runtime asset locations:
-- `public/guessing-reviews/`
-  Current Letterboxd-style screenshots already used by Movie Review Guess
+- `public/images/games/movie-review-guess/reviews/`
+  Active Letterboxd-style screenshots for Movie Review Guess
 - `public/images/games/movie-review-guess/posters/`
   Poster answers for the poster-grid version
 - `public/images/games/who-liked-it-better/posters/`
   Movie posters for comparison rounds
 - `public/images/games/who-liked-it-better/source-images/`
   Optional celebrity/source evidence images, e.g. Kanye screenshots
+
+`public/guessing-reviews/` can remain as a temporary legacy copy while older references are removed, but new game data should point at the `public/images/games/...` paths.
 
 ## Matching rules
 - Match Tara titles against the export using title first and year second where possible.
@@ -57,6 +59,7 @@ Recommended runtime asset locations:
   - `ratingSource`
   - `ratingConfidence`
   - `needsReview`
+  - keep this provenance in data even if the player-facing UI does not call it out
 
 ## Review quote rules
 Tara's review text can be reused as delight copy only when it belongs to the correct movie answer.

@@ -122,7 +122,7 @@ Each question should define:
 - optional explanation
 - optional source image path
 - optional source image alt text
-- rating source metadata if the celebrity rating is provisional or inferred
+- optional rating source metadata kept in data for provenance
 
 Example:
 

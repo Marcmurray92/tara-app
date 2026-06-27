@@ -2,8 +2,11 @@ import type {
   GuessingChoice,
   GuessingGameData,
   GuessingProgress,
-  GuessingQuestion
+  GuessingRound,
+  GuessingRoundResult
 } from "@/features/guessing/game/guessing-game.types";
+
+const MAX_GUESSING_MISTAKES = 2;
 
 function hashValue(value: string) {
   let hash = 5381;
@@ -15,23 +18,29 @@ function hashValue(value: string) {
   return hash >>> 0;
 }
 
-export function createGuessingProgress(): GuessingProgress {
+function getWrongAttemptIds(round: GuessingRound, attemptedChoiceIds: string[]) {
+  return attemptedChoiceIds.filter((choiceId) => choiceId !== round.correctChoiceId);
+}
+
+export function createGuessingProgress(gameData: GuessingGameData): GuessingProgress {
   return {
-    schemaVersion: 1,
-    currentQuestionIndex: 0,
-    answers: [],
-    score: 0,
-    streak: 0,
-    bestStreak: 0,
+    schemaVersion: 2,
+    currentRoundIndex: 0,
+    roundRecords: gameData.rounds.map((round) => ({
+      roundId: round.id,
+      attemptedChoiceIds: [],
+      result: "active",
+      completedAt: null
+    })),
     startedAt: null,
     completedAt: null
   };
 }
 
-export function getGuessingChoiceOrder(question: GuessingQuestion): GuessingChoice[] {
-  return [...question.choices].sort((left, right) => {
-    const leftScore = hashValue(`${question.id}:${left.id}`);
-    const rightScore = hashValue(`${question.id}:${right.id}`);
+export function getGuessingChoiceOrder(round: GuessingRound): GuessingChoice[] {
+  return [...round.choices].sort((left, right) => {
+    const leftScore = hashValue(`${round.id}:${left.id}`);
+    const rightScore = hashValue(`${round.id}:${right.id}`);
 
     if (leftScore === rightScore) {
       return left.id.localeCompare(right.id);
@@ -41,11 +50,30 @@ export function getGuessingChoiceOrder(question: GuessingQuestion): GuessingChoi
   });
 }
 
-export function getCurrentGuessingQuestion(gameData: GuessingGameData, progress: GuessingProgress) {
-  return gameData.questions[progress.currentQuestionIndex] ?? null;
+export function getCurrentGuessingRound(gameData: GuessingGameData, progress: GuessingProgress) {
+  return gameData.rounds[progress.currentRoundIndex] ?? null;
 }
 
-export function answerGuessingQuestion({
+export function getCurrentGuessingRoundRecord(gameData: GuessingGameData, progress: GuessingProgress) {
+  const round = getCurrentGuessingRound(gameData, progress);
+
+  if (!round) {
+    return null;
+  }
+
+  return progress.roundRecords.find((record) => record.roundId === round.id) ?? null;
+}
+
+export function getGuessingMistakesRemaining(
+  round: GuessingRound,
+  progressRecord: {
+    attemptedChoiceIds: string[];
+  }
+) {
+  return Math.max(0, MAX_GUESSING_MISTAKES - getWrongAttemptIds(round, progressRecord.attemptedChoiceIds).length);
+}
+
+export function answerGuessingRound({
   gameData,
   progress,
   choiceId,
@@ -56,61 +84,83 @@ export function answerGuessingQuestion({
   choiceId: string;
   now: string;
 }) {
-  const question = getCurrentGuessingQuestion(gameData, progress);
+  const round = getCurrentGuessingRound(gameData, progress);
+  const record = getCurrentGuessingRoundRecord(gameData, progress);
 
-  if (!question || progress.completedAt || progress.answers.some((answer) => answer.questionId === question.id)) {
+  if (!round || !record || progress.completedAt || record.result !== "active" || record.attemptedChoiceIds.includes(choiceId)) {
     return {
       progress,
-      correct: false
+      correct: false,
+      result: record?.result ?? "active"
     };
   }
 
-  const correct = question.correctChoiceId === choiceId;
-  const streak = correct ? progress.streak + 1 : 0;
-  const answers = [
-    ...progress.answers,
-    {
-      questionId: question.id,
-      selectedChoiceId: choiceId,
-      correct
-    }
-  ];
-  const complete = answers.length === gameData.questions.length;
+  const correct = round.correctChoiceId === choiceId;
+  const attemptedChoiceIds = [...record.attemptedChoiceIds, choiceId];
+  const mistakesRemaining = getGuessingMistakesRemaining(round, { attemptedChoiceIds });
+  const result: GuessingRoundResult = correct ? "solved" : mistakesRemaining === 0 ? "failed" : "active";
+  const roundRecords: GuessingProgress["roundRecords"] = progress.roundRecords.map((existingRecord) =>
+    existingRecord.roundId === round.id
+      ? {
+          ...existingRecord,
+          attemptedChoiceIds,
+          result,
+          completedAt: result === "active" ? null : now
+        }
+      : existingRecord
+  );
+  const completed = correct && progress.currentRoundIndex === gameData.rounds.length - 1;
 
   return {
     progress: {
       ...progress,
-      answers,
-      score: progress.score + (correct ? 1 : 0),
-      streak,
-      bestStreak: Math.max(progress.bestStreak, streak),
+      roundRecords,
       startedAt: progress.startedAt ?? now,
-      completedAt: complete ? now : null
+      completedAt: completed ? now : null
     },
-    correct
+    correct,
+    result
   };
 }
 
-export function advanceGuessingQuestion(gameData: GuessingGameData, progress: GuessingProgress) {
-  const question = getCurrentGuessingQuestion(gameData, progress);
+export function advanceGuessingRound(gameData: GuessingGameData, progress: GuessingProgress) {
+  const record = getCurrentGuessingRoundRecord(gameData, progress);
 
-  if (!question || progress.completedAt) {
+  if (!record || progress.completedAt || record.result !== "solved") {
     return progress;
   }
 
-  const answered = progress.answers.some((answer) => answer.questionId === question.id);
-  if (!answered) {
+  if (progress.currentRoundIndex >= gameData.rounds.length - 1) {
     return progress;
   }
 
   return {
     ...progress,
-    currentQuestionIndex: Math.min(progress.currentQuestionIndex + 1, gameData.questions.length - 1)
+    currentRoundIndex: Math.min(progress.currentRoundIndex + 1, gameData.rounds.length - 1)
   };
 }
 
-export function getGuessingAnswerRecord(progress: GuessingProgress, questionId: string) {
-  return progress.answers.find((answer) => answer.questionId === questionId) ?? null;
+export function retryCurrentGuessingRound(gameData: GuessingGameData, progress: GuessingProgress) {
+  const round = getCurrentGuessingRound(gameData, progress);
+
+  if (!round) {
+    return progress;
+  }
+
+  return {
+    ...progress,
+    completedAt: null,
+    roundRecords: progress.roundRecords.map((record) =>
+      record.roundId === round.id
+        ? {
+            ...record,
+            attemptedChoiceIds: [],
+            result: "active" as GuessingRoundResult,
+            completedAt: null
+          }
+        : record
+    )
+  };
 }
 
 export function getGuessingStatusSummary(progress: GuessingProgress) {
