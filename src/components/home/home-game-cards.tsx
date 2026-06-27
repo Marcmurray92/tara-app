@@ -1,26 +1,72 @@
 "use client";
 
-import { CheckCircle2, Circle, CircleDot } from "lucide-react";
+import {
+  CheckCircle2,
+  Circle,
+  CircleDot,
+  Grid2X2,
+  Puzzle,
+  ScanSearch,
+  Star,
+  type LucideIcon
+} from "lucide-react";
 
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
-import { gameRegistry } from "@/features/games/game-registry";
+import { loadConnectionsProgress } from "@/features/connections/game/connections-storage";
+import {
+  placeholderConnectionsContentVersion,
+  placeholderConnectionsGameData,
+  placeholderConnectionsSlug
+} from "@/features/connections/seed/placeholder-connections";
+import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
+import { loadGuessingProgress } from "@/features/guessing/game/guessing-storage";
+import {
+  placeholderGuessingContentVersion,
+  placeholderGuessingGameData,
+  placeholderGuessingSlug
+} from "@/features/guessing/seed/placeholder-guessing";
 import type { GameType } from "@/features/games/game.types";
+import { loadWhoLikedItBetterProgress } from "@/features/who-liked-it-better/game/who-liked-it-better-storage";
+import {
+  placeholderWhoLikedItBetterContentVersion,
+  placeholderWhoLikedItBetterGameData,
+  placeholderWhoLikedItBetterSlug
+} from "@/features/who-liked-it-better/seed/placeholder-who-liked-it-better";
 import { cn } from "@/lib/utils/cn";
 
-function getStatusCopy(status: "none" | "in-progress" | "completed") {
-  switch (status) {
-    case "completed":
-      return "Completed";
-    case "in-progress":
-      return "In progress";
-    default:
-      return "Not started";
-  }
-}
+type HomeCrosswordSummary = {
+  slug: string;
+  href: string;
+  title: string;
+  subtitle?: string | null;
+  description?: string | null;
+  contentVersion: number;
+  clueCount: number;
+};
 
-function getStatusIcon(status: "none" | "in-progress" | "completed") {
+type HomeCardStatus = "none" | "in-progress" | "completed";
+
+type HomeSectionCard = {
+  id: string;
+  href: string;
+  title: string;
+  description?: string | null;
+  meta: string;
+  badge: string;
+  status: HomeCardStatus;
+};
+
+type HomeSection = {
+  type: GameType;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  items: HomeSectionCard[];
+};
+
+function getStatusIcon(status: HomeCardStatus) {
   switch (status) {
     case "completed":
       return CheckCircle2;
@@ -31,20 +77,176 @@ function getStatusIcon(status: "none" | "in-progress" | "completed") {
   }
 }
 
-export function HomeGameCards() {
-  const snapshot = useBirthdayProgress();
-  const statusByType = snapshot.items.reduce<Record<GameType, "none" | "in-progress" | "completed">>(
-    (carry, item) => {
-      carry[item.type] = item.status;
-      return carry;
+function getCrosswordBadge(status: HomeCardStatus) {
+  switch (status) {
+    case "completed":
+      return "Finished";
+    case "in-progress":
+      return "In progress";
+    default:
+      return "Not started";
+  }
+}
+
+function getConnectionsBadge() {
+  const progress = loadConnectionsProgress(
+    placeholderConnectionsSlug,
+    placeholderConnectionsContentVersion
+  );
+
+  if (!progress) {
+    return {
+      badge: "Not started",
+      status: "none" as const
+    };
+  }
+
+  if (progress.status === "won") {
+    return {
+      badge: "Finished",
+      status: "completed" as const
+    };
+  }
+
+  return {
+    badge: `${progress.solvedGroupIds.length}/${placeholderConnectionsGameData.groups.length} solved`,
+    status: "in-progress" as const
+  };
+}
+
+function getGuessingBadge() {
+  const progress = loadGuessingProgress(placeholderGuessingSlug, placeholderGuessingContentVersion);
+
+  if (!progress) {
+    return {
+      badge: "Not started",
+      status: "none" as const
+    };
+  }
+
+  const solvedCount = progress.roundRecords.filter((record) => record.result === "solved").length;
+
+  if (progress.completedAt) {
+    return {
+      badge: `${placeholderGuessingGameData.rounds.length}/${placeholderGuessingGameData.rounds.length} cleared`,
+      status: "completed" as const
+    };
+  }
+
+  return {
+    badge: `${solvedCount}/${placeholderGuessingGameData.rounds.length} cleared`,
+    status: "in-progress" as const
+  };
+}
+
+function getWhoLikedBadge() {
+  const progress = loadWhoLikedItBetterProgress(
+    placeholderWhoLikedItBetterSlug,
+    placeholderWhoLikedItBetterContentVersion
+  );
+
+  if (!progress) {
+    return {
+      badge: "Not started",
+      status: "none" as const
+    };
+  }
+
+  if (progress.completedAt) {
+    return {
+      badge: `${placeholderWhoLikedItBetterGameData.questions.length}/${placeholderWhoLikedItBetterGameData.questions.length} answered`,
+      status: "completed" as const
+    };
+  }
+
+  return {
+    badge: `${progress.answers.length}/${placeholderWhoLikedItBetterGameData.questions.length} answered`,
+    status: "in-progress" as const
+  };
+}
+
+function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
+  const connectionsState = getConnectionsBadge();
+  const guessingState = getGuessingBadge();
+  const whoLikedState = getWhoLikedBadge();
+
+  return [
+    {
+      type: "crossword",
+      title: "Crossword",
+      description: "Pick any grid and swipe across the full set.",
+      icon: Puzzle,
+      items: crosswords.map((crossword) => {
+        const status = readLocalCrosswordStatus(crossword.slug, crossword.contentVersion);
+
+        return {
+          id: crossword.slug,
+          href: crossword.href,
+          title: crossword.title,
+          description: crossword.description,
+          meta: `${crossword.clueCount} clues`,
+          badge: getCrosswordBadge(status),
+          status
+        };
+      })
     },
     {
-      crossword: "none",
-      connections: "none",
-      guessing: "none",
-      "who-liked-it-better": "none"
+      type: "connections",
+      title: "Connections",
+      description: "Each board gets its own card and its own progress.",
+      icon: Grid2X2,
+      items: [
+        {
+          id: placeholderConnectionsSlug,
+          href: "/games/connections",
+          title: "Board 1",
+          description: "Four hidden movie groups.",
+          meta: `${placeholderConnectionsGameData.groups.length} groups`,
+          badge: connectionsState.badge,
+          status: connectionsState.status
+        }
+      ]
+    },
+    {
+      type: "guessing",
+      title: "Movie Review Guess",
+      description: "Three rounds, one review screenshot at a time.",
+      icon: ScanSearch,
+      items: [
+        {
+          id: placeholderGuessingSlug,
+          href: "/games/guessing",
+          title: "Review Set 1",
+          description: "Easy, Medium, Hard.",
+          meta: `${placeholderGuessingGameData.rounds.length} rounds`,
+          badge: guessingState.badge,
+          status: guessingState.status
+        }
+      ]
+    },
+    {
+      type: "who-liked-it-better",
+      title: "Who Liked It Better",
+      description: "Swipe into the Tara-versus-celeb rating run.",
+      icon: Star,
+      items: [
+        {
+          id: placeholderWhoLikedItBetterSlug,
+          href: "/games/who-liked-it-better",
+          title: "Ratings Set 1",
+          description: "Tara versus the celebs.",
+          meta: `${placeholderWhoLikedItBetterGameData.questions.length} questions`,
+          badge: whoLikedState.badge,
+          status: whoLikedState.status
+        }
+      ]
     }
-  );
+  ];
+}
+
+export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary[] }) {
+  useBirthdayProgress();
+  const sections = buildHomeSections(crosswords);
 
   return (
     <div className="w-full px-3 py-4 sm:px-6">
@@ -52,54 +254,77 @@ export function HomeGameCards() {
         Tara&apos;s birthday games
       </h1>
 
-      <div className="overflow-x-auto">
-        <div className="flex snap-x snap-mandatory gap-3 pb-1">
-          {gameRegistry.map((game, index) => {
-            const Icon = game.icon;
-            const status = statusByType[game.type];
-            const StatusIcon = getStatusIcon(status);
+      <div className="space-y-7 sm:space-y-8">
+        {sections.map((section, index) => {
+          const Icon = section.icon;
 
-            return (
-              <Reveal
-                key={game.type}
-                delay={90 + index * 45}
-                className="w-[calc(100vw-1.5rem)] shrink-0 snap-center sm:w-[24rem]"
-              >
-                <TransitionLink
-                  href={game.href}
-                  direction="forward"
-                  aria-label={`${game.title}. ${getStatusCopy(status)}.`}
-                  className={cn(
-                    "flex min-h-[11rem] w-full flex-col items-center justify-center gap-4 rounded-[1.5rem] border bg-surface/90 px-6 text-center transition hover:border-accent/45 hover:bg-surface-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
-                    status === "completed"
-                      ? "animate-status-bloom border-accent/35 bg-accent-soft/70"
-                      : status === "in-progress"
-                        ? "border-accent/20"
-                        : "border-white/10"
-                  )}
-                >
-                  <span className="inline-flex h-16 w-16 items-center justify-center rounded-[1.35rem] border border-accent/25 bg-accent-soft text-accent">
-                    <Icon className="h-7 w-7" />
-                  </span>
-                  <span className="font-display text-3xl leading-tight text-text">{game.shortTitle}</span>
-                  <span
-                    className={cn(
-                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[0.68rem] uppercase tracking-[0.22em]",
-                      status === "completed"
-                        ? "border-accent/25 bg-black/20 text-text"
-                        : status === "in-progress"
-                          ? "border-accent/20 bg-accent-soft text-text"
-                          : "border-white/10 bg-black/20 text-muted"
-                    )}
-                  >
-                    <StatusIcon className="h-3.5 w-3.5" />
-                    {getStatusCopy(status)}
-                  </span>
-                </TransitionLink>
-              </Reveal>
-            );
-          })}
-        </div>
+          return (
+            <Reveal key={section.type} delay={70 + index * 45}>
+              <section className="space-y-3" aria-label={section.title}>
+                <div className="space-y-1 px-1">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-[1rem] border border-accent/20 bg-accent-soft text-accent">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h2 className="font-display text-[2.2rem] leading-none text-text sm:text-[2.6rem]">
+                      {section.title}
+                    </h2>
+                  </div>
+                  <p className="max-w-[34rem] text-sm leading-6 text-muted">{section.description}</p>
+                </div>
+
+                <div className="-mx-3 overflow-x-auto px-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
+                  <div className="flex snap-x snap-mandatory gap-3 pb-1">
+                    {section.items.map((item) => {
+                      const StatusIcon = getStatusIcon(item.status);
+
+                      return (
+                        <TransitionLink
+                          key={item.id}
+                          href={item.href}
+                          direction="forward"
+                          aria-label={`${section.title}: ${item.title}. ${item.badge}.`}
+                          className={cn(
+                            "flex min-h-[11.25rem] w-[15.75rem] shrink-0 snap-start flex-col rounded-[1.35rem] border p-4 transition hover:border-accent/45 hover:bg-surface-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:w-[17.5rem]",
+                            item.status === "completed"
+                              ? "animate-status-bloom border-accent/30 bg-accent-soft/70"
+                              : item.status === "in-progress"
+                                ? "border-accent/20 bg-surface/95"
+                                : "border-white/10 bg-surface/90"
+                          )}
+                        >
+                          <div className="flex items-start justify-end">
+                            <span
+                              className={cn(
+                                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em]",
+                                item.status === "completed"
+                                  ? "border-accent/25 bg-black/20 text-text"
+                                  : item.status === "in-progress"
+                                    ? "border-accent/20 bg-accent-soft text-text"
+                                    : "border-white/10 bg-black/20 text-muted"
+                              )}
+                            >
+                              <StatusIcon className="h-3.5 w-3.5" />
+                              {item.badge}
+                            </span>
+                          </div>
+
+                          <div className="mt-auto space-y-2">
+                            <h3 className="font-display text-[1.9rem] leading-tight text-text">{item.title}</h3>
+                            {item.description ? (
+                              <p className="line-clamp-2 text-sm leading-6 text-muted">{item.description}</p>
+                            ) : null}
+                            <p className="text-xs uppercase tracking-[0.2em] text-muted">{item.meta}</p>
+                          </div>
+                        </TransitionLink>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+            </Reveal>
+          );
+        })}
       </div>
     </div>
   );

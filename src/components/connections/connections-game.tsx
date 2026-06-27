@@ -96,6 +96,7 @@ export function ConnectionsGame({
   const [boardFeedback, setBoardFeedback] = useState<null | "one-away" | "miss">(null);
   const [recentSolvedGroupId, setRecentSolvedGroupId] = useState<string | null>(null);
   const [celebratingTileIds, setCelebratingTileIds] = useState<string[]>([]);
+  const [submittedTileIds, setSubmittedTileIds] = useState<string[]>([]);
   const [boardLocked, setBoardLocked] = useState(false);
 
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -116,6 +117,10 @@ export function ConnectionsGame({
   const remainingGroups = useMemo(
     () => getRemainingConnectionsGroups(gameData, progress.solvedGroupIds),
     [gameData, progress.solvedGroupIds]
+  );
+  const revealedGroups = useMemo(
+    () => (progress.status === "lost" ? [...solvedGroups, ...remainingGroups] : solvedGroups),
+    [progress.status, remainingGroups, solvedGroups]
   );
   const guessEmojiRows = useMemo(() => getConnectionsGuessEmojiRows(gameData, progress), [gameData, progress]);
   const mistakesLeft = Math.max(0, 4 - progress.mistakes);
@@ -175,6 +180,7 @@ export function ConnectionsGame({
       return;
     }
 
+    setSubmittedTileIds([]);
     if (!selectedIds.has(tileId) && hasSelectionLimit(progress)) {
       setFeedbackTone("warning");
       setMessage("You can only select four titles at a time.");
@@ -213,6 +219,7 @@ export function ConnectionsGame({
       setFeedbackTone("success");
       setMessage(solvedMessage);
       setBoardFeedback(null);
+      setSubmittedTileIds([]);
 
       if (prefersReducedMotion) {
         updateProgress(result.progress);
@@ -232,11 +239,12 @@ export function ConnectionsGame({
       return;
     }
 
+    setSubmittedTileIds([...progress.selectedItemIds]);
     updateProgress(result.progress);
 
     if (result.feedback.type === "one-away") {
       setBoardFeedback("one-away");
-      setFeedbackTone("warning");
+      setFeedbackTone("neutral");
       setMessage("One away. That combo was nearly serving.");
       return;
     }
@@ -259,6 +267,7 @@ export function ConnectionsGame({
     setBoardFeedback(null);
     setRecentSolvedGroupId(null);
     setCelebratingTileIds([]);
+    setSubmittedTileIds([]);
     setBoardLocked(false);
     setMessage("Board reset. Fresh eyes, fresh grid.");
   }
@@ -307,32 +316,6 @@ export function ConnectionsGame({
         </div>
       </div>
 
-      {solvedGroups.length > 0 ? (
-        <Reveal disabled={loadState.restored} delay={90}>
-          <div className="grid gap-2 px-2 lg:grid-cols-2 lg:gap-4 lg:px-0">
-            {solvedGroups.map((group) => (
-              <Card
-                key={group.id}
-                className={cn(
-                  "border-white/10 transition-transform duration-200",
-                  difficultyTone(group.difficulty),
-                  recentSolvedGroupId === group.id ? "animate-solved-lift" : ""
-                )}
-                style={recentSolvedGroupId === group.id ? { animationDelay: "40ms" } : undefined}
-              >
-                <CardHeader className="p-3 pb-2 lg:p-6 lg:pb-3">
-                  <CardTitle className="flex items-center justify-between gap-3">
-                    <span>{group.category}</span>
-                    <span className="text-sm font-normal text-muted">Solved</span>
-                  </CardTitle>
-                  <CardDescription>{group.items.join(" • ")}</CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        </Reveal>
-      ) : null}
-
       <div className="grid gap-3 px-2 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-5 lg:px-0">
         <div className="space-y-3 lg:space-y-4">
           <Reveal disabled={loadState.restored || loadState.completed} delay={120}>
@@ -350,45 +333,105 @@ export function ConnectionsGame({
                 </div>
               </div>
 
-              <div
-                className={cn(
-                  "grid grid-cols-4 gap-1.5 transition-transform sm:gap-3",
-                  boardFeedback === "miss" ? "animate-nudge-x" : "",
-                  boardFeedback === "one-away" ? "animate-one-away" : ""
-                )}
-              >
-                {unsolvedTiles.map((tile) => {
-                  const selected = selectedIds.has(tile.id);
-                  const celebrating = celebratingTileIds.includes(tile.id);
+              <div className="relative">
+                {boardFeedback === "one-away" ? (
+                  <div className="pointer-events-none absolute inset-x-0 -top-2 z-10 flex justify-center">
+                    <div className="animate-answer-reveal rounded-full border border-accent/30 bg-background/95 px-3 py-1 text-[0.68rem] uppercase tracking-[0.2em] text-text shadow-glow">
+                      One Away...
+                    </div>
+                  </div>
+                ) : null}
 
-                  return (
-                    <button
-                      key={tile.id}
-                      type="button"
-                      aria-pressed={selected}
-                      disabled={!canInteract}
+                <div
+                  className={cn(
+                    "grid grid-cols-4 gap-1.5 transition-transform sm:gap-3",
+                    boardFeedback === "miss" ? "animate-nudge-x" : "",
+                    boardFeedback === "one-away" ? "animate-one-away" : ""
+                  )}
+                >
+                  {revealedGroups.map((group) => (
+                    <div
+                      key={group.id}
                       className={cn(
-                        "aspect-square min-h-0 rounded-[0.9rem] border px-1.5 py-2 text-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:rounded-[1.25rem] sm:px-4 sm:py-5 sm:text-sm sm:leading-6",
-                        "text-[0.72rem] leading-[0.95rem] sm:text-sm",
-                        celebrating ? "animate-tile-solve border-success/35 bg-success/10 text-text" : "",
-                        selected
-                          ? "scale-[0.985] border-accent bg-accent text-background shadow-glow ring-1 ring-accent/60"
-                          : "border-white/10 bg-surface-strong text-text hover:border-accent/45 hover:bg-surface",
-                        introHighlightTileId === tile.id ? "animate-focus-pulse" : ""
+                        "col-span-4 flex min-h-[5.25rem] flex-col items-center justify-center rounded-[0.95rem] border px-3 py-2 text-center sm:min-h-[6.5rem] sm:rounded-[1.15rem] sm:px-5 lg:min-h-[7rem]",
+                        difficultyTone(group.difficulty),
+                        recentSolvedGroupId === group.id ? "animate-solved-lift" : ""
                       )}
-                      onClick={() => handleToggle(tile.id)}
+                      style={recentSolvedGroupId === group.id ? { animationDelay: "40ms" } : undefined}
                     >
-                      {tile.label}
-                    </button>
-                  );
-                })}
+                      <p className="text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-text sm:text-[1rem]">
+                        {group.category}
+                      </p>
+                      <p className="mt-1 text-[0.72rem] leading-5 text-muted sm:text-sm sm:leading-6">
+                        {group.items.join(", ")}
+                      </p>
+                    </div>
+                  ))}
+
+                  {progress.status !== "lost"
+                    ? unsolvedTiles.map((tile) => {
+                        const selected = selectedIds.has(tile.id);
+                        const celebrating = celebratingTileIds.includes(tile.id);
+                        const recentlySubmitted = submittedTileIds.includes(tile.id);
+                        const submittedIndex = submittedTileIds.indexOf(tile.id);
+
+                        return (
+                          <button
+                            key={tile.id}
+                            type="button"
+                            aria-pressed={selected}
+                            disabled={!canInteract}
+                            className={cn(
+                              "min-h-[5.25rem] rounded-[0.9rem] border px-1.5 py-2 text-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:min-h-[6.5rem] sm:rounded-[1.25rem] sm:px-4 sm:py-5 sm:text-sm sm:leading-6 lg:min-h-[7rem]",
+                              "text-[0.72rem] leading-[0.95rem] sm:text-sm",
+                              celebrating ? "animate-tile-solve border-success/35 bg-success/10 text-text" : "",
+                              selected
+                                ? "scale-[0.985] border-accent bg-accent text-background shadow-glow ring-1 ring-accent/60"
+                                : "border-white/10 bg-surface-strong text-text hover:border-accent/45 hover:bg-surface",
+                              introHighlightTileId === tile.id ? "animate-focus-pulse" : "",
+                              recentlySubmitted && boardFeedback ? "animate-tile-bounce" : ""
+                            )}
+                            style={
+                              recentlySubmitted && submittedIndex >= 0
+                                ? { animationDelay: `${submittedIndex * 45}ms` }
+                                : undefined
+                            }
+                            onClick={() => handleToggle(tile.id)}
+                          >
+                            {tile.label}
+                          </button>
+                        );
+                      })
+                    : null}
+                </div>
+              </div>
+
+              <div className="mt-3 flex items-center justify-center gap-3 text-sm text-muted sm:mt-4">
+                <span>Mistakes remaining:</span>
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <span
+                      key={index}
+                      className={cn(
+                        "h-3 w-3 rounded-full border border-white/20",
+                        index < mistakesLeft ? "bg-accent/80" : "bg-white/10"
+                      )}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
               </div>
 
               <div className="mt-2.5 grid grid-cols-3 gap-2 sm:mt-4 sm:grid-cols-2 sm:gap-3">
                 <Button
                   variant="outline"
                   className="h-10 px-2 text-xs sm:order-2 sm:h-11 sm:px-4 sm:text-sm"
-                  onClick={() => updateProgress(shuffleConnectionsTiles(progress, new Date().toISOString()))}
+                  onClick={() => {
+                    setSubmittedTileIds([]);
+                    setBoardFeedback(null);
+                    setFeedbackTone("neutral");
+                    updateProgress(shuffleConnectionsTiles(progress, new Date().toISOString()));
+                  }}
                   disabled={!canInteract}
                 >
                   <RefreshCw className="h-4 w-4" />
@@ -397,18 +440,31 @@ export function ConnectionsGame({
                 <Button
                   variant="outline"
                   className="h-10 px-2 text-xs sm:order-3 sm:h-11 sm:px-4 sm:text-sm"
-                  onClick={() => updateProgress(clearConnectionsSelection(progress))}
-                  disabled={!canInteract}
+                  onClick={() => {
+                    setSubmittedTileIds([]);
+                    setBoardFeedback(null);
+                    setFeedbackTone("neutral");
+                    updateProgress(clearConnectionsSelection(progress));
+                  }}
+                  disabled={!canInteract || progress.selectedItemIds.length === 0}
                 >
                   Deselect
                 </Button>
                 <Button
-                  className="h-10 px-2 text-xs sm:order-1 sm:col-span-2 sm:h-11 sm:px-4 sm:text-sm"
+                  variant="outline"
+                  className="relative h-10 overflow-hidden px-2 text-xs sm:order-1 sm:col-span-2 sm:h-11 sm:px-4 sm:text-sm"
                   onClick={handleSubmit}
                   disabled={progress.selectedItemIds.length !== 4 || !canInteract}
                 >
-                  <Sparkles className="h-4 w-4" />
-                  Submit
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-y-0 left-0 rounded-lg bg-accent/20 transition-all duration-200"
+                    style={{ width: `${progress.selectedItemIds.length * 25}%` }}
+                  />
+                  <span className="relative z-10 inline-flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Submit
+                  </span>
                 </Button>
                 <Button
                   variant="ghost"
@@ -421,20 +477,20 @@ export function ConnectionsGame({
                 </Button>
               </div>
 
-              <div
-                className={cn(
-                  "mt-2.5 rounded-[0.95rem] border px-3 py-2.5 text-sm leading-6 sm:mt-4 sm:rounded-[1.15rem] sm:p-4 sm:leading-7",
-                  feedbackTone === "success"
-                    ? "border-success/25 bg-success/10 text-text"
-                    : feedbackTone === "error"
-                      ? "border-error/25 bg-error/10 text-text"
-                      : feedbackTone === "warning"
-                        ? "border-accent/25 bg-accent-soft text-text"
-                        : "border-white/10 bg-black/20 text-muted"
-                )}
-              >
-                {message}
-              </div>
+              {feedbackTone !== "neutral" && boardFeedback !== "one-away" ? (
+                <div
+                  className={cn(
+                    "mt-2.5 rounded-[0.95rem] border px-3 py-2.5 text-sm leading-6 sm:mt-4 sm:rounded-[1.15rem] sm:p-4 sm:leading-7",
+                    feedbackTone === "success"
+                      ? "border-success/25 bg-success/10 text-text"
+                      : feedbackTone === "error"
+                        ? "border-error/25 bg-error/10 text-text"
+                        : "border-accent/25 bg-accent-soft text-text"
+                  )}
+                >
+                  {message}
+                </div>
+              ) : null}
             </div>
           </Reveal>
 

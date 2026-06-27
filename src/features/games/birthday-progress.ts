@@ -1,5 +1,9 @@
 import type { GameType } from "@/features/games/game.types";
 import { readLocalConnectionsStatus } from "@/features/connections/game/connections-storage";
+import {
+  placeholderConnectionsContentVersion,
+  placeholderConnectionsSlug
+} from "@/features/connections/seed/placeholder-connections";
 import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
 import { listSeededCrosswordSummaries } from "@/features/crossword/seed/tara-crosswords";
 import { readLocalGuessingStatus } from "@/features/guessing/game/guessing-storage";
@@ -101,7 +105,10 @@ export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
     if (item.type === "connections") {
       return {
         ...item,
-        status: readLocalConnectionsStatus("tara-movie-connections", 1)
+        status: readLocalConnectionsStatus(
+          placeholderConnectionsSlug,
+          placeholderConnectionsContentVersion
+        )
       };
     }
 

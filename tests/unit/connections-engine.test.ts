@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createConnectionsProgress,
   flattenConnectionsTiles,
+  shuffleConnectionsTiles,
   submitConnectionsSelection
 } from "@/features/connections/game/connections-engine";
 import { placeholderConnectionsGameData } from "@/features/connections/seed/placeholder-connections";
@@ -53,6 +54,7 @@ describe("connections engine", () => {
     });
     expect(first.progress.mistakes).toBe(1);
     expect(first.progress.guessHistory[0]?.outcome).toBe("one-away");
+    expect(first.progress.selectedItemIds).toEqual(nearMiss);
 
     const second = submitConnectionsSelection({
       gameData: placeholderConnectionsGameData,
@@ -68,5 +70,21 @@ describe("connections engine", () => {
     });
     expect(second.progress.mistakes).toBe(1);
     expect(second.progress.guessHistory).toHaveLength(1);
+  });
+
+  it("clears the active selection when the player shuffles the board", () => {
+    const tiles = flattenConnectionsTiles(placeholderConnectionsGameData);
+    const selectedTileIds = tiles.slice(0, 4).map((tile) => tile.id);
+
+    const shuffled = shuffleConnectionsTiles(
+      {
+        ...createConnectionsProgress(placeholderConnectionsGameData),
+        selectedItemIds: selectedTileIds
+      },
+      "2026-06-24T11:00:00.000Z"
+    );
+
+    expect(shuffled.selectedItemIds).toEqual([]);
+    expect(shuffled.shuffleSeed).toBe(1);
   });
 });
