@@ -1,4 +1,4 @@
-import { Grid2X2, Puzzle, ScanSearch, Star } from "lucide-react";
+import { Grid2X2, Palette, Puzzle, ScanSearch, Star } from "lucide-react";
 
 import type { GameDefinition, GameType } from "@/features/games/game.types";
 
@@ -42,6 +42,16 @@ export const gameRegistry: GameDefinition[] = [
     availability: "available",
     icon: Star,
     sourceFormatName: "Movie / Poster / Tara Rating / Celebrity / Celebrity Rating / Optional Source Image"
+  },
+  {
+    type: "colour-field",
+    title: "Colour Field",
+    shortTitle: "Colour Field",
+    description: "Restore each colour gradient by swapping tiles back into harmony around the fixed anchors.",
+    href: "/games/colour-field",
+    availability: "available",
+    icon: Palette,
+    sourceFormatName: "Seeded level pack / Palette corners / Fixed anchors / Board size"
   }
 ];
 

@@ -1,3 +1,4 @@
+import { colourFieldGameSchema } from "@/features/colour-field/game/colour-field-game.schema";
 import { connectionsGameSchema } from "@/features/connections/game/connections-game.schema";
 import { connectionsSourceRowSchema } from "@/features/connections/source/connections-source.schema";
 import { crosswordCompiledDataSchema } from "@/features/crossword/game/crossword-game.schema";
@@ -15,6 +16,8 @@ export function validateSourceData(gameType: GameType, sourceData: unknown) {
       return connectionsSourceRowSchema.array().parse(sourceData);
     case "guessing":
       return guessingSourceRowSchema.array().parse(sourceData);
+    case "colour-field":
+      return colourFieldGameSchema.parse(sourceData);
     case "who-liked-it-better":
       return sourceData;
   }
@@ -28,6 +31,8 @@ export function validateCompiledData(gameType: GameType, compiledData: unknown) 
       return connectionsGameSchema.parse(compiledData);
     case "guessing":
       return guessingGameSchema.parse(compiledData);
+    case "colour-field":
+      return colourFieldGameSchema.parse(compiledData);
     case "who-liked-it-better":
       return whoLikedItBetterGameSchema.parse(compiledData);
   }

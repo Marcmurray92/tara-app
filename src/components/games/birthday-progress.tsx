@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, Circle, CircleDot, Grid2X2, Puzzle, ScanSearch, Star } from "lucide-react";
+import { CheckCircle2, Circle, CircleDot, Grid2X2, Palette, Puzzle, ScanSearch, Star } from "lucide-react";
 
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { TransitionLink } from "@/components/ui/transition-link";
@@ -16,6 +16,8 @@ function getIcon(type: GameType) {
       return Grid2X2;
     case "guessing":
       return ScanSearch;
+    case "colour-field":
+      return Palette;
     case "who-liked-it-better":
       return Star;
   }
@@ -57,6 +59,7 @@ export function BirthdayProgress({
     crossword: "none",
     connections: "none",
     guessing: "none",
+    "colour-field": "none",
     "who-liked-it-better": "none"
   });
   const [animatedTypes, setAnimatedTypes] = useState<GameType[]>([]);
@@ -75,6 +78,7 @@ export function BirthdayProgress({
         crossword: "none",
         connections: "none",
         guessing: "none",
+        "colour-field": "none",
         "who-liked-it-better": "none"
       }
     );

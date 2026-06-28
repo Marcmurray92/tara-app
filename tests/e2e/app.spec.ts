@@ -1,16 +1,17 @@
 import { expect, test } from "@playwright/test";
 
-test("homepage renders the three game cards", async ({ page }) => {
+test("homepage renders the core game rows", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("link", { name: /Crossword/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Connections/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Review Guess/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Liked It Better/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Crossword", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Connections", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Colour Field", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Movie Review Guess", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Who Liked It Better", exact: true })).toBeVisible();
 });
 
 test("connections route lets the player solve a group", async ({ page }) => {
-  await page.goto("/games/connections");
+  await page.goto("/games/connections/tara-movie-connections");
 
   await page.getByRole("button", { name: "Groundhog Day" }).click();
   await page.getByRole("button", { name: "Palm Springs" }).click();
@@ -18,21 +19,21 @@ test("connections route lets the player solve a group", async ({ page }) => {
   await page.getByRole("button", { name: "Happy Death Day" }).click();
   await page.getByRole("button", { name: /^Submit$/i }).click();
 
-  await expect(page.getByText("Time loops")).toBeVisible();
+  await expect(page.locator("div").filter({ hasText: /^That was clean\. Time loops\.$/ })).toBeVisible();
   await expect(page.getByText(/Groundhog Day, Palm Springs, Edge of Tomorrow, Happy Death Day/i)).toBeVisible();
 });
 
 test("crossword progress survives a refresh", async ({ page }) => {
   await page.goto("/games/crossword/taras-birthday-crossword");
 
-  const firstCell = page.getByRole("button", { name: /Row 1, column 1/i });
+  const firstCell = page.locator('button[aria-label*="current value blank"]').first();
   await firstCell.click();
-  await page.keyboard.press("H");
-  await expect(firstCell).toContainText("H");
+  await page.getByRole("button", { name: "H", exact: true }).click();
+  await expect(page.locator('button[aria-label*="current value H"]').first()).toContainText("H");
 
   await page.reload();
 
-  await expect(page.getByRole("button", { name: /Row 1, column 1/i })).toContainText("H");
+  await expect(page.locator('button[aria-label*="current value H"]').first()).toContainText("H");
 });
 
 test("guessing game progress survives a refresh", async ({ page }) => {
@@ -48,18 +49,29 @@ test("guessing game progress survives a refresh", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Next Round" })).toBeVisible();
 });
 
+test("colour field pack opens the first playable board", async ({ page }) => {
+  await page.goto("/games/colour-field");
+
+  await expect(page.getByRole("heading", { name: "Colour Field" })).toBeVisible();
+  await page.getByRole("link", { name: "Start", exact: true }).click();
+  await expect(page).toHaveURL(/\/games\/colour-field\/midnight-vows$/);
+  await expect(page.locator('button[aria-label^="Tile row "]')).toHaveCount(9);
+  await expect(page.getByText("Study the solved field before it scrambles.")).toBeVisible();
+  await expect(page.getByText("Tap a tile. Tap another tile. Rebuild the gradient.")).toBeVisible();
+});
+
 test("who liked it better progress survives a refresh", async ({ page }) => {
   await page.goto("/games/who-liked-it-better");
 
   await page.getByRole("button", { name: "Kid Cudi" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
-  await expect(page.getByText("Kid Cudi liked it better.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Kid Cudi liked it better." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
 
   await page.reload();
 
   await expect(page.getByRole("dialog")).toBeVisible();
-  await expect(page.getByText("Kid Cudi liked it better.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Kid Cudi liked it better." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
 });
 

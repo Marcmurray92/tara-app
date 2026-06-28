@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
-export type GameType = "crossword" | "connections" | "guessing" | "who-liked-it-better";
+export type GameType = "crossword" | "connections" | "guessing" | "who-liked-it-better" | "colour-field";
 
 export type GameAvailability = "available" | "coming-soon" | "locked";
 

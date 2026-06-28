@@ -26,6 +26,7 @@ Home -> choose game/puzzle -> play -> complete -> victory/reward -> next puzzle 
   - Connections
   - Movie Review Guess
   - Who Liked It Better
+  - Colour Field
 - Inside each section, show a horizontally scrollable row of the available individual games for that type.
 - Do not collapse everything into one mixed carousel of top-level game types.
 - The individual cards are the tappable entry points.
@@ -37,6 +38,16 @@ Home -> choose game/puzzle -> play -> complete -> victory/reward -> next puzzle 
 2. Connections
 3. Movie Review Guess
 4. Who Liked It Better?
+5. Colour Field
+
+## Current intended shape of Colour Field
+- One seeded level pack on first release.
+- The pack contains a run of hand-authored colour fields.
+- Each field briefly shows the solved gradient before the movable tiles scramble.
+- The player restores the gradient by swapping tiles back into place.
+- Fixed anchor tiles stay locked.
+- Moves are counted and best scores save locally.
+- Completion should move directly to the next field when one exists.
 
 ## Current intended shape of Movie Review Guess
 - 3 rounds: `Easy`, `Medium`, `Hard`

@@ -12,11 +12,12 @@ Tara, using the web app on her phone.
 Home -> choose game/puzzle -> play -> complete -> victory/reward -> next puzzle or Home.
 
 ## Game types
-The app has 4 game types:
+The app has 5 game types:
 1. Crossword
 2. Connections
 3. Movie Review Guess
 4. Who Liked It Better?
+5. Colour Field
 
 For game-specific rules, read the relevant file in `docs/games/`.
 
@@ -66,6 +67,7 @@ Before making changes, read the relevant docs if they exist:
 - `docs/games/connections.md` before changing the Connections game.
 - `docs/games/movie-review-guess.md` before changing the Movie Review Guess game.
 - `docs/games/who-liked-it-better.md` before changing the Who Liked It Better game.
+- `docs/games/colour-field.md` before changing the Colour Field game.
 
 If a referenced doc does not exist, follow this file and make conservative, minimal changes.
 

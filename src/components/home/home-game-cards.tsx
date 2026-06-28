@@ -5,6 +5,7 @@ import {
   Circle,
   CircleDot,
   Grid2X2,
+  Palette,
   Puzzle,
   ScanSearch,
   Star,
@@ -14,6 +15,17 @@ import {
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
+import { loadColourFieldProgress } from "@/features/colour-field/game/colour-field-storage";
+import {
+  getCompletedColourFieldCount,
+  readColourFieldStatusSummary
+} from "@/features/colour-field/game/colour-field-engine";
+import {
+  listSeededColourFieldSummaries,
+  placeholderColourFieldContentVersion,
+  placeholderColourFieldGameData,
+  placeholderColourFieldSlug
+} from "@/features/colour-field/seed/placeholder-colour-field";
 import { loadConnectionsProgress } from "@/features/connections/game/connections-storage";
 import {
   listSeededConnectionsSummaries,
@@ -161,8 +173,37 @@ function getWhoLikedBadge() {
   };
 }
 
+function getColourFieldBadge() {
+  const progress = loadColourFieldProgress(placeholderColourFieldSlug, placeholderColourFieldContentVersion);
+
+  if (!progress) {
+    return {
+      badge: "Not started",
+      status: "none" as const
+    };
+  }
+
+  const status = readColourFieldStatusSummary(placeholderColourFieldGameData, progress);
+  const completedCount = getCompletedColourFieldCount(placeholderColourFieldGameData, progress);
+  const totalCount = placeholderColourFieldGameData.levels.length;
+
+  if (status === "completed") {
+    return {
+      badge: "Finished",
+      status: "completed" as const
+    };
+  }
+
+  return {
+    badge: `${completedCount}/${totalCount} restored`,
+    status: "in-progress" as const
+  };
+}
+
 function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
   const connectionsBoards = listSeededConnectionsSummaries();
+  const colourFieldPacks = listSeededColourFieldSummaries();
+  const colourFieldState = getColourFieldBadge();
   const guessingState = getGuessingBadge();
   const whoLikedState = getWhoLikedBadge();
 
@@ -204,6 +245,21 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
           status: progress.status
         };
       })
+    },
+    {
+      type: "colour-field",
+      title: "Colour Field",
+      description: "Restore the gradient without touching the anchors.",
+      icon: Palette,
+      items: colourFieldPacks.map((pack) => ({
+        id: pack.slug,
+        href: pack.href,
+        title: pack.title,
+        description: pack.description,
+        meta: `${pack.levelCount} levels`,
+        badge: colourFieldState.badge,
+        status: colourFieldState.status
+      }))
     },
     {
       type: "guessing",

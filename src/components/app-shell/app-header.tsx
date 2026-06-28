@@ -19,6 +19,11 @@ const NAV_LINKS = [
     match: (pathname: string) => pathname.startsWith("/games/connections")
   },
   {
+    href: "/games/colour-field",
+    label: "Colour Field",
+    match: (pathname: string) => pathname.startsWith("/games/colour-field")
+  },
+  {
     href: "/games/guessing",
     label: "Review Guess",
     match: (pathname: string) => pathname.startsWith("/games/guessing")

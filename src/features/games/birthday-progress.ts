@@ -1,3 +1,10 @@
+import { readLocalColourFieldStatus } from "@/features/colour-field/game/colour-field-storage";
+import {
+  listSeededColourFieldSummaries,
+  placeholderColourFieldContentVersion,
+  placeholderColourFieldGameData,
+  placeholderColourFieldSlug
+} from "@/features/colour-field/seed/placeholder-colour-field";
 import type { GameType } from "@/features/games/game.types";
 import { readLocalConnectionsStatus } from "@/features/connections/game/connections-storage";
 import { listSeededConnectionsSummaries } from "@/features/connections/seed/placeholder-connections";
@@ -38,6 +45,11 @@ const CONNECTIONS_PROGRESS_TARGETS = listSeededConnectionsSummaries().map((board
   contentVersion: board.contentVersion
 }));
 
+const COLOUR_FIELD_PROGRESS_TARGETS = listSeededColourFieldSummaries().map((pack) => ({
+  slug: pack.slug,
+  contentVersion: pack.contentVersion
+}));
+
 const BASE_ITEMS: Omit<BirthdayGameProgressItem, "status">[] = [
   {
     type: "crossword",
@@ -66,6 +78,13 @@ const BASE_ITEMS: Omit<BirthdayGameProgressItem, "status">[] = [
     shortTitle: "Liked It Better",
     href: "/games/who-liked-it-better",
     teaser: "Choose whether Tara or the celeb went harder for the film."
+  },
+  {
+    type: "colour-field",
+    title: "Colour Field",
+    shortTitle: "Colour Field",
+    href: "/games/colour-field",
+    teaser: "Swap each tile back into harmony and keep the anchors untouched."
   }
 ];
 
@@ -90,6 +109,14 @@ function readCrosswordCollectionStatus() {
 function readConnectionsCollectionStatus() {
   return combineStatuses(
     CONNECTIONS_PROGRESS_TARGETS.map((target) => readLocalConnectionsStatus(target.slug, target.contentVersion))
+  );
+}
+
+function readColourFieldCollectionStatus() {
+  return combineStatuses(
+    COLOUR_FIELD_PROGRESS_TARGETS.map((target) =>
+      readLocalColourFieldStatus(target.slug, target.contentVersion, placeholderColourFieldGameData)
+    )
   );
 }
 
@@ -124,6 +151,13 @@ export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
           placeholderWhoLikedItBetterSlug,
           placeholderWhoLikedItBetterContentVersion
         )
+      };
+    }
+
+    if (item.type === "colour-field") {
+      return {
+        ...item,
+        status: readColourFieldCollectionStatus()
       };
     }
 
