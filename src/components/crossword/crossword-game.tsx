@@ -137,9 +137,12 @@ export function CrosswordGame({
       return "00:00";
     }
 
-    const endTime = progress.completedAt ? Date.parse(progress.completedAt) : Date.now();
-    return formatDuration(endTime - Date.parse(progress.startedAt));
-  }, [progress.completedAt, progress.startedAt]);
+    const elapsedTime = progress.completedAt
+      ? Date.parse(progress.completedAt) - Date.parse(progress.startedAt)
+      : progress.elapsedMilliseconds;
+
+    return formatDuration(elapsedTime);
+  }, [progress.completedAt, progress.elapsedMilliseconds, progress.startedAt]);
 
   useEffect(() => {
     saveCrosswordProgress({

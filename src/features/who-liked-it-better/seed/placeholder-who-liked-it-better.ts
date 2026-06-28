@@ -20,19 +20,22 @@ type RawCandidate = {
 const READY_IDS = [
   "punch-drunk-love-kid-cudi",
   "challengers-lukas-gage",
-  "the-holiday-lukas-gage",
-  "malignant-chvrches",
-  "jennifer-s-body-chvrches",
-  "blade-runner-2049-kanye",
-  "there-will-be-blood-kanye",
-  "american-psycho-kanye",
-  "21-jump-street-kanye",
-  "spirited-away-kanye"
+  "there-will-be-blood-kanye"
 ] as const;
 
 const READY_CANDIDATES = new Map(
   (whoLikedItBetterCandidates.readyCandidates as RawCandidate[]).map((candidate) => [candidate.id, candidate])
 );
+
+const SOURCE_IMAGE_DIMENSIONS = new Map([
+  ["/images/games/who-liked-it-better/source-images/kanye-21-jump-street.png", { width: 1384, height: 586 }],
+  ["/images/games/who-liked-it-better/source-images/kanye-american-psycho.png", { width: 1362, height: 396 }],
+  ["/images/games/who-liked-it-better/source-images/kanye-back-to-the-future.png", { width: 1130, height: 322 }],
+  ["/images/games/who-liked-it-better/source-images/kanye-blade-runner-2049.png", { width: 858, height: 358 }],
+  ["/images/games/who-liked-it-better/source-images/kanye-spirited-away.png", { width: 1656, height: 874 }],
+  ["/images/games/who-liked-it-better/source-images/kanye-the-matrix.png", { width: 1074, height: 346 }],
+  ["/images/games/who-liked-it-better/source-images/kanye-there-will-be-blood.png", { width: 1390, height: 888 }]
+]);
 
 function toPosterImage(movieSlug: string, movieTitle: string) {
   return {
@@ -134,6 +137,23 @@ function toCelebrityImages(celebrityName: string) {
   }
 }
 
+function toSourceImages(candidate: RawCandidate) {
+  if (!candidate.sourceImagePath) {
+    return [];
+  }
+
+  const dimensions = SOURCE_IMAGE_DIMENSIONS.get(candidate.sourceImagePath) ?? { width: 1360, height: 800 };
+
+  return [
+    {
+      src: candidate.sourceImagePath,
+      width: dimensions.width,
+      height: dimensions.height,
+      alt: candidate.sourceImageAlt ?? `${candidate.celebrityName} source image for ${candidate.movieTitle}`
+    }
+  ];
+}
+
 function getQuestion(candidateId: (typeof READY_IDS)[number]) {
   const candidate = READY_CANDIDATES.get(candidateId);
 
@@ -142,6 +162,7 @@ function getQuestion(candidateId: (typeof READY_IDS)[number]) {
   }
 
   const celebrityImages = toCelebrityImages(candidate.celebrityName);
+  const sourceImages = toSourceImages(candidate);
 
   return {
     id: candidate.id,
@@ -156,14 +177,8 @@ function getQuestion(candidateId: (typeof READY_IDS)[number]) {
     celebrityRating: candidate.celebrityRating,
     correctAnswer: candidate.correctAnswer,
     explanation: candidate.notes ?? null,
-    sourceImage: candidate.sourceImagePath
-      ? {
-          src: candidate.sourceImagePath,
-          width: 1360,
-          height: 800,
-          alt: candidate.sourceImageAlt ?? `${candidate.celebrityName} source image for ${candidate.movieTitle}`
-        }
-      : null,
+    sourceImage: sourceImages[0] ?? null,
+    sourceImages: sourceImages.length > 0 ? sourceImages : undefined,
     celebrityRatingSource: candidate.celebrityRatingSource,
     celebrityRatingConfidence: candidate.celebrityRatingConfidence
   };
@@ -174,7 +189,7 @@ export const placeholderWhoLikedItBetterTitle = "Who Liked It Better";
 export const placeholderWhoLikedItBetterSubtitle = "Guess whether Tara or the celeb rated the film higher.";
 export const placeholderWhoLikedItBetterDescription =
   "Spot who went harder for the movie, reveal both ratings, and see whether your cinema instincts are actually serving.";
-export const placeholderWhoLikedItBetterContentVersion = 3;
+export const placeholderWhoLikedItBetterContentVersion = 4;
 
 export const placeholderWhoLikedItBetterGameData: WhoLikedItBetterGameData = {
   schemaVersion: 1,

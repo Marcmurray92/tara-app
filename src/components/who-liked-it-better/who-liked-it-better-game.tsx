@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, RotateCcw, Trophy } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Home, RotateCcw, Star, Trophy, X } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
@@ -31,6 +31,9 @@ import { getNextBirthdayGame } from "@/features/games/birthday-progress";
 import { getCelebrationCopy } from "@/features/games/celebration-copy";
 import { cn } from "@/lib/utils/cn";
 
+type WhoLikedItBetterQuestionRecord = WhoLikedItBetterGameData["questions"][number];
+type RatingGlyphKind = "full" | "half" | "empty";
+
 function formatRating(value: number) {
   return `${value.toFixed(1)} stars`;
 }
@@ -48,7 +51,7 @@ function getMonogram(name: string) {
     .join("");
 }
 
-function pickRandomCelebrityImage(question: WhoLikedItBetterGameData["questions"][number] | null) {
+function pickRandomCelebrityImage(question: WhoLikedItBetterQuestionRecord | null) {
   if (!question) {
     return null;
   }
@@ -58,6 +61,61 @@ function pickRandomCelebrityImage(question: WhoLikedItBetterGameData["questions"
   }
 
   return question.celebrityImage ?? null;
+}
+
+function getDefaultCelebrityImage(question: WhoLikedItBetterQuestionRecord | null) {
+  if (!question) {
+    return null;
+  }
+
+  return question.celebrityImages?.[0] ?? question.celebrityImage ?? null;
+}
+
+function getQuestionSourceImages(question: WhoLikedItBetterQuestionRecord | null) {
+  if (!question) {
+    return [];
+  }
+
+  if (question.sourceImages && question.sourceImages.length > 0) {
+    return question.sourceImages;
+  }
+
+  return question.sourceImage ? [question.sourceImage] : [];
+}
+
+function getRatingGlyphKinds(value: number) {
+  const clamped = Math.max(0, Math.min(5, value));
+  const glyphs: RatingGlyphKind[] = [];
+  let remaining = clamped;
+
+  for (let slot = 0; slot < 5; slot += 1) {
+    if (remaining >= 1) {
+      glyphs.push("full");
+      remaining -= 1;
+      continue;
+    }
+
+    if (remaining >= 0.5) {
+      glyphs.push("half");
+      remaining -= 0.5;
+      continue;
+    }
+
+    glyphs.push("empty");
+  }
+
+  return glyphs;
+}
+
+function getAnimatedRatingGlyphCount(value: number) {
+  return getRatingGlyphKinds(value).filter((glyph) => glyph !== "empty").length;
+}
+
+function getRatingRevealDurationMs(value: number, winner: boolean) {
+  const glyphCount = getAnimatedRatingGlyphCount(value);
+  const stepMs = winner ? 160 : 136;
+
+  return glyphCount === 0 ? 0 : glyphCount * stepMs + (winner ? 110 : 0);
 }
 
 function FaceOffArt({
@@ -105,29 +163,168 @@ function FaceOffArt({
   );
 }
 
+function RatingGlyph({
+  kind,
+  delayMs,
+  durationMs
+}: {
+  kind: RatingGlyphKind;
+  delayMs: number;
+  durationMs: number;
+}) {
+  const overlayStyle = {
+    animationDelay: `${delayMs}ms`,
+    animationDuration: `${durationMs}ms`
+  };
+
+  return (
+    <span aria-hidden="true" className="relative flex h-5 w-5 items-center justify-center">
+      <Star className="h-5 w-5 text-white/18" strokeWidth={1.8} />
+      {kind === "full" ? (
+        <Star
+          style={overlayStyle}
+          className="absolute inset-0 h-full w-full fill-accent text-accent drop-shadow-[0_0_8px_rgba(157,124,245,0.35)] animate-rating-glyph"
+          strokeWidth={1.8}
+        />
+      ) : null}
+      {kind === "half" ? (
+        <span className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: "50%" }}>
+          <Star
+            style={overlayStyle}
+            className="h-full w-full fill-accent text-accent drop-shadow-[0_0_8px_rgba(157,124,245,0.35)] animate-rating-glyph"
+            strokeWidth={1.8}
+          />
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+function AnimatedRatingStrip({
+  rating,
+  winner,
+  animationKey
+}: {
+  rating: number;
+  winner: boolean;
+  animationKey: string;
+}) {
+  const glyphs = getRatingGlyphKinds(rating);
+  const stepMs = winner ? 160 : 136;
+  const durationMs = winner ? 300 : 240;
+  let revealIndex = 0;
+
+  return (
+    <div key={animationKey} className="mt-2 space-y-1.5">
+      <div className="flex items-center gap-1">
+        {glyphs.map((glyph, index) => {
+          const delayMs = glyph === "empty" ? 0 : revealIndex++ * stepMs;
+
+          return <RatingGlyph key={`${glyph}-${index}`} kind={glyph} delayMs={delayMs} durationMs={durationMs} />;
+        })}
+      </div>
+      <p className="text-xs text-muted">{formatRating(rating)}</p>
+    </div>
+  );
+}
+
+function SourceImageStrip({
+  images,
+  onImageError
+}: {
+  images: WhoLikedItBetterImageAsset[];
+  onImageError: (src: string) => void;
+}) {
+  if (images.length === 0) {
+    return null;
+  }
+
+  const multiple = images.length > 1;
+
+  return (
+    <div className="mt-4 space-y-2">
+      <p className="text-[0.62rem] uppercase tracking-[0.22em] text-muted">Receipts</p>
+      <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 pr-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {images.map((image) => (
+          <div
+            key={image.src}
+            className={cn(
+              "snap-start overflow-hidden rounded-[1rem] border border-white/10 bg-black/25",
+              multiple ? "w-[80%] shrink-0" : "w-full"
+            )}
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              sizes={multiple ? "(max-width: 640px) 80vw, 420px" : "(max-width: 640px) 100vw, 480px"}
+              className="h-44 w-full object-contain"
+              onError={() => onImageError(image.src)}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function WhoLikedItBetterResultDialog({
   open,
   correct,
   question,
   celebrityImage,
-  sourceImage,
+  sourceImages,
   continueLabel,
-  onContinue
+  onContinue,
+  onSourceImageError
 }: {
   open: boolean;
   correct: boolean;
-  question: WhoLikedItBetterGameData["questions"][number];
+  question: WhoLikedItBetterQuestionRecord;
   celebrityImage?: WhoLikedItBetterImageAsset | null;
-  sourceImage?: WhoLikedItBetterImageAsset | null;
+  sourceImages: WhoLikedItBetterImageAsset[];
   continueLabel: string;
   onContinue: () => void;
+  onSourceImageError: (src: string) => void;
 }) {
+  const [comparisonSettled, setComparisonSettled] = useState(false);
+
+  const taraWins = question.correctAnswer === "tara";
+  const losingRating = taraWins ? question.celebrityRating : question.taraRating;
+  const lowerRevealDurationMs = getRatingRevealDurationMs(losingRating, false);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    setComparisonSettled(false);
+    const timeoutId = window.setTimeout(() => {
+      setComparisonSettled(true);
+    }, lowerRevealDurationMs + 180);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [lowerRevealDurationMs, open, question.id]);
+
   if (!open) {
     return null;
   }
 
   const actionLabel = correct ? "Correct and gorgeous" : "The vibes were incorrect";
   const celebrationLine = correct ? "Taste detected." : "Not very slay.";
+  const taraStateClass = cn(
+    "rounded-[1.15rem] border p-3 transition-opacity duration-300",
+    taraWins ? "border-accent/25 bg-accent-soft/40" : "border-white/10 bg-black/20",
+    comparisonSettled && !taraWins ? "opacity-70" : "",
+    comparisonSettled && taraWins ? "animate-rating-winner" : ""
+  );
+  const celebrityStateClass = cn(
+    "rounded-[1.15rem] border p-3 transition-opacity duration-300",
+    !taraWins ? "border-accent/25 bg-accent-soft/40" : "border-white/10 bg-black/20",
+    comparisonSettled && taraWins ? "opacity-70" : "",
+    comparisonSettled && !taraWins ? "animate-rating-winner" : ""
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-[2px]">
@@ -135,7 +332,7 @@ function WhoLikedItBetterResultDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="who-liked-it-better-result-title"
-        className="animate-answer-reveal w-full max-w-md rounded-[1.7rem] border border-accent/20 bg-surface-strong p-5 shadow-glow"
+        className="animate-answer-reveal max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-[1.7rem] border border-accent/20 bg-surface-strong p-5 shadow-glow"
       >
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">{actionLabel}</p>
         <h2 id="who-liked-it-better-result-title" className="mt-2 font-display text-[2rem] leading-none text-text">
@@ -144,12 +341,16 @@ function WhoLikedItBetterResultDialog({
         <p className="mt-3 text-sm leading-6 text-muted">{celebrationLine}</p>
 
         <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-[1.15rem] border border-white/10 bg-black/20 p-3">
+          <div className={taraStateClass}>
             <FaceOffArt label="Tara" monogram="T" accent="accent" />
             <p className="mt-3 text-[0.68rem] uppercase tracking-[0.22em] text-muted">Tara</p>
-            <p className="mt-1 font-display text-[1.35rem] text-text">{formatRating(question.taraRating)}</p>
+            <AnimatedRatingStrip
+              animationKey={`${question.id}-tara`}
+              rating={question.taraRating}
+              winner={taraWins}
+            />
           </div>
-          <div className="rounded-[1.15rem] border border-white/10 bg-black/20 p-3">
+          <div className={celebrityStateClass}>
             <FaceOffArt
               image={celebrityImage}
               label={question.celebrityName}
@@ -157,7 +358,11 @@ function WhoLikedItBetterResultDialog({
               accent="neutral"
             />
             <p className="mt-3 text-[0.68rem] uppercase tracking-[0.22em] text-muted">{question.celebrityName}</p>
-            <p className="mt-1 font-display text-[1.35rem] text-text">{formatRating(question.celebrityRating)}</p>
+            <AnimatedRatingStrip
+              animationKey={`${question.id}-celebrity`}
+              rating={question.celebrityRating}
+              winner={!taraWins}
+            />
           </div>
         </div>
 
@@ -167,18 +372,7 @@ function WhoLikedItBetterResultDialog({
           </div>
         ) : null}
 
-        {sourceImage ? (
-          <div className="mt-4 overflow-hidden rounded-[1rem] border border-white/10 bg-black/25">
-            <Image
-              src={sourceImage.src}
-              alt={sourceImage.alt}
-              width={sourceImage.width}
-              height={sourceImage.height}
-              sizes="(max-width: 640px) 100vw, 480px"
-              className="h-auto w-full object-contain"
-            />
-          </div>
-        ) : null}
+        <SourceImageStrip images={sourceImages} onImageError={onSourceImageError} />
 
         <Button className="mt-5 w-full" onClick={onContinue}>
           {continueLabel}
@@ -200,41 +394,18 @@ export function WhoLikedItBetterGame({
   contentVersion: number;
   title: string;
 }) {
-  const [loadState] = useState(() => {
-    const emptyProgress = createWhoLikedItBetterProgress();
-
-    if (typeof window === "undefined") {
-      return {
-        progress: emptyProgress,
-        restored: false,
-        completed: false
-      };
-    }
-
-    const savedProgress = loadWhoLikedItBetterProgress(slug, contentVersion);
-
-    return {
-      progress: savedProgress ?? emptyProgress,
-      restored: Boolean(savedProgress?.startedAt && !savedProgress?.completedAt),
-      completed: Boolean(savedProgress?.completedAt)
-    };
-  });
-  const [progress, setProgress] = useState<WhoLikedItBetterProgress>(loadState.progress);
-  const [resultsScreenOpen, setResultsScreenOpen] = useState(loadState.completed);
-  const [announcement, setAnnouncement] = useState(
-    loadState.completed
-      ? "Completed rating run restored on this device."
-      : loadState.restored
-        ? "Saved rating run restored."
-        : "Guess who rated the movie higher."
-  );
+  const [progress, setProgress] = useState<WhoLikedItBetterProgress>(() => createWhoLikedItBetterProgress());
+  const [resultsScreenOpen, setResultsScreenOpen] = useState(false);
+  const [announcement, setAnnouncement] = useState("Guess who rated the movie higher.");
+  const [hasLoadedStoredProgress, setHasLoadedStoredProgress] = useState(false);
   const [brokenPosterQuestionIds, setBrokenPosterQuestionIds] = useState<string[]>([]);
   const [hiddenCelebrityImageIds, setHiddenCelebrityImageIds] = useState<string[]>([]);
-  const [hiddenSourceImageIds, setHiddenSourceImageIds] = useState<string[]>([]);
+  const [hiddenSourceImageSrcs, setHiddenSourceImageSrcs] = useState<string[]>([]);
+  const [randomizedCelebrityImageIds, setRandomizedCelebrityImageIds] = useState<string[]>([]);
   const [selectedCelebrityImages, setSelectedCelebrityImages] = useState<Record<string, WhoLikedItBetterImageAsset>>(
     () => {
-      const initialQuestion = getCurrentWhoLikedItBetterQuestion(gameData, loadState.progress);
-      const initialImage = pickRandomCelebrityImage(initialQuestion);
+      const initialQuestion = gameData.questions[0] ?? null;
+      const initialImage = getDefaultCelebrityImage(initialQuestion);
 
       return initialQuestion && initialImage ? { [initialQuestion.id]: initialImage } : {};
     }
@@ -257,37 +428,73 @@ export function WhoLikedItBetterGame({
     currentQuestion && !hiddenCelebrityImageIds.includes(currentQuestion.id)
       ? chosenCelebrityImage ?? currentQuestion.celebrityImage ?? null
       : null;
-  const visibleSourceImage =
-    currentQuestion?.sourceImage && !hiddenSourceImageIds.includes(currentQuestion.id) ? currentQuestion.sourceImage : null;
+  const visibleSourceImages = useMemo(
+    () =>
+      getQuestionSourceImages(currentQuestion).filter((image) => !hiddenSourceImageSrcs.includes(image.src)),
+    [currentQuestion, hiddenSourceImageSrcs]
+  );
   const isFinalQuestion = progress.currentQuestionIndex >= gameData.questions.length - 1;
+  const progressDots = useMemo(
+    () =>
+      gameData.questions.map((question, index) => ({
+        id: question.id,
+        answer: getWhoLikedItBetterAnswerRecord(progress, question.id),
+        current: index === progress.currentQuestionIndex
+      })),
+    [gameData.questions, progress]
+  );
 
   useEffect(() => {
+    const savedProgress = loadWhoLikedItBetterProgress(slug, contentVersion);
+
+    if (savedProgress) {
+      setProgress(savedProgress);
+      setResultsScreenOpen(Boolean(savedProgress.completedAt));
+      setAnnouncement(
+        savedProgress.completedAt
+          ? "Completed rating run restored on this device."
+          : savedProgress.startedAt
+            ? "Saved rating run restored."
+            : "Guess who rated the movie higher."
+      );
+    }
+
+    setHasLoadedStoredProgress(true);
+  }, [contentVersion, slug]);
+
+  useEffect(() => {
+    if (!hasLoadedStoredProgress) {
+      return;
+    }
     saveWhoLikedItBetterProgress({
       slug,
       contentVersion,
       progress
     });
-  }, [contentVersion, progress, slug]);
+  }, [contentVersion, hasLoadedStoredProgress, progress, slug]);
 
   useEffect(() => {
     if (!currentQuestion) {
       return;
     }
 
-    if (selectedCelebrityImages[currentQuestion.id]) {
+    if (randomizedCelebrityImageIds.includes(currentQuestion.id)) {
       return;
     }
 
-    const randomImage = pickRandomCelebrityImage(currentQuestion);
-    if (!randomImage) {
+    const nextImage = pickRandomCelebrityImage(currentQuestion);
+    if (!nextImage) {
       return;
     }
 
     setSelectedCelebrityImages((current) => ({
       ...current,
-      [currentQuestion.id]: randomImage
+      [currentQuestion.id]: nextImage
     }));
-  }, [currentQuestion, selectedCelebrityImages]);
+    setRandomizedCelebrityImageIds((current) =>
+      current.includes(currentQuestion.id) ? current : [...current, currentQuestion.id]
+    );
+  }, [currentQuestion, randomizedCelebrityImageIds]);
 
   function handleAnswer(selectedAnswer: WhoLikedItBetterChoice) {
     if (!currentQuestion || currentAnswer) {
@@ -325,10 +532,11 @@ export function WhoLikedItBetterGame({
     setProgress(createWhoLikedItBetterProgress());
     setResultsScreenOpen(false);
     setHiddenCelebrityImageIds([]);
-    setHiddenSourceImageIds([]);
+    setHiddenSourceImageSrcs([]);
+    setRandomizedCelebrityImageIds([]);
     setSelectedCelebrityImages(() => {
       const firstQuestion = gameData.questions[0] ?? null;
-      const randomImage = pickRandomCelebrityImage(firstQuestion);
+      const randomImage = getDefaultCelebrityImage(firstQuestion);
 
       return firstQuestion && randomImage ? { [firstQuestion.id]: randomImage } : {};
     });
@@ -452,13 +660,47 @@ export function WhoLikedItBetterGame({
           </TransitionLink>
         </Button>
 
-        <div className="flex flex-wrap items-center justify-end gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-muted">
-          <span className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-text">
-            {progress.currentQuestionIndex + 1}/{gameData.questions.length}
-          </span>
-          <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-text">
-            {progress.score} correct
-          </span>
+        <div className="flex items-center gap-2" aria-label={`Question ${progress.currentQuestionIndex + 1} of ${gameData.questions.length}`}>
+          {progressDots.map((dot, index) => {
+            if (dot.answer?.correct) {
+              return (
+                <span
+                  key={dot.id}
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-emerald-300/70 bg-emerald-500/20 text-emerald-100"
+                  aria-label={`Question ${index + 1}: correct`}
+                >
+                  <Check className="h-4 w-4" />
+                </span>
+              );
+            }
+
+            if (dot.answer && !dot.answer.correct) {
+              return (
+                <span
+                  key={dot.id}
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-rose-300/70 bg-rose-500/20 text-rose-100"
+                  aria-label={`Question ${index + 1}: wrong`}
+                >
+                  <X className="h-4 w-4" />
+                </span>
+              );
+            }
+
+            return (
+              <span
+                key={dot.id}
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full border",
+                  dot.current
+                    ? "border-accent/70 bg-accent-soft text-text"
+                    : "border-white/12 bg-black/15 text-muted"
+                )}
+                aria-label={`Question ${index + 1}: ${dot.current ? "current" : "up next"}`}
+              >
+                <span className={cn("h-2.5 w-2.5 rounded-full", dot.current ? "bg-accent" : "bg-white/18")} />
+              </span>
+            );
+          })}
         </div>
       </div>
 
@@ -573,9 +815,12 @@ export function WhoLikedItBetterGame({
         correct={Boolean(currentAnswer?.correct)}
         question={currentQuestion}
         celebrityImage={visibleCelebrityImage}
-        sourceImage={visibleSourceImage}
+        sourceImages={visibleSourceImages}
         continueLabel={isFinalQuestion ? "See Results" : "Next"}
         onContinue={handleAdvance}
+        onSourceImageError={(src) =>
+          setHiddenSourceImageSrcs((current) => (current.includes(src) ? current : [...current, src]))
+        }
       />
 
       <p className="sr-only" aria-live="polite">

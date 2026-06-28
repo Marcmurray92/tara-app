@@ -80,6 +80,7 @@ For comparison data:
 - every playable question needs a Tara rating and a celebrity rating
 - avoid ties unless the game explicitly supports a tie answer
 - if a source image exists for the celebrity/movie pairing, store the public image path and show it in the game
+- if multiple source/review images exist for one celebrity/movie pairing, store them as an ordered list so the result modal can render a horizontal image strip
 - keep unresolved candidates in processed data so they can be finished later
 
 ## Processed data expectations

@@ -26,17 +26,26 @@ describe("letterboxd-driven game seeds", () => {
           /^\/images\/games\/who-liked-it-better\/source-images\/.+\.(png|jpg|jpeg|webp|svg)$/
         );
       }
+
+      if (question.sourceImages) {
+        for (const image of question.sourceImages) {
+          expect(image.src).toMatch(/^\/images\/games\/who-liked-it-better\/source-images\/.+\.(png|jpg|jpeg|webp|svg)$/);
+        }
+      }
     }
   });
 
-  it("ships the extended comparison set with the Kanye/source-image rounds intact", () => {
-    expect(placeholderWhoLikedItBetterGameData.questions).toHaveLength(10);
+  it("ships a curated 3-round comparison set with a Kanye source-image round", () => {
+    expect(placeholderWhoLikedItBetterGameData.questions).toHaveLength(3);
 
-    const inferredRounds = placeholderWhoLikedItBetterGameData.questions.filter(
-      (question) => question.celebrityRatingConfidence === "low"
+    const kanyeRounds = placeholderWhoLikedItBetterGameData.questions.filter(
+      (question) => question.celebrityName.toLowerCase() === "kanye"
     );
 
-    expect(inferredRounds).toHaveLength(3);
-    expect(inferredRounds.every((question) => question.sourceImage)).toBe(true);
+    expect(kanyeRounds).toHaveLength(1);
+    expect(kanyeRounds[0]?.sourceImages?.length ?? 0).toBeGreaterThan(0);
+
+    expect(kanyeRounds[0]?.celebrityRatingConfidence).toBe("high");
+    expect(kanyeRounds[0]?.sourceImage).toBeTruthy();
   });
 });

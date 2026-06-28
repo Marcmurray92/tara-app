@@ -3,6 +3,15 @@
 ## Core model
 The player sees a movie and guesses who rated it higher: Tara or a celebrity.
 
+Each playable game contains exactly 3 questions.
+
+Every 3-question game should include:
+- at least 1 Kanye question
+- a mix of Tara wins and celebrity wins where practical
+- real poster art
+- celebrity face-off imagery where available
+- optional review/source screenshots shown in the result modal
+
 Each question includes:
 - Movie poster.
 - Movie title.
@@ -54,6 +63,17 @@ When the player taps an answer:
 - Immediately open a result modal/dialog.
 - Do not render the result below the fold as the main feedback mechanism.
 
+## Progress
+Progress should be shown with 3 circles, one per question.
+
+Expected behaviour:
+- unanswered future question: outlined circle
+- current unanswered question: active outlined or filled circle
+- correct answer: green circle with a check icon
+- wrong answer: red circle with an x icon
+
+Do not use a generic `1/10` style counter as the primary progress UI for this game.
+
 ## Result modal
 Correct/wrong feedback must appear in a modal or dialog.
 
@@ -91,6 +111,15 @@ After every guess, reveal:
 - Who rated it higher.
 - Optional explanation if provided in data.
 
+Expected presentation:
+- show the ratings as horizontal stars under each name
+- animate the stars in with a short stagger
+- the higher rating should play slightly longer
+- once the lower rating has finished animating, fade the losing side by roughly 30%
+- briefly bounce the winning side
+
+Keep the motion short, readable, and mobile-safe.
+
 Example:
 
 ```text
@@ -108,14 +137,14 @@ If there is no tie option:
 - Do not silently force a tie into Tara or celebrity.
 
 ## Rounds
-The game can contain multiple movie questions.
+The game contains 3 movie questions.
 
 Expected behaviour:
-- Show current progress, e.g. `1/10`.
-- Move one question at a time.
-- Do not reveal future answers early.
-- Preserve progress if persistence exists.
-- Mark the game complete only after the final question/result screen.
+- move one question at a time
+- do not reveal future answers early
+- preserve progress if persistence exists
+- mark the game complete only after the final question/result screen
+- include at least 1 Kanye round in the 3-question set
 
 ## Final results screen
 After the last question, show:
@@ -136,6 +165,17 @@ Expected behaviour:
 - Rebalance poster size if needed so answer cards and core actions remain usable without scrolling.
 - If poster is missing, show a clear missing-image state.
 
+## Source/review images
+Some celebrity rounds, especially Kanye rounds, may include supporting review/source images.
+
+Expected behaviour:
+- keep these images out of the main face-off choice card
+- show them in the result modal only
+- if a round has 1 source image, render it full width
+- if a round has multiple source images, render them in a horizontal scroll row
+- when multiple images exist, make the first card about 80% width so the next image peeks into view
+- do not crop out key review text
+
 ## Data rules
 Each question should define:
 - id
@@ -146,6 +186,7 @@ Each question should define:
 - celebrity name
 - celebrity rating
 - celebrity image path if available
+- optional celebrity source/review image path(s)
 - correct answer
 - optional explanation
 

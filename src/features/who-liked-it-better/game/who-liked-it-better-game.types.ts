@@ -21,6 +21,7 @@ export type WhoLikedItBetterQuestion = {
   correctAnswer: WhoLikedItBetterChoice;
   explanation?: string | null;
   sourceImage?: WhoLikedItBetterImageAsset | null;
+  sourceImages?: WhoLikedItBetterImageAsset[];
   celebrityRatingSource?: string | null;
   celebrityRatingConfidence?: "high" | "medium" | "low";
 };

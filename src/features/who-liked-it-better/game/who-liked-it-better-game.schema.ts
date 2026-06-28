@@ -21,6 +21,7 @@ const questionSchema = z.object({
   correctAnswer: z.enum(["tara", "celebrity"]),
   explanation: z.string().nullable().optional(),
   sourceImage: imageAssetSchema.nullable().optional(),
+  sourceImages: z.array(imageAssetSchema).optional(),
   celebrityRatingSource: z.string().nullable().optional(),
   celebrityRatingConfidence: z.enum(["high", "medium", "low"]).optional()
 });
