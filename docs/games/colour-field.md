@@ -34,7 +34,8 @@ It is an original colour-gradient restoration puzzle inspired by the broad inter
 ## Release shape
 - A single seeded pack is fine for now.
 - Target roughly 12 to 15 levels.
-- Increase complexity from smaller boards to larger boards.
+- Increase complexity from 4x4 boards upward.
+- Seeded fields should not dip below 16 tiles.
 - Keep the board sizes phone-friendly.
 
 ## Colour rules
@@ -42,6 +43,8 @@ It is an original colour-gradient restoration puzzle inspired by the broad inter
 - Oklab or OkLCh-style interpolation is preferred over naive RGB interpolation.
 - Avoid muddy transitions where possible.
 - Keep the palettes romantic, gothic, dreamy, nocturnal, or celebratory rather than generic neon app styling.
+- Do not let the whole pack collapse into near-identical purple gradients.
+- The seeded pack should visibly span a mix of blush, blue, smoke, amber, moss, teal, wine, and plum tones while staying moody.
 
 ## Mobile UX
 - The board should be the focus.

@@ -9,7 +9,7 @@ export const placeholderColourFieldTitle = "Colour Field";
 export const placeholderColourFieldSubtitle = "Restore each colour field by swapping tiles back into harmony.";
 export const placeholderColourFieldDescription =
   "Tap one tile, tap another, and pull the gradient back into place without disturbing the fixed anchors.";
-export const placeholderColourFieldContentVersion = 1;
+export const placeholderColourFieldContentVersion = 2;
 
 function level(
   id: string,
@@ -48,30 +48,30 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
     level(
       "midnight-vows",
       "Midnight Vows",
-      "Soft lilac into chapel-night plum.",
-      3,
-      3,
-      [0, 2, 6, 8],
+      "Blush and blue folding into a midnight vow.",
+      4,
+      4,
+      [0, 3, 12, 15],
       {
-        topLeft: "#f3b7d6",
-        topRight: "#d0a4ff",
-        bottomLeft: "#6846d5",
-        bottomRight: "#241633"
+        topLeft: "#f4ccd8",
+        topRight: "#9ebcff",
+        bottomLeft: "#6b2449",
+        bottomRight: "#161c30"
       },
       "midnight-vows"
     ),
     level(
       "rose-static",
       "Rose Static",
-      "Dusky blush, soft silver, then the comedown.",
-      3,
-      3,
-      [0, 2, 4, 6, 8],
+      "Powder rose drifting into moss and smoke.",
+      4,
+      4,
+      [0, 3, 5, 10, 12, 15],
       {
-        topLeft: "#f6c8c8",
-        topRight: "#f2a7d7",
-        bottomLeft: "#8f6bc1",
-        bottomRight: "#33224f"
+        topLeft: "#f2c9c6",
+        topRight: "#d7d4dc",
+        bottomLeft: "#64704a",
+        bottomRight: "#231f29"
       },
       "rose-static"
     ),
@@ -84,9 +84,9 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       [0, 3, 12, 15],
       {
         topLeft: "#f6d7a7",
-        topRight: "#eebbc3",
-        bottomLeft: "#6d56c5",
-        bottomRight: "#24162f"
+        topRight: "#ebc3ba",
+        bottomLeft: "#8a3147",
+        bottomRight: "#1d1420"
       },
       "chapel-glow"
     ),
@@ -189,9 +189,9 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       [0, 4, 12, 20, 24],
       {
         topLeft: "#f6dcbf",
-        topRight: "#f7b8c8",
-        bottomLeft: "#8d5a8a",
-        bottomRight: "#26192e"
+        topRight: "#c8e4d7",
+        bottomLeft: "#7b5f74",
+        bottomRight: "#17302d"
       },
       "afterparty-fog"
     ),
@@ -220,8 +220,8 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       {
         topLeft: "#f4d9b8",
         topRight: "#f6c0e0",
-        bottomLeft: "#5d4eb4",
-        bottomRight: "#191320"
+        bottomLeft: "#275c66",
+        bottomRight: "#16161e"
       },
       "last-dance"
     )

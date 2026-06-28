@@ -44,10 +44,20 @@ describe("colour field engine", () => {
   it("marks a solved field complete and unlocks the next one", () => {
     const [firstLevel, secondLevel] = placeholderColourFieldGameData.levels;
     const progress = createColourFieldProgress(placeholderColourFieldGameData);
+    const solvedOrder = getSolvedColourFieldOrder(firstLevel);
+    const [sourceIndex = -1, targetIndex = -1] = solvedOrder
+      .map((_, index) => index)
+      .filter((index) => !firstLevel.fixedTileIndexes.includes(index));
+
+    expect(sourceIndex).toBeGreaterThanOrEqual(0);
+    expect(targetIndex).toBeGreaterThanOrEqual(0);
+
+    const currentOrder = [...solvedOrder];
+    [currentOrder[sourceIndex], currentOrder[targetIndex]] = [currentOrder[targetIndex], currentOrder[sourceIndex]];
 
     progress.levels[firstLevel.slug] = {
       ...progress.levels[firstLevel.slug],
-      currentOrder: [0, 3, 2, 1, 4, 5, 6, 7, 8],
+      currentOrder,
       startedAt: "2026-06-28T12:05:00.000Z"
     };
 
@@ -55,8 +65,8 @@ describe("colour field engine", () => {
       gameData: placeholderColourFieldGameData,
       progress,
       levelSlug: firstLevel.slug,
-      sourceIndex: 1,
-      targetIndex: 3,
+      sourceIndex,
+      targetIndex,
       now: "2026-06-28T12:06:00.000Z"
     });
 

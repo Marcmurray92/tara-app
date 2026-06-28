@@ -16,8 +16,9 @@ describe("colour field seed manifest", () => {
       expect(slugs.has(level.slug)).toBe(false);
       slugs.add(level.slug);
       expect(level.fixedTileIndexes.length).toBeGreaterThan(0);
-      expect(level.columns).toBeGreaterThanOrEqual(3);
-      expect(level.rows).toBeGreaterThanOrEqual(3);
+      expect(level.columns).toBeGreaterThanOrEqual(4);
+      expect(level.rows).toBeGreaterThanOrEqual(4);
+      expect(level.columns * level.rows).toBeGreaterThanOrEqual(16);
     }
 
     const summaries = listSeededColourFieldSummaries();
