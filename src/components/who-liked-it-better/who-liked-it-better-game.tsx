@@ -48,6 +48,18 @@ function getMonogram(name: string) {
     .join("");
 }
 
+function pickRandomCelebrityImage(question: WhoLikedItBetterGameData["questions"][number] | null) {
+  if (!question) {
+    return null;
+  }
+
+  if (question.celebrityImages && question.celebrityImages.length > 0) {
+    return question.celebrityImages[Math.floor(Math.random() * question.celebrityImages.length)] ?? question.celebrityImages[0];
+  }
+
+  return question.celebrityImage ?? null;
+}
+
 function FaceOffArt({
   image,
   label,
@@ -219,6 +231,14 @@ export function WhoLikedItBetterGame({
   const [brokenPosterQuestionIds, setBrokenPosterQuestionIds] = useState<string[]>([]);
   const [hiddenCelebrityImageIds, setHiddenCelebrityImageIds] = useState<string[]>([]);
   const [hiddenSourceImageIds, setHiddenSourceImageIds] = useState<string[]>([]);
+  const [selectedCelebrityImages, setSelectedCelebrityImages] = useState<Record<string, WhoLikedItBetterImageAsset>>(
+    () => {
+      const initialQuestion = getCurrentWhoLikedItBetterQuestion(gameData, loadState.progress);
+      const initialImage = pickRandomCelebrityImage(initialQuestion);
+
+      return initialQuestion && initialImage ? { [initialQuestion.id]: initialImage } : {};
+    }
+  );
 
   const birthdaySnapshot = useBirthdayProgress();
   const nextGame = getNextBirthdayGame(birthdaySnapshot, "who-liked-it-better");
@@ -232,9 +252,10 @@ export function WhoLikedItBetterGame({
     [currentQuestion, progress]
   );
   const showResults = resultsScreenOpen;
+  const chosenCelebrityImage = currentQuestion ? selectedCelebrityImages[currentQuestion.id] : null;
   const visibleCelebrityImage =
-    currentQuestion?.celebrityImage && !hiddenCelebrityImageIds.includes(currentQuestion.id)
-      ? currentQuestion.celebrityImage
+    currentQuestion && !hiddenCelebrityImageIds.includes(currentQuestion.id)
+      ? chosenCelebrityImage ?? currentQuestion.celebrityImage ?? null
       : null;
   const visibleSourceImage =
     currentQuestion?.sourceImage && !hiddenSourceImageIds.includes(currentQuestion.id) ? currentQuestion.sourceImage : null;
@@ -247,6 +268,26 @@ export function WhoLikedItBetterGame({
       progress
     });
   }, [contentVersion, progress, slug]);
+
+  useEffect(() => {
+    if (!currentQuestion) {
+      return;
+    }
+
+    if (selectedCelebrityImages[currentQuestion.id]) {
+      return;
+    }
+
+    const randomImage = pickRandomCelebrityImage(currentQuestion);
+    if (!randomImage) {
+      return;
+    }
+
+    setSelectedCelebrityImages((current) => ({
+      ...current,
+      [currentQuestion.id]: randomImage
+    }));
+  }, [currentQuestion, selectedCelebrityImages]);
 
   function handleAnswer(selectedAnswer: WhoLikedItBetterChoice) {
     if (!currentQuestion || currentAnswer) {
@@ -283,6 +324,14 @@ export function WhoLikedItBetterGame({
     clearWhoLikedItBetterProgress(slug, contentVersion);
     setProgress(createWhoLikedItBetterProgress());
     setResultsScreenOpen(false);
+    setHiddenCelebrityImageIds([]);
+    setHiddenSourceImageIds([]);
+    setSelectedCelebrityImages(() => {
+      const firstQuestion = gameData.questions[0] ?? null;
+      const randomImage = pickRandomCelebrityImage(firstQuestion);
+
+      return firstQuestion && randomImage ? { [firstQuestion.id]: randomImage } : {};
+    });
     setAnnouncement("Fresh rating run loaded.");
   }
 

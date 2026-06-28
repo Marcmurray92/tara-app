@@ -16,6 +16,7 @@ export type WhoLikedItBetterQuestion = {
   taraRating: number;
   celebrityName: string;
   celebrityImage?: WhoLikedItBetterImageAsset | null;
+  celebrityImages?: WhoLikedItBetterImageAsset[];
   celebrityRating: number;
   correctAnswer: WhoLikedItBetterChoice;
   explanation?: string | null;

@@ -43,17 +43,95 @@ function toPosterImage(movieSlug: string, movieTitle: string) {
   };
 }
 
-function toCelebrityImage(celebrityName: string) {
-  if (celebrityName.toLowerCase() === "kanye") {
-    return {
-      src: "/images/games/who-liked-it-better/celebrities/kanye-west.svg",
-      width: 640,
-      height: 640,
-      alt: "Kanye West portrait illustration"
-    };
+function toCelebrityImages(celebrityName: string) {
+  switch (celebrityName.toLowerCase()) {
+    case "kanye":
+      return [
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kanye/kanye-1.webp",
+          width: 1620,
+          height: 2160,
+          alt: "Kanye West photo 1"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kanye/kanye-2.webp",
+          width: 1284,
+          height: 1502,
+          alt: "Kanye West photo 2"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kanye/kanye-3.webp",
+          width: 760,
+          height: 1053,
+          alt: "Kanye West photo 3"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kanye/kanye-4.webp",
+          width: 720,
+          height: 916,
+          alt: "Kanye West photo 4"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kanye/kanye-5.webp",
+          width: 499,
+          height: 666,
+          alt: "Kanye West photo 5"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kanye/kanye-6.webp",
+          width: 500,
+          height: 595,
+          alt: "Kanye West photo 6"
+        }
+      ];
+    case "kid cudi":
+      return [
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kid-cudi/kid-cudi-1.webp",
+          width: 1080,
+          height: 960,
+          alt: "Kid Cudi photo 1"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kid-cudi/kid-cudi-2.webp",
+          width: 1080,
+          height: 1076,
+          alt: "Kid Cudi photo 2"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kid-cudi/kid-cudi-3.webp",
+          width: 1080,
+          height: 811,
+          alt: "Kid Cudi photo 3"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kid-cudi/kid-cudi-4.webp",
+          width: 1080,
+          height: 1671,
+          alt: "Kid Cudi photo 4"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kid-cudi/kid-cudi-5.webp",
+          width: 1080,
+          height: 811,
+          alt: "Kid Cudi photo 5"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kid-cudi/kid-cudi-6.webp",
+          width: 1080,
+          height: 808,
+          alt: "Kid Cudi photo 6"
+        },
+        {
+          src: "/images/games/who-liked-it-better/celebrities/kid-cudi/kid-cudi-7.jpg",
+          width: 736,
+          height: 732,
+          alt: "Kid Cudi photo 7"
+        }
+      ];
+    default:
+      return [];
   }
-
-  return null;
 }
 
 function getQuestion(candidateId: (typeof READY_IDS)[number]) {
@@ -63,6 +141,8 @@ function getQuestion(candidateId: (typeof READY_IDS)[number]) {
     throw new Error(`Missing ready Who Liked It Better candidate: ${candidateId}`);
   }
 
+  const celebrityImages = toCelebrityImages(candidate.celebrityName);
+
   return {
     id: candidate.id,
     movieTitle: candidate.movieTitle,
@@ -71,7 +151,8 @@ function getQuestion(candidateId: (typeof READY_IDS)[number]) {
     posterImage: toPosterImage(candidate.movieSlug, candidate.movieTitle),
     taraRating: candidate.taraRating,
     celebrityName: candidate.celebrityName,
-    celebrityImage: toCelebrityImage(candidate.celebrityName),
+    celebrityImage: celebrityImages[0] ?? null,
+    celebrityImages: celebrityImages.length > 0 ? celebrityImages : undefined,
     celebrityRating: candidate.celebrityRating,
     correctAnswer: candidate.correctAnswer,
     explanation: candidate.notes ?? null,
