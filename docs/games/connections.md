@@ -5,6 +5,8 @@
 ### Core model
 The player finds 4 hidden groups of 4 related tiles from a 4x4 grid.
 
+Each Connections board is its own selectable puzzle card in the Connections collection.
+
 The game should feel fast, tactile, and satisfying on mobile.
 
 ### Layout

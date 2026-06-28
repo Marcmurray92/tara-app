@@ -1,9 +1,6 @@
 import type { GameType } from "@/features/games/game.types";
 import { readLocalConnectionsStatus } from "@/features/connections/game/connections-storage";
-import {
-  placeholderConnectionsContentVersion,
-  placeholderConnectionsSlug
-} from "@/features/connections/seed/placeholder-connections";
+import { listSeededConnectionsSummaries } from "@/features/connections/seed/placeholder-connections";
 import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
 import { listSeededCrosswordSummaries } from "@/features/crossword/seed/tara-crosswords";
 import { readLocalGuessingStatus } from "@/features/guessing/game/guessing-storage";
@@ -34,6 +31,11 @@ export type BirthdayProgressSnapshot = {
 const CROSSWORD_PROGRESS_TARGETS = listSeededCrosswordSummaries().map((crossword) => ({
   slug: crossword.slug,
   contentVersion: crossword.contentVersion
+}));
+
+const CONNECTIONS_PROGRESS_TARGETS = listSeededConnectionsSummaries().map((board) => ({
+  slug: board.slug,
+  contentVersion: board.contentVersion
 }));
 
 const BASE_ITEMS: Omit<BirthdayGameProgressItem, "status">[] = [
@@ -85,6 +87,12 @@ function readCrosswordCollectionStatus() {
   );
 }
 
+function readConnectionsCollectionStatus() {
+  return combineStatuses(
+    CONNECTIONS_PROGRESS_TARGETS.map((target) => readLocalConnectionsStatus(target.slug, target.contentVersion))
+  );
+}
+
 export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
   if (typeof window === "undefined") {
     return {
@@ -105,10 +113,7 @@ export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
     if (item.type === "connections") {
       return {
         ...item,
-        status: readLocalConnectionsStatus(
-          placeholderConnectionsSlug,
-          placeholderConnectionsContentVersion
-        )
+        status: readConnectionsCollectionStatus()
       };
     }
 

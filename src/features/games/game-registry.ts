@@ -17,11 +17,11 @@ export const gameRegistry: GameDefinition[] = [
     type: "connections",
     title: "Connections",
     shortTitle: "Connections",
-    description: "Sort sixteen movie titles into four hidden categories before the fourth mistake lands.",
+    description: "Sort sixteen tiles into four hidden categories before the fourth mistake lands.",
     href: "/games/connections",
     availability: "available",
     icon: Grid2X2,
-    sourceFormatName: "Category / Movie 1 / Movie 2 / Movie 3 / Movie 4"
+    sourceFormatName: "Category / Item 1 / Item 2 / Item 3 / Item 4"
   },
   {
     type: "guessing",

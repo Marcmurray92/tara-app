@@ -155,7 +155,7 @@ export function ConnectionsGame({
       ? "Solved board restored on this device."
       : loadState.restored
         ? "Welcome back. Your saved board is ready."
-        : "Select four movie titles that belong together."
+        : "Select four tiles that belong together."
   );
   const [feedbackTone, setFeedbackTone] = useState<"neutral" | "success" | "warning" | "error">("neutral");
   const [boardFeedback, setBoardFeedback] = useState<null | "one-away" | "miss">(null);
@@ -248,7 +248,7 @@ export function ConnectionsGame({
     setSubmittedTileIds([]);
     if (!selectedIds.has(tileId) && hasSelectionLimit(progress)) {
       setFeedbackTone("warning");
-      setMessage("You can only select four titles at a time.");
+      setMessage("You can only select four tiles at a time.");
       return;
     }
 
@@ -263,7 +263,7 @@ export function ConnectionsGame({
 
     if (progress.selectedItemIds.length !== 4) {
       setFeedbackTone("warning");
-      setMessage("Choose exactly four titles before you submit.");
+      setMessage("Choose exactly four tiles before you submit.");
       return;
     }
 
@@ -316,7 +316,7 @@ export function ConnectionsGame({
 
     if (result.feedback.type === "duplicate") {
       setFeedbackTone("warning");
-      setMessage("You already tried that exact set of four movies.");
+      setMessage("You already tried that exact set of four tiles.");
       return;
     }
 

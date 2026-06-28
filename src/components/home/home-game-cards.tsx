@@ -16,9 +16,8 @@ import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { loadConnectionsProgress } from "@/features/connections/game/connections-storage";
 import {
-  placeholderConnectionsContentVersion,
-  placeholderConnectionsGameData,
-  placeholderConnectionsSlug
+  listSeededConnectionsSummaries,
+  type SeededConnectionsContent
 } from "@/features/connections/seed/placeholder-connections";
 import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
 import { loadGuessingProgress } from "@/features/guessing/game/guessing-storage";
@@ -88,11 +87,8 @@ function getCrosswordBadge(status: HomeCardStatus) {
   }
 }
 
-function getConnectionsBadge() {
-  const progress = loadConnectionsProgress(
-    placeholderConnectionsSlug,
-    placeholderConnectionsContentVersion
-  );
+function getConnectionsBadge(connections: Pick<SeededConnectionsContent, "slug" | "contentVersion" | "groupCount">) {
+  const progress = loadConnectionsProgress(connections.slug, connections.contentVersion);
 
   if (!progress) {
     return {
@@ -109,7 +105,7 @@ function getConnectionsBadge() {
   }
 
   return {
-    badge: `${progress.solvedGroupIds.length}/${placeholderConnectionsGameData.groups.length} solved`,
+    badge: `${progress.solvedGroupIds.length}/${connections.groupCount} solved`,
     status: "in-progress" as const
   };
 }
@@ -166,7 +162,7 @@ function getWhoLikedBadge() {
 }
 
 function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
-  const connectionsState = getConnectionsBadge();
+  const connectionsBoards = listSeededConnectionsSummaries();
   const guessingState = getGuessingBadge();
   const whoLikedState = getWhoLikedBadge();
 
@@ -195,17 +191,19 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
       title: "Connections",
       description: "Each board gets its own card and its own progress.",
       icon: Grid2X2,
-      items: [
-        {
-          id: placeholderConnectionsSlug,
-          href: "/games/connections",
-          title: "Board 1",
-          description: "Four hidden movie groups.",
-          meta: `${placeholderConnectionsGameData.groups.length} groups`,
-          badge: connectionsState.badge,
-          status: connectionsState.status
-        }
-      ]
+      items: connectionsBoards.map((board) => {
+        const progress = getConnectionsBadge(board);
+
+        return {
+          id: board.slug,
+          href: board.href,
+          title: board.title,
+          description: board.description,
+          meta: `${board.groupCount} groups`,
+          badge: progress.badge,
+          status: progress.status
+        };
+      })
     },
     {
       type: "guessing",
