@@ -3,6 +3,7 @@ import type {
   ColourFieldLevelData,
   SeededColourFieldSummary
 } from "@/features/colour-field/game/colour-field-game.types";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 
 export const placeholderColourFieldSlug = "tara-colour-field";
 export const placeholderColourFieldTitle = "Colour Field";
@@ -343,7 +344,7 @@ export function listSeededColourFieldSummaries(): SeededColourFieldSummary[] {
     {
       slug: placeholderColourFieldSlug,
       href: "/games/colour-field",
-      title: "Field Set 1",
+      title: getBirthdayDateLabel(0),
       description: "Twelve gradients. Fixed anchors. Very smug colour harmony.",
       contentVersion: placeholderColourFieldContentVersion,
       levelCount: placeholderColourFieldGameData.levels.length

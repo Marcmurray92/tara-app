@@ -8,9 +8,7 @@ import {
 import {
   getDefaultSeededCrossword,
   getSeededCrosswordBySlug,
-  listSeededCrosswordSummaries,
-  getPlaceholderCrosswordContent,
-  placeholderCrosswordSlug
+  listSeededCrosswordSummaries
 } from "@/features/crossword/seed/placeholder-crossword";
 import { safeReadServerEnv } from "@/lib/environment/env";
 
@@ -112,8 +110,8 @@ export async function listPublishedCrosswords() {
 
   try {
     const published = (await listPublishedGameContent("crossword"))
-      .map((record) => mapRecordToPublicCrosswordSummary(record))
-      .filter((record): record is PublicCrosswordSummary => record !== null);
+        .map((record) => mapRecordToPublicCrosswordSummary(record))
+        .filter((record): record is PublicCrosswordSummary => record !== null);
 
     return published.length > 0 ? published : listSeededCrosswordSummaries();
   } catch {

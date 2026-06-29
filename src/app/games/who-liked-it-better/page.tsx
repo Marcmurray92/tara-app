@@ -1,5 +1,6 @@
 import { GameShell } from "@/components/app-shell/game-shell";
 import { WhoLikedItBetterGame } from "@/components/who-liked-it-better/who-liked-it-better-game";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 import {
   placeholderWhoLikedItBetterContentVersion,
   placeholderWhoLikedItBetterGameData,
@@ -14,7 +15,7 @@ export default function WhoLikedItBetterPage() {
         gameData={placeholderWhoLikedItBetterGameData}
         slug={placeholderWhoLikedItBetterSlug}
         contentVersion={placeholderWhoLikedItBetterContentVersion}
-        title={placeholderWhoLikedItBetterTitle}
+        title={getBirthdayDateLabel(0)}
       />
     </GameShell>
   );

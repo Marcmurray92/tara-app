@@ -1,5 +1,6 @@
 import { GameShell } from "@/components/app-shell/game-shell";
 import { GuessingGame } from "@/components/guessing/guessing-game";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 import {
   placeholderGuessingContentVersion,
   placeholderGuessingGameData,
@@ -15,7 +16,7 @@ export default function GuessingPage() {
         gameData={placeholderGuessingGameData}
         slug={placeholderGuessingSlug}
         contentVersion={placeholderGuessingContentVersion}
-        title={placeholderGuessingTitle}
+        title={getBirthdayDateLabel(0)}
         subtitle={placeholderGuessingSubtitle}
       />
     </GameShell>

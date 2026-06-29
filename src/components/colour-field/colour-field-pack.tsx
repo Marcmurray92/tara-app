@@ -4,18 +4,17 @@ import { ArrowRight, Home, Lock, Palette } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { GameMasthead } from "@/components/games/game-masthead";
-import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { Button } from "@/components/ui/button";
 import { TransitionLink } from "@/components/ui/transition-link";
 import {
   createColourFieldProgress,
-  getCompletedColourFieldCount,
   getFirstUnlockedColourFieldLevel,
   normaliseColourFieldProgress,
   readColourFieldStatusSummary
 } from "@/features/colour-field/game/colour-field-engine";
 import type { ColourFieldGameData } from "@/features/colour-field/game/colour-field-game.types";
 import { loadColourFieldProgress } from "@/features/colour-field/game/colour-field-storage";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 import { cn } from "@/lib/utils/cn";
 
 function getLevelBadge({
@@ -59,7 +58,6 @@ export function ColourFieldPack({
   );
 
   const packStatus = useMemo(() => readColourFieldStatusSummary(gameData, progress), [gameData, progress]);
-  const completedCount = useMemo(() => getCompletedColourFieldCount(gameData, progress), [gameData, progress]);
   const nextLevel = useMemo(() => getFirstUnlockedColourFieldLevel(gameData, progress), [gameData, progress]);
 
   return (
@@ -69,10 +67,6 @@ export function ColourFieldPack({
           eyebrow="Colour Field"
           title={title}
           subtitle={subtitle}
-          items={[
-            { label: "levels", value: String(gameData.levels.length) },
-            { label: "restored", value: String(completedCount) }
-          ]}
           actions={
             <>
               {nextLevel ? (
@@ -93,8 +87,6 @@ export function ColourFieldPack({
           }
         />
 
-        <BirthdayProgress compact currentGame="colour-field" />
-
         {packStatus === "completed" ? (
           <div className="rounded-[1.35rem] border border-accent/25 bg-accent-soft/70 px-4 py-3 text-sm leading-6 text-text">
             All twelve fields are restored. Taste detected.
@@ -112,6 +104,7 @@ export function ColourFieldPack({
             const unlocked = levelProgress.unlocked;
             const started = levelProgress.currentMoves > 0 || Boolean(levelProgress.startedAt);
             const badge = getLevelBadge({ unlocked, completed, started });
+            const levelTitle = getBirthdayDateLabel(index);
             const body = (
               <>
                 <div className="flex items-start justify-between gap-2">
@@ -133,8 +126,7 @@ export function ColourFieldPack({
                 </div>
 
                 <div className="space-y-1">
-                  <p className="text-[0.65rem] uppercase tracking-[0.2em] text-muted">Field {index + 1}</p>
-                  <h2 className="font-display text-[1.4rem] leading-tight text-text">{level.title}</h2>
+                  <h2 className="font-display text-[1.4rem] leading-tight text-text">{levelTitle}</h2>
                 </div>
 
                 <div className="space-y-1 text-sm text-muted">
@@ -150,7 +142,7 @@ export function ColourFieldPack({
                 <div
                   key={level.slug}
                   className="flex min-h-[14rem] flex-col justify-between rounded-[1.35rem] border border-white/10 bg-black/20 p-4 opacity-75"
-                  aria-label={`Field ${index + 1}, ${level.title}, locked`}
+                  aria-label={`Field ${index + 1}, ${levelTitle}, locked`}
                 >
                   {body}
                 </div>
@@ -162,7 +154,7 @@ export function ColourFieldPack({
                 key={level.slug}
                 href={`/games/colour-field/${level.slug}`}
                 direction="forward"
-                aria-label={`Field ${index + 1}, ${level.title}, ${badge}`}
+                aria-label={`Field ${index + 1}, ${levelTitle}, ${badge}`}
                 className={cn(
                   "flex min-h-[14rem] flex-col justify-between rounded-[1.35rem] border p-4 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
                   completed

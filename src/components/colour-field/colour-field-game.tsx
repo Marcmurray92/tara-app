@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Home, Lock, RotateCcw, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Lock, RotateCcw, Sparkles } from "lucide-react";
 import {
   useEffect,
   useMemo,
@@ -10,6 +10,7 @@ import {
   type PointerEvent as ReactPointerEvent
 } from "react";
 
+import { GameHomeButton } from "@/components/games/game-home-button";
 import { Button } from "@/components/ui/button";
 import { TransitionLink } from "@/components/ui/transition-link";
 import {
@@ -17,7 +18,6 @@ import {
   getColourFieldLevel,
   getColourFieldLevelBoard,
   getColourFieldLevelProgress,
-  getCompletedColourFieldCount,
   getNextColourFieldLevel,
   getPreviousColourFieldLevel,
   getSolvedColourFieldOrder,
@@ -31,6 +31,7 @@ import {
   loadColourFieldProgress,
   saveColourFieldProgress
 } from "@/features/colour-field/game/colour-field-storage";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 import { cn } from "@/lib/utils/cn";
 
 const TOUCH_HOLD_DELAY_MS = 180;
@@ -91,12 +92,7 @@ function CompletionDialog({
               </TransitionLink>
             </Button>
           ) : (
-            <Button asChild>
-              <TransitionLink href="/" direction="back">
-                <Home className="h-4 w-4" />
-                Back to Home
-              </TransitionLink>
-            </Button>
+            <GameHomeButton size="default" />
           )}
 
           <Button onClick={onReplay} variant="outline">
@@ -117,38 +113,6 @@ type DragState = {
   sourceIndex: number;
   overIndex: number | null;
 };
-
-function getTileGap(boardSize: number) {
-  if (boardSize >= 12) {
-    return "0.2rem";
-  }
-
-  if (boardSize >= 10) {
-    return "0.28rem";
-  }
-
-  if (boardSize >= 9) {
-    return "0.35rem";
-  }
-
-  return "0.45rem";
-}
-
-function getTileCornerClass(boardSize: number) {
-  if (boardSize >= 12) {
-    return "rounded-[0.45rem]";
-  }
-
-  if (boardSize >= 10) {
-    return "rounded-[0.6rem]";
-  }
-
-  if (boardSize >= 9) {
-    return "rounded-[0.72rem]";
-  }
-
-  return "rounded-[0.88rem]";
-}
 
 function getLockBadgeClass(boardSize: number) {
   if (boardSize >= 12) {
@@ -251,8 +215,6 @@ export function ColourFieldGame({
     () => (level ? getNextColourFieldLevel(gameData, level.slug) : null),
     [gameData, level]
   );
-  const completedCount = useMemo(() => getCompletedColourFieldCount(gameData, progress), [gameData, progress]);
-
   useEffect(() => {
     saveColourFieldProgress({
       slug: packSlug,
@@ -315,6 +277,8 @@ export function ColourFieldGame({
 
   const activeLevel = currentLevel;
   const activeLevelProgress = currentLevelProgress;
+  const activeLevelIndex = gameData.levels.findIndex((entry) => entry.slug === activeLevel.slug);
+  const activeLevelTitle = activeLevelIndex >= 0 ? getBirthdayDateLabel(activeLevelIndex) : activeLevel.title;
 
   const levelLocked = !activeLevelProgress.unlocked;
   const completionLine =
@@ -573,8 +537,6 @@ export function ColourFieldGame({
   const boardTiles = activeOrder ? getColourFieldLevelBoard(activeLevel, activeOrder) : [];
   const currentMoves = activeLevelProgress.currentMoves;
   const boardSize = Math.max(activeLevel.columns, activeLevel.rows);
-  const tileGap = getTileGap(boardSize);
-  const tileCornerClass = getTileCornerClass(boardSize);
   const lockBadgeClass = getLockBadgeClass(boardSize);
   const lockIconClass = getLockIconClass(boardSize);
 
@@ -593,21 +555,15 @@ export function ColourFieldGame({
               <div className="min-w-0">
                 <p className="text-[0.65rem] uppercase tracking-[0.22em] text-muted">Colour Field</p>
                 <h1 data-page-title="true" tabIndex={-1} className="truncate font-display text-[1.35rem] leading-tight text-text">
-                  {activeLevel.title}
+                  {activeLevelTitle}
                 </h1>
               </div>
             </div>
 
-            <Button variant="outline" size="sm" className="h-10 rounded-full px-3" onClick={handleRestart}>
-              <RotateCcw className="h-4 w-4" />
-              Restart
-            </Button>
+            <GameHomeButton className="h-10 px-3" />
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            <div className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-center text-xs uppercase tracking-[0.18em] text-muted">
-              <span className="text-text">{completedCount}</span> / {gameData.levels.length}
-            </div>
+          <div className="grid grid-cols-2 gap-2">
             <div className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-center text-xs uppercase tracking-[0.18em] text-muted">
               <span className="text-text">{currentMoves}</span> moves
             </div>
@@ -627,12 +583,7 @@ export function ColourFieldGame({
                 <Button asChild>
                   <TransitionLink href="/games/colour-field" direction="back">Back to pack</TransitionLink>
                 </Button>
-                <Button asChild variant="outline">
-                  <TransitionLink href="/" direction="back">
-                    <Home className="h-4 w-4" />
-                    Home
-                  </TransitionLink>
-                </Button>
+                <GameHomeButton size="default" />
               </div>
             </div>
           ) : (
@@ -649,9 +600,8 @@ export function ColourFieldGame({
                 <div className="rounded-[1.55rem] border border-white/10 bg-surface/90 p-3 shadow-glow">
                   <div className="mx-auto w-full max-w-[min(100vw-1rem,34rem)]">
                     <div
-                      className="grid gap-2"
+                      className="grid"
                       style={{
-                        gap: tileGap,
                         gridTemplateColumns: `repeat(${activeLevel.columns}, minmax(0, 1fr))`
                       }}
                     >
@@ -671,17 +621,16 @@ export function ColourFieldGame({
                           disabled={showPreview || tile.locked}
                           aria-label={`Tile row ${tile.row + 1}, column ${tile.column + 1}${tile.locked ? ", anchor" : ""}`}
                           className={cn(
-                            "group relative aspect-square touch-none overflow-visible bg-transparent p-0 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                            tileCornerClass,
+                            "group relative aspect-square touch-none overflow-visible bg-transparent p-0 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
                             boardAnimationKey > 0 ? "animate-colour-field-tile-enter" : "",
                             tile.locked
                               ? "cursor-default"
                               : "active:scale-[0.985]",
                             selectedIndex === tile.position
-                              ? "z-10 animate-focus-pulse ring-2 ring-accent ring-offset-2 ring-offset-background"
+                              ? "z-10 animate-focus-pulse ring-2 ring-accent shadow-[0_0_0_2px_rgba(204,255,0,0.9),0_0_26px_rgba(204,255,0,0.32)]"
                               : "",
                             dragState?.overIndex === tile.position && dragState.sourceIndex !== tile.position && !tile.locked
-                              ? "ring-2 ring-white/70 ring-offset-2 ring-offset-background"
+                              ? "ring-2 ring-white/70"
                               : ""
                           )}
                           style={{
@@ -690,11 +639,10 @@ export function ColourFieldGame({
                         >
                           <span
                             className={cn(
-                              "absolute inset-0 border transition-[transform,box-shadow,filter] duration-200",
-                              tileCornerClass,
+                              "absolute inset-0 transition-[transform,box-shadow,filter] duration-200",
                               tile.locked
-                                ? "border-white/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
-                                : "border-white/10",
+                                ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+                                : "",
                               selectedIndex === tile.position
                                 ? "animate-colour-field-selected shadow-[0_14px_32px_rgba(0,0,0,0.28)]"
                                 : "",
@@ -752,7 +700,7 @@ export function ColourFieldGame({
       <CompletionDialog
         open={showCompletion}
         line={completionLine}
-        levelTitle={activeLevel.title}
+        levelTitle={activeLevelTitle}
         moves={activeLevelProgress.lastMoves ?? activeLevelProgress.currentMoves}
         bestMoves={activeLevelProgress.bestMoves}
         nextLevelSlug={nextLevel?.slug ?? null}

@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
+import { GameHomeButton } from "@/components/games/game-home-button";
 import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { CrosswordClueList } from "@/components/crossword/crossword-clue-list";
 import { CrosswordCompletionDialog } from "@/components/crossword/crossword-completion-dialog";
@@ -423,11 +424,7 @@ export function CrosswordGame({
         <div className="flex h-[100svh] flex-col overflow-x-hidden bg-background">
           <div className="safe-top border-b border-white/10 bg-background/95 backdrop-blur">
             <div className="flex items-center justify-between gap-3 px-2 py-1.5">
-              <Button asChild variant="ghost" size="sm" className="h-9 w-9 rounded-full border border-white/10 bg-surface/90 p-0">
-                <TransitionLink href="/" direction="back" aria-label="Back to Home">
-                  <ArrowLeft className="h-4 w-4" />
-                </TransitionLink>
-              </Button>
+              <GameHomeButton className="h-9 px-3" />
 
               <div className="rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[0.95rem] font-semibold text-text">
                 {timerLabel}
@@ -468,9 +465,7 @@ export function CrosswordGame({
                 <div className="mt-4 space-y-4">
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-[0.62rem] uppercase tracking-[0.22em] text-muted">Navigate</p>
-                    <Button asChild variant="ghost" size="sm" className="h-8 px-2">
-                      <TransitionLink href="/" direction="back">Home</TransitionLink>
-                    </Button>
+                    <GameHomeButton className="h-8 px-2 text-[0.75rem]" />
                   </div>
 
                   <div className="space-y-2">
@@ -675,9 +670,12 @@ export function CrosswordGame({
                 { label: "elapsed", value: timerLabel }
               ]}
               actions={
-                <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
-                  Reset
-                </Button>
+                <>
+                  <GameHomeButton />
+                  <Button variant="outline" onClick={() => setPendingAction("reset-progress")}>
+                    Reset
+                  </Button>
+                </>
               }
             />
           </Reveal>

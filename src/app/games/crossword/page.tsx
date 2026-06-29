@@ -3,6 +3,7 @@ import { Puzzle } from "lucide-react";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { GameShell } from "@/components/app-shell/game-shell";
 import { listPublishedCrosswords } from "@/features/crossword/content/get-published-crossword";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 
 export default async function CrosswordIndexPage() {
   const crosswords = await listPublishedCrosswords();
@@ -17,7 +18,7 @@ export default async function CrosswordIndexPage() {
 
           <div className="overflow-x-auto">
             <div className="flex snap-x snap-mandatory gap-3 pb-1">
-              {crosswords.map((crossword) => (
+              {crosswords.map((crossword, index) => (
                 <TransitionLink
                   key={crossword.slug}
                   href={crossword.href}
@@ -28,7 +29,7 @@ export default async function CrosswordIndexPage() {
                     <span className="inline-flex h-16 w-16 items-center justify-center rounded-[1.35rem] border border-accent/25 bg-accent-soft text-accent">
                       <Puzzle className="h-7 w-7" />
                     </span>
-                    <h2 className="font-display text-3xl leading-tight text-text">{crossword.title}</h2>
+                    <h2 className="font-display text-3xl leading-tight text-text">{getBirthdayDateLabel(index)}</h2>
                   </div>
                   <div className="text-xs uppercase tracking-[0.2em] text-muted">{crossword.clueCount} clues</div>
                 </TransitionLink>

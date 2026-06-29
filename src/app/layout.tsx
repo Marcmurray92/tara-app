@@ -1,8 +1,5 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata, Viewport } from "next";
-
-import "@fontsource/inconsolata/400.css";
-import "@fontsource/inconsolata/500.css";
-import "@fontsource/inconsolata/700.css";
 
 import { ClientSwRegister } from "@/components/app-shell/client-sw-register";
 import { PageTransitionReset } from "@/components/app-shell/page-transition-reset";
@@ -34,6 +31,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Koulen&display=swap"
+        />
+      </head>
       <body className="font-body antialiased">
         <ClientSwRegister />
         <PageTransitionReset />

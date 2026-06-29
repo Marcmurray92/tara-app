@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, RotateCcw, Trophy } from "lucide-react";
+import { ArrowRight, RotateCcw, Trophy } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
+import { GameHomeButton } from "@/components/games/game-home-button";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -105,14 +106,7 @@ function GuessingRoundDialog({
             {solved ? <ArrowRight className="h-4 w-4" /> : null}
           </Button>
 
-          {!solved ? (
-            <Button asChild variant="outline">
-              <TransitionLink href="/" direction="back">
-                <Home className="h-4 w-4" />
-                Back to Home
-              </TransitionLink>
-            </Button>
-          ) : null}
+          {!solved ? <GameHomeButton /> : null}
         </div>
       </div>
     </div>
@@ -291,11 +285,7 @@ export function GuessingGame({
                     </TransitionLink>
                   </Button>
                 ) : (
-                  <Button asChild className="sm:w-auto">
-                    <TransitionLink href="/" direction="back">
-                      Back to Home
-                    </TransitionLink>
-                  </Button>
+                  <GameHomeButton className="sm:w-auto" size="default" />
                 )}
                 <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
                   <RotateCcw className="h-4 w-4" />
@@ -326,12 +316,7 @@ export function GuessingGame({
             <CardDescription>The vibes failed to load, so this round cannot be played safely.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 p-4 pt-2 sm:flex-row sm:p-5 sm:pt-3">
-            <Button asChild>
-              <TransitionLink href="/" direction="back">
-                <Home className="h-4 w-4" />
-                Back to Home
-              </TransitionLink>
-            </Button>
+            <GameHomeButton size="default" />
             <Button variant="outline" onClick={handleRestart}>
               <RotateCcw className="h-4 w-4" />
               Restart
@@ -355,14 +340,7 @@ export function GuessingGame({
 
       <div className="flex min-h-[100svh] flex-col gap-4 py-3 lg:min-h-0 lg:py-4">
         <div className="flex items-center justify-between gap-3">
-          <TransitionLink
-            href="/"
-            direction="back"
-            className="inline-flex items-center gap-2 text-sm text-text transition hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </TransitionLink>
+          <GameHomeButton />
 
           <div className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[0.68rem] uppercase tracking-[0.22em] text-muted">
             {currentRound.difficulty}

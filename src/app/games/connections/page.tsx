@@ -3,6 +3,7 @@ import { Grid2X2 } from "lucide-react";
 import { GameShell } from "@/components/app-shell/game-shell";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { listSeededConnectionsSummaries } from "@/features/connections/seed/placeholder-connections";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 
 export default function ConnectionsPage() {
   const connectionsBoards = listSeededConnectionsSummaries();
@@ -17,7 +18,7 @@ export default function ConnectionsPage() {
 
           <div className="overflow-x-auto">
             <div className="flex snap-x snap-mandatory gap-3 pb-1">
-              {connectionsBoards.map((board) => (
+              {connectionsBoards.map((board, index) => (
                 <TransitionLink
                   key={board.slug}
                   href={board.href}
@@ -28,7 +29,7 @@ export default function ConnectionsPage() {
                     <span className="inline-flex h-16 w-16 items-center justify-center rounded-[1.35rem] border border-accent/25 bg-accent-soft text-accent">
                       <Grid2X2 className="h-7 w-7" />
                     </span>
-                    <h2 className="font-display text-3xl leading-tight text-text">{board.title}</h2>
+                    <h2 className="font-display text-3xl leading-tight text-text">{getBirthdayDateLabel(index)}</h2>
                   </div>
                   <div className="text-xs uppercase tracking-[0.2em] text-muted">{board.groupCount} groups</div>
                 </TransitionLink>

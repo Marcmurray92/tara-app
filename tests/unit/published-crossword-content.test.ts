@@ -1,7 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { GameContentRecord } from "@/features/content/content.types";
-import { placeholderCrosswordCompiledData } from "@/features/crossword/seed/placeholder-crossword";
+import {
+  placeholderCrosswordCompiledData,
+  placeholderCrosswordContentVersion
+} from "@/features/crossword/seed/placeholder-crossword";
 
 const { safeReadServerEnv, getLatestPublishedGameContent, getPublishedGameContentBySlug } = vi.hoisted(() => ({
   safeReadServerEnv: vi.fn(),
@@ -55,7 +58,7 @@ describe("published crossword content", () => {
       slug: "taras-birthday-crossword",
       href: "/games/crossword/taras-birthday-crossword",
       title: "June 30th",
-      contentVersion: 6
+      contentVersion: placeholderCrosswordContentVersion
     });
     expect(getLatestPublishedGameContent).not.toHaveBeenCalled();
   });

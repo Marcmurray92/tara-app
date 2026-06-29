@@ -11,13 +11,12 @@ import {
   type LucideIcon
 } from "lucide-react";
 
-import { BirthdayProgress } from "@/components/games/birthday-progress";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
-import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { loadColourFieldProgress } from "@/features/colour-field/game/colour-field-storage";
 import {
+  getFirstUnlockedColourFieldLevel,
   getCompletedColourFieldCount,
   readColourFieldStatusSummary
 } from "@/features/colour-field/game/colour-field-engine";
@@ -38,9 +37,9 @@ import type { CrosswordCompiledData } from "@/features/crossword/game/crossword-
 import { loadGuessingProgress } from "@/features/guessing/game/guessing-storage";
 import {
   placeholderGuessingContentVersion,
-  placeholderGuessingGameData,
   placeholderGuessingSlug
 } from "@/features/guessing/seed/placeholder-guessing";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 import type { GameType } from "@/features/games/game.types";
 import { loadWhoLikedItBetterProgress } from "@/features/who-liked-it-better/game/who-liked-it-better-storage";
 import {
@@ -141,8 +140,8 @@ function getSectionPresentation(type: GameType) {
         title: "Review Roulette",
         description: "Guess the movie from the Letterboxd review.",
         icon: ScanSearch,
-        titleClassName: "text-fuchsia-500",
-        iconClassName: "bg-fuchsia-500 text-white border-black"
+        titleClassName: "text-arcade-pink",
+        iconClassName: "bg-arcade-pink text-white border-black"
       };
     case "colour-field":
       return {
@@ -294,12 +293,20 @@ function getColourFieldWidget() {
   };
 }
 
+function getColourFieldHomeHref() {
+  const progress = loadColourFieldProgress(placeholderColourFieldSlug, placeholderColourFieldContentVersion);
+  const nextLevel = getFirstUnlockedColourFieldLevel(placeholderColourFieldGameData, progress);
+
+  return nextLevel ? `/games/colour-field/${nextLevel.slug}` : "/games/colour-field";
+}
+
 function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
   const connectionsBoards = listSeededConnectionsSummaries();
   const colourFieldPacks = listSeededColourFieldSummaries();
   const whoLikedState = getWhoLikedWidget();
   const guessingState = getGuessingWidget();
   const colourFieldState = getColourFieldWidget();
+  const colourFieldHref = getColourFieldHomeHref();
 
   const sectionOrder: GameType[] = [
     "crossword",
@@ -316,13 +323,13 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
       return {
         type,
         ...presentation,
-        items: crosswords.map((crossword) => {
+        items: crosswords.map((crossword, index) => {
           const crosswordState = getCrosswordWidget(crossword);
 
           return {
             id: crossword.slug,
             href: crossword.href,
-            title: crossword.title,
+            title: getBirthdayDateLabel(index),
             status: crosswordState.status as HomeCardStatus,
             widget: crosswordState.widget
           };
@@ -334,13 +341,13 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
       return {
         type,
         ...presentation,
-        items: connectionsBoards.map((board) => {
+        items: connectionsBoards.map((board, index) => {
           const boardState = getConnectionsWidget(board);
 
           return {
             id: board.slug,
             href: board.href,
-            title: board.title,
+            title: getBirthdayDateLabel(index),
             status: boardState.status as HomeCardStatus,
             widget: boardState.widget
           };
@@ -356,7 +363,7 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
           {
             id: placeholderWhoLikedItBetterSlug,
             href: "/games/who-liked-it-better",
-            title: "Ratings Set 1",
+            title: getBirthdayDateLabel(0),
             status: whoLikedState.status as HomeCardStatus,
             widget: whoLikedState.widget
           }
@@ -372,7 +379,7 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
           {
             id: placeholderGuessingSlug,
             href: "/games/guessing",
-            title: "Round Pack 01",
+            title: getBirthdayDateLabel(0),
             status: guessingState.status as HomeCardStatus,
             widget: guessingState.widget
           }
@@ -385,7 +392,7 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
       ...presentation,
       items: colourFieldPacks.map((pack) => ({
         id: pack.slug,
-        href: pack.href,
+        href: colourFieldHref,
         title: pack.title,
         status: colourFieldState.status as HomeCardStatus,
         widget: colourFieldState.widget
@@ -495,13 +502,6 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
   const snapshot = useBirthdayProgress();
   const sections = buildHomeSections(crosswords);
 
-  function scrollToStats() {
-    document.getElementById("tara-stats")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-
   return (
     <div className="w-full px-3 py-3 sm:px-6">
       <h1 data-page-title="true" tabIndex={-1} className="sr-only">
@@ -511,19 +511,16 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
       <div className="mx-auto max-w-5xl space-y-5">
         <Reveal delay={20}>
           <div className="safe-top sticky top-0 z-20 rounded-[1rem] border-2 border-white bg-[#0327ff] px-4 py-3 shadow-[0_8px_0_rgba(0,0,0,0.28)]">
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
               <p className="font-display text-[2rem] uppercase leading-none text-white sm:text-[2.4rem]">
                 Hi Tara :)
               </p>
-              <Button variant="outline" size="sm" className="border-white bg-transparent text-white" onClick={scrollToStats}>
-                Your Stats
-              </Button>
             </div>
           </div>
         </Reveal>
 
         <Reveal delay={70}>
-          <section className="rounded-[1rem] border-2 border-white bg-[linear-gradient(180deg,#ff00b8_0%,#8f00ff_100%)] px-5 py-8 text-center shadow-[0_10px_0_rgba(0,0,0,0.25)]">
+          <section className="rounded-[1rem] border-2 border-white bg-[linear-gradient(135deg,#ff0055_0%,#ff0055_34%,#050505_34%,#050505_58%,#02f1ff_58%,#02f1ff_100%)] px-5 py-8 text-center shadow-[0_10px_0_rgba(0,0,0,0.25)]">
             <div className="text-4xl" aria-hidden="true">
               🎂
             </div>
@@ -534,12 +531,6 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
               I made you some silly games, scroll down!
             </p>
           </section>
-        </Reveal>
-
-        <Reveal delay={110}>
-          <div id="tara-stats">
-            <BirthdayProgress className="arcade-panel rounded-[1rem] border-2 border-white bg-black" />
-          </div>
         </Reveal>
 
         <div className="space-y-7">

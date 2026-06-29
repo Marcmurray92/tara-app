@@ -4,6 +4,7 @@ import type {
   CrosswordCompleteSourceRow,
   CrosswordSourceDataEnvelope
 } from "@/features/crossword/source/crossword-source.types";
+import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 
 export type SeededCrosswordContent = {
   slug: string;
@@ -18,7 +19,12 @@ export type SeededCrosswordContent = {
   compiledData: CrosswordCompiledData;
 };
 
-export const seededCrosswords = seededCrosswordContent as SeededCrosswordContent[];
+const rawSeededCrosswords = seededCrosswordContent as SeededCrosswordContent[];
+
+export const seededCrosswords = rawSeededCrosswords.map((crossword, index) => ({
+  ...crossword,
+  title: getBirthdayDateLabel(index)
+}));
 
 const seededCrosswordMap = new Map(seededCrosswords.map((crossword) => [crossword.slug, crossword]));
 

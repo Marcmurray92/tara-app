@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Home, RefreshCw, RotateCcw, Sparkles } from "lucide-react";
+import { RefreshCw, RotateCcw, Sparkles } from "lucide-react";
 
+import { GameHomeButton } from "@/components/games/game-home-button";
 import { GameMasthead } from "@/components/games/game-masthead";
 import { Reveal } from "@/components/ui/reveal";
-import { TransitionLink } from "@/components/ui/transition-link";
 import { Button } from "@/components/ui/button";
 import {
   clearConnectionsSelection,
@@ -111,12 +111,7 @@ function ConnectionsResultDialog({
             <RotateCcw className="h-4 w-4" />
             Play another Connections
           </Button>
-          <Button asChild variant="outline" className="sm:w-auto">
-            <TransitionLink href="/" direction="back">
-              <Home className="h-4 w-4" />
-              Back to Home
-            </TransitionLink>
-          </Button>
+          <GameHomeButton className="sm:w-auto" />
         </div>
       </div>
     </div>
@@ -357,11 +352,14 @@ export function ConnectionsGame({
             { label: "solved", value: `${progress.solvedGroupIds.length}/4` },
             { label: "mistakes left", value: `${mistakesLeft}` }
           ]}
+          actions={<GameHomeButton />}
         />
       </Reveal>
 
       <div className="safe-top px-2 pt-2 lg:hidden">
         <div className="flex items-center justify-between gap-3 rounded-[1rem] border border-white/10 bg-surface/90 px-3 py-2">
+          <GameHomeButton className="h-9 px-3" />
+
           <div className="flex items-center gap-1.5">
             {Array.from({ length: 4 }).map((_, index) => (
               <span

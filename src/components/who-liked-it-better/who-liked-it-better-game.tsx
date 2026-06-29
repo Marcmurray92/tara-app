@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Home, RotateCcw, Star, Trophy, X } from "lucide-react";
+import { ArrowRight, Check, RotateCcw, Star, Trophy, X } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
+import { GameHomeButton } from "@/components/games/game-home-button";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -153,8 +154,8 @@ function FaceOffArt({
       className={cn(
         "flex h-20 items-center justify-center rounded-[1rem] border border-white/10 text-[1.9rem] font-display",
         accent === "accent"
-          ? "bg-[radial-gradient(circle_at_top,_rgba(177,139,255,0.34),_rgba(37,24,58,0.9)_72%)] text-text"
-          : "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.14),_rgba(24,18,35,0.95)_72%)] text-text"
+          ? "bg-[linear-gradient(135deg,#ccff00_0%,#ccff00_24%,#050505_24%,#050505_58%,#fffb02_58%,#fffb02_100%)] text-black"
+          : "bg-[linear-gradient(135deg,#02f1ff_0%,#02f1ff_24%,#050505_24%,#050505_58%,#ff0055_58%,#ff0055_100%)] text-white"
       )}
     >
       {monogram}
@@ -183,7 +184,7 @@ function RatingGlyph({
       {kind === "full" ? (
         <Star
           style={overlayStyle}
-          className="absolute inset-0 h-full w-full fill-accent text-accent drop-shadow-[0_0_8px_rgba(157,124,245,0.35)] animate-rating-glyph"
+          className="absolute inset-0 h-full w-full fill-accent text-accent drop-shadow-[0_0_8px_rgba(204,255,0,0.4)] animate-rating-glyph"
           strokeWidth={1.8}
         />
       ) : null}
@@ -191,7 +192,7 @@ function RatingGlyph({
         <span className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: "50%" }}>
           <Star
             style={overlayStyle}
-            className="h-full w-full fill-accent text-accent drop-shadow-[0_0_8px_rgba(157,124,245,0.35)] animate-rating-glyph"
+            className="h-full w-full fill-accent text-accent drop-shadow-[0_0_8px_rgba(204,255,0,0.4)] animate-rating-glyph"
             strokeWidth={1.8}
           />
         </span>
@@ -346,7 +347,7 @@ function WhoLikedItBetterResultDialog({
 
         <div className="mt-5 space-y-3">
           <div className={celebrityStateClass}>
-            <div className="grid grid-cols-[5.8rem_minmax(0,1fr)_2.2rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_4rem]">
+            <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_4.25rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_5.5rem]">
               <FaceOffArt
                 image={celebrityImage}
                 label={question.celebrityName}
@@ -363,12 +364,14 @@ function WhoLikedItBetterResultDialog({
                   winner={!taraWins}
                 />
               </div>
-              <p className="text-right font-display text-[3rem] leading-none text-white sm:text-[4.5rem]">{celebrityScore}</p>
+              <div className="flex min-w-0 justify-end">
+                <p className="font-display text-[2.7rem] leading-none text-white sm:text-[4.5rem]">{celebrityScore}</p>
+              </div>
             </div>
           </div>
 
           <div className={taraStateClass}>
-            <div className="grid grid-cols-[5.8rem_minmax(0,1fr)_2.2rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_4rem]">
+            <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_4.25rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_5.5rem]">
               <FaceOffArt label="Tara" monogram="T" accent="accent" />
               <div className="min-w-0">
                 <p className={cn("font-display text-[1.8rem] uppercase leading-none", taraWins ? "text-arcade-green" : "text-arcade-pink")}>
@@ -380,7 +383,9 @@ function WhoLikedItBetterResultDialog({
                   winner={taraWins}
                 />
               </div>
-              <p className="text-right font-display text-[3rem] leading-none text-white sm:text-[4.5rem]">{taraScore}</p>
+              <div className="flex min-w-0 justify-end">
+                <p className="font-display text-[2.7rem] leading-none text-white sm:text-[4.5rem]">{taraScore}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -394,10 +399,10 @@ function WhoLikedItBetterResultDialog({
         <SourceImageStrip images={sourceImages} onImageError={onSourceImageError} />
 
         <div className="mt-5 flex justify-end">
-        <Button className="min-w-[12rem]" onClick={onContinue}>
-          {continueLabel}
-          <ArrowRight className="h-4 w-4" />
-        </Button>
+          <Button className="min-w-[12rem]" onClick={onContinue}>
+            {continueLabel}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </div>
@@ -577,12 +582,7 @@ export function WhoLikedItBetterGame({
             <CardDescription>The round can&apos;t load properly without the movie poster.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 p-4 pt-2 sm:flex-row sm:p-5 sm:pt-3">
-            <Button asChild>
-              <TransitionLink href="/" direction="back">
-                <Home className="h-4 w-4" />
-                Back to Home
-              </TransitionLink>
-            </Button>
+            <GameHomeButton size="default" />
             <Button variant="outline" onClick={handleRestart}>
               <RotateCcw className="h-4 w-4" />
               Restart
@@ -652,9 +652,7 @@ export function WhoLikedItBetterGame({
                     </TransitionLink>
                   </Button>
                 ) : (
-                  <Button asChild className="sm:w-auto">
-                    <TransitionLink href="/" direction="back">Back to Home</TransitionLink>
-                  </Button>
+                  <GameHomeButton className="sm:w-auto" size="default" />
                 )}
                 <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
                   <RotateCcw className="h-4 w-4" />
@@ -679,11 +677,7 @@ export function WhoLikedItBetterGame({
       </h1>
 
       <div className="flex items-center justify-between gap-3 rounded-[1.1rem] border border-white/10 bg-surface/85 px-3 py-2.5">
-        <Button asChild variant="ghost" size="sm" className="h-9 w-9 rounded-full border border-white/10 bg-black/20 p-0">
-          <TransitionLink href="/" direction="back" aria-label="Back to Home">
-            <ArrowLeft className="h-4 w-4" />
-          </TransitionLink>
-        </Button>
+        <GameHomeButton className="h-9 px-3" />
 
         <div className="flex items-center gap-2" aria-label={`Question ${progress.currentQuestionIndex + 1} of ${gameData.questions.length}`}>
           {progressDots.map((dot, index) => {

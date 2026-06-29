@@ -70,7 +70,7 @@ export function CrosswordCell({
         fillContainer ? "h-full w-full" : "aspect-square",
         cellRadiusClass,
         highlighted ? "bg-active-entry/75" : "bg-surface-strong",
-        selected ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(198,179,255,0.92),0_0_0_1px_rgba(157,124,245,0.42)]" : "border-border",
+        selected ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(204,255,0,0.88),0_0_0_1px_rgba(2,241,255,0.34)]" : "border-border",
         incorrect ? "text-error" : "text-text",
         revealed ? "bg-revealed/80" : "",
         waveDelayMs !== undefined ? "animate-glow-wave" : pulse ? "animate-subtle-pop" : intro ? "animate-focus-pulse" : ""

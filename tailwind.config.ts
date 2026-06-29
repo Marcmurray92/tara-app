@@ -43,7 +43,7 @@ const config: Config = {
         18: "4.5rem"
       },
       fontFamily: {
-        display: ['"Kuolen"', '"Arial Black"', '"Impact"', '"Haettenschweiler"', '"Oswald"', "sans-serif"],
+        display: ['"Koulen"', '"Arial Black"', '"Impact"', '"Haettenschweiler"', '"Oswald"', "sans-serif"],
         body: ['"Inconsolata"', '"IBM Plex Mono"', '"SFMono-Regular"', "Consolas", "monospace"]
       },
       backgroundImage: {
