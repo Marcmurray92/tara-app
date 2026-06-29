@@ -10,7 +10,7 @@ import type {
 } from "@/features/crossword/generator/crossword-generator.types";
 import type { CrosswordCompleteSourceRow } from "@/features/crossword/source/crossword-source.types";
 
-const ALGORITHM_VERSION = 1;
+const ALGORITHM_VERSION = 2;
 
 type GridCell = {
   solution: string;
@@ -69,25 +69,57 @@ function buildLetterFrequency(rows: CrosswordCompleteSourceRow[]) {
   return frequency;
 }
 
+function getDistinctLetterCount(answer: string) {
+  return new Set(answer).size;
+}
+
+function getVowelCount(answer: string) {
+  return Array.from(answer).filter((character) => "AEIOUY".includes(character)).length;
+}
+
+function scoreRowShape(row: CrosswordCompleteSourceRow, frequency: Map<string, number>) {
+  const distinctLetterCount = getDistinctLetterCount(row.gridAnswer);
+  const vowelCount = getVowelCount(row.gridAnswer);
+  const frequencyScore = Array.from(new Set(row.gridAnswer)).reduce(
+    (total, character) => total + (frequency.get(character) ?? 0),
+    0
+  );
+  const length = row.gridAnswer.length;
+  const bridgeBonus = length >= 6 && length <= 8 ? 18 : 0;
+  const anchorBonus = length >= 9 ? 34 : 0;
+  const giantPenalty = length > 15 ? (length - 15) * 8 : 0;
+  const repeatedLetterPenalty = Math.max(0, length - distinctLetterCount - 2) * 4;
+  const vowelPenalty = Math.abs(vowelCount - length / 2) * 1.5;
+
+  return (
+    length * 14 +
+    distinctLetterCount * 8 +
+    frequencyScore * 0.55 +
+    bridgeBonus +
+    anchorBonus -
+    giantPenalty -
+    repeatedLetterPenalty -
+    vowelPenalty
+  );
+}
+
 function sortRowsForAttempt(rows: CrosswordCompleteSourceRow[], seed: string) {
   const frequency = buildLetterFrequency(rows);
   const shuffled = shuffleWithSeed(rows, seed);
 
   return shuffled.sort((left, right) => {
-    const leftScore = Array.from(new Set(left.gridAnswer)).reduce(
-      (total, character) => total + (frequency.get(character) ?? 0),
-      0
-    );
-    const rightScore = Array.from(new Set(right.gridAnswer)).reduce(
-      (total, character) => total + (frequency.get(character) ?? 0),
-      0
-    );
+    const leftScore = scoreRowShape(left, frequency);
+    const rightScore = scoreRowShape(right, frequency);
+
+    if (rightScore !== leftScore) {
+      return rightScore - leftScore;
+    }
 
     if (right.gridAnswer.length !== left.gridAnswer.length) {
       return right.gridAnswer.length - left.gridAnswer.length;
     }
 
-    return rightScore - leftScore;
+    return left.answer.localeCompare(right.answer, "en");
   });
 }
 
@@ -296,6 +328,59 @@ function enumerateCandidates(
   return candidates.sort((left, right) => right.score - left.score);
 }
 
+function chooseSeedEntry(ordered: CrosswordCompleteSourceRow[], seed: string) {
+  const random = hashSeed(seed);
+  const preferredAnchors = ordered.filter((row) => row.gridAnswer.length >= 9 && row.gridAnswer.length <= 11);
+  const giantAnchors = ordered.filter((row) => row.gridAnswer.length >= 12);
+  const longAnchors = preferredAnchors.length > 0 ? preferredAnchors : giantAnchors;
+  const pool = longAnchors.length > 0 ? longAnchors.slice(0, Math.min(8, longAnchors.length)) : ordered.slice(0, Math.min(6, ordered.length));
+
+  return pool[Math.floor(random() * pool.length)] ?? ordered[0];
+}
+
+function buildActiveLetterCounts(grid: Map<string, GridCell>) {
+  const counts = new Map<string, number>();
+
+  for (const cell of grid.values()) {
+    counts.set(cell.solution, (counts.get(cell.solution) ?? 0) + 1);
+  }
+
+  return counts;
+}
+
+function scorePendingRow(
+  row: CrosswordCompleteSourceRow,
+  activeLetters: Map<string, number>,
+  frequency: Map<string, number>
+) {
+  const seen = new Set<string>();
+  let overlap = 0;
+  let uniqueOverlap = 0;
+
+  for (const character of row.gridAnswer) {
+    if (activeLetters.has(character)) {
+      overlap += 1;
+      if (!seen.has(character)) {
+        uniqueOverlap += 1;
+        seen.add(character);
+      }
+    }
+  }
+
+  return scoreRowShape(row, frequency) + uniqueOverlap * 28 + overlap * 8;
+}
+
+function choosePlacementCandidate(candidates: PlacementCandidate[], seed: string) {
+  if (candidates.length === 0) {
+    return null;
+  }
+
+  const random = hashSeed(seed);
+  const topSlice = candidates.slice(0, Math.min(4, candidates.length));
+
+  return topSlice[Math.floor(random() * topSlice.length)] ?? candidates[0];
+}
+
 function buildCompiledCells(placedEntries: InternalPlacedEntry[], layout?: CrosswordGeneratorInput["layout"]) {
   const bounds = getBounds(placedEntries);
   const dimensions = getDimensionsFromBounds(bounds);
@@ -343,15 +428,16 @@ function buildCompiledCells(placedEntries: InternalPlacedEntry[], layout?: Cross
 
 function attemptLayout(rows: CrosswordCompleteSourceRow[], seed: string, layout?: CrosswordGeneratorInput["layout"]) {
   const ordered = sortRowsForAttempt(rows, seed);
+  const frequency = buildLetterFrequency(rows);
   const grid = new Map<string, GridCell>();
   const placedEntries: InternalPlacedEntry[] = [];
-  const unplacedRows: CrosswordUnplacedEntry[] = [];
+  const random = hashSeed(seed);
 
   if (ordered.length === 0) {
-    return { placedEntries, unplacedRows };
+    return { placedEntries, unplacedRows: [] };
   }
 
-  const first = ordered[0];
+  const first = chooseSeedEntry(ordered, seed);
   const firstEntry: InternalPlacedEntry = {
     id: first.id,
     clue: first.clue,
@@ -367,28 +453,53 @@ function attemptLayout(rows: CrosswordCompleteSourceRow[], seed: string, layout?
   placedEntries.push(firstEntry);
   addEntryToGrid(grid, firstEntry);
 
-  for (const row of ordered.slice(1)) {
-    const candidates = enumerateCandidates(row, grid, placedEntries, layout);
+  let pendingRows = ordered.filter((row) => row.id !== first.id);
 
-    if (candidates.length === 0) {
-      unplacedRows.push({
-        id: row.id,
-        clue: row.clue,
-        answer: row.answer,
-        sourceRowNumber: row.sourceRowNumber,
-        reason: "No valid crossing placement found for this answer in the current layout."
+  for (let openingIndex = 0; openingIndex < 2; openingIndex += 1) {
+    const openingCandidates = pendingRows
+      .map((row) => ({
+        row,
+        candidates: enumerateCandidates(row, grid, placedEntries, layout)
+      }))
+      .filter((item) => item.candidates.length > 0)
+      .sort((left, right) => {
+        const leftBest = left.candidates[0];
+        const rightBest = right.candidates[0];
+        const leftLengthScore = left.row.gridAnswer.length >= 6 && left.row.gridAnswer.length <= 10 ? 1 : 0;
+        const rightLengthScore = right.row.gridAnswer.length >= 6 && right.row.gridAnswer.length <= 10 ? 1 : 0;
+
+        if (rightBest.crossings !== leftBest.crossings) {
+          return rightBest.crossings - leftBest.crossings;
+        }
+
+        if (rightLengthScore !== leftLengthScore) {
+          return rightLengthScore - leftLengthScore;
+        }
+
+        return left.candidates.length - right.candidates.length;
       });
-      continue;
+
+    if (openingCandidates.length === 0) {
+      break;
     }
 
-    const chosen = candidates[0];
+    const chosenRow = openingCandidates[Math.floor(random() * Math.min(3, openingCandidates.length))] ?? openingCandidates[0];
+    const chosen = choosePlacementCandidate(
+      chosenRow.candidates,
+      `${seed}:opening:${openingIndex}:${chosenRow.row.id}:${placedEntries.length}`
+    );
+
+    if (!chosen) {
+      break;
+    }
+
     const placedEntry: InternalPlacedEntry = {
-      id: row.id,
-      clue: row.clue,
-      answer: row.gridAnswer,
-      displayAnswer: row.answer,
-      category: row.category,
-      sourceRowNumber: row.sourceRowNumber,
+      id: chosenRow.row.id,
+      clue: chosenRow.row.clue,
+      answer: chosenRow.row.gridAnswer,
+      displayAnswer: chosenRow.row.answer,
+      category: chosenRow.row.category,
+      sourceRowNumber: chosenRow.row.sourceRowNumber,
       row: chosen.row,
       column: chosen.column,
       direction: chosen.direction
@@ -396,12 +507,110 @@ function attemptLayout(rows: CrosswordCompleteSourceRow[], seed: string, layout?
 
     placedEntries.push(placedEntry);
     addEntryToGrid(grid, placedEntry);
+    pendingRows = pendingRows.filter((row) => row.id !== chosenRow.row.id);
+  }
+
+  while (pendingRows.length > 0) {
+    const activeLetters = buildActiveLetterCounts(grid);
+    const rankedRows = pendingRows
+      .map((row) => {
+        const candidates = enumerateCandidates(row, grid, placedEntries, layout);
+
+        return {
+          row,
+          candidates,
+          pendingScore: scorePendingRow(row, activeLetters, frequency)
+        };
+      })
+      .filter((item) => item.candidates.length > 0)
+      .sort((left, right) => {
+        const leftBest = left.candidates[0];
+        const rightBest = right.candidates[0];
+
+        if (rightBest.crossings !== leftBest.crossings) {
+          return rightBest.crossings - leftBest.crossings;
+        }
+
+        if (left.candidates.length !== right.candidates.length) {
+          return left.candidates.length - right.candidates.length;
+        }
+
+        return right.pendingScore + rightBest.score - (left.pendingScore + leftBest.score);
+      });
+
+    if (rankedRows.length === 0) {
+      break;
+    }
+
+    const topRows = rankedRows.slice(0, Math.min(6, rankedRows.length));
+    const chosenRow = topRows[Math.floor(random() * topRows.length)] ?? rankedRows[0];
+    const chosen = choosePlacementCandidate(
+      chosenRow.candidates,
+      `${seed}:${chosenRow.row.id}:${placedEntries.length}:${chosenRow.candidates.length}`
+    );
+
+    if (!chosen) {
+      pendingRows = pendingRows.filter((row) => row.id !== chosenRow.row.id);
+      continue;
+    }
+
+    const placedEntry: InternalPlacedEntry = {
+      id: chosenRow.row.id,
+      clue: chosenRow.row.clue,
+      answer: chosenRow.row.gridAnswer,
+      displayAnswer: chosenRow.row.answer,
+      category: chosenRow.row.category,
+      sourceRowNumber: chosenRow.row.sourceRowNumber,
+      row: chosen.row,
+      column: chosen.column,
+      direction: chosen.direction
+    };
+
+    placedEntries.push(placedEntry);
+    addEntryToGrid(grid, placedEntry);
+    pendingRows = pendingRows.filter((row) => row.id !== chosenRow.row.id);
   }
 
   return {
     placedEntries,
-    unplacedRows
+    unplacedRows: pendingRows.map((row) => ({
+      id: row.id,
+      clue: row.clue,
+      answer: row.answer,
+      sourceRowNumber: row.sourceRowNumber,
+      reason: "No valid crossing placement found for this answer in the current layout."
+    }))
   };
+}
+
+function scoreAttemptLayout(placedEntries: InternalPlacedEntry[], layout?: CrosswordGeneratorInput["layout"]) {
+  const { cells, rows, columns } = buildCompiledCells(placedEntries, layout);
+  const totalCells = rows * columns;
+  const whiteCells = cells.flat().filter((cell) => cell.solution).length;
+  const blackSquareRate = totalCells === 0 ? 1 : 1 - whiteCells / totalCells;
+  const answerLengths = placedEntries.map((entry) => entry.answer.length);
+  const averageAnswerLength =
+    answerLengths.reduce((total, length) => total + length, 0) / Math.max(1, answerLengths.length);
+  const bridgeCount = answerLengths.filter((length) => length >= 6 && length <= 8).length;
+  const anchorCount = answerLengths.filter((length) => length >= 9).length;
+  const totalCrossings = cells.flat().reduce((total, cell) => {
+    return total + (cell.solution && cell.acrossEntryId && cell.downEntryId ? 1 : 0);
+  }, 0);
+  const targetRows = layout?.targetRows ?? 15;
+  const targetColumns = layout?.targetColumns ?? 15;
+  const dimensionPenalty = Math.abs(rows - targetRows) + Math.abs(columns - targetColumns);
+  const skewPenalty = Math.abs(rows - columns);
+
+  return (
+    placedEntries.length * 140 +
+    bridgeCount * 36 +
+    anchorCount * 52 +
+    totalCrossings * 12 +
+    averageAnswerLength * 42 -
+    blackSquareRate * 1200 -
+    dimensionPenalty * 18 -
+    skewPenalty * 10
+  );
 }
 
 export function compileCrossword(input: CrosswordGeneratorInput): CrosswordCompilationResult {
@@ -441,36 +650,21 @@ export function compileCrossword(input: CrosswordGeneratorInput): CrosswordCompi
       return right.placedEntries.length - left.placedEntries.length;
     }
 
+    const leftScore = scoreAttemptLayout(left.placedEntries, input.layout);
+    const rightScore = scoreAttemptLayout(right.placedEntries, input.layout);
+
+    if (rightScore !== leftScore) {
+      return rightScore - leftScore;
+    }
+
     const leftBounds = left.placedEntries.length > 0 ? getBounds(left.placedEntries) : null;
     const rightBounds = right.placedEntries.length > 0 ? getBounds(right.placedEntries) : null;
-    const leftHeight = leftBounds ? leftBounds.maxRow - leftBounds.minRow + 1 : Number.POSITIVE_INFINITY;
-    const rightHeight = rightBounds ? rightBounds.maxRow - rightBounds.minRow + 1 : Number.POSITIVE_INFINITY;
-    const leftWidth = leftBounds ? leftBounds.maxColumn - leftBounds.minColumn + 1 : Number.POSITIVE_INFINITY;
-    const rightWidth = rightBounds ? rightBounds.maxColumn - rightBounds.minColumn + 1 : Number.POSITIVE_INFINITY;
     const leftArea = leftBounds
-      ? leftHeight * leftWidth
+      ? (leftBounds.maxRow - leftBounds.minRow + 1) * (leftBounds.maxColumn - leftBounds.minColumn + 1)
       : Number.POSITIVE_INFINITY;
     const rightArea = rightBounds
-      ? rightHeight * rightWidth
+      ? (rightBounds.maxRow - rightBounds.minRow + 1) * (rightBounds.maxColumn - rightBounds.minColumn + 1)
       : Number.POSITIVE_INFINITY;
-    const leftMaxDimension = Math.max(leftHeight, leftWidth);
-    const rightMaxDimension = Math.max(rightHeight, rightWidth);
-    const leftAspectPenalty = Math.max(leftHeight / leftWidth, leftWidth / leftHeight);
-    const rightAspectPenalty = Math.max(rightHeight / rightWidth, rightWidth / rightHeight);
-    const leftSkew = Math.abs(leftHeight - leftWidth);
-    const rightSkew = Math.abs(rightHeight - rightWidth);
-
-    if (leftMaxDimension !== rightMaxDimension) {
-      return leftMaxDimension - rightMaxDimension;
-    }
-
-    if (leftAspectPenalty !== rightAspectPenalty) {
-      return leftAspectPenalty - rightAspectPenalty;
-    }
-
-    if (leftSkew !== rightSkew) {
-      return leftSkew - rightSkew;
-    }
 
     return leftArea - rightArea;
   })[0];

@@ -12,17 +12,20 @@ Preserve existing crossword behaviour unless the task explicitly asks to change 
 - Do not invent extra theme titles unless the app structure requires them.
 
 ## Grid rules
-- Grid size must stay between `12x12` and `17x17`.
-- Aim for an average close to `15x15`.
+- Prefer grids between `12x12` and `15x15`.
+- Smaller boards are acceptable when they materially improve density and clue-bank coverage, provided they still feel like full crosswords and still support at least `20` clues.
+- In practice, compact generated boards should usually stay around `9x9` or larger.
+- Do not exceed `17x17`.
 - Only push up to `17x17` when a longer anchor entry needs the space cleanly.
 - Avoid sparse oversized boards and avoid disconnected mini-grids.
 
 ## Clue count and entry rules
-- Each crossword should contain `30-50` clues total across both directions.
+- Prefer crosswords in the `30-50` clue range across both directions.
+- A puzzle may drop as low as `20` clues when that produces a tighter, better-crossed, less sparse board and helps the wider dated set include more of the approved clue bank.
 - Do not repeat an answer within the same crossword.
 - Avoid reusing the same answer across the wider seeded set unless it is genuinely necessary.
-- Do not build split clues such as `See 14-Across`, `With 7-Down`, or other paired multi-entry clue structures.
 - Every clue should map to exactly one continuous across or down answer.
+- Default to single-entry clues, but linked clue pairs such as `With 14-Down` are allowed as a fallback for longer multi-word source entries when they materially improve layout and solving clarity.
 
 ## Clue formatting
 - Preserve punctuation that helps the joke or clue type land:
@@ -179,17 +182,20 @@ Example copy direction:
 
 ## CSV source-of-truth assumptions
 - Treat the active clue CSV as the canonical crossword clue bank for regeneration passes.
+- Duplicate normalized answers may remain in the bank when the clue wording differs; treat them as alternate clue variants, not as invalid source rows.
 - Preserve clue wording except for technical escaping/whitespace cleanup.
+- Aim to include the vast majority of approved CSV clue-answer pairs across the full dated set, even if that means generating more individual dated puzzles rather than inflating one sparse board.
+- Prefer unused CSV clues before leaning on fallback bridge fill.
 - Use existing approved connector entries already in the project before inventing new filler.
 - If generated connector clues are ever added, they should be clearly identifiable and used sparingly.
 
 ## Validation requirements
 After regeneration, confirm that:
-- every puzzle is between `12x12` and `17x17`
-- every puzzle has `30-50` clues
+- every puzzle is between a dense, playable compact size and `17x17`
+- every puzzle has `20-50` clues, with `30-50` still preferred where density allows
 - every answer appears only once within that puzzle
 - every clue maps to exactly one answer
-- there are no split or `See X` clues
+- any linked clue pairs are intentional, readable, and only used where they genuinely improve the board
 - every white cell is connected
 - every entry is continuous across or down
 - clue punctuation that matters to solving is preserved

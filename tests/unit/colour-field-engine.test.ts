@@ -11,13 +11,13 @@ import {
 import { placeholderColourFieldGameData } from "@/features/colour-field/seed/placeholder-colour-field";
 
 describe("colour field engine", () => {
-  it("starts as not started and unlocks only the first field", () => {
+  it("starts as not started and keeps every field unlocked during testing", () => {
     const progress = createColourFieldProgress(placeholderColourFieldGameData);
     const [firstLevel, secondLevel] = placeholderColourFieldGameData.levels;
 
     expect(readColourFieldStatusSummary(placeholderColourFieldGameData, progress)).toBe("none");
     expect(progress.levels[firstLevel.slug]?.unlocked).toBe(true);
-    expect(progress.levels[secondLevel.slug]?.unlocked).toBe(false);
+    expect(progress.levels[secondLevel.slug]?.unlocked).toBe(true);
   });
 
   it("scrambles only movable tiles when a field starts", () => {

@@ -1,7 +1,14 @@
 "use client";
 
 import { ArrowLeft, ArrowRight, Home, Lock, RotateCcw, Sparkles } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+  type PointerEvent as ReactPointerEvent
+} from "react";
 
 import { Button } from "@/components/ui/button";
 import { TransitionLink } from "@/components/ui/transition-link";
@@ -25,6 +32,9 @@ import {
   saveColourFieldProgress
 } from "@/features/colour-field/game/colour-field-storage";
 import { cn } from "@/lib/utils/cn";
+
+const TOUCH_HOLD_DELAY_MS = 180;
+const DRAG_MOVE_THRESHOLD_PX = 8;
 
 function CompletionDialog({
   open,
@@ -154,6 +164,22 @@ export function ColourFieldGame({
   const [announcement, setAnnouncement] = useState(loadState.announcement);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showCompletion, setShowCompletion] = useState(false);
+  const [boardIntroCycle, setBoardIntroCycle] = useState(1);
+  const [dragState, setDragState] = useState<{
+    sourceIndex: number;
+    overIndex: number | null;
+  } | null>(null);
+  const holdTimeoutRef = useRef<number | null>(null);
+  const pointerStateRef = useRef<{
+    pointerId: number;
+    pointerType: string;
+    sourceIndex: number;
+    selectedIndexAtStart: number | null;
+    startX: number;
+    startY: number;
+    dragActive: boolean;
+  } | null>(null);
+  const suppressClickRef = useRef(false);
 
   const levelProgress = useMemo(
     () => (level ? getColourFieldLevelProgress(gameData, progress, level.slug) : null),
@@ -192,6 +218,37 @@ export function ColourFieldGame({
     };
   }, [level, showPreview]);
 
+  useEffect(() => {
+    return () => {
+      if (holdTimeoutRef.current !== null) {
+        window.clearTimeout(holdTimeoutRef.current);
+        holdTimeoutRef.current = null;
+      }
+
+      pointerStateRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (showPreview) {
+      return;
+    }
+
+    setDragState(null);
+  }, [showPreview]);
+
+  useEffect(() => {
+    setSelectedIndex(null);
+
+    if (holdTimeoutRef.current !== null) {
+      window.clearTimeout(holdTimeoutRef.current);
+      holdTimeoutRef.current = null;
+    }
+
+    pointerStateRef.current = null;
+    setDragState(null);
+  }, [levelSlug]);
+
   if (!level || !levelProgress) {
     return null;
   }
@@ -212,6 +269,56 @@ export function ColourFieldGame({
     gameData.completionLines[0] ??
     "Field restored.";
 
+  function clearHoldTimeout() {
+    if (holdTimeoutRef.current !== null) {
+      window.clearTimeout(holdTimeoutRef.current);
+      holdTimeoutRef.current = null;
+    }
+  }
+
+  function clearPointerState() {
+    clearHoldTimeout();
+    pointerStateRef.current = null;
+    setDragState(null);
+  }
+
+  function getTilePositionFromPoint(clientX: number, clientY: number) {
+    const element = document.elementFromPoint(clientX, clientY);
+    const button = element?.closest<HTMLButtonElement>("[data-colour-field-position]");
+    const rawPosition = button?.dataset.colourFieldPosition;
+
+    if (!rawPosition) {
+      return null;
+    }
+
+    const nextPosition = Number.parseInt(rawPosition, 10);
+
+    return Number.isNaN(nextPosition) ? null : nextPosition;
+  }
+
+  function handleTileSwap(sourceIndex: number, targetIndex: number) {
+    const result = swapColourFieldTiles({
+      gameData,
+      progress,
+      levelSlug: currentLevel.slug,
+      sourceIndex,
+      targetIndex,
+      now: new Date().toISOString()
+    });
+
+    setProgress(result.progress);
+    setSelectedIndex(null);
+    setDragState(null);
+
+    if (result.solved) {
+      setShowCompletion(true);
+      setAnnouncement(`${completionLine} ${result.moves} moves.`);
+      return;
+    }
+
+    setAnnouncement(`${result.moves} moves. Keep the harmony going.`);
+  }
+
   function handleRestart() {
     const now = new Date().toISOString();
 
@@ -225,13 +332,16 @@ export function ColourFieldGame({
       })
     );
     setSelectedIndex(null);
+    clearPointerState();
     setShowCompletion(false);
     setShowPreview(true);
+    setBoardIntroCycle((currentCycle) => currentCycle + 1);
     setAnnouncement("Field reset. Study the harmony.");
   }
 
   function handleReplayPreview() {
     setSelectedIndex(null);
+    clearPointerState();
     setShowPreview(true);
     setAnnouncement("Study the solved field.");
   }
@@ -258,26 +368,147 @@ export function ColourFieldGame({
       setAnnouncement("Selection cleared.");
       return;
     }
+    handleTileSwap(selectedIndex, position);
+  }
 
-    const result = swapColourFieldTiles({
-      gameData,
-      progress,
-      levelSlug: currentLevel.slug,
-      sourceIndex: selectedIndex,
-      targetIndex: position,
-      now: new Date().toISOString()
-    });
-
-    setProgress(result.progress);
-    setSelectedIndex(null);
-
-    if (result.solved) {
-      setShowCompletion(true);
-      setAnnouncement(`${completionLine} ${result.moves} moves.`);
+  function handleTilePointerDown(event: ReactPointerEvent<HTMLButtonElement>, position: number) {
+    if (showPreview || levelLocked || !currentLevelProgress.currentOrder) {
       return;
     }
 
-    setAnnouncement(`${result.moves} moves. Keep the harmony going.`);
+    suppressClickRef.current = false;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pointerStateRef.current = {
+      pointerId: event.pointerId,
+      pointerType: event.pointerType,
+      sourceIndex: position,
+      selectedIndexAtStart: selectedIndex,
+      startX: event.clientX,
+      startY: event.clientY,
+      dragActive: event.pointerType === "mouse"
+    };
+
+    if (event.pointerType === "mouse") {
+      setSelectedIndex(position);
+      setDragState({ sourceIndex: position, overIndex: position });
+      setAnnouncement("Drag the tile where it belongs.");
+      return;
+    }
+
+    clearHoldTimeout();
+    holdTimeoutRef.current = window.setTimeout(() => {
+      if (pointerStateRef.current?.pointerId !== event.pointerId) {
+        return;
+      }
+
+      pointerStateRef.current = {
+        ...pointerStateRef.current,
+        dragActive: true
+      };
+      setSelectedIndex(position);
+      setDragState({ sourceIndex: position, overIndex: position });
+      setAnnouncement("Drag the tile where it belongs.");
+    }, TOUCH_HOLD_DELAY_MS);
+  }
+
+  function handleTilePointerMove(event: ReactPointerEvent<HTMLButtonElement>) {
+    const pointerState = pointerStateRef.current;
+
+    if (!pointerState || pointerState.pointerId !== event.pointerId || !pointerState.dragActive) {
+      return;
+    }
+
+    const nextOverIndex = getTilePositionFromPoint(event.clientX, event.clientY);
+    const travelledDistance = Math.hypot(event.clientX - pointerState.startX, event.clientY - pointerState.startY);
+
+    if (travelledDistance < DRAG_MOVE_THRESHOLD_PX && nextOverIndex === pointerState.sourceIndex) {
+      return;
+    }
+
+    setDragState((currentDragState) => {
+      if (
+        currentDragState?.sourceIndex === pointerState.sourceIndex &&
+        currentDragState.overIndex === nextOverIndex
+      ) {
+        return currentDragState;
+      }
+
+      return {
+        sourceIndex: pointerState.sourceIndex,
+        overIndex: nextOverIndex
+      };
+    });
+  }
+
+  function handleTilePointerUp(event: ReactPointerEvent<HTMLButtonElement>) {
+    const pointerState = pointerStateRef.current;
+
+    if (!pointerState || pointerState.pointerId !== event.pointerId) {
+      return;
+    }
+
+    suppressClickRef.current = true;
+    clearHoldTimeout();
+
+    if (!pointerState.dragActive) {
+      pointerStateRef.current = null;
+      handleTilePress(pointerState.sourceIndex);
+      return;
+    }
+
+    const releaseTarget =
+      getTilePositionFromPoint(event.clientX, event.clientY) ?? dragState?.overIndex ?? pointerState.sourceIndex;
+    pointerStateRef.current = null;
+    setDragState(null);
+
+    if (
+      releaseTarget !== null &&
+      releaseTarget !== pointerState.sourceIndex &&
+      !currentLevel.fixedTileIndexes.includes(releaseTarget)
+    ) {
+      handleTileSwap(pointerState.sourceIndex, releaseTarget);
+      return;
+    }
+
+    if (
+      pointerState.selectedIndexAtStart !== null &&
+      pointerState.selectedIndexAtStart !== pointerState.sourceIndex
+    ) {
+      handleTileSwap(pointerState.selectedIndexAtStart, pointerState.sourceIndex);
+      return;
+    }
+
+    setSelectedIndex(pointerState.sourceIndex);
+    setAnnouncement("Tile selected. Pick where it should go.");
+  }
+
+  function handleTilePointerCancel(event: ReactPointerEvent<HTMLButtonElement>) {
+    if (pointerStateRef.current?.pointerId !== event.pointerId) {
+      return;
+    }
+
+    clearPointerState();
+  }
+
+  const tileAnimationStyleFor = (position: number) => ({
+    animationDelay: `${Math.min(position * 28, 280)}ms`
+  });
+
+  const previewMessage = showPreview ? "Study the solved field before it scrambles." : announcement;
+  const boardLabel = dragState ? "Drag active. Release over another tile to swap." : previewMessage;
+  const tileCount = currentLevel.columns * currentLevel.rows;
+  const boardWidth = tileCount >= 25 ? "max-w-[min(100vw-1.75rem,24rem)]" : "max-w-[min(100vw-1.75rem,26rem)]";
+
+  function handleTileClick(event: ReactMouseEvent<HTMLButtonElement>, position: number) {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
+
+    if (event.detail === 0) {
+      handleTilePress(position);
+    }
   }
 
   return (
@@ -349,7 +580,7 @@ export function ColourFieldGame({
                 }}
               >
                 <div className="rounded-[1.55rem] border border-white/10 bg-surface/90 p-3 shadow-glow">
-                  <div className="mx-auto w-full max-w-[min(100vw-1.75rem,26rem)]">
+                  <div className={cn("mx-auto w-full", boardWidth)}>
                     <div
                       className="grid gap-2"
                       style={{
@@ -358,23 +589,41 @@ export function ColourFieldGame({
                     >
                       {boardTiles.map((tile) => (
                         <button
-                          key={tile.position}
+                          key={`${boardIntroCycle}:${tile.position}`}
                           type="button"
-                          onClick={() => handleTilePress(tile.position)}
+                          data-colour-field-position={tile.position}
+                          onClick={(event) => handleTileClick(event, tile.position)}
+                          onPointerDown={(event) => handleTilePointerDown(event, tile.position)}
+                          onPointerMove={handleTilePointerMove}
+                          onPointerUp={handleTilePointerUp}
+                          onPointerCancel={handleTilePointerCancel}
+                          onLostPointerCapture={handleTilePointerCancel}
+                          onContextMenu={(event) => event.preventDefault()}
                           disabled={showPreview || tile.locked}
                           aria-label={`Tile row ${tile.row + 1}, column ${tile.column + 1}${tile.locked ? ", anchor" : ""}`}
                           className={cn(
-                            "relative aspect-square rounded-[0.95rem] border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                            "relative aspect-square touch-none rounded-[0.95rem] border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                             tile.locked
                               ? "cursor-default border-white/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
                               : "border-white/10 active:scale-[0.985]",
-                            selectedIndex === tile.position ? "animate-focus-pulse ring-2 ring-accent ring-offset-2 ring-offset-background" : ""
+                            selectedIndex === tile.position
+                              ? "animate-colour-field-selected ring-2 ring-accent ring-offset-2 ring-offset-background z-10"
+                              : "",
+                            dragState?.overIndex === tile.position && dragState.sourceIndex !== tile.position && !tile.locked
+                              ? "ring-2 ring-white/70 ring-offset-2 ring-offset-background"
+                              : "",
+                            "animate-colour-field-tile-in"
                           )}
-                          style={{ backgroundColor: tile.color }}
+                          style={{
+                            backgroundColor: tile.color,
+                            ...tileAnimationStyleFor(tile.position)
+                          }}
                         >
                           {tile.locked ? (
-                            <span className="absolute right-1.5 top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-black/20 text-white/90">
-                              <Lock className="h-3 w-3" />
+                            <span className="absolute inset-0 flex items-center justify-center text-white/90">
+                              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/25">
+                                <Lock className="h-4 w-4" />
+                              </span>
                             </span>
                           ) : null}
                         </button>
@@ -387,7 +636,7 @@ export function ColourFieldGame({
                   aria-live="polite"
                   className="rounded-[1.2rem] border border-white/10 bg-surface/75 px-4 py-3 text-center text-sm leading-6 text-muted"
                 >
-                  {showPreview ? "Study the solved field before it scrambles." : announcement}
+                  {boardLabel}
                 </div>
               </div>
 

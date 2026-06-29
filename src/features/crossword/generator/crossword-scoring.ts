@@ -41,6 +41,22 @@ export function scorePlacement({
   const targetWidth = targetColumns ?? 15;
   const dimensionPenalty = Math.abs(height - targetHeight) + Math.abs(width - targetWidth);
   const skewPenalty = Math.abs(height - width);
+  const reusedCellCount = candidateLength - newCellCount;
+  const mediumLengthBonus = candidateLength >= 6 && candidateLength <= 8 ? 18 : 0;
+  const anchorLengthBonus = candidateLength >= 9 ? 34 : 0;
+  const multiCrossBonus = crossings >= 2 ? crossings * 18 : 0;
+  const efficiencyBonus = reusedCellCount * 9;
 
-  return crossings * 30 - area - newCellCount * 2 - distance * 0.2 - dimensionPenalty * 4 - skewPenalty * 2;
+  return (
+    crossings * 54 +
+    multiCrossBonus +
+    efficiencyBonus +
+    mediumLengthBonus +
+    anchorLengthBonus -
+    area * 0.65 -
+    newCellCount * 1.5 -
+    distance * 0.12 -
+    dimensionPenalty * 5 -
+    skewPenalty * 3
+  );
 }

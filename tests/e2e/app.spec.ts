@@ -55,7 +55,7 @@ test("colour field pack opens the first playable board", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Colour Field" })).toBeVisible();
   await page.getByRole("link", { name: "Start", exact: true }).click();
   await expect(page).toHaveURL(/\/games\/colour-field\/midnight-vows$/);
-  await expect(page.locator('button[aria-label^="Tile row "]')).toHaveCount(9);
+  await expect(page.locator('button[aria-label^="Tile row "]')).toHaveCount(16);
   await expect(page.getByText("Study the solved field before it scrambles.")).toBeVisible();
   await expect(page.getByText("Tap a tile. Tap another tile. Rebuild the gradient.")).toBeVisible();
 });

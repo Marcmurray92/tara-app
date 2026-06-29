@@ -3,2178 +3,3101 @@
     "bankNumber": 1,
     "sourceRowNumber": 2,
     "clue": "\"_ water for customers only!\"",
-    "answer": "CUCUMBER"
+    "answer": "CUCUMBER",
+    "origin": "csv"
   },
   {
     "bankNumber": 2,
     "sourceRowNumber": 3,
     "clue": "\"_ boys don't stop!\"",
-    "answer": "MULLINGAR"
+    "answer": "MULLINGAR",
+    "origin": "csv"
   },
   {
     "bankNumber": 3,
     "sourceRowNumber": 4,
     "clue": "\"_ is on a bike.\"",
-    "answer": "AHMED"
+    "answer": "AHMED",
+    "origin": "csv"
   },
   {
     "bankNumber": 4,
     "sourceRowNumber": 5,
     "clue": "_ James, frequent clue subject 🎵",
-    "answer": "ETTA"
+    "answer": "ETTA",
+    "origin": "csv"
   },
   {
     "bankNumber": 5,
     "sourceRowNumber": 6,
     "clue": "_ Pizzeria — another bad idea",
-    "answer": "SCAVO"
+    "answer": "SCAVO",
+    "origin": "csv"
   },
   {
     "bankNumber": 6,
     "sourceRowNumber": 7,
     "clue": "\"_ SUMMER!\"",
-    "answer": "BRAT"
+    "answer": "BRAT",
+    "origin": "csv"
   },
   {
     "bankNumber": 7,
     "sourceRowNumber": 8,
     "clue": ":(",
-    "answer": "SADFACE"
+    "answer": "SADFACE",
+    "origin": "csv"
   },
   {
     "bankNumber": 8,
     "sourceRowNumber": 9,
     "clue": ":)",
-    "answer": "HAPPYFACE"
+    "answer": "HAPPYFACE",
+    "origin": "csv"
   },
   {
     "bankNumber": 9,
     "sourceRowNumber": 10,
     "clue": "“He who controls the _ controls the universe!”",
-    "answer": "SPICE"
+    "answer": "SPICE",
+    "origin": "csv"
   },
   {
     "bankNumber": 10,
     "sourceRowNumber": 11,
     "clue": "“How you likin the _ girl?! 🤪”",
-    "answer": "RAIN"
+    "answer": "RAIN",
+    "origin": "csv"
   },
   {
     "bankNumber": 11,
     "sourceRowNumber": 12,
     "clue": "\"I'll be back\" threatener",
-    "answer": "TERMINATOR"
+    "answer": "TERMINATOR",
+    "origin": "csv"
   },
   {
     "bankNumber": 12,
     "sourceRowNumber": 13,
     "clue": "“I’m blinded by the _.”",
-    "answer": "LIGHTS"
+    "answer": "LIGHTS",
+    "origin": "csv"
   },
   {
     "bankNumber": 13,
     "sourceRowNumber": 14,
     "clue": "“It’s Friday, I’m in _.”",
-    "answer": "LOVE"
+    "answer": "LOVE",
+    "origin": "csv"
   },
   {
     "bankNumber": 14,
     "sourceRowNumber": 15,
     "clue": "“Not the greatest feeling...”",
-    "answer": "EVER"
+    "answer": "EVER",
+    "origin": "csv"
   },
   {
     "bankNumber": 15,
     "sourceRowNumber": 16,
     "clue": "“She was holding hands with...”",
-    "answer": "TREVOR"
+    "answer": "TREVOR",
+    "origin": "csv"
   },
   {
     "bankNumber": 16,
     "sourceRowNumber": 17,
     "clue": "“Teenagers scare the living _ out of me.”",
-    "answer": "SHIT"
+    "answer": "SHIT",
+    "origin": "csv"
   },
   {
     "bankNumber": 17,
     "sourceRowNumber": 18,
     "clue": "“Up the _!”",
-    "answer": "RA"
+    "answer": "RA",
+    "origin": "csv"
   },
   {
     "bankNumber": 18,
     "sourceRowNumber": 19,
     "clue": "“We _ for you”",
-    "answer": "HEAR"
+    "answer": "HEAR",
+    "origin": "csv"
   },
   {
     "bankNumber": 19,
     "sourceRowNumber": 20,
     "clue": "\"We _ for you\"",
-    "answer": "HEAR"
+    "answer": "HEAR",
+    "origin": "csv"
   },
   {
     "bankNumber": 20,
     "sourceRowNumber": 21,
     "clue": "“You should try your luck with...”",
-    "answer": "HEATHER"
+    "answer": "HEATHER",
+    "origin": "csv"
   },
   {
     "bankNumber": 21,
     "sourceRowNumber": 22,
     "clue": "A cool way to order alcohol",
-    "answer": "NEAT"
+    "answer": "NEAT",
+    "origin": "csv"
   },
   {
     "bankNumber": 22,
     "sourceRowNumber": 23,
     "clue": "A mega pint?",
-    "answer": "JOHNNY DEPP"
+    "answer": "JOHNNY DEPP",
+    "origin": "csv"
   },
   {
     "bankNumber": 23,
     "sourceRowNumber": 24,
     "clue": "A mythical monster",
-    "answer": "OGRE"
+    "answer": "OGRE",
+    "origin": "csv"
   },
   {
     "bankNumber": 24,
     "sourceRowNumber": 25,
     "clue": "A region",
-    "answer": "AREA"
+    "answer": "AREA",
+    "origin": "csv"
   },
   {
     "bankNumber": 25,
     "sourceRowNumber": 26,
     "clue": "A slippery fish",
-    "answer": "EEL"
+    "answer": "EEL",
+    "origin": "csv"
   },
   {
     "bankNumber": 26,
     "sourceRowNumber": 27,
     "clue": "A small insect",
-    "answer": "ANT"
+    "answer": "ANT",
+    "origin": "csv"
   },
   {
     "bankNumber": 27,
     "sourceRowNumber": 28,
     "clue": "A succulent plant",
-    "answer": "ALOE"
+    "answer": "ALOE",
+    "origin": "csv"
   },
   {
     "bankNumber": 28,
     "sourceRowNumber": 29,
     "clue": "About 1.8 meters deep",
-    "answer": "SIX FEET UNDER"
+    "answer": "SIX FEET UNDER",
+    "origin": "csv"
   },
   {
     "bankNumber": 29,
     "sourceRowNumber": 30,
     "clue": "Albanian currency",
-    "answer": "LEK"
+    "answer": "LEK",
+    "origin": "csv"
   },
   {
     "bankNumber": 30,
     "sourceRowNumber": 31,
     "clue": "Alcoholic cop with a dead son",
-    "answer": "MIKE"
+    "answer": "MIKE",
+    "origin": "csv"
   },
   {
     "bankNumber": 31,
     "sourceRowNumber": 32,
     "clue": "Allen and Coen",
-    "answer": "ETHANS"
+    "answer": "ETHANS",
+    "origin": "csv"
   },
   {
     "bankNumber": 32,
     "sourceRowNumber": 33,
     "clue": "Ancient/Roman name for Ireland",
-    "answer": "HIBERNIA"
+    "answer": "HIBERNIA",
+    "origin": "csv"
   },
   {
     "bankNumber": 33,
     "sourceRowNumber": 34,
     "clue": "Aquatic mammal",
-    "answer": "ORCA"
+    "answer": "ORCA",
+    "origin": "csv"
   },
   {
     "bankNumber": 34,
     "sourceRowNumber": 35,
     "clue": "Aquatic mammal",
-    "answer": "OTTER"
+    "answer": "OTTER",
+    "origin": "csv"
   },
   {
     "bankNumber": 35,
     "sourceRowNumber": 36,
     "clue": "Arizona state capital",
-    "answer": "PHOENIX"
+    "answer": "PHOENIX",
+    "origin": "csv"
   },
   {
     "bankNumber": 36,
     "sourceRowNumber": 37,
     "clue": "Assemble",
-    "answer": "GATHER"
+    "answer": "GATHER",
+    "origin": "csv"
   },
   {
     "bankNumber": 37,
     "sourceRowNumber": 38,
     "clue": "Azerbaijan capital",
-    "answer": "BAKU"
+    "answer": "BAKU",
+    "origin": "csv"
   },
   {
     "bankNumber": 38,
     "sourceRowNumber": 39,
     "clue": "Baby Driver incorrect mask",
-    "answer": "MIKE MYERS"
+    "answer": "MIKE MYERS",
+    "origin": "csv"
   },
   {
     "bankNumber": 39,
     "sourceRowNumber": 40,
     "clue": "Bauld pints (avoid)",
-    "answer": "BABY DUCK"
+    "answer": "BABY DUCK",
+    "origin": "csv"
   },
   {
     "bankNumber": 40,
     "sourceRowNumber": 41,
     "clue": "Beam in a bar",
-    "answer": "JIM"
+    "answer": "JIM",
+    "origin": "csv"
   },
   {
     "bankNumber": 41,
     "sourceRowNumber": 42,
     "clue": "Before the night before Christmas",
-    "answer": "TWAS"
+    "answer": "TWAS",
+    "origin": "csv"
   },
   {
     "bankNumber": 42,
     "sourceRowNumber": 43,
     "clue": "Biblical paradise",
-    "answer": "EDEN"
+    "answer": "EDEN",
+    "origin": "csv"
   },
   {
     "bankNumber": 43,
     "sourceRowNumber": 44,
     "clue": "Big bird of Australia",
-    "answer": "EMU"
+    "answer": "EMU",
+    "origin": "csv"
   },
   {
     "bankNumber": 44,
     "sourceRowNumber": 45,
     "clue": "Bird related",
-    "answer": "APIAN"
+    "answer": "APIAN",
+    "origin": "csv"
   },
   {
     "bankNumber": 45,
     "sourceRowNumber": 46,
     "clue": "Board game",
-    "answer": "DARTS"
+    "answer": "DARTS",
+    "origin": "csv"
   },
   {
     "bankNumber": 46,
     "sourceRowNumber": 47,
     "clue": "Bram Stoker’s famous vampire novel",
-    "answer": "DRACULA"
+    "answer": "DRACULA",
+    "origin": "csv"
   },
   {
     "bankNumber": 47,
     "sourceRowNumber": 48,
     "clue": "Bulgarian currency",
-    "answer": "LEV"
+    "answer": "LEV",
+    "origin": "csv"
   },
   {
     "bankNumber": 48,
     "sourceRowNumber": 49,
     "clue": "Burrowing marsupial",
-    "answer": "WOMBAT"
+    "answer": "WOMBAT",
+    "origin": "csv"
   },
   {
     "bankNumber": 49,
     "sourceRowNumber": 50,
     "clue": "Bushy row",
-    "answer": "HEDGE"
+    "answer": "HEDGE",
+    "origin": "csv"
   },
   {
     "bankNumber": 50,
     "sourceRowNumber": 51,
     "clue": "California state capital",
-    "answer": "SACRAMENTO"
+    "answer": "SACRAMENTO",
+    "origin": "csv"
   },
   {
     "bankNumber": 51,
     "sourceRowNumber": 52,
     "clue": "Capital of Norway",
-    "answer": "OSLO"
+    "answer": "OSLO",
+    "origin": "csv"
   },
   {
     "bankNumber": 52,
     "sourceRowNumber": 53,
     "clue": "Capital of Peru",
-    "answer": "LIMA"
+    "answer": "LIMA",
+    "origin": "csv"
   },
   {
     "bankNumber": 53,
     "sourceRowNumber": 54,
     "clue": "Cartman of \"South Park\"",
-    "answer": "ERIC"
+    "answer": "ERIC",
+    "origin": "csv"
   },
   {
     "bankNumber": 54,
     "sourceRowNumber": 55,
     "clue": "Cat in Marc's stupid books",
-    "answer": "PRINCESS DONUT"
+    "answer": "PRINCESS DONUT",
+    "origin": "csv"
   },
   {
     "bankNumber": 55,
     "sourceRowNumber": 56,
     "clue": "Character in Rosemary's Baby",
-    "answer": "APOSTROPHE"
+    "answer": "APOSTROPHE",
+    "origin": "csv"
   },
   {
     "bankNumber": 56,
     "sourceRowNumber": 57,
     "clue": "Charlotte Brontë novel set partly at Thornfield Hall",
-    "answer": "JANE EYRE"
+    "answer": "JANE EYRE",
+    "origin": "csv"
   },
   {
     "bankNumber": 57,
     "sourceRowNumber": 58,
     "clue": "Clare county town",
-    "answer": "ENNIS"
+    "answer": "ENNIS",
+    "origin": "csv"
   },
   {
     "bankNumber": 58,
     "sourceRowNumber": 59,
     "clue": "Class actor, probably really tiring to be around",
-    "answer": "COLIN FARRELL"
+    "answer": "COLIN FARRELL",
+    "origin": "csv"
   },
   {
     "bankNumber": 59,
     "sourceRowNumber": 60,
     "clue": "Clyde Livingston’s baseball nickname",
-    "answer": "SWEET FEET"
+    "answer": "SWEET FEET",
+    "origin": "csv"
   },
   {
     "bankNumber": 60,
     "sourceRowNumber": 61,
     "clue": "Colorado state capital",
-    "answer": "DENVER"
+    "answer": "DENVER",
+    "origin": "csv"
   },
   {
     "bankNumber": 61,
     "sourceRowNumber": 62,
     "clue": "Croatia capital",
-    "answer": "ZAGREB"
+    "answer": "ZAGREB",
+    "origin": "csv"
   },
   {
     "bankNumber": 62,
     "sourceRowNumber": 63,
     "clue": "Cyprus capital",
-    "answer": "NICOSIA"
+    "answer": "NICOSIA",
+    "origin": "csv"
   },
   {
     "bankNumber": 63,
     "sourceRowNumber": 64,
     "clue": "D.C. in Fontaines",
-    "answer": "DUBLIN CITY"
+    "answer": "DUBLIN CITY",
+    "origin": "csv"
   },
   {
     "bankNumber": 64,
     "sourceRowNumber": 65,
     "clue": "Twin Deleters",
-    "answer": "Orange"
+    "answer": "Orange",
+    "origin": "csv"
   },
   {
     "bankNumber": 65,
     "sourceRowNumber": 66,
     "clue": "Delicious Better Call Saul antagonist",
-    "answer": "NACHO"
+    "answer": "NACHO",
+    "origin": "csv"
   },
   {
     "bankNumber": 66,
     "sourceRowNumber": 67,
     "clue": "Diesel often found in muscle cars",
-    "answer": "VINN"
+    "answer": "VINN",
+    "origin": "csv"
   },
   {
     "bankNumber": 67,
     "sourceRowNumber": 68,
     "clue": "Digital inhalant",
-    "answer": "VAPES"
+    "answer": "VAPES",
+    "origin": "csv"
   },
   {
     "bankNumber": 68,
     "sourceRowNumber": 69,
     "clue": "Director of Frances Ha and Marriage Story.",
-    "answer": "NOAH BAUMBACH"
+    "answer": "NOAH BAUMBACH",
+    "origin": "csv"
   },
   {
     "bankNumber": 69,
     "sourceRowNumber": 70,
     "clue": "Dr __ Fünke",
-    "answer": "TOBIAS"
+    "answer": "TOBIAS",
+    "origin": "csv"
   },
   {
     "bankNumber": 70,
     "sourceRowNumber": 71,
     "clue": "Dublin's river",
-    "answer": "LIFFEY"
+    "answer": "LIFFEY",
+    "origin": "csv"
   },
   {
     "bankNumber": 71,
     "sourceRowNumber": 72,
     "clue": "Dutch cheese",
-    "answer": "EDAM"
+    "answer": "EDAM",
+    "origin": "csv"
   },
   {
     "bankNumber": 72,
     "sourceRowNumber": 73,
     "clue": "E-Commerce for chinese tat",
-    "answer": "ETSY"
+    "answer": "ETSY",
+    "origin": "csv"
   },
   {
     "bankNumber": 73,
     "sourceRowNumber": 74,
     "clue": "Edinburgh sandwich purveyor",
-    "answer": "BREAD MEATS BREAD"
+    "answer": "BREAD MEATS BREAD",
+    "origin": "csv"
   },
   {
     "bankNumber": 74,
     "sourceRowNumber": 75,
     "clue": "Eggs on toast",
-    "answer": "CHEERS"
+    "answer": "CHEERS",
+    "origin": "csv"
   },
   {
     "bankNumber": 75,
     "sourceRowNumber": 76,
     "clue": "Ex-carpenter, actor, rogue",
-    "answer": "HARRISON FORD"
+    "answer": "HARRISON FORD",
+    "origin": "csv"
   },
   {
     "bankNumber": 76,
     "sourceRowNumber": 77,
     "clue": "Eyeliner politician",
-    "answer": "JD VANCE"
+    "answer": "JD VANCE",
+    "origin": "csv"
   },
   {
     "bankNumber": 77,
     "sourceRowNumber": 78,
     "clue": "Fencer's blade",
-    "answer": "EPEE"
+    "answer": "EPEE",
+    "origin": "csv"
   },
   {
     "bankNumber": 78,
     "sourceRowNumber": 79,
     "clue": "First female EGOT winner",
-    "answer": "HELEN HAYES"
+    "answer": "HELEN HAYES",
+    "origin": "csv"
   },
   {
     "bankNumber": 79,
     "sourceRowNumber": 80,
     "clue": "First-born son of Seth",
-    "answer": "ENOS"
+    "answer": "ENOS",
+    "origin": "csv"
   },
   {
     "bankNumber": 80,
     "sourceRowNumber": 81,
     "clue": "Flavour enhancer",
-    "answer": "MSG"
+    "answer": "MSG",
+    "origin": "csv"
   },
   {
     "bankNumber": 81,
     "sourceRowNumber": 82,
     "clue": "FOUR _?? That's insane",
-    "answer": "NAAN"
+    "answer": "NAAN",
+    "origin": "csv"
   },
   {
     "bankNumber": 82,
     "sourceRowNumber": 83,
     "clue": "Furry species in the Star Wars universe",
-    "answer": "EWOK"
+    "answer": "EWOK",
+    "origin": "csv"
   },
   {
     "bankNumber": 83,
     "sourceRowNumber": 84,
     "clue": "General Fiasco singer Owen _",
-    "answer": "STRATHERN"
+    "answer": "STRATHERN",
+    "origin": "csv"
   },
   {
     "bankNumber": 84,
     "sourceRowNumber": 85,
     "clue": "Georgia capital",
-    "answer": "TBILISI"
+    "answer": "TBILISI",
+    "origin": "csv"
   },
   {
     "bankNumber": 85,
     "sourceRowNumber": 86,
     "clue": "Georgia state capital",
-    "answer": "ATLANTA"
+    "answer": "ATLANTA",
+    "origin": "csv"
   },
   {
     "bankNumber": 86,
     "sourceRowNumber": 87,
     "clue": "Get a long little doggy?",
-    "answer": "ADOPT"
+    "answer": "ADOPT",
+    "origin": "csv"
   },
   {
     "bankNumber": 87,
     "sourceRowNumber": 88,
     "clue": "Good or bad hoover review",
-    "answer": "SUCKS"
+    "answer": "SUCKS",
+    "origin": "csv"
   },
   {
     "bankNumber": 88,
     "sourceRowNumber": 89,
     "clue": "Grand saga",
-    "answer": "EPIC"
+    "answer": "EPIC",
+    "origin": "csv"
   },
   {
     "bankNumber": 89,
     "sourceRowNumber": 90,
     "clue": "Great lake",
-    "answer": "ERIE"
+    "answer": "ERIE",
+    "origin": "csv"
   },
   {
     "bankNumber": 90,
     "sourceRowNumber": 91,
     "clue": "Great on a Thursday around 11.45pm",
-    "answer": "MUNCHIE BOX"
+    "answer": "MUNCHIE BOX",
+    "origin": "csv"
   },
   {
     "bankNumber": 91,
     "sourceRowNumber": 92,
     "clue": "Handsome old seaman",
-    "answer": "CAPTAIN LEE"
+    "answer": "CAPTAIN LEE",
+    "origin": "csv"
   },
   {
     "bankNumber": 92,
     "sourceRowNumber": 93,
     "clue": "Hard to comprehend",
-    "answer": "BAFFLING"
+    "answer": "BAFFLING",
+    "origin": "csv"
   },
   {
     "bankNumber": 93,
     "sourceRowNumber": 94,
     "clue": "Hawaii state capital",
-    "answer": "HONOLULU"
+    "answer": "HONOLULU",
+    "origin": "csv"
   },
   {
     "bankNumber": 94,
     "sourceRowNumber": 95,
     "clue": "He is one",
-    "answer": "GAS"
+    "answer": "GAS",
+    "origin": "csv"
   },
   {
     "bankNumber": 95,
     "sourceRowNumber": 96,
     "clue": "\"He who controls the _ controls the universe!\"",
-    "answer": "SPICE"
+    "answer": "SPICE",
+    "origin": "csv"
   },
   {
     "bankNumber": 96,
     "sourceRowNumber": 97,
     "clue": "He's been a cowboy the last two times we saw him",
-    "answer": "JON VOIGHT"
+    "answer": "JON VOIGHT",
+    "origin": "csv"
   },
   {
     "bankNumber": 97,
     "sourceRowNumber": 98,
     "clue": "Herd of elk",
-    "answer": "GANG"
+    "answer": "GANG",
+    "origin": "csv"
   },
   {
     "bankNumber": 98,
     "sourceRowNumber": 99,
     "clue": "Here’s looking at you, _.",
-    "answer": "KID"
+    "answer": "KID",
+    "origin": "csv"
   },
   {
     "bankNumber": 99,
     "sourceRowNumber": 100,
     "clue": "Himalayan country",
-    "answer": "NEPAL"
+    "answer": "NEPAL",
+    "origin": "csv"
   },
   {
     "bankNumber": 100,
     "sourceRowNumber": 101,
     "clue": "HipsterBeer",
-    "answer": "IPA"
+    "answer": "IPA",
+    "origin": "csv"
   },
   {
     "bankNumber": 101,
     "sourceRowNumber": 102,
     "clue": "Hitler's dog's name",
-    "answer": "BLONDI"
+    "answer": "BLONDI",
+    "origin": "csv"
   },
   {
     "bankNumber": 102,
     "sourceRowNumber": 103,
     "clue": "How you likin the _ girl?! 🤪",
-    "answer": "RAIN"
+    "answer": "RAIN",
+    "origin": "csv"
   },
   {
     "bankNumber": 103,
     "sourceRowNumber": 104,
     "clue": "Human pain sponge",
-    "answer": "TOM WAMBSGANS"
+    "answer": "TOM WAMBSGANS",
+    "origin": "csv"
   },
   {
     "bankNumber": 104,
     "sourceRowNumber": 105,
     "clue": "Hunks of plastic?",
-    "answer": "KENS"
+    "answer": "KENS",
+    "origin": "csv"
   },
   {
     "bankNumber": 105,
     "sourceRowNumber": 106,
     "clue": "\"I ate his liver with some fava beans and a nice _.\"",
-    "answer": "CHIANTI"
+    "answer": "CHIANTI",
+    "origin": "csv"
   },
   {
     "bankNumber": 106,
     "sourceRowNumber": 107,
     "clue": "\"I just don’t like you _.\"",
-    "answer": "NO MORE"
+    "answer": "NO MORE",
+    "origin": "csv"
   },
   {
     "bankNumber": 107,
     "sourceRowNumber": 108,
     "clue": "\"I wanna move like a new _\"",
-    "answer": "SALAMANDER"
+    "answer": "SALAMANDER",
+    "origin": "csv"
   },
   {
     "bankNumber": 108,
     "sourceRowNumber": 109,
     "clue": "\"I'm blinded by the _.\"",
-    "answer": "LIGHTS"
+    "answer": "LIGHTS",
+    "origin": "csv"
   },
   {
     "bankNumber": 109,
     "sourceRowNumber": 110,
     "clue": "\"I’m so much happier now that I’m _.\"",
-    "answer": "DEAD"
+    "answer": "DEAD",
+    "origin": "csv"
   },
   {
     "bankNumber": 110,
     "sourceRowNumber": 111,
     "clue": "If I take a picture, will you say cheese? / My favourite character in Friends is _",
-    "answer": "PHOEBE"
+    "answer": "PHOEBE",
+    "origin": "csv"
   },
   {
     "bankNumber": 111,
     "sourceRowNumber": 112,
     "clue": "Interested in politics from a very young age",
-    "answer": "CONNOR ROY"
+    "answer": "CONNOR ROY",
+    "origin": "csv"
   },
   {
     "bankNumber": 112,
     "sourceRowNumber": 113,
     "clue": "Intermission masks, surname",
-    "answer": "HASSELHOFF"
+    "answer": "HASSELHOFF",
+    "origin": "csv"
   },
   {
     "bankNumber": 113,
     "sourceRowNumber": 114,
     "clue": "Irish county / Mullingar's home",
-    "answer": "WESTMEATH"
+    "answer": "WESTMEATH",
+    "origin": "csv"
   },
   {
     "bankNumber": 114,
     "sourceRowNumber": 115,
     "clue": "Irish province",
-    "answer": "LEINSTER"
+    "answer": "LEINSTER",
+    "origin": "csv"
   },
   {
     "bankNumber": 115,
     "sourceRowNumber": 116,
     "clue": "\"It's Friday, I'm in _.\"",
-    "answer": "LOVE"
+    "answer": "LOVE",
+    "origin": "csv"
   },
   {
     "bankNumber": 116,
     "sourceRowNumber": 117,
     "clue": "\"June, June, ___\"",
-    "answer": "HANNAH"
+    "answer": "HANNAH",
+    "origin": "csv"
   },
   {
     "bankNumber": 117,
     "sourceRowNumber": 118,
     "clue": "Just an inspiring word",
-    "answer": "EPIPHANY"
+    "answer": "EPIPHANY",
+    "origin": "csv"
   },
   {
     "bankNumber": 118,
     "sourceRowNumber": 119,
     "clue": "Kazakhstan capital",
-    "answer": "ASTANA"
+    "answer": "ASTANA",
+    "origin": "csv"
   },
   {
     "bankNumber": 119,
     "sourceRowNumber": 120,
     "clue": "Kerry county town",
-    "answer": "TRALEE"
+    "answer": "TRALEE",
+    "origin": "csv"
   },
   {
     "bankNumber": 120,
     "sourceRowNumber": 121,
     "clue": "Kildare county town",
-    "answer": "NAAS"
+    "answer": "NAAS",
+    "origin": "csv"
   },
   {
     "bankNumber": 121,
     "sourceRowNumber": 122,
     "clue": "Kim’s 72-day husband",
-    "answer": "KRIS HUMPHRIES"
+    "answer": "KRIS HUMPHRIES",
+    "origin": "csv"
   },
   {
     "bankNumber": 122,
     "sourceRowNumber": 123,
     "clue": "Kind of salts",
-    "answer": "EPSOM"
+    "answer": "EPSOM",
+    "origin": "csv"
   },
   {
     "bankNumber": 123,
     "sourceRowNumber": 124,
     "clue": "King of edible leaves",
-    "answer": "SPINACH"
+    "answer": "SPINACH",
+    "origin": "csv"
   },
   {
     "bankNumber": 124,
     "sourceRowNumber": 125,
     "clue": "Lake in Scotland",
-    "answer": "LOCH"
+    "answer": "LOCH",
+    "origin": "csv"
   },
   {
     "bankNumber": 125,
     "sourceRowNumber": 126,
     "clue": "Largest continent",
-    "answer": "ASIA"
+    "answer": "ASIA",
+    "origin": "csv"
   },
   {
     "bankNumber": 126,
     "sourceRowNumber": 127,
     "clue": "Lemur or ape",
-    "answer": "PRIMATE"
+    "answer": "PRIMATE",
+    "origin": "csv"
   },
   {
     "bankNumber": 127,
     "sourceRowNumber": 128,
     "clue": "Lion's share",
-    "answer": "PRIDE"
+    "answer": "PRIDE",
+    "origin": "csv"
   },
   {
     "bankNumber": 128,
     "sourceRowNumber": 129,
     "clue": "Little ginger car fella",
-    "answer": "WILLIE"
+    "answer": "WILLIE",
+    "origin": "csv"
   },
   {
     "bankNumber": 129,
     "sourceRowNumber": 130,
     "clue": "Long flute",
-    "answer": "OBOE"
+    "answer": "OBOE",
+    "origin": "csv"
   },
   {
     "bankNumber": 130,
     "sourceRowNumber": 131,
     "clue": "Magazine with dangerous sex tips",
-    "answer": "COSMOPOLITAN"
+    "answer": "COSMOPOLITAN",
+    "origin": "csv"
   },
   {
     "bankNumber": 131,
     "sourceRowNumber": 132,
     "clue": "Mannerly Salamanca with immaculate manners",
-    "answer": "LALO"
+    "answer": "LALO",
+    "origin": "csv"
   },
   {
     "bankNumber": 132,
     "sourceRowNumber": 133,
     "clue": "Marc wants to work here",
-    "answer": "ISO"
+    "answer": "ISO",
+    "origin": "csv"
   },
   {
     "bankNumber": 133,
     "sourceRowNumber": 134,
     "clue": "Marc, consistently",
-    "answer": "SLAY"
+    "answer": "SLAY",
+    "origin": "csv"
   },
   {
     "bankNumber": 134,
     "sourceRowNumber": 135,
     "clue": "Massachusetts state capital",
-    "answer": "BOSTON"
+    "answer": "BOSTON",
+    "origin": "csv"
   },
   {
     "bankNumber": 135,
     "sourceRowNumber": 136,
     "clue": "\"Maybe that’s what hell is: the entire rest of eternity spent in fucking _.\"",
-    "answer": "BRUGES"
+    "answer": "BRUGES",
+    "origin": "csv"
   },
   {
     "bankNumber": 136,
     "sourceRowNumber": 137,
     "clue": "Mayo county town",
-    "answer": "CASTLEBAR"
+    "answer": "CASTLEBAR",
+    "origin": "csv"
   },
   {
     "bankNumber": 137,
     "sourceRowNumber": 138,
     "clue": "Mayonnaise, worse.",
-    "answer": "AOILI"
+    "answer": "AOILI",
+    "origin": "csv"
   },
   {
     "bankNumber": 138,
     "sourceRowNumber": 139,
     "clue": "Mediterranean resort area",
-    "answer": "RIVIERA"
+    "answer": "RIVIERA",
+    "origin": "csv"
   },
   {
     "bankNumber": 139,
     "sourceRowNumber": 140,
     "clue": "\"Meet me in _.\"",
-    "answer": "MONTAUK"
+    "answer": "MONTAUK",
+    "origin": "csv"
   },
   {
     "bankNumber": 140,
     "sourceRowNumber": 141,
     "clue": "Melville novel featuring Captain Ahab",
-    "answer": "MOBY DICK"
+    "answer": "MOBY DICK",
+    "origin": "csv"
   },
   {
     "bankNumber": 141,
     "sourceRowNumber": 142,
     "clue": "Mesa Verde lead attorney",
-    "answer": "KIM WEXLER"
+    "answer": "KIM WEXLER",
+    "origin": "csv"
   },
   {
     "bankNumber": 142,
     "sourceRowNumber": 143,
     "clue": "Minimal-effort dating bio & Indie anthem",
-    "answer": "TAKE ME OUT"
+    "answer": "TAKE ME OUT",
+    "origin": "csv"
   },
   {
     "bankNumber": 143,
     "sourceRowNumber": 144,
     "clue": "Monaco capital",
-    "answer": "MONACO"
+    "answer": "MONACO",
+    "origin": "csv"
   },
   {
     "bankNumber": 144,
     "sourceRowNumber": 145,
     "clue": "Monobrowed actor",
-    "answer": "COUNT OLAF"
+    "answer": "COUNT OLAF",
+    "origin": "csv"
   },
   {
     "bankNumber": 145,
     "sourceRowNumber": 146,
     "clue": "Fit to be tied",
-    "answer": "Irate"
+    "answer": "Irate",
+    "origin": "csv"
   },
   {
     "bankNumber": 146,
     "sourceRowNumber": 147,
     "clue": "Most shocking RIP cold open",
-    "answer": "MOUNTAIN LION"
+    "answer": "MOUNTAIN LION",
+    "origin": "csv"
   },
   {
     "bankNumber": 147,
     "sourceRowNumber": 148,
     "clue": "Mountain pass",
-    "answer": "COL"
+    "answer": "COL",
+    "origin": "csv"
   },
   {
     "bankNumber": 148,
     "sourceRowNumber": 149,
     "clue": "Movie that opens with spitting",
-    "answer": "THE FLORIDA PROJECT"
+    "answer": "THE FLORIDA PROJECT",
+    "origin": "csv"
   },
   {
     "bankNumber": 149,
     "sourceRowNumber": 150,
     "clue": "Muad'Dib",
-    "answer": "PAUL ATREIDES"
+    "answer": "PAUL ATREIDES",
+    "origin": "csv"
   },
   {
     "bankNumber": 150,
     "sourceRowNumber": 151,
     "clue": "New York state capital",
-    "answer": "ALBANY"
+    "answer": "ALBANY",
+    "origin": "csv"
   },
   {
     "bankNumber": 151,
     "sourceRowNumber": 152,
     "clue": "No-good-dirty-rotten-pig-stealing great-great-grandfather",
-    "answer": "ELYA YELNATS"
+    "answer": "ELYA YELNATS",
+    "origin": "csv"
   },
   {
     "bankNumber": 152,
     "sourceRowNumber": 153,
     "clue": "Normal People setting",
-    "answer": "CARRICKLEA"
+    "answer": "CARRICKLEA",
+    "origin": "csv"
   },
   {
     "bankNumber": 153,
     "sourceRowNumber": 154,
     "clue": "NOT a retro hairstyle",
-    "answer": "AFRO"
+    "answer": "AFRO",
+    "origin": "csv"
   },
   {
     "bankNumber": 154,
     "sourceRowNumber": 155,
     "clue": "\"Not the greatest feeling _..\"",
-    "answer": "EVER"
+    "answer": "EVER",
+    "origin": "csv"
   },
   {
     "bankNumber": 155,
     "sourceRowNumber": 156,
     "clue": "Noted for bringing couples together",
-    "answer": "NOAH"
+    "answer": "NOAH",
+    "origin": "csv"
   },
   {
     "bankNumber": 156,
     "sourceRowNumber": 157,
     "clue": "Obsession sandwich",
-    "answer": "CAT"
+    "answer": "CAT",
+    "origin": "csv"
   },
   {
     "bankNumber": 157,
     "sourceRowNumber": 158,
     "clue": "Of of of of of of of of of of",
-    "answer": "OFTENTIMES"
+    "answer": "OFTENTIMES",
+    "origin": "csv"
   },
   {
     "bankNumber": 158,
     "sourceRowNumber": 159,
     "clue": "Oh, that… that deal just came through. I’ve got triples of the Barracuda now. Triples is best.",
-    "answer": "BOB ODENKIRK"
+    "answer": "BOB ODENKIRK",
+    "origin": "csv"
   },
   {
     "bankNumber": 159,
     "sourceRowNumber": 160,
     "clue": "Opponent",
-    "answer": "FOE"
+    "answer": "FOE",
+    "origin": "csv"
   },
   {
     "bankNumber": 160,
     "sourceRowNumber": 161,
     "clue": "Over rated confection",
-    "answer": "OREO"
+    "answer": "OREO",
+    "origin": "csv"
   },
   {
     "bankNumber": 161,
     "sourceRowNumber": 162,
     "clue": "Overused Love Island phrase 2026",
-    "answer": "LOVE LANGUAGE"
+    "answer": "LOVE LANGUAGE",
+    "origin": "csv"
   },
   {
     "bankNumber": 162,
     "sourceRowNumber": 163,
     "clue": "Pal, geopolitically speaking",
-    "answer": "ALLY"
+    "answer": "ALLY",
+    "origin": "csv"
   },
   {
     "bankNumber": 163,
     "sourceRowNumber": 164,
     "clue": "Passing fancies",
-    "answer": "FADS"
+    "answer": "FADS",
+    "origin": "csv"
   },
   {
     "bankNumber": 164,
     "sourceRowNumber": 165,
     "clue": "Pervy little Michael Jackson fan",
-    "answer": "THE WEEKND"
+    "answer": "THE WEEKND",
+    "origin": "csv"
   },
   {
     "bankNumber": 165,
     "sourceRowNumber": 166,
     "clue": "Phony",
-    "answer": "FAKE"
+    "answer": "FAKE",
+    "origin": "csv"
   },
   {
     "bankNumber": 166,
     "sourceRowNumber": 167,
     "clue": "Play with a ball",
-    "answer": "ROMEO AND JULIET"
+    "answer": "ROMEO AND JULIET",
+    "origin": "csv"
   },
   {
     "bankNumber": 167,
     "sourceRowNumber": 168,
     "clue": "Prefix with skeleton",
-    "answer": "ENDO"
+    "answer": "ENDO",
+    "origin": "csv"
   },
   {
     "bankNumber": 168,
     "sourceRowNumber": 169,
     "clue": "Really bad parking administrators",
-    "answer": "MANCHESTER COUNCIL"
+    "answer": "MANCHESTER COUNCIL",
+    "origin": "csv"
   },
   {
     "bankNumber": 169,
     "sourceRowNumber": 170,
     "clue": "River of Spain",
-    "answer": "EBRO"
+    "answer": "EBRO",
+    "origin": "csv"
   },
   {
     "bankNumber": 170,
     "sourceRowNumber": 171,
     "clue": "Robert Pattinson roommate #1",
-    "answer": "JAMIE DORNAN"
+    "answer": "JAMIE DORNAN",
+    "origin": "csv"
   },
   {
     "bankNumber": 171,
     "sourceRowNumber": 172,
     "clue": "Robert Pattinson roommate #2",
-    "answer": "ANDREW GARFIELD"
+    "answer": "ANDREW GARFIELD",
+    "origin": "csv"
   },
   {
     "bankNumber": 172,
     "sourceRowNumber": 173,
     "clue": "Robert Pattinson roommate #3",
-    "answer": "CHARLIE COX"
+    "answer": "CHARLIE COX",
+    "origin": "csv"
   },
   {
     "bankNumber": 173,
     "sourceRowNumber": 174,
     "clue": "Sad thighs fashion trend",
-    "answer": "GAA SHORTS"
+    "answer": "GAA SHORTS",
+    "origin": "csv"
   },
   {
     "bankNumber": 174,
     "sourceRowNumber": 175,
     "clue": "Secretly overrated band",
-    "answer": "THE BEATLES"
+    "answer": "THE BEATLES",
+    "origin": "csv"
   },
   {
     "bankNumber": 175,
     "sourceRowNumber": 176,
     "clue": "Semicircular church recess",
-    "answer": "APSE"
+    "answer": "APSE",
+    "origin": "csv"
   },
   {
     "bankNumber": 176,
     "sourceRowNumber": 177,
     "clue": "Serbia capital",
-    "answer": "BELGRADE"
+    "answer": "BELGRADE",
+    "origin": "csv"
   },
   {
     "bankNumber": 177,
     "sourceRowNumber": 178,
     "clue": "Sexy little socialist",
-    "answer": "ZOHRAN MAMDANI"
+    "answer": "ZOHRAN MAMDANI",
+    "origin": "csv"
   },
   {
     "bankNumber": 178,
     "sourceRowNumber": 179,
     "clue": "She has to go",
-    "answer": "SERENA"
+    "answer": "SERENA",
+    "origin": "csv"
   },
   {
     "bankNumber": 179,
     "sourceRowNumber": 180,
     "clue": "\"She was holding hands with..\"",
-    "answer": "TREVOR"
+    "answer": "TREVOR",
+    "origin": "csv"
   },
   {
     "bankNumber": 180,
     "sourceRowNumber": 181,
     "clue": "Shrooms band outside, very good",
-    "answer": "TWO DOOR CINEMA CLUB"
+    "answer": "TWO DOOR CINEMA CLUB",
+    "origin": "csv"
   },
   {
     "bankNumber": 181,
     "sourceRowNumber": 182,
     "clue": "Sink, alt",
-    "answer": "SWIM"
+    "answer": "SWIM",
+    "origin": "csv"
   },
   {
     "bankNumber": 182,
     "sourceRowNumber": 183,
     "clue": "Slay queen",
-    "answer": "ERA"
+    "answer": "ERA",
+    "origin": "csv"
   },
   {
     "bankNumber": 183,
     "sourceRowNumber": 184,
     "clue": "Slovenia capital",
-    "answer": "LJUBLJANA"
+    "answer": "LJUBLJANA",
+    "origin": "csv"
   },
   {
     "bankNumber": 184,
     "sourceRowNumber": 185,
     "clue": "Smoke monster island",
-    "answer": "LOST"
+    "answer": "LOST",
+    "origin": "csv"
   },
   {
     "bankNumber": 185,
     "sourceRowNumber": 186,
     "clue": "So many cats and motorbikes",
-    "answer": "MOROCCO"
+    "answer": "MOROCCO",
+    "origin": "csv"
   },
   {
     "bankNumber": 186,
     "sourceRowNumber": 187,
     "clue": "Something to be refined",
-    "answer": "ORE"
+    "answer": "ORE",
+    "origin": "csv"
   },
   {
     "bankNumber": 187,
     "sourceRowNumber": 188,
     "clue": "Sound lawyer, very not-sound author",
-    "answer": "RHEA SEEHORN"
+    "answer": "RHEA SEEHORN",
+    "origin": "csv"
   },
   {
     "bankNumber": 188,
     "sourceRowNumber": 189,
     "clue": "Sounds great after 3 pints",
-    "answer": "COCAINE"
+    "answer": "COCAINE",
+    "origin": "csv"
   },
   {
     "bankNumber": 189,
     "sourceRowNumber": 190,
     "clue": "Spooky vibes",
-    "answer": "EERIE"
+    "answer": "EERIE",
+    "origin": "csv"
   },
   {
     "bankNumber": 190,
     "sourceRowNumber": 191,
     "clue": "Squealer",
-    "answer": "BOAR"
+    "answer": "BOAR",
+    "origin": "csv"
   },
   {
     "bankNumber": 191,
     "sourceRowNumber": 192,
     "clue": "Stately pair",
-    "answer": "DAKOTAS"
+    "answer": "DAKOTAS",
+    "origin": "csv"
   },
   {
     "bankNumber": 192,
     "sourceRowNumber": 193,
     "clue": "Summons before Congress",
-    "answer": "BOOTYCALL"
+    "answer": "BOOTYCALL",
+    "origin": "csv"
   },
   {
     "bankNumber": 193,
     "sourceRowNumber": 194,
     "clue": "Swallowed hard",
-    "answer": "GULPED"
+    "answer": "GULPED",
+    "origin": "csv"
   },
   {
     "bankNumber": 194,
     "sourceRowNumber": 195,
     "clue": "Tab for a trip?",
-    "answer": "LSD"
+    "answer": "LSD",
+    "origin": "csv"
   },
   {
     "bankNumber": 195,
     "sourceRowNumber": 196,
     "clue": "\"Teenagers scare the living _ out of me.\"",
-    "answer": "SHIT"
+    "answer": "SHIT",
+    "origin": "csv"
   },
   {
     "bankNumber": 196,
     "sourceRowNumber": 197,
     "clue": "Tender",
-    "answer": "GENTLE"
+    "answer": "GENTLE",
+    "origin": "csv"
   },
   {
     "bankNumber": 197,
     "sourceRowNumber": 198,
     "clue": "Tennessee state capital",
-    "answer": "NASHVILLE"
+    "answer": "NASHVILLE",
+    "origin": "csv"
   },
   {
     "bankNumber": 198,
     "sourceRowNumber": 199,
     "clue": "Texas state capital",
-    "answer": "AUSTIN"
+    "answer": "AUSTIN",
+    "origin": "csv"
   },
   {
     "bankNumber": 199,
     "sourceRowNumber": 200,
     "clue": "The best chef at sea",
-    "answer": "BEN"
+    "answer": "BEN",
+    "origin": "csv"
   },
   {
     "bankNumber": 200,
     "sourceRowNumber": 201,
     "clue": "The best dictator",
-    "answer": "CASTRO"
+    "answer": "CASTRO",
+    "origin": "csv"
   },
   {
     "bankNumber": 201,
     "sourceRowNumber": 202,
     "clue": "The best show we'll never watch",
-    "answer": "SOPRANOS"
+    "answer": "SOPRANOS",
+    "origin": "csv"
   },
   {
     "bankNumber": 202,
     "sourceRowNumber": 203,
     "clue": "The middle section of a church",
-    "answer": "NAVE"
+    "answer": "NAVE",
+    "origin": "csv"
   },
   {
     "bankNumber": 203,
     "sourceRowNumber": 204,
     "clue": "The MySpace of STDs",
-    "answer": "SYPHILIS"
+    "answer": "SYPHILIS",
+    "origin": "csv"
   },
   {
     "bankNumber": 204,
     "sourceRowNumber": 205,
     "clue": "\"The two _.\" discussed in court",
-    "answer": "YUTES"
+    "answer": "YUTES",
+    "origin": "csv"
   },
   {
     "bankNumber": 205,
     "sourceRowNumber": 206,
     "clue": "The worst captain",
-    "answer": "SANDY"
+    "answer": "SANDY",
+    "origin": "csv"
   },
   {
     "bankNumber": 206,
     "sourceRowNumber": 207,
     "clue": "The worst housewife",
-    "answer": "SUSAN"
+    "answer": "SUSAN",
+    "origin": "csv"
   },
   {
     "bankNumber": 207,
     "sourceRowNumber": 208,
     "clue": "There was no _____, it's a made up name!",
-    "answer": "TERESA CARMODY"
+    "answer": "TERESA CARMODY",
+    "origin": "csv"
   },
   {
     "bankNumber": 208,
     "sourceRowNumber": 209,
     "clue": "There's always money in the _ stand!",
-    "answer": "BANANA"
+    "answer": "BANANA",
+    "origin": "csv"
   },
   {
     "bankNumber": 209,
     "sourceRowNumber": 210,
     "clue": "This author loves sending young people on holiday to argue",
-    "answer": "SALLY ROONEY"
+    "answer": "SALLY ROONEY",
+    "origin": "csv"
   },
   {
     "bankNumber": 210,
     "sourceRowNumber": 211,
     "clue": "Tiny hairy chef",
-    "answer": "REMY"
+    "answer": "REMY",
+    "origin": "csv"
   },
   {
     "bankNumber": 211,
     "sourceRowNumber": 212,
     "clue": "Tip of a shoelace",
-    "answer": "AGLET"
+    "answer": "AGLET",
+    "origin": "csv"
   },
   {
     "bankNumber": 212,
     "sourceRowNumber": 213,
     "clue": "Tolkien novel featuring Bilbo Baggins",
-    "answer": "THE HOBBIT"
+    "answer": "THE HOBBIT",
+    "origin": "csv"
   },
   {
     "bankNumber": 213,
     "sourceRowNumber": 214,
     "clue": "Toothpaste-kissing indie band",
-    "answer": "THE MACCABEES"
+    "answer": "THE MACCABEES",
+    "origin": "csv"
   },
   {
     "bankNumber": 214,
     "sourceRowNumber": 215,
     "clue": "Treelike species in Middle-earth",
-    "answer": "ENT"
+    "answer": "ENT",
+    "origin": "csv"
   },
   {
     "bankNumber": 215,
     "sourceRowNumber": 216,
     "clue": "Unfortunate ambigrammatic protagonist",
-    "answer": "STANLEY YELNATS"
+    "answer": "STANLEY YELNATS",
+    "origin": "csv"
   },
   {
     "bankNumber": 216,
     "sourceRowNumber": 217,
     "clue": "Unreal nepo baby musical",
-    "answer": "TRAP"
+    "answer": "TRAP",
+    "origin": "csv"
   },
   {
     "bankNumber": 217,
     "sourceRowNumber": 218,
     "clue": "\"Up the _!\"",
-    "answer": "RA"
+    "answer": "RA",
+    "origin": "csv"
   },
   {
     "bankNumber": 218,
     "sourceRowNumber": 219,
     "clue": "Very cheerful manager, huge arse",
-    "answer": "MILCHICK"
+    "answer": "MILCHICK",
+    "origin": "csv"
   },
   {
     "bankNumber": 219,
     "sourceRowNumber": 220,
     "clue": "Very gay and didn't enjoy crack really",
-    "answer": "DAVID FISHER"
+    "answer": "DAVID FISHER",
+    "origin": "csv"
   },
   {
     "bankNumber": 220,
     "sourceRowNumber": 221,
     "clue": "Very Irish Brits",
-    "answer": "LIVERPUDLIANS"
+    "answer": "LIVERPUDLIANS",
+    "origin": "csv"
   },
   {
     "bankNumber": 221,
     "sourceRowNumber": 222,
     "clue": "Water",
-    "answer": "HIJKLMNO"
+    "answer": "HIJKLMNO",
+    "origin": "csv"
   },
   {
     "bankNumber": 222,
     "sourceRowNumber": 223,
     "clue": "Ticked off",
-    "answer": "Irate"
+    "answer": "Irate",
+    "origin": "csv"
   },
   {
     "bankNumber": 223,
     "sourceRowNumber": 224,
     "clue": "\"Well, I don't want to do things independently, but I can't make you stay.\" song",
-    "answer": "IF YOU WANNA"
+    "answer": "IF YOU WANNA",
+    "origin": "csv"
   },
   {
     "bankNumber": 224,
     "sourceRowNumber": 225,
     "clue": "Wexford county town",
-    "answer": "WEXFORD"
+    "answer": "WEXFORD",
+    "origin": "csv"
   },
   {
     "bankNumber": 225,
     "sourceRowNumber": 226,
     "clue": "What pressing Alt-J on a Mac produces",
-    "answer": "DELTA"
+    "answer": "DELTA",
+    "origin": "csv"
   },
   {
     "bankNumber": 226,
     "sourceRowNumber": 227,
     "clue": "\"Why are you wearing that stupid _ suit?\"",
-    "answer": "MAN"
+    "answer": "MAN",
+    "origin": "csv"
   },
   {
     "bankNumber": 227,
     "sourceRowNumber": 228,
     "clue": "Why does everyone in Sally Rooney books do this?",
-    "answer": "EMAIL"
+    "answer": "EMAIL",
+    "origin": "csv"
   },
   {
     "bankNumber": 228,
     "sourceRowNumber": 229,
     "clue": "Wide open",
-    "answer": "AGAPE"
+    "answer": "AGAPE",
+    "origin": "csv"
   },
   {
     "bankNumber": 229,
     "sourceRowNumber": 230,
     "clue": "Wisconsin state capital",
-    "answer": "MADISON"
+    "answer": "MADISON",
+    "origin": "csv"
   },
   {
     "bankNumber": 230,
     "sourceRowNumber": 231,
     "clue": "Worst Letterkenny episode",
-    "answer": "FARTBOOK"
+    "answer": "FARTBOOK",
+    "origin": "csv"
   },
   {
     "bankNumber": 231,
     "sourceRowNumber": 232,
     "clue": "wow!",
-    "answer": "AH"
+    "answer": "AH",
+    "origin": "csv"
   },
   {
     "bankNumber": 232,
     "sourceRowNumber": 233,
     "clue": "wow!",
-    "answer": "OOH"
+    "answer": "OOH",
+    "origin": "csv"
   },
   {
     "bankNumber": 233,
     "sourceRowNumber": 234,
     "clue": "You is kind. You is smart. You is _.",
-    "answer": "IMPORTANT"
+    "answer": "IMPORTANT",
+    "origin": "csv"
   },
   {
     "bankNumber": 234,
     "sourceRowNumber": 235,
     "clue": "You should try your luck with..",
-    "answer": "HEATHER"
+    "answer": "HEATHER",
+    "origin": "csv"
   },
   {
     "bankNumber": 235,
     "sourceRowNumber": 236,
     "clue": "Youngest EGOT winner",
-    "answer": "ROBERT LOPEZ"
+    "answer": "ROBERT LOPEZ",
+    "origin": "csv"
   },
   {
     "bankNumber": 236,
     "sourceRowNumber": 237,
     "clue": "\"Your eggo is _.\"",
-    "answer": "PREGGO"
+    "answer": "PREGGO",
+    "origin": "csv"
   },
   {
     "bankNumber": 237,
     "sourceRowNumber": 238,
     "clue": "Your favourite funeral-adjacent worker",
-    "answer": "NATE FISHER"
+    "answer": "NATE FISHER",
+    "origin": "csv"
   },
   {
     "bankNumber": 238,
     "sourceRowNumber": 239,
     "clue": "Yum yum eat the rich",
-    "answer": "THE MENU"
+    "answer": "THE MENU",
+    "origin": "csv"
   },
   {
     "bankNumber": 239,
     "sourceRowNumber": 240,
     "clue": "Yummy pints",
-    "answer": "GUINNESS"
+    "answer": "GUINNESS",
+    "origin": "csv"
   },
   {
     "bankNumber": 240,
     "sourceRowNumber": 241,
     "clue": "XOXO...",
-    "answer": "Gossip Girl"
+    "answer": "Gossip Girl",
+    "origin": "csv"
   },
   {
     "bankNumber": 241,
     "sourceRowNumber": 242,
     "clue": "\"“People like _ and voted for the Nazis, you can’t trust people, \"",
-    "answer": "Coldplay"
+    "answer": "Coldplay",
+    "origin": "csv"
   },
   {
     "bankNumber": 242,
     "sourceRowNumber": 243,
     "clue": "Hardcore goth band",
-    "answer": "Coldplay"
+    "answer": "Coldplay",
+    "origin": "csv"
   },
   {
     "bankNumber": 243,
     "sourceRowNumber": 244,
     "clue": "\"Leave my handprint on her..\"",
-    "answer": "Asscheek"
+    "answer": "Asscheek",
+    "origin": "csv"
   },
   {
     "bankNumber": 244,
     "sourceRowNumber": 245,
     "clue": "Nicole & Paris",
-    "answer": "The Simple Life"
+    "answer": "The Simple Life",
+    "origin": "csv"
   },
   {
     "bankNumber": 245,
     "sourceRowNumber": 246,
     "clue": "Uncommon Galway Surname",
-    "answer": "Kindregan"
+    "answer": "Kindregan",
+    "origin": "csv"
   },
   {
     "bankNumber": 246,
     "sourceRowNumber": 247,
     "clue": "Galway joints destination",
-    "answer": "Spanish Arch"
+    "answer": "Spanish Arch",
+    "origin": "csv"
   },
   {
     "bankNumber": 247,
     "sourceRowNumber": 248,
     "clue": "Pub for NEETS",
-    "answer": "Columbia"
+    "answer": "Columbia",
+    "origin": "csv"
   },
   {
     "bankNumber": 248,
     "sourceRowNumber": 249,
     "clue": "The man with the skislope for a forehead",
-    "answer": "Lorenzo"
+    "answer": "Lorenzo",
+    "origin": "csv"
   },
   {
     "bankNumber": 249,
     "sourceRowNumber": 250,
     "clue": "She is a liar AND an actress",
-    "answer": "Ekin Su"
+    "answer": "Ekin Su",
+    "origin": "csv"
   },
   {
     "bankNumber": 250,
     "sourceRowNumber": 251,
     "clue": "“I licked her _ or whatever”",
-    "answer": "tit"
+    "answer": "tit",
+    "origin": "csv"
   },
   {
     "bankNumber": 251,
     "sourceRowNumber": 252,
     "clue": "“What was your thought process behind that” originator",
-    "answer": "greg"
+    "answer": "greg",
+    "origin": "csv"
   },
   {
     "bankNumber": 252,
     "sourceRowNumber": 253,
     "clue": "\"Fanny _\" (Longford)",
-    "answer": "Flutters"
+    "answer": "Flutters",
+    "origin": "csv"
   },
   {
     "bankNumber": 253,
     "sourceRowNumber": 254,
     "clue": "Entertainer measuring in at 65 inches",
-    "answer": "christy moore"
+    "answer": "christy moore",
+    "origin": "csv"
   },
   {
     "bankNumber": 254,
     "sourceRowNumber": 255,
     "clue": "John, to Ringo",
-    "answer": "loo"
+    "answer": "loo",
+    "origin": "csv"
   },
   {
     "bankNumber": 255,
     "sourceRowNumber": 256,
     "clue": "Die of cold",
-    "answer": "ice cube"
+    "answer": "ice cube",
+    "origin": "csv"
   },
   {
     "bankNumber": 256,
     "sourceRowNumber": 257,
     "clue": "Two plus eleven minus one, amazingly",
-    "answer": "twelve"
+    "answer": "twelve",
+    "origin": "csv"
   },
   {
     "bankNumber": 257,
     "sourceRowNumber": 258,
     "clue": "\"Where there's a ___, there's a way\" (cringe)",
-    "answer": "wine"
+    "answer": "wine",
+    "origin": "csv"
   },
   {
     "bankNumber": 258,
     "sourceRowNumber": 259,
     "clue": "sweet syrup",
-    "answer": "agave"
+    "answer": "agave",
+    "origin": "csv"
   },
   {
     "bankNumber": 259,
     "sourceRowNumber": 260,
     "clue": "looks nice, too spicy",
-    "answer": "ramyun"
+    "answer": "ramyun",
+    "origin": "csv"
   },
   {
     "bankNumber": 260,
     "sourceRowNumber": 261,
     "clue": "Voice over OR likely obnoxious",
-    "answer": "dub"
+    "answer": "dub",
+    "origin": "csv"
   },
   {
     "bankNumber": 261,
     "sourceRowNumber": 262,
     "clue": "Piity we didn't win that one time (threatening)",
-    "answer": "Thatcher"
+    "answer": "Thatcher",
+    "origin": "csv"
   },
   {
     "bankNumber": 262,
     "sourceRowNumber": 263,
     "clue": "Marcs old local, love it or hate it",
-    "answer": "Slatts"
+    "answer": "Slatts",
+    "origin": "csv"
   },
   {
     "bankNumber": 263,
     "sourceRowNumber": 264,
     "clue": "The cosiest pints are to be found here",
-    "answer": "Wallaces"
+    "answer": "Wallaces",
+    "origin": "csv"
   },
   {
     "bankNumber": 264,
     "sourceRowNumber": 265,
     "clue": "Balbo wine",
-    "answer": "crios"
+    "answer": "crios",
+    "origin": "csv"
   },
   {
     "bankNumber": 265,
     "sourceRowNumber": 266,
     "clue": "Bath in Sam Mendes's 1999 film",
-    "answer": "rose petals"
+    "answer": "rose petals",
+    "origin": "csv"
   },
   {
     "bankNumber": 266,
     "sourceRowNumber": 267,
     "clue": "Lexes Dad",
-    "answer": "lionel"
+    "answer": "lionel",
+    "origin": "csv"
   },
   {
     "bankNumber": 267,
     "sourceRowNumber": 268,
     "clue": "Instrument OR fictional wealthy new york socialite family",
-    "answer": "Bass"
+    "answer": "Bass",
+    "origin": "csv"
   },
   {
     "bankNumber": 268,
     "sourceRowNumber": 269,
     "clue": "Islander, ex hand model",
-    "answer": "Lorenzo"
+    "answer": "Lorenzo",
+    "origin": "csv"
   },
   {
     "bankNumber": 269,
     "sourceRowNumber": 270,
     "clue": "Donnei Darko: \"all actions are either caused by _ or love\"",
-    "answer": "Fear"
+    "answer": "Fear",
+    "origin": "csv"
   },
   {
     "bankNumber": 270,
     "sourceRowNumber": 271,
     "clue": "Clarkes Dad",
-    "answer": "Jonathan"
+    "answer": "Jonathan",
+    "origin": "csv"
   },
   {
     "bankNumber": 271,
     "sourceRowNumber": 272,
     "clue": "Flightness Batman villain",
-    "answer": "Penguin"
+    "answer": "Penguin",
+    "origin": "csv"
   },
   {
     "bankNumber": 272,
     "sourceRowNumber": 273,
     "clue": "Director or Butler",
-    "answer": "Alfred"
+    "answer": "Alfred",
+    "origin": "csv"
   },
   {
     "bankNumber": 273,
     "sourceRowNumber": 274,
     "clue": "Kent inspiration",
-    "answer": "Keane"
+    "answer": "Keane",
+    "origin": "csv"
   },
   {
     "bankNumber": 274,
     "sourceRowNumber": 275,
     "clue": "Traditional Irish ring",
-    "answer": "Claddagh"
+    "answer": "Claddagh",
+    "origin": "csv"
   },
   {
     "bankNumber": 275,
     "sourceRowNumber": 276,
     "clue": "Ballymacward pub.",
-    "answer": "The Local"
+    "answer": "The Local",
+    "origin": "csv"
   },
   {
     "bankNumber": 276,
     "sourceRowNumber": 277,
     "clue": "“If only, if only,\" the _ sighs",
-    "answer": "Woodpecker"
+    "answer": "Woodpecker",
+    "origin": "csv"
   },
   {
     "bankNumber": 277,
     "sourceRowNumber": 278,
     "clue": "Kanyes Kicks, Formerly",
-    "answer": "Yeezees"
+    "answer": "Yeezees",
+    "origin": "csv"
   },
   {
     "bankNumber": 278,
     "sourceRowNumber": 279,
     "clue": "Clarksons Farm, Aka",
-    "answer": "Diddly Squat"
+    "answer": "Diddly Squat",
+    "origin": "csv"
   },
   {
     "bankNumber": 279,
     "sourceRowNumber": 280,
     "clue": "S2E4 Weapon",
-    "answer": "Water Bottle"
+    "answer": "Water Bottle",
+    "origin": "csv"
   },
   {
     "bankNumber": 280,
     "sourceRowNumber": 281,
     "clue": "Acceptable number of time to read Mein Kampf",
-    "answer": "0-1"
+    "answer": "0-1",
+    "origin": "csv"
   },
   {
     "bankNumber": 281,
     "sourceRowNumber": 282,
     "clue": "Kyle MacLachlans furry pursuer",
-    "answer": "Bear"
+    "answer": "Bear",
+    "origin": "csv"
   },
   {
     "bankNumber": 282,
     "sourceRowNumber": 283,
     "clue": "Pleeblands delicious wildlife",
-    "answer": "Pigoons"
+    "answer": "Pigoons",
+    "origin": "csv"
   },
   {
     "bankNumber": 283,
     "sourceRowNumber": 284,
     "clue": "A little treat in the summer (wobbly)",
-    "answer": "Shrooms"
+    "answer": "Shrooms",
+    "origin": "csv"
   },
   {
     "bankNumber": 284,
     "sourceRowNumber": 285,
     "clue": "Mullingar Actor",
-    "answer": "Niamh Algar"
+    "answer": "Niamh Algar",
+    "origin": "csv"
   },
   {
     "bankNumber": 285,
     "sourceRowNumber": 286,
     "clue": "All inclusive old reliable",
-    "answer": "Lanzarote"
+    "answer": "Lanzarote",
+    "origin": "csv"
   },
   {
     "bankNumber": 286,
     "sourceRowNumber": 287,
     "clue": "Over rated kween",
-    "answer": "Taylor"
+    "answer": "Taylor",
+    "origin": "csv"
   },
   {
     "bankNumber": 287,
     "sourceRowNumber": 288,
     "clue": "BB UK S5 BAD THING",
-    "answer": "Fight Night"
+    "answer": "Fight Night",
+    "origin": "csv"
   },
   {
     "bankNumber": 288,
     "sourceRowNumber": 289,
     "clue": "Shoes or minecraft baddies",
-    "answer": "Creepers"
+    "answer": "Creepers",
+    "origin": "csv"
   },
   {
     "bankNumber": 289,
     "sourceRowNumber": 290,
     "clue": "Those who believe in it should have their heads examined",
-    "answer": "Phrenology"
+    "answer": "Phrenology",
+    "origin": "csv"
   },
   {
     "bankNumber": 290,
     "sourceRowNumber": 291,
     "clue": "Up in the air",
-    "answer": "Aloft"
+    "answer": "Aloft",
+    "origin": "csv"
   },
   {
     "bankNumber": 291,
     "sourceRowNumber": 292,
     "clue": "Eccentric band",
-    "answer": "The Kooks"
+    "answer": "The Kooks",
+    "origin": "csv"
   },
   {
     "bankNumber": 292,
     "sourceRowNumber": 293,
     "clue": "Self-referential",
-    "answer": "Meta"
+    "answer": "Meta",
+    "origin": "csv"
   },
   {
     "bankNumber": 293,
     "sourceRowNumber": 294,
     "clue": "Everyones favourite white supremecist",
-    "answer": "Boyd"
+    "answer": "Boyd",
+    "origin": "csv"
   },
   {
     "bankNumber": 294,
     "sourceRowNumber": 295,
     "clue": "Master of Suspense",
-    "answer": "Hitchcock"
+    "answer": "Hitchcock",
+    "origin": "csv"
   },
   {
     "bankNumber": 295,
     "sourceRowNumber": 296,
     "clue": "West of Atlanta",
-    "answer": "Kanye"
+    "answer": "Kanye",
+    "origin": "csv"
   },
   {
     "bankNumber": 296,
     "sourceRowNumber": 297,
     "clue": "Small battery",
-    "answer": "AAA"
+    "answer": "AAA",
+    "origin": "csv"
   },
   {
     "bankNumber": 297,
     "sourceRowNumber": 298,
     "clue": "Amsterdam - delicious windowed sight",
-    "answer": "Feebo"
+    "answer": "Feebo",
+    "origin": "csv"
   },
   {
     "bankNumber": 298,
     "sourceRowNumber": 299,
     "clue": "Stout quantities",
-    "answer": "Pints"
+    "answer": "Pints",
+    "origin": "csv"
   },
   {
     "bankNumber": 299,
     "sourceRowNumber": 300,
     "clue": "Region",
-    "answer": "Area"
+    "answer": "Area",
+    "origin": "csv"
   },
   {
     "bankNumber": 300,
     "sourceRowNumber": 301,
     "clue": "Geometry calculation",
-    "answer": "Area"
+    "answer": "Area",
+    "origin": "csv"
   },
   {
     "bankNumber": 301,
     "sourceRowNumber": 302,
     "clue": "Field of expertise",
-    "answer": "Area"
+    "answer": "Area",
+    "origin": "csv"
   },
   {
     "bankNumber": 302,
     "sourceRowNumber": 303,
     "clue": "Spooky vibe",
-    "answer": "Eerie"
+    "answer": "Eerie",
+    "origin": "csv"
   },
   {
     "bankNumber": 303,
     "sourceRowNumber": 304,
     "clue": "<2",
-    "answer": "ONE"
+    "answer": "ONE",
+    "origin": "csv"
   },
   {
     "bankNumber": 304,
     "sourceRowNumber": 305,
     "clue": "Awesome Tour (derogatory)",
-    "answer": "ERAS"
+    "answer": "ERAS",
+    "origin": "csv"
   },
   {
     "bankNumber": 305,
     "sourceRowNumber": 306,
     "clue": "Extended period",
-    "answer": "ERA"
+    "answer": "ERA",
+    "origin": "csv"
   },
   {
     "bankNumber": 306,
     "sourceRowNumber": 307,
     "clue": "Blunder",
-    "answer": "Err"
+    "answer": "Err",
+    "origin": "csv"
   },
   {
     "bankNumber": 307,
     "sourceRowNumber": 308,
     "clue": "Unappealing british pie ingredient",
-    "answer": "Eel"
+    "answer": "Eel",
+    "origin": "csv"
   },
   {
     "bankNumber": 308,
     "sourceRowNumber": 309,
     "clue": "Poker stake",
-    "answer": "Ante"
+    "answer": "Ante",
+    "origin": "csv"
   },
   {
     "bankNumber": 309,
     "sourceRowNumber": 310,
     "clue": "Scent",
-    "answer": "Odor"
+    "answer": "Odor",
+    "origin": "csv"
   },
   {
     "bankNumber": 310,
     "sourceRowNumber": 311,
     "clue": "Brew",
-    "answer": "Ale"
+    "answer": "Ale",
+    "origin": "csv"
   },
   {
     "bankNumber": 311,
     "sourceRowNumber": 312,
     "clue": "Cheap nasty uk pints",
-    "answer": "Real Ale"
+    "answer": "Real Ale",
+    "origin": "csv"
   },
   {
     "bankNumber": 312,
     "sourceRowNumber": 313,
     "clue": "Overused cookie clue",
-    "answer": "Oreo"
+    "answer": "Oreo",
+    "origin": "csv"
   },
   {
     "bankNumber": 313,
     "sourceRowNumber": 314,
     "clue": "Wrath",
-    "answer": "ire"
+    "answer": "ire",
+    "origin": "csv"
   },
   {
     "bankNumber": 314,
     "sourceRowNumber": 315,
     "clue": "Anger",
-    "answer": "ire"
+    "answer": "ire",
+    "origin": "csv"
   },
   {
     "bankNumber": 315,
     "sourceRowNumber": 316,
     "clue": "Rage",
-    "answer": "ire"
+    "answer": "ire",
+    "origin": "csv"
   },
   {
     "bankNumber": 316,
     "sourceRowNumber": 317,
     "clue": "Type, kind, sort",
-    "answer": "ilk"
+    "answer": "ilk",
+    "origin": "csv"
   },
   {
     "bankNumber": 317,
     "sourceRowNumber": 318,
     "clue": "The worlds most researched supplement",
-    "answer": "Creatine"
+    "answer": "Creatine",
+    "origin": "csv"
   },
   {
     "bankNumber": 318,
     "sourceRowNumber": 319,
     "clue": "Hash cupcake flavouring",
-    "answer": "Parmaviolet"
+    "answer": "Parmaviolet",
+    "origin": "csv"
   },
   {
     "bankNumber": 319,
     "sourceRowNumber": 320,
     "clue": "Despicable breakfast addition",
-    "answer": "Baked Beans"
+    "answer": "Baked Beans",
+    "origin": "csv"
   },
   {
     "bankNumber": 320,
     "sourceRowNumber": 321,
     "clue": "_ Institute (cunts)",
-    "answer": "Iona"
+    "answer": "Iona",
+    "origin": "csv"
   },
   {
     "bankNumber": 321,
     "sourceRowNumber": 322,
     "clue": "Airport announcement",
-    "answer": "Arrival"
+    "answer": "Arrival",
+    "origin": "csv"
   },
   {
     "bankNumber": 322,
     "sourceRowNumber": 323,
     "clue": "Did a somersault",
-    "answer": "Flipped"
+    "answer": "Flipped",
+    "origin": "csv"
   },
   {
     "bankNumber": 323,
     "sourceRowNumber": 324,
     "clue": "Among stars",
-    "answer": "Interstellar"
+    "answer": "Interstellar",
+    "origin": "csv"
   },
   {
     "bankNumber": 324,
     "sourceRowNumber": 325,
     "clue": "Waltzing girl of song",
-    "answer": "Matilda"
+    "answer": "Matilda",
+    "origin": "csv"
   },
   {
     "bankNumber": 325,
     "sourceRowNumber": 326,
     "clue": "Paris 2 Location",
-    "answer": "Texas"
+    "answer": "Texas",
+    "origin": "csv"
   },
   {
     "bankNumber": 326,
     "sourceRowNumber": 327,
     "clue": "Dramatic stage equipment",
-    "answer": "Spotlight"
+    "answer": "Spotlight",
+    "origin": "csv"
   },
   {
     "bankNumber": 327,
     "sourceRowNumber": 328,
     "clue": "Rare occurrence",
-    "answer": "Blue Moon"
+    "answer": "Blue Moon",
+    "origin": "csv"
   },
   {
     "bankNumber": 328,
     "sourceRowNumber": 329,
     "clue": "Famous synthesiser brand or figure of mythology",
-    "answer": "Juno"
+    "answer": "Juno",
+    "origin": "csv"
   },
   {
     "bankNumber": 329,
     "sourceRowNumber": 330,
     "clue": "What a pad might protect",
-    "answer": "Kneecap"
+    "answer": "Kneecap",
+    "origin": "csv"
   },
   {
     "bankNumber": 330,
     "sourceRowNumber": 331,
     "clue": "Legal eagle cousin",
-    "answer": "Vinny"
+    "answer": "Vinny",
+    "origin": "csv"
   },
   {
     "bankNumber": 331,
     "sourceRowNumber": 332,
     "clue": "Leech",
-    "answer": "Parasite"
+    "answer": "Parasite",
+    "origin": "csv"
   },
   {
     "bankNumber": 332,
     "sourceRowNumber": 333,
     "clue": "You can jump it",
-    "answer": "Rope"
+    "answer": "Rope",
+    "origin": "csv"
   },
   {
     "bankNumber": 333,
     "sourceRowNumber": 334,
     "clue": "Partner of Wells",
-    "answer": "Fargo"
+    "answer": "Fargo",
+    "origin": "csv"
   },
   {
     "bankNumber": 334,
     "sourceRowNumber": 335,
     "clue": "Weakness",
-    "answer": "Frailty"
+    "answer": "Frailty",
+    "origin": "csv"
   },
   {
     "bankNumber": 335,
     "sourceRowNumber": 336,
     "clue": "Well behaved young lads (not)",
-    "answer": "Good boys"
+    "answer": "Good boys",
+    "origin": "csv"
   },
   {
     "bankNumber": 336,
     "sourceRowNumber": 337,
     "clue": "It has eight phases",
-    "answer": "Moon"
+    "answer": "Moon",
+    "origin": "csv"
   },
   {
     "bankNumber": 337,
     "sourceRowNumber": 338,
     "clue": "Tumultuous",
-    "answer": "Rocky"
+    "answer": "Rocky",
+    "origin": "csv"
   },
   {
     "bankNumber": 338,
     "sourceRowNumber": 339,
     "clue": "Seize quickly",
-    "answer": "Snatch"
+    "answer": "Snatch",
+    "origin": "csv"
   },
   {
     "bankNumber": 339,
     "sourceRowNumber": 340,
     "clue": "Not Down",
-    "answer": "Up"
+    "answer": "Up",
+    "origin": "csv"
   },
   {
     "bankNumber": 340,
     "sourceRowNumber": 341,
     "clue": "Time in its entirety, perhaps",
-    "answer": "Eternity"
+    "answer": "Eternity",
+    "origin": "csv"
   },
   {
     "bankNumber": 341,
     "sourceRowNumber": 342,
     "clue": "Bread end",
-    "answer": "Heel"
+    "answer": "Heel",
+    "origin": "csv"
   },
   {
     "bankNumber": 342,
     "sourceRowNumber": 343,
     "clue": "Freethinker",
-    "answer": "Heretic"
+    "answer": "Heretic",
+    "origin": "csv"
   },
   {
     "bankNumber": 343,
     "sourceRowNumber": 344,
     "clue": "Knotted",
-    "answer": "Tangled"
+    "answer": "Tangled",
+    "origin": "csv"
   },
   {
     "bankNumber": 344,
     "sourceRowNumber": 345,
     "clue": "One-named Belgian singer",
-    "answer": "Gotye"
+    "answer": "Gotye",
+    "origin": "csv"
   },
   {
     "bankNumber": 345,
     "sourceRowNumber": 346,
     "clue": "Nipple ring?",
-    "answer": "AREOLA"
+    "answer": "AREOLA",
+    "origin": "csv"
   },
   {
     "bankNumber": 346,
     "sourceRowNumber": 347,
     "clue": "Undrunkable wine",
-    "answer": "Biodynamic"
+    "answer": "Biodynamic",
+    "origin": "csv"
   },
   {
     "bankNumber": 347,
     "sourceRowNumber": 348,
     "clue": "Woodwind instrument",
-    "answer": "Oboe"
+    "answer": "Oboe",
+    "origin": "csv"
   },
   {
     "bankNumber": 348,
     "sourceRowNumber": 349,
     "clue": "Bassoon's kin",
-    "answer": "Oboe"
+    "answer": "Oboe",
+    "origin": "csv"
   },
   {
     "bankNumber": 349,
     "sourceRowNumber": 350,
     "clue": "Like a haunted house",
-    "answer": "Eerie"
+    "answer": "Eerie",
+    "origin": "csv"
   },
   {
     "bankNumber": 350,
     "sourceRowNumber": 351,
     "clue": "Sports venue",
-    "answer": "Arena"
+    "answer": "Arena",
+    "origin": "csv"
   },
   {
     "bankNumber": 351,
     "sourceRowNumber": 352,
     "clue": "Rock concert venue",
-    "answer": "Arena"
+    "answer": "Arena",
+    "origin": "csv"
   },
   {
     "bankNumber": 352,
     "sourceRowNumber": 353,
     "clue": "Stage name of Michael Owuo Jr",
-    "answer": "Stormzy"
+    "answer": "Stormzy",
+    "origin": "csv"
   },
   {
     "bankNumber": 353,
     "sourceRowNumber": 354,
     "clue": "Freckled comics character",
-    "answer": "Archie"
+    "answer": "Archie",
+    "origin": "csv"
   },
   {
     "bankNumber": 354,
     "sourceRowNumber": 355,
     "clue": "Adjusted by spacing to form an even margin on the right",
-    "answer": "Justified"
+    "answer": "Justified",
+    "origin": "csv"
   },
   {
     "bankNumber": 355,
     "sourceRowNumber": 356,
     "clue": "They're taken to the cleaners",
-    "answer": "Suits"
+    "answer": "Suits",
+    "origin": "csv"
   },
   {
     "bankNumber": 356,
     "sourceRowNumber": 357,
     "clue": "Bellened in a silly hat",
-    "answer": "Jughead"
+    "answer": "Jughead",
+    "origin": "csv"
   },
   {
     "bankNumber": 357,
     "sourceRowNumber": 358,
     "clue": "Back Street",
-    "answer": "Alley"
+    "answer": "Alley",
+    "origin": "csv"
   },
   {
     "bankNumber": 358,
     "sourceRowNumber": 359,
     "clue": "Brass or bronze",
-    "answer": "Alloy"
+    "answer": "Alloy",
+    "origin": "csv"
   },
   {
     "bankNumber": 359,
     "sourceRowNumber": 360,
     "clue": "Calm, as fears",
-    "answer": "Allay"
+    "answer": "Allay",
+    "origin": "csv"
   },
   {
     "bankNumber": 360,
     "sourceRowNumber": 361,
     "clue": "Rowing implement",
-    "answer": "Oar"
+    "answer": "Oar",
+    "origin": "csv"
   },
   {
     "bankNumber": 361,
     "sourceRowNumber": 362,
     "clue": "Musician's asset",
-    "answer": "Ear"
+    "answer": "Ear",
+    "origin": "csv"
   },
   {
     "bankNumber": 362,
     "sourceRowNumber": 363,
     "clue": "Regular hotel franchise",
-    "answer": "Bluesea"
+    "answer": "Bluesea",
+    "origin": "csv"
   },
   {
     "bankNumber": 363,
     "sourceRowNumber": 364,
     "clue": "Not a useful weapon",
-    "answer": "Pot Lid"
+    "answer": "Pot Lid",
+    "origin": "csv"
+  },
+  {
+    "bankNumber": 364,
+    "sourceRowNumber": 365,
+    "clue": "Irish rural division",
+    "answer": "TOWNLAND",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 365,
+    "sourceRowNumber": 366,
+    "clue": "Raised road",
+    "answer": "CAUSEWAY",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 366,
+    "sourceRowNumber": 367,
+    "clue": "Deep green gem",
+    "answer": "EMERALD",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 367,
+    "sourceRowNumber": 368,
+    "clue": "Safe place for boats",
+    "answer": "HARBOUR",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 368,
+    "sourceRowNumber": 369,
+    "clue": "Speckled stone",
+    "answer": "GRANITE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 369,
+    "sourceRowNumber": 370,
+    "clue": "Custom suit maker",
+    "answer": "TAILOR",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 370,
+    "sourceRowNumber": 371,
+    "clue": "Group of three",
+    "answer": "TRINITY",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 371,
+    "sourceRowNumber": 372,
+    "clue": "Tell aloud",
+    "answer": "NARRATE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 372,
+    "sourceRowNumber": 373,
+    "clue": "Vacant play field",
+    "answer": "SANDLOT",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 373,
+    "sourceRowNumber": 374,
+    "clue": "Monastery walkway",
+    "answer": "CLOISTER",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 374,
+    "sourceRowNumber": 375,
+    "clue": "Wander without hurry",
+    "answer": "MEANDER",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 375,
+    "sourceRowNumber": 376,
+    "clue": "Banister",
+    "answer": "RAILING",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 376,
+    "sourceRowNumber": 377,
+    "clue": "Handheld light",
+    "answer": "LANTERN",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 377,
+    "sourceRowNumber": 378,
+    "clue": "Light-sensitive part of the eye",
+    "answer": "RETINA",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 378,
+    "sourceRowNumber": 379,
+    "clue": "Good manners",
+    "answer": "COURTESY",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 379,
+    "sourceRowNumber": 380,
+    "clue": "Touring crew member",
+    "answer": "ROADIE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 380,
+    "sourceRowNumber": 381,
+    "clue": "Cinema surface",
+    "answer": "SCREEN",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 381,
+    "sourceRowNumber": 382,
+    "clue": "Installment of a series",
+    "answer": "EPISODE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 382,
+    "sourceRowNumber": 383,
+    "clue": "Film length",
+    "answer": "RUNTIME",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 383,
+    "sourceRowNumber": 384,
+    "clue": "Names at the end",
+    "answer": "CREDITS",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 384,
+    "sourceRowNumber": 385,
+    "clue": "Studio outdoor set",
+    "answer": "BACKLOT",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 385,
+    "sourceRowNumber": 386,
+    "clue": "Movie preview",
+    "answer": "TRAILER",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 386,
+    "sourceRowNumber": 387,
+    "clue": "Edited sequence",
+    "answer": "MONTAGE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 387,
+    "sourceRowNumber": 388,
+    "clue": "Costume department or closet",
+    "answer": "WARDROBE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 388,
+    "sourceRowNumber": 389,
+    "clue": "Secret schemer",
+    "answer": "PLOTTER",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 389,
+    "sourceRowNumber": 390,
+    "clue": "Deleted filmed bit",
+    "answer": "OUTTAKE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 390,
+    "sourceRowNumber": 391,
+    "clue": "Put under the stage light",
+    "answer": "SPOTLIT",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 391,
+    "sourceRowNumber": 392,
+    "clue": "Character conversation",
+    "answer": "DIALOGUE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 392,
+    "sourceRowNumber": 393,
+    "clue": "Small china mug",
+    "answer": "TEACUP",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 393,
+    "sourceRowNumber": 394,
+    "clue": "Paper pad",
+    "answer": "NOTEBOOK",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 394,
+    "sourceRowNumber": 395,
+    "clue": "Shelf stopper",
+    "answer": "BOOKEND",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 395,
+    "sourceRowNumber": 396,
+    "clue": "Tiny text at a page bottom",
+    "answer": "FOOTNOTE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 396,
+    "sourceRowNumber": 397,
+    "clue": "Animated short or comic panel",
+    "answer": "CARTOON",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 397,
+    "sourceRowNumber": 398,
+    "clue": "Old-school writer's supply",
+    "answer": "INKPOT",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 398,
+    "sourceRowNumber": 399,
+    "clue": "Next to the pillow",
+    "answer": "BEDSIDE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 399,
+    "sourceRowNumber": 400,
+    "clue": "Lit by the night sky",
+    "answer": "MOONLIT",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 400,
+    "sourceRowNumber": 401,
+    "clue": "Blow for a sharp sound",
+    "answer": "WHISTLE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 401,
+    "sourceRowNumber": 402,
+    "clue": "Bread-based lunch",
+    "answer": "SANDWICH",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 402,
+    "sourceRowNumber": 403,
+    "clue": "Logs for the hearth",
+    "answer": "FIREWOOD",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 403,
+    "sourceRowNumber": 404,
+    "clue": "Shiny tree trim",
+    "answer": "TINSEL",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 404,
+    "sourceRowNumber": 405,
+    "clue": "Tune",
+    "answer": "MELODY",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 405,
+    "sourceRowNumber": 406,
+    "clue": "Beat pattern",
+    "answer": "RHYTHM",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 406,
+    "sourceRowNumber": 407,
+    "clue": "Song refrain",
+    "answer": "CHORUS",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 407,
+    "sourceRowNumber": 408,
+    "clue": "Middle-eight connector",
+    "answer": "BRIDGE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 408,
+    "sourceRowNumber": 409,
+    "clue": "Concert running order",
+    "answer": "SETLIST",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 409,
+    "sourceRowNumber": 410,
+    "clue": "Bonus song after applause",
+    "answer": "ENCORE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 410,
+    "sourceRowNumber": 411,
+    "clue": "Rock's accented pulse",
+    "answer": "BACKBEAT",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 411,
+    "sourceRowNumber": 412,
+    "clue": "Pleasing blend of notes",
+    "answer": "HARMONY",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 412,
+    "sourceRowNumber": 413,
+    "clue": "High musical range",
+    "answer": "TREBLE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 413,
+    "sourceRowNumber": 414,
+    "clue": "Record material",
+    "answer": "VINYL",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 414,
+    "sourceRowNumber": 415,
+    "clue": "Queued-up songs",
+    "answer": "PLAYLIST",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 415,
+    "sourceRowNumber": 416,
+    "clue": "Tune you can't shake",
+    "answer": "EARWORM",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 416,
+    "sourceRowNumber": 417,
+    "clue": "Curated cassette",
+    "answer": "MIXTAPE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 417,
+    "sourceRowNumber": 418,
+    "clue": "Make louder",
+    "answer": "AMPLIFY",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 418,
+    "sourceRowNumber": 419,
+    "clue": "Speed of a song",
+    "answer": "TEMPO",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 419,
+    "sourceRowNumber": 420,
+    "clue": "Soundtrack, say",
+    "answer": "AUDIO",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 420,
+    "sourceRowNumber": 421,
+    "clue": "Justification",
+    "answer": "REASON",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 421,
+    "sourceRowNumber": 422,
+    "clue": "Small point",
+    "answer": "DETAIL",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 422,
+    "sourceRowNumber": 423,
+    "clue": "Connected",
+    "answer": "RELATED",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 423,
+    "sourceRowNumber": 424,
+    "clue": "Dawn",
+    "answer": "SUNRISE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 424,
+    "sourceRowNumber": 425,
+    "clue": "Playfully needling",
+    "answer": "TEASING",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 425,
+    "sourceRowNumber": 426,
+    "clue": "Breakfast time",
+    "answer": "MORNING",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 426,
+    "sourceRowNumber": 427,
+    "clue": "Rough plan",
+    "answer": "OUTLINE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 427,
+    "sourceRowNumber": 428,
+    "clue": "In tidy fashion",
+    "answer": "NEATLY",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 428,
+    "sourceRowNumber": 429,
+    "clue": "Strain in the air",
+    "answer": "TENSION",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 429,
+    "sourceRowNumber": 430,
+    "clue": "Glowing",
+    "answer": "RADIANT",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 430,
+    "sourceRowNumber": 431,
+    "clue": "Drinks mat",
+    "answer": "COASTER",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 431,
+    "sourceRowNumber": 432,
+    "clue": "Phone receiver",
+    "answer": "HANDSET",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 432,
+    "sourceRowNumber": 433,
+    "clue": "Inclination",
+    "answer": "LEANING",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 433,
+    "sourceRowNumber": 434,
+    "clue": "Twisting",
+    "answer": "WINDING",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 434,
+    "sourceRowNumber": 435,
+    "clue": "Less tame",
+    "answer": "WILDER",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 435,
+    "sourceRowNumber": 436,
+    "clue": "Start a flame",
+    "answer": "KINDLE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 436,
+    "sourceRowNumber": 437,
+    "clue": "Fragrant flower",
+    "answer": "JASMINE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 437,
+    "sourceRowNumber": 438,
+    "clue": "Main speech",
+    "answer": "KEYNOTE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 438,
+    "sourceRowNumber": 439,
+    "clue": "Bright primary hue",
+    "answer": "YELLOW",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 439,
+    "sourceRowNumber": 440,
+    "clue": "Court fool",
+    "answer": "JESTER",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 440,
+    "sourceRowNumber": 441,
+    "clue": "Tea-boiling pot",
+    "answer": "KETTLE",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 441,
+    "sourceRowNumber": 442,
+    "clue": "Growing, like the moon",
+    "answer": "WAXING",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 442,
+    "sourceRowNumber": 443,
+    "clue": "Hard-earned sense",
+    "answer": "WISDOM",
+    "origin": "supplemental"
+  },
+  {
+    "bankNumber": 443,
+    "sourceRowNumber": 444,
+    "clue": "Inner core",
+    "answer": "KERNEL",
+    "origin": "supplemental"
   }
 ]

@@ -22,7 +22,8 @@ It is an original colour-gradient restoration puzzle inspired by the broad inter
 - Tap another movable tile to swap them.
 - Tap the selected tile again to cancel selection.
 - Tapping outside the board should also cancel selection where practical.
-- Dragging is optional polish and is not required for the MVP.
+- Mouse users should be able to drag a tile immediately on press.
+- Touch users should be able to drag a tile after a short hold.
 
 ## Board rules
 - Use square grids.
@@ -61,6 +62,7 @@ It is an original colour-gradient restoration puzzle inspired by the broad inter
 - Save completion state per field.
 - Save best move count per field.
 - Unlock later fields in a clear and simple way.
+- Temporary testing override: all seeded fields may be unlocked at once while the pack is still under active buildout.
 
 ## Completion flow
 On completing a field:
