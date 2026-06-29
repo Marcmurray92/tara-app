@@ -44,6 +44,20 @@ describe("tabular parsers", () => {
     expect(result.rows).toHaveLength(1);
   });
 
+  it("parses crossword CSV without a category column", () => {
+    const result = parseCrosswordSource(`Clue,Answer\nTiny clue,Tara\n`);
+
+    expect(result.issues.some((issue) => issue.message.includes("Missing required heading"))).toBe(false);
+    expect(result.rows[0]).toMatchObject({
+      sourceRowNumber: 2,
+      status: "complete",
+      clue: "Tiny clue",
+      answer: "Tara",
+      category: undefined,
+      gridAnswer: "TARA"
+    });
+  });
+
   it("keeps incomplete connections rows and rejects duplicate titles within a row", () => {
     const result = parseConnectionsSource(
       `Category,Movie 1,Movie 2,Movie 3,Movie 4\nTime loops,Groundhog Day,Groundhog Day,Palm Springs,Arrival\nDraft row,Only one,,,`

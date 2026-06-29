@@ -7,7 +7,9 @@ export function scorePlacement({
   newCellCount,
   placedEntries,
   candidateLength,
-  direction
+  direction,
+  targetRows,
+  targetColumns
 }: {
   crossings: number;
   row: number;
@@ -16,6 +18,8 @@ export function scorePlacement({
   placedEntries: InternalPlacedEntry[];
   candidateLength: number;
   direction: "across" | "down";
+  targetRows?: number;
+  targetColumns?: number;
 }) {
   const minRow = Math.min(row, ...placedEntries.map((entry) => entry.row));
   const maxRow = Math.max(
@@ -30,8 +34,13 @@ export function scorePlacement({
     )
   );
   const area = (maxRow - minRow + 1) * (maxColumn - minColumn + 1);
+  const height = maxRow - minRow + 1;
+  const width = maxColumn - minColumn + 1;
   const distance = Math.abs(row) + Math.abs(column);
+  const targetHeight = targetRows ?? 15;
+  const targetWidth = targetColumns ?? 15;
+  const dimensionPenalty = Math.abs(height - targetHeight) + Math.abs(width - targetWidth);
+  const skewPenalty = Math.abs(height - width);
 
-  return crossings * 30 - area - newCellCount * 2 - distance * 0.2;
+  return crossings * 30 - area - newCellCount * 2 - distance * 0.2 - dimensionPenalty * 4 - skewPenalty * 2;
 }
-

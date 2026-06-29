@@ -7,7 +7,7 @@ import type {
 } from "@/features/crossword/source/crossword-source.types";
 
 const DEFAULT_IMPORT_METADATA: CrosswordSourceImportMetadata = {
-  detectedHeaders: ["Clue", "Answer", "Category"],
+  detectedHeaders: ["Clue", "Answer"],
   unknownHeaders: [],
   ignoredBlankRows: 0
 };

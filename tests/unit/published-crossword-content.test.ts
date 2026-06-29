@@ -54,8 +54,8 @@ describe("published crossword content", () => {
     expect(featured).toMatchObject({
       slug: "taras-birthday-crossword",
       href: "/games/crossword/taras-birthday-crossword",
-      title: "Crossword 1",
-      contentVersion: 5
+      title: "June 30th",
+      contentVersion: 6
     });
     expect(getLatestPublishedGameContent).not.toHaveBeenCalled();
   });

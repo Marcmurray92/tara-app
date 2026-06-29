@@ -106,6 +106,13 @@ function getBounds(placedEntries: InternalPlacedEntry[]) {
   return { minRow, maxRow, minColumn, maxColumn };
 }
 
+function getDimensionsFromBounds(bounds: ReturnType<typeof getBounds>) {
+  return {
+    rows: bounds.maxRow - bounds.minRow + 1,
+    columns: bounds.maxColumn - bounds.minColumn + 1
+  };
+}
+
 function addEntryToGrid(grid: Map<string, GridCell>, entry: InternalPlacedEntry) {
   for (let index = 0; index < entry.answer.length; index += 1) {
     const row = entry.row + (entry.direction === "down" ? index : 0);
@@ -130,13 +137,19 @@ function canPlaceWord({
   row,
   column,
   direction,
-  grid
+  grid,
+  placedEntries,
+  maxRows,
+  maxColumns
 }: {
   answer: string;
   row: number;
   column: number;
   direction: "across" | "down";
   grid: Map<string, GridCell>;
+  placedEntries: InternalPlacedEntry[];
+  maxRows?: number;
+  maxColumns?: number;
 }) {
   let crossings = 0;
   let newCellCount = 0;
@@ -193,6 +206,25 @@ function canPlaceWord({
     return null;
   }
 
+  if ((maxRows || maxColumns) && placedEntries.length > 0) {
+    const candidateEntry: InternalPlacedEntry = {
+      id: "__candidate__",
+      clue: "",
+      answer,
+      displayAnswer: answer,
+      sourceRowNumber: 0,
+      row,
+      column,
+      direction
+    };
+    const bounds = getBounds([...placedEntries, candidateEntry]);
+    const dimensions = getDimensionsFromBounds(bounds);
+
+    if ((maxRows && dimensions.rows > maxRows) || (maxColumns && dimensions.columns > maxColumns)) {
+      return null;
+    }
+  }
+
   return {
     crossings,
     newCellCount
@@ -202,7 +234,8 @@ function canPlaceWord({
 function enumerateCandidates(
   row: CrosswordCompleteSourceRow,
   grid: Map<string, GridCell>,
-  placedEntries: InternalPlacedEntry[]
+  placedEntries: InternalPlacedEntry[],
+  layout: CrosswordGeneratorInput["layout"]
 ) {
   const candidates: PlacementCandidate[] = [];
 
@@ -228,7 +261,10 @@ function enumerateCandidates(
           row: startRow,
           column: startColumn,
           direction,
-          grid
+          grid,
+          placedEntries,
+          maxRows: layout?.maxRows,
+          maxColumns: layout?.maxColumns
         });
 
         if (!placement) {
@@ -248,7 +284,9 @@ function enumerateCandidates(
             newCellCount: placement.newCellCount,
             placedEntries,
             candidateLength: row.gridAnswer.length,
-            direction
+            direction,
+            targetRows: layout?.targetRows,
+            targetColumns: layout?.targetColumns
           })
         });
       }
@@ -258,10 +296,15 @@ function enumerateCandidates(
   return candidates.sort((left, right) => right.score - left.score);
 }
 
-function buildCompiledCells(placedEntries: InternalPlacedEntry[]) {
+function buildCompiledCells(placedEntries: InternalPlacedEntry[], layout?: CrosswordGeneratorInput["layout"]) {
   const bounds = getBounds(placedEntries);
-  const rows = bounds.maxRow - bounds.minRow + 1;
-  const columns = bounds.maxColumn - bounds.minColumn + 1;
+  const dimensions = getDimensionsFromBounds(bounds);
+  const rows = Math.max(dimensions.rows, layout?.minRows ?? 0);
+  const columns = Math.max(dimensions.columns, layout?.minColumns ?? 0);
+  const rowPadding = rows - dimensions.rows;
+  const columnPadding = columns - dimensions.columns;
+  const rowOffset = -bounds.minRow + Math.floor(rowPadding / 2);
+  const columnOffset = -bounds.minColumn + Math.floor(columnPadding / 2);
   const cells: CrosswordCompiledCell[][] = Array.from({ length: rows }, (_, row) =>
     Array.from({ length: columns }, (_, column) => ({
       row,
@@ -271,8 +314,8 @@ function buildCompiledCells(placedEntries: InternalPlacedEntry[]) {
   );
   const normalizedEntries: InternalPlacedEntry[] = placedEntries.map((entry) => ({
     ...entry,
-    row: entry.row - bounds.minRow,
-    column: entry.column - bounds.minColumn
+    row: entry.row + rowOffset,
+    column: entry.column + columnOffset
   }));
 
   for (const entry of normalizedEntries) {
@@ -298,7 +341,7 @@ function buildCompiledCells(placedEntries: InternalPlacedEntry[]) {
   };
 }
 
-function attemptLayout(rows: CrosswordCompleteSourceRow[], seed: string) {
+function attemptLayout(rows: CrosswordCompleteSourceRow[], seed: string, layout?: CrosswordGeneratorInput["layout"]) {
   const ordered = sortRowsForAttempt(rows, seed);
   const grid = new Map<string, GridCell>();
   const placedEntries: InternalPlacedEntry[] = [];
@@ -325,7 +368,7 @@ function attemptLayout(rows: CrosswordCompleteSourceRow[], seed: string) {
   addEntryToGrid(grid, firstEntry);
 
   for (const row of ordered.slice(1)) {
-    const candidates = enumerateCandidates(row, grid, placedEntries);
+    const candidates = enumerateCandidates(row, grid, placedEntries, layout);
 
     if (candidates.length === 0) {
       unplacedRows.push({
@@ -390,7 +433,7 @@ export function compileCrossword(input: CrosswordGeneratorInput): CrosswordCompi
   }
 
   const attempts = Array.from({ length: Math.max(18, Math.min(72, completeRows.length * 6)) }, (_, index) =>
-    attemptLayout(completeRows, `${input.seed}:${index}`)
+    attemptLayout(completeRows, `${input.seed}:${index}`, input.layout)
   );
 
   const bestAttempt = attempts.sort((left, right) => {
@@ -447,7 +490,7 @@ export function compileCrossword(input: CrosswordGeneratorInput): CrosswordCompi
     };
   }
 
-  const { cells, rows, columns, normalizedEntries } = buildCompiledCells(bestAttempt.placedEntries);
+  const { cells, rows, columns, normalizedEntries } = buildCompiledCells(bestAttempt.placedEntries, input.layout);
   const entries = assignNumbers(cells, normalizedEntries);
 
   const compiledData = {

@@ -2,8 +2,72 @@
 
 ## Core model
 The crossword is a mobile-first puzzle game where Tara solves personalised clues.
-Each crossword should contain roughly 20-30 clues unless the puzzle data defines otherwise.
+Generated crossword content should stay playful, fair, and well crossed before it tries to be perfectly symmetrical.
 Preserve existing crossword behaviour unless the task explicitly asks to change it.
+
+## Puzzle naming and ordering
+- Seeded crosswords should be named by date, ascending, starting from `June 30th`.
+- Continue sequentially: `July 1st`, `July 2nd`, `July 3rd`, and so on.
+- The generated puzzle manifest/order should match that chronological order.
+- Do not invent extra theme titles unless the app structure requires them.
+
+## Grid rules
+- Grid size must stay between `12x12` and `17x17`.
+- Aim for an average close to `15x15`.
+- Only push up to `17x17` when a longer anchor entry needs the space cleanly.
+- Avoid sparse oversized boards and avoid disconnected mini-grids.
+
+## Clue count and entry rules
+- Each crossword should contain `30-50` clues total across both directions.
+- Do not repeat an answer within the same crossword.
+- Avoid reusing the same answer across the wider seeded set unless it is genuinely necessary.
+- Do not build split clues such as `See 14-Across`, `With 7-Down`, or other paired multi-entry clue structures.
+- Every clue should map to exactly one continuous across or down answer.
+
+## Clue formatting
+- Preserve punctuation that helps the joke or clue type land:
+  - quotes
+  - apostrophes
+  - underscores
+  - ellipses
+  - emoji where already approved
+- Quote and fill-in-the-blank clues should keep their original formatting from the clue bank.
+- Do not flatten odd, crude, funny, or personal clue wording unless a technical issue forces it.
+
+## Answer formatting
+- Keep human-readable answers in the source data.
+- Normalise grid answers for placement as:
+  - uppercase
+  - spaces removed
+  - punctuation removed
+  - letters and numbers preserved if the engine supports them
+- If a clue uses a number-based answer and engine support changes, document the handling explicitly rather than silently rewriting it.
+- Prefer answers with 3 or more characters.
+- Avoid adding artificial 2-letter filler unless the board genuinely needs it and the engine already supports it.
+
+## Crossing and fill policy
+- Every white cell must connect to the main crossword.
+- Long, obscure, personal, or joke answers should have generous crossings.
+- Avoid barely crossed long entries and avoid large fragile sections.
+- Short/common connector entries are allowed when they improve density and fairness.
+
+Acceptable connector-style fill can include entries like:
+- `AREA`
+- `EERIE`
+- `OIL`
+- `OLE`
+- `ERA`
+- `ORE`
+- `EON`
+- `ATE`
+- `ALE`
+- `OAR`
+- `EAR`
+- `ARE`
+- `IRE`
+- `EEL`
+
+Use connectors to support the puzzle, not to dominate it.
 
 ## Layout
 Expected mobile layout:
@@ -112,6 +176,24 @@ Example copy direction:
 - `This crossword has vanished into the gothic mist.`
 - `The grid failed the vibe check.`
 - `This puzzle is missing. Suspicious.`
+
+## CSV source-of-truth assumptions
+- Treat the active clue CSV as the canonical crossword clue bank for regeneration passes.
+- Preserve clue wording except for technical escaping/whitespace cleanup.
+- Use existing approved connector entries already in the project before inventing new filler.
+- If generated connector clues are ever added, they should be clearly identifiable and used sparingly.
+
+## Validation requirements
+After regeneration, confirm that:
+- every puzzle is between `12x12` and `17x17`
+- every puzzle has `30-50` clues
+- every answer appears only once within that puzzle
+- every clue maps to exactly one answer
+- there are no split or `See X` clues
+- every white cell is connected
+- every entry is continuous across or down
+- clue punctuation that matters to solving is preserved
+- date ordering matches the manifest
 
 ## Mobile UX requirements
 - Grid remains usable on a phone.

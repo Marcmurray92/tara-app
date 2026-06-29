@@ -3,8 +3,8 @@ import { parseTabularData } from "@/features/content/parse-tabular-data";
 import { normalizeGridAnswer } from "@/features/crossword/source/crossword-normalisation";
 import type { CrosswordSourceRow } from "@/features/crossword/source/crossword-source.types";
 
-const REQUIRED_HEADERS = ["Clue", "Answer", "Category"] as const;
-const OPTIONAL_HEADERS = ["Grid Answer"] as const;
+const REQUIRED_HEADERS = ["Clue", "Answer"] as const;
+const OPTIONAL_HEADERS = ["Category", "Grid Answer"] as const;
 
 export function parseCrosswordSource(rawText: string): ImportResult<CrosswordSourceRow> {
   const table = parseTabularData({
@@ -82,4 +82,3 @@ export function parseCrosswordSource(rawText: string): ImportResult<CrosswordSou
     unknownHeaders: table.unknownHeaders
   };
 }
-

@@ -6,6 +6,14 @@ export type CrosswordGeneratorInput = {
   rows: CrosswordCompleteSourceRow[];
   seed: string;
   completion: CrosswordCompiledData["completion"];
+  layout?: {
+    minRows?: number;
+    maxRows?: number;
+    minColumns?: number;
+    maxColumns?: number;
+    targetRows?: number;
+    targetColumns?: number;
+  };
 };
 
 export type CrosswordUnplacedEntry = {
@@ -34,4 +42,3 @@ export type InternalPlacedEntry = {
   column: number;
   direction: CrosswordDirection;
 };
-

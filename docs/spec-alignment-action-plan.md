@@ -32,7 +32,7 @@ This plan compares the current app against the new local docs created from Notio
   - failed-round retry flow
   - final victory screen
   - Tara quote delight copy sourced from processed Letterboxd data
-- The current crossword seed now uses seven regenerated 20-clue boards compiled for smaller mobile-friendly grid footprints.
+- The current crossword seed now uses six regenerated date-named boards sourced from the latest crossword CSV clue bank.
 - A processed Letterboxd data layer now exists for Tara ratings, Tara reviews, Tara quote excerpts, and Who Liked It Better candidate comparisons.
 - Who Liked It Better now ships as a saved multi-question route using the kept Kanye rounds plus optional source receipts when available.
 - A dedicated local Connections spec now exists in `docs/games/connections.md`, and the game flow can now align against it directly.
@@ -41,7 +41,7 @@ This plan compares the current app against the new local docs created from Notio
 
 ### Crossword
 - Partially aligned.
-- The clue-count target now matches the local docs more closely at 20 clues per puzzle.
+- The seed set now follows the updated date-based naming convention and ships with 30-50 clue boards.
 - The mobile-first board size work is in better shape than before.
 - The mobile header now includes the expected back control alongside the timer and menu.
 - The completion dialog now offers `Next Crossword`, `Next Puzzle`, and `Back to Home` where appropriate.
@@ -157,22 +157,21 @@ Required work:
 
 ### 5. Regenerate crossword content for tighter, shorter-fill grids
 Current app status:
-- Done in this branch at a first-pass level.
-- The seed bank now includes the recent short-fill clue additions plus the older submitted clue bank.
-- The seven seeded boards have been regenerated to 20 clues each.
+- Done in this branch at a refreshed source-of-truth level.
+- The crossword clue bank now comes directly from the latest approved CSV import.
+- The current seeded set contains six dated boards with 30-50 clues each.
 - Current compiled sizes are:
-  - `14x12`
-  - `13x13`
-  - `12x13`
-  - `14x13`
-  - `14x15`
-  - `15x12`
-  - `13x14`
+  - `17x17`
+  - `17x17`
+  - `17x17`
+  - `15x16`
+  - `17x17`
+  - `17x17`
 
 Required work:
-- Keep using the newer short and medium answers as the backbone of future regenerated sets.
-- If more density is wanted later, push toward `22-24` clues without breaking the compact footprints.
+- Keep using the latest approved CSV as the canonical clue bank for future regeneration passes.
 - Recheck clue correctness, duplicate answers within each puzzle, and crossing quality whenever a new clue import lands.
+- If another content pass needs more daily boards, generate additional dated puzzles rather than reverting to the old numbered set.
 
 Likely file areas:
 - `src/features/crossword/seed/tara-crossword-clue-bank.json`
