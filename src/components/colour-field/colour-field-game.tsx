@@ -313,10 +313,13 @@ export function ColourFieldGame({
     return null;
   }
 
-  const levelLocked = !currentLevelProgress.unlocked;
+  const activeLevel = currentLevel;
+  const activeLevelProgress = currentLevelProgress;
+
+  const levelLocked = !activeLevelProgress.unlocked;
   const completionLine =
     gameData.completionLines[
-      gameData.levels.findIndex((entry) => entry.slug === currentLevel.slug) % gameData.completionLines.length
+      gameData.levels.findIndex((entry) => entry.slug === activeLevel.slug) % gameData.completionLines.length
     ] ??
     gameData.completionLines[0] ??
     "Field restored.";
@@ -352,7 +355,7 @@ export function ColourFieldGame({
     const result = swapColourFieldTiles({
       gameData,
       progress,
-      levelSlug: currentLevel.slug,
+      levelSlug: activeLevel.slug,
       sourceIndex,
       targetIndex,
       now: new Date().toISOString()
@@ -378,7 +381,7 @@ export function ColourFieldGame({
       startColourFieldLevel({
         gameData,
         progress: currentProgress,
-        levelSlug: currentLevel.slug,
+        levelSlug: activeLevel.slug,
         now,
         restart: true
       })
@@ -400,11 +403,11 @@ export function ColourFieldGame({
   }
 
   function handleTilePress(position: number) {
-    if (showPreview || levelLocked || !currentLevelProgress.currentOrder) {
+    if (showPreview || levelLocked || !activeLevelProgress.currentOrder) {
       return;
     }
 
-    if (currentLevel.fixedTileIndexes.includes(position)) {
+    if (activeLevel.fixedTileIndexes.includes(position)) {
       setAnnouncement("Anchor tile. She stays put.");
       setSelectedIndex(null);
       return;
@@ -426,7 +429,7 @@ export function ColourFieldGame({
   }
 
   function handleTilePointerDown(event: ReactPointerEvent<HTMLButtonElement>, position: number) {
-    if (showPreview || levelLocked || !currentLevelProgress.currentOrder) {
+    if (showPreview || levelLocked || !activeLevelProgress.currentOrder) {
       return;
     }
 
@@ -519,7 +522,7 @@ export function ColourFieldGame({
     if (
       releaseTarget !== null &&
       releaseTarget !== pointerState.sourceIndex &&
-      !currentLevel.fixedTileIndexes.includes(releaseTarget)
+      !activeLevel.fixedTileIndexes.includes(releaseTarget)
     ) {
       handleTileSwap(pointerState.sourceIndex, releaseTarget);
       return;
@@ -563,13 +566,13 @@ export function ColourFieldGame({
     }
   }
 
-  const solvedOrder = getSolvedColourFieldOrder(currentLevel);
+  const solvedOrder = getSolvedColourFieldOrder(activeLevel);
   const activeOrder = showPreview
     ? solvedOrder
-    : currentLevelProgress.currentOrder ?? (currentLevelProgress.completedAt ? solvedOrder : null);
-  const boardTiles = activeOrder ? getColourFieldLevelBoard(currentLevel, activeOrder) : [];
-  const currentMoves = currentLevelProgress.currentMoves;
-  const boardSize = Math.max(currentLevel.columns, currentLevel.rows);
+    : activeLevelProgress.currentOrder ?? (activeLevelProgress.completedAt ? solvedOrder : null);
+  const boardTiles = activeOrder ? getColourFieldLevelBoard(activeLevel, activeOrder) : [];
+  const currentMoves = activeLevelProgress.currentMoves;
+  const boardSize = Math.max(activeLevel.columns, activeLevel.rows);
   const tileGap = getTileGap(boardSize);
   const tileCornerClass = getTileCornerClass(boardSize);
   const lockBadgeClass = getLockBadgeClass(boardSize);
@@ -590,7 +593,7 @@ export function ColourFieldGame({
               <div className="min-w-0">
                 <p className="text-[0.65rem] uppercase tracking-[0.22em] text-muted">Colour Field</p>
                 <h1 data-page-title="true" tabIndex={-1} className="truncate font-display text-[1.35rem] leading-tight text-text">
-                  {currentLevel.title}
+                  {activeLevel.title}
                 </h1>
               </div>
             </div>
@@ -609,7 +612,7 @@ export function ColourFieldGame({
               <span className="text-text">{currentMoves}</span> moves
             </div>
             <div className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-center text-xs uppercase tracking-[0.18em] text-muted">
-              <span className="text-text">{currentLevel.fixedTileIndexes.length}</span> anchors
+              <span className="text-text">{activeLevel.fixedTileIndexes.length}</span> anchors
             </div>
           </div>
 
@@ -649,7 +652,7 @@ export function ColourFieldGame({
                       className="grid gap-2"
                       style={{
                         gap: tileGap,
-                        gridTemplateColumns: `repeat(${currentLevel.columns}, minmax(0, 1fr))`
+                        gridTemplateColumns: `repeat(${activeLevel.columns}, minmax(0, 1fr))`
                       }}
                     >
                       {boardTiles.map((tile) => (
@@ -749,9 +752,9 @@ export function ColourFieldGame({
       <CompletionDialog
         open={showCompletion}
         line={completionLine}
-        levelTitle={currentLevel.title}
-        moves={currentLevelProgress.lastMoves ?? currentLevelProgress.currentMoves}
-        bestMoves={currentLevelProgress.bestMoves}
+        levelTitle={activeLevel.title}
+        moves={activeLevelProgress.lastMoves ?? activeLevelProgress.currentMoves}
+        bestMoves={activeLevelProgress.bestMoves}
         nextLevelSlug={nextLevel?.slug ?? null}
         onReplay={handleRestart}
       />
