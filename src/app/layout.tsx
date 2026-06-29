@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 
+import "@fontsource/inconsolata/400.css";
+import "@fontsource/inconsolata/500.css";
+import "@fontsource/inconsolata/700.css";
+
 import { ClientSwRegister } from "@/components/app-shell/client-sw-register";
 import { PageTransitionReset } from "@/components/app-shell/page-transition-reset";
 import "@/app/globals.css";
@@ -30,7 +34,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="font-body">
+      <body className="font-body antialiased">
         <ClientSwRegister />
         <PageTransitionReset />
         {children}

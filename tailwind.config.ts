@@ -23,10 +23,16 @@ const config: Config = {
         focus: "var(--color-focus)",
         revealed: "var(--color-revealed)",
         active: "var(--color-active)",
-        "active-entry": "var(--color-active-entry)"
+        "active-entry": "var(--color-active-entry)",
+        "arcade-green": "#ccff00",
+        "arcade-blue": "#02f1ff",
+        "arcade-pink": "#ff0055",
+        "arcade-red": "#ff0055",
+        "arcade-yellow": "#fffb02"
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(212, 175, 55, 0.28), 0 18px 44px rgba(8, 11, 22, 0.38)"
+        glow: "0 0 0 2px rgba(255,255,255,0.08), 0 0 0 4px rgba(204,255,0,0.12), 0 18px 40px rgba(0,0,0,0.45)",
+        arcade: "6px 6px 0 rgba(2,241,255,0.18)"
       },
       borderRadius: {
         xl: "var(--radius-xl)",
@@ -37,12 +43,12 @@ const config: Config = {
         18: "4.5rem"
       },
       fontFamily: {
-        display: ['"Iowan Old Style"', '"Palatino Linotype"', '"Book Antiqua"', "Georgia", "serif"],
-        body: ['"Avenir Next"', '"Segoe UI"', '"Helvetica Neue"', "sans-serif"]
+        display: ['"Kuolen"', '"Arial Black"', '"Impact"', '"Haettenschweiler"', '"Oswald"', "sans-serif"],
+        body: ['"Inconsolata"', '"IBM Plex Mono"', '"SFMono-Regular"', "Consolas", "monospace"]
       },
       backgroundImage: {
         halo:
-          "radial-gradient(circle at top, rgba(212, 175, 55, 0.16), transparent 38%), radial-gradient(circle at bottom right, rgba(56, 89, 138, 0.2), transparent 35%)"
+          "radial-gradient(circle at top, rgba(255,0,85,0.18), transparent 32%), radial-gradient(circle at top right, rgba(2,241,255,0.12), transparent 26%), linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.2))"
       }
     }
   },
@@ -50,4 +56,3 @@ const config: Config = {
 };
 
 export default config;
-

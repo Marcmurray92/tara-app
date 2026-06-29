@@ -43,34 +43,34 @@ export function CrosswordCompletionDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="crossword-complete-title"
-        className="animate-answer-reveal w-full max-w-xl rounded-[1.8rem] border border-accent/30 bg-surface-strong p-6 shadow-glow sm:p-8"
+        className="arcade-screen animate-answer-reveal w-full max-w-2xl rounded-[1rem] border-arcade-yellow p-6 shadow-glow sm:p-8"
       >
-        <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/25 bg-accent-soft text-accent">
+        <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-[0.8rem] border-2 border-white bg-arcade-yellow text-black">
           <PartyPopper className="h-7 w-7" />
         </div>
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Crossword completed</p>
-        <h2 id="crossword-complete-title" className="mt-2 font-display text-4xl">
+        <p className="font-body text-[0.72rem] uppercase tracking-[0.24em] text-arcade-blue">Crossword completed</p>
+        <h2 id="crossword-complete-title" className="mt-2 font-display text-4xl uppercase sm:text-5xl">
           {puzzle.completion.title}
         </h2>
-        <p className="mt-3 text-base leading-8 text-muted">{puzzle.completion.message}</p>
+        <p className="mt-3 font-body text-base leading-8 text-white">{puzzle.completion.message}</p>
 
         <div className="mt-4 flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted">
-          <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
+          <span className="rounded-md border-2 border-white bg-black px-3 py-1.5">
             <span className="text-text">{timeLabel}</span>
             <span className="ml-1.5">time</span>
           </span>
-          <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
+          <span className="rounded-md border-2 border-white bg-black px-3 py-1.5">
             <span className="text-text">{clueCount}</span>
             <span className="ml-1.5">clues</span>
           </span>
         </div>
 
-        <div className="mt-5 rounded-[1.2rem] border border-accent/20 bg-accent-soft/70 px-4 py-3 text-sm leading-6 text-text">
+        <div className="mt-5 rounded-[0.85rem] border-2 border-arcade-yellow bg-[#171700] px-4 py-3 font-body text-sm leading-6 text-text">
           {celebrationLine}
         </div>
 
         {snapshot.allCompleted ? (
-          <div className="mt-3 rounded-[1rem] border border-accent/20 bg-black/20 px-4 py-3 text-sm leading-6 text-text">
+          <div className="mt-3 rounded-[0.85rem] border-2 border-white bg-[#111111] px-4 py-3 font-body text-sm leading-6 text-text">
             All {snapshot.items.length} birthday games are done. The allegations are true: you&apos;re brilliant.
           </div>
         ) : null}

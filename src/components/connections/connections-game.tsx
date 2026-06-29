@@ -35,15 +35,15 @@ import { cn } from "@/lib/utils/cn";
 function difficultyTone(difficulty?: 1 | 2 | 3 | 4) {
   switch (difficulty) {
     case 1:
-      return "border-[#99b95d] bg-[#99b95d] [&_p]:text-[#18131c]";
+      return "border-arcade-green bg-arcade-green [&_p]:text-black";
     case 2:
-      return "border-[#d2c268] bg-[#d2c268] [&_p]:text-[#18131c]";
+      return "border-arcade-yellow bg-arcade-yellow [&_p]:text-black";
     case 3:
-      return "border-[#8ea8d4] bg-[#8ea8d4] [&_p]:text-[#18131c]";
+      return "border-arcade-blue bg-arcade-blue [&_p]:text-black";
     case 4:
-      return "border-[#a57ad0] bg-[#a57ad0] [&_p]:text-[#18131c]";
+      return "border-arcade-pink bg-arcade-pink [&_p]:text-white";
     default:
-      return "border-white/10 bg-white/5";
+      return "border-white bg-[#111111]";
   }
 }
 
@@ -74,17 +74,22 @@ function ConnectionsResultDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="connections-result-title"
-        className="w-full max-w-xl rounded-[1.6rem] border border-white/10 bg-surface-strong p-5 shadow-glow"
+        className={cn(
+          "arcade-screen w-full max-w-2xl rounded-[1rem] p-5 shadow-glow",
+          won ? "border-arcade-green" : "border-arcade-pink"
+        )}
       >
-        <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">{won ? "Connections cleared" : "Out of mistakes"}</p>
-        <h2 id="connections-result-title" className="mt-2 font-display text-[2rem] leading-none text-text">
+        <p className={cn("font-display text-[0.95rem] uppercase leading-none", won ? "text-arcade-green" : "text-arcade-pink")}>
+          {won ? "Connections Cleared" : "Out Of Mistakes"}
+        </p>
+        <h2 id="connections-result-title" className="mt-3 font-display text-[2.5rem] uppercase leading-none text-text sm:text-[3rem]">
           {won ? "You got all 4." : "Next time."}
         </h2>
 
         {emojiRows.length > 0 ? (
-          <div className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-4 py-3">
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">Guess grid</p>
-            <div className="mt-3 font-mono text-lg leading-7 text-text" aria-label="Connections guess emoji grid">
+          <div className="mt-4 rounded-[0.85rem] border-2 border-white bg-[#111111] px-4 py-3">
+            <p className="font-body text-[0.68rem] uppercase tracking-[0.22em] text-arcade-blue">Guess grid</p>
+            <div className="mt-3 font-body text-lg leading-7 text-text" aria-label="Connections guess emoji grid">
               {emojiRows.map((row, index) => (
                 <div key={`${row}-${index}`}>{row}</div>
               ))}
@@ -94,9 +99,9 @@ function ConnectionsResultDialog({
 
         <div className="mt-4 space-y-2">
           {groups.map((group) => (
-            <div key={group.id} className={cn("rounded-[1rem] border px-3 py-3 text-center", difficultyTone(group.difficulty))}>
-              <p className="text-sm font-semibold uppercase tracking-[0.08em]">{group.category}</p>
-              <p className="mt-1 text-sm leading-6">{group.items.join(", ")}</p>
+            <div key={group.id} className={cn("rounded-[0.85rem] border-2 px-3 py-3 text-center", difficultyTone(group.difficulty))}>
+              <p className="font-display text-[1rem] uppercase tracking-[0.08em]">{group.category}</p>
+              <p className="mt-1 font-body text-sm leading-6">{group.items.join(", ")}</p>
             </div>
           ))}
         </div>

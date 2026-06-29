@@ -8,8 +8,12 @@ export const placeholderColourFieldSlug = "tara-colour-field";
 export const placeholderColourFieldTitle = "Colour Field";
 export const placeholderColourFieldSubtitle = "Restore each colour field by swapping tiles back into harmony.";
 export const placeholderColourFieldDescription =
-  "Tap one tile, tap another, and pull the gradient back into place without disturbing the fixed anchors.";
-export const placeholderColourFieldContentVersion = 2;
+  "Tap or drag tiles into place and pull the gradient back into harmony without disturbing the fixed anchors.";
+export const placeholderColourFieldContentVersion = 3;
+
+function anchorIndexes(columns: number, coordinates: Array<[row: number, column: number]>) {
+  return coordinates.map(([row, column]) => row * columns + column);
+}
 
 function level(
   id: string,
@@ -37,7 +41,7 @@ function level(
 
 export const placeholderColourFieldGameData: ColourFieldGameData = {
   schemaVersion: 1,
-  introLine: "Tap a tile. Tap another tile. Rebuild the gradient.",
+  introLine: "Tap or drag a tile. Drop it into place. Rebuild the gradient.",
   completionLines: [
     "Field restored.",
     "Beautifully balanced.",
@@ -49,9 +53,16 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "midnight-vows",
       "Midnight Vows",
       "Blush and blue folding into a midnight vow.",
-      4,
-      4,
-      [0, 3, 12, 15],
+      8,
+      8,
+      anchorIndexes(8, [
+        [0, 0],
+        [0, 7],
+        [3, 3],
+        [4, 4],
+        [7, 0],
+        [7, 7]
+      ]),
       {
         topLeft: "#f4ccd8",
         topRight: "#9ebcff",
@@ -64,9 +75,18 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "rose-static",
       "Rose Static",
       "Powder rose drifting into moss and smoke.",
-      4,
-      4,
-      [0, 3, 5, 10, 12, 15],
+      8,
+      8,
+      anchorIndexes(8, [
+        [0, 0],
+        [0, 7],
+        [2, 2],
+        [2, 5],
+        [5, 2],
+        [5, 5],
+        [7, 0],
+        [7, 7]
+      ]),
       {
         topLeft: "#f2c9c6",
         topRight: "#d7d4dc",
@@ -79,9 +99,17 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "chapel-glow",
       "Chapel Glow",
       "Warm candlelight pulling into violet shadow.",
-      4,
-      4,
-      [0, 3, 12, 15],
+      9,
+      9,
+      anchorIndexes(9, [
+        [0, 0],
+        [0, 4],
+        [0, 8],
+        [4, 4],
+        [8, 0],
+        [8, 4],
+        [8, 8]
+      ]),
       {
         topLeft: "#f6d7a7",
         topRight: "#ebc3ba",
@@ -94,9 +122,19 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "velvet-haze",
       "Velvet Haze",
       "Berry, smoke, and a little drama.",
-      4,
-      4,
-      [0, 3, 5, 10, 12, 15],
+      9,
+      9,
+      anchorIndexes(9, [
+        [0, 0],
+        [0, 8],
+        [2, 2],
+        [2, 6],
+        [4, 4],
+        [6, 2],
+        [6, 6],
+        [8, 0],
+        [8, 8]
+      ]),
       {
         topLeft: "#f2b5c7",
         topRight: "#cab1ff",
@@ -109,9 +147,16 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "blue-hour",
       "Blue Hour",
       "Indigo slipping into frosted dusk.",
-      4,
-      4,
-      [0, 3, 12, 15],
+      10,
+      10,
+      anchorIndexes(10, [
+        [0, 0],
+        [0, 9],
+        [4, 4],
+        [5, 5],
+        [9, 0],
+        [9, 9]
+      ]),
       {
         topLeft: "#b7d4ff",
         topRight: "#d0b8ff",
@@ -124,9 +169,18 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "plum-spell",
       "Plum Spell",
       "Candy gothic, but make it elegant.",
-      4,
-      4,
-      [0, 1, 2, 3, 12, 13, 14, 15],
+      10,
+      10,
+      anchorIndexes(10, [
+        [0, 0],
+        [0, 3],
+        [0, 6],
+        [0, 9],
+        [9, 0],
+        [9, 3],
+        [9, 6],
+        [9, 9]
+      ]),
       {
         topLeft: "#f7bfd4",
         topRight: "#f3d0a9",
@@ -139,9 +193,18 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "mourning-lace",
       "Mourning Lace",
       "Pale silver drifting into moonlit charcoal.",
-      5,
-      5,
-      [0, 4, 12, 20, 24],
+      10,
+      10,
+      anchorIndexes(10, [
+        [0, 0],
+        [0, 9],
+        [4, 4],
+        [4, 5],
+        [5, 4],
+        [5, 5],
+        [9, 0],
+        [9, 9]
+      ]),
       {
         topLeft: "#f1eef5",
         topRight: "#d7c8f4",
@@ -154,9 +217,17 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "theatre-hush",
       "Theatre Hush",
       "Velvet curtains, lipstick, blackout.",
-      5,
-      5,
-      [0, 4, 10, 14, 20, 24],
+      11,
+      11,
+      anchorIndexes(11, [
+        [0, 0],
+        [0, 10],
+        [5, 0],
+        [5, 5],
+        [5, 10],
+        [10, 0],
+        [10, 10]
+      ]),
       {
         topLeft: "#f0b1be",
         topRight: "#e4a4ff",
@@ -169,9 +240,19 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "violet-psalm",
       "Violet Psalm",
       "Choir-light, bruised purple, deep calm.",
-      5,
-      5,
-      [0, 2, 4, 10, 12, 14, 20, 22, 24],
+      11,
+      11,
+      anchorIndexes(11, [
+        [0, 0],
+        [0, 5],
+        [0, 10],
+        [5, 0],
+        [5, 5],
+        [5, 10],
+        [10, 0],
+        [10, 5],
+        [10, 10]
+      ]),
       {
         topLeft: "#eee4ff",
         topRight: "#b6c9ff",
@@ -184,9 +265,16 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "afterparty-fog",
       "Afterparty Fog",
       "Champagne blush melting into night.",
-      5,
-      5,
-      [0, 4, 12, 20, 24],
+      12,
+      12,
+      anchorIndexes(12, [
+        [0, 0],
+        [0, 11],
+        [5, 5],
+        [6, 6],
+        [11, 0],
+        [11, 11]
+      ]),
       {
         topLeft: "#f6dcbf",
         topRight: "#c8e4d7",
@@ -199,9 +287,18 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "starless-pool",
       "Starless Pool",
       "Ink-blue water with a purple halo.",
-      6,
-      6,
-      [0, 5, 14, 21, 30, 35],
+      12,
+      12,
+      anchorIndexes(12, [
+        [0, 0],
+        [0, 11],
+        [3, 3],
+        [3, 8],
+        [8, 3],
+        [8, 8],
+        [11, 0],
+        [11, 11]
+      ]),
       {
         topLeft: "#9cc5ff",
         topRight: "#ceb0ff",
@@ -214,9 +311,22 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "last-dance",
       "Last Dance",
       "One final shimmer before the lights go up.",
-      6,
-      6,
-      [0, 5, 14, 15, 20, 21, 30, 35],
+      12,
+      12,
+      anchorIndexes(12, [
+        [0, 0],
+        [0, 5],
+        [0, 11],
+        [3, 3],
+        [3, 8],
+        [5, 5],
+        [6, 6],
+        [8, 3],
+        [8, 8],
+        [11, 0],
+        [11, 6],
+        [11, 11]
+      ]),
       {
         topLeft: "#f4d9b8",
         topRight: "#f6c0e0",

@@ -63,21 +63,21 @@ function CompletionDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="colour-field-completion-title"
-        className="animate-answer-reveal w-full max-w-md rounded-[1.7rem] border border-accent/20 bg-surface-strong p-5 shadow-glow"
+        className="arcade-screen animate-answer-reveal w-full max-w-md rounded-[1rem] border-arcade-yellow p-5 shadow-glow"
       >
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Colour Field</p>
-        <h2 id="colour-field-completion-title" className="mt-2 font-display text-[2rem] leading-none text-text">
+        <p className="font-body text-[0.72rem] uppercase tracking-[0.24em] text-arcade-blue">Fifty Shades Of Tara</p>
+        <h2 id="colour-field-completion-title" className="mt-2 font-display text-[2.3rem] uppercase leading-none text-text">
           {line}
         </h2>
-        <p className="mt-3 text-sm leading-6 text-muted">{levelTitle}</p>
+        <p className="mt-3 font-body text-sm leading-6 text-white">{levelTitle}</p>
 
         <div className="mt-5 grid grid-cols-2 gap-3">
-          <div className="rounded-[1rem] border border-white/10 bg-black/20 px-3 py-3">
-            <p className="text-[0.65rem] uppercase tracking-[0.18em] text-muted">Moves</p>
+          <div className="rounded-[0.85rem] border-2 border-white bg-[#111111] px-3 py-3">
+            <p className="text-[0.65rem] uppercase tracking-[0.18em] text-arcade-blue">Moves</p>
             <p className="mt-2 font-display text-[1.65rem] text-text">{moves}</p>
           </div>
-          <div className="rounded-[1rem] border border-white/10 bg-black/20 px-3 py-3">
-            <p className="text-[0.65rem] uppercase tracking-[0.18em] text-muted">Best</p>
+          <div className="rounded-[0.85rem] border-2 border-white bg-[#111111] px-3 py-3">
+            <p className="text-[0.65rem] uppercase tracking-[0.18em] text-arcade-blue">Best</p>
             <p className="mt-2 font-display text-[1.65rem] text-text">{bestMoves ?? moves}</p>
           </div>
         </div>
@@ -113,6 +113,67 @@ function CompletionDialog({
   );
 }
 
+type DragState = {
+  sourceIndex: number;
+  overIndex: number | null;
+};
+
+function getTileGap(boardSize: number) {
+  if (boardSize >= 12) {
+    return "0.2rem";
+  }
+
+  if (boardSize >= 10) {
+    return "0.28rem";
+  }
+
+  if (boardSize >= 9) {
+    return "0.35rem";
+  }
+
+  return "0.45rem";
+}
+
+function getTileCornerClass(boardSize: number) {
+  if (boardSize >= 12) {
+    return "rounded-[0.45rem]";
+  }
+
+  if (boardSize >= 10) {
+    return "rounded-[0.6rem]";
+  }
+
+  if (boardSize >= 9) {
+    return "rounded-[0.72rem]";
+  }
+
+  return "rounded-[0.88rem]";
+}
+
+function getLockBadgeClass(boardSize: number) {
+  if (boardSize >= 12) {
+    return "h-5 w-5";
+  }
+
+  if (boardSize >= 10) {
+    return "h-6 w-6";
+  }
+
+  return "h-7 w-7";
+}
+
+function getLockIconClass(boardSize: number) {
+  if (boardSize >= 12) {
+    return "h-2.5 w-2.5";
+  }
+
+  if (boardSize >= 10) {
+    return "h-3 w-3";
+  }
+
+  return "h-3.5 w-3.5";
+}
+
 export function ColourFieldGame({
   packSlug,
   contentVersion,
@@ -132,7 +193,7 @@ export function ColourFieldGame({
       loadColourFieldProgress(packSlug, contentVersion) ?? createColourFieldProgress(gameData)
     );
     let showPreview = false;
-    let announcement = "Tap a tile. Tap another tile. Rebuild the gradient.";
+    let announcement = gameData.introLine;
 
     if (level) {
       const levelProgress = progress.levels[level.slug];
@@ -163,12 +224,9 @@ export function ColourFieldGame({
   const [showPreview, setShowPreview] = useState(loadState.showPreview);
   const [announcement, setAnnouncement] = useState(loadState.announcement);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [dragState, setDragState] = useState<DragState | null>(null);
   const [showCompletion, setShowCompletion] = useState(false);
-  const [boardIntroCycle, setBoardIntroCycle] = useState(1);
-  const [dragState, setDragState] = useState<{
-    sourceIndex: number;
-    overIndex: number | null;
-  } | null>(null);
+  const [boardAnimationKey, setBoardAnimationKey] = useState(() => (loadState.showPreview ? 1 : 0));
   const holdTimeoutRef = useRef<number | null>(null);
   const pointerStateRef = useRef<{
     pointerId: number;
@@ -210,13 +268,13 @@ export function ColourFieldGame({
 
     const timeoutId = window.setTimeout(() => {
       setShowPreview(false);
-      setAnnouncement("Tap a tile. Tap another tile. Rebuild the gradient.");
+      setAnnouncement(gameData.introLine);
     }, level.previewDurationMs);
 
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [level, showPreview]);
+  }, [gameData.introLine, level, showPreview]);
 
   useEffect(() => {
     return () => {
@@ -249,19 +307,13 @@ export function ColourFieldGame({
     setDragState(null);
   }, [levelSlug]);
 
-  if (!level || !levelProgress) {
+  const currentLevel = level;
+  const currentLevelProgress = levelProgress;
+  if (!currentLevel || !currentLevelProgress) {
     return null;
   }
 
-  const currentLevel = level;
-  const currentLevelProgress = levelProgress;
   const levelLocked = !currentLevelProgress.unlocked;
-  const solvedOrder = getSolvedColourFieldOrder(currentLevel);
-  const activeOrder = showPreview
-    ? solvedOrder
-    : currentLevelProgress.currentOrder ?? (currentLevelProgress.completedAt ? solvedOrder : null);
-  const boardTiles = activeOrder ? getColourFieldLevelBoard(currentLevel, activeOrder) : [];
-  const currentMoves = currentLevelProgress.currentMoves;
   const completionLine =
     gameData.completionLines[
       gameData.levels.findIndex((entry) => entry.slug === currentLevel.slug) % gameData.completionLines.length
@@ -335,7 +387,7 @@ export function ColourFieldGame({
     clearPointerState();
     setShowCompletion(false);
     setShowPreview(true);
-    setBoardIntroCycle((currentCycle) => currentCycle + 1);
+    setBoardAnimationKey((current) => current + 1);
     setAnnouncement("Field reset. Study the harmony.");
   }
 
@@ -343,6 +395,7 @@ export function ColourFieldGame({
     setSelectedIndex(null);
     clearPointerState();
     setShowPreview(true);
+    setBoardAnimationKey((current) => current + 1);
     setAnnouncement("Study the solved field.");
   }
 
@@ -359,7 +412,7 @@ export function ColourFieldGame({
 
     if (selectedIndex === null) {
       setSelectedIndex(position);
-      setAnnouncement("Tile selected. Pick where it should go.");
+      setAnnouncement("Tile selected. Drag it into place or tap another tile.");
       return;
     }
 
@@ -368,6 +421,7 @@ export function ColourFieldGame({
       setAnnouncement("Selection cleared.");
       return;
     }
+
     handleTileSwap(selectedIndex, position);
   }
 
@@ -480,7 +534,7 @@ export function ColourFieldGame({
     }
 
     setSelectedIndex(pointerState.sourceIndex);
-    setAnnouncement("Tile selected. Pick where it should go.");
+    setAnnouncement("Tile selected. Drag it into place or tap another tile.");
   }
 
   function handleTilePointerCancel(event: ReactPointerEvent<HTMLButtonElement>) {
@@ -492,13 +546,11 @@ export function ColourFieldGame({
   }
 
   const tileAnimationStyleFor = (position: number) => ({
-    animationDelay: `${Math.min(position * 28, 280)}ms`
+    animationDelay: `${Math.min(position * 22, 286)}ms`
   });
 
   const previewMessage = showPreview ? "Study the solved field before it scrambles." : announcement;
   const boardLabel = dragState ? "Drag active. Release over another tile to swap." : previewMessage;
-  const tileCount = currentLevel.columns * currentLevel.rows;
-  const boardWidth = tileCount >= 25 ? "max-w-[min(100vw-1.75rem,24rem)]" : "max-w-[min(100vw-1.75rem,26rem)]";
 
   function handleTileClick(event: ReactMouseEvent<HTMLButtonElement>, position: number) {
     if (suppressClickRef.current) {
@@ -510,6 +562,18 @@ export function ColourFieldGame({
       handleTilePress(position);
     }
   }
+
+  const solvedOrder = getSolvedColourFieldOrder(currentLevel);
+  const activeOrder = showPreview
+    ? solvedOrder
+    : currentLevelProgress.currentOrder ?? (currentLevelProgress.completedAt ? solvedOrder : null);
+  const boardTiles = activeOrder ? getColourFieldLevelBoard(currentLevel, activeOrder) : [];
+  const currentMoves = currentLevelProgress.currentMoves;
+  const boardSize = Math.max(currentLevel.columns, currentLevel.rows);
+  const tileGap = getTileGap(boardSize);
+  const tileCornerClass = getTileCornerClass(boardSize);
+  const lockBadgeClass = getLockBadgeClass(boardSize);
+  const lockIconClass = getLockIconClass(boardSize);
 
   return (
     <>
@@ -580,17 +644,19 @@ export function ColourFieldGame({
                 }}
               >
                 <div className="rounded-[1.55rem] border border-white/10 bg-surface/90 p-3 shadow-glow">
-                  <div className={cn("mx-auto w-full", boardWidth)}>
+                  <div className="mx-auto w-full max-w-[min(100vw-1rem,34rem)]">
                     <div
                       className="grid gap-2"
                       style={{
+                        gap: tileGap,
                         gridTemplateColumns: `repeat(${currentLevel.columns}, minmax(0, 1fr))`
                       }}
                     >
                       {boardTiles.map((tile) => (
                         <button
-                          key={`${boardIntroCycle}:${tile.position}`}
+                          key={`${boardAnimationKey}-${tile.position}`}
                           type="button"
+                          data-colour-field-tile="true"
                           data-colour-field-position={tile.position}
                           onClick={(event) => handleTileClick(event, tile.position)}
                           onPointerDown={(event) => handleTilePointerDown(event, tile.position)}
@@ -602,30 +668,52 @@ export function ColourFieldGame({
                           disabled={showPreview || tile.locked}
                           aria-label={`Tile row ${tile.row + 1}, column ${tile.column + 1}${tile.locked ? ", anchor" : ""}`}
                           className={cn(
-                            "relative aspect-square touch-none rounded-[0.95rem] border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                            "group relative aspect-square touch-none overflow-visible bg-transparent p-0 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                            tileCornerClass,
+                            boardAnimationKey > 0 ? "animate-colour-field-tile-enter" : "",
                             tile.locked
-                              ? "cursor-default border-white/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
-                              : "border-white/10 active:scale-[0.985]",
+                              ? "cursor-default"
+                              : "active:scale-[0.985]",
                             selectedIndex === tile.position
-                              ? "animate-colour-field-selected ring-2 ring-accent ring-offset-2 ring-offset-background z-10"
+                              ? "z-10 animate-focus-pulse ring-2 ring-accent ring-offset-2 ring-offset-background"
                               : "",
                             dragState?.overIndex === tile.position && dragState.sourceIndex !== tile.position && !tile.locked
                               ? "ring-2 ring-white/70 ring-offset-2 ring-offset-background"
-                              : "",
-                            "animate-colour-field-tile-in"
+                              : ""
                           )}
                           style={{
-                            backgroundColor: tile.color,
                             ...tileAnimationStyleFor(tile.position)
                           }}
                         >
-                          {tile.locked ? (
-                            <span className="absolute inset-0 flex items-center justify-center text-white/90">
-                              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/25">
-                                <Lock className="h-4 w-4" />
+                          <span
+                            className={cn(
+                              "absolute inset-0 border transition-[transform,box-shadow,filter] duration-200",
+                              tileCornerClass,
+                              tile.locked
+                                ? "border-white/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+                                : "border-white/10",
+                              selectedIndex === tile.position
+                                ? "animate-colour-field-selected shadow-[0_14px_32px_rgba(0,0,0,0.28)]"
+                                : "",
+                              dragState?.sourceIndex !== tile.position && dragState && !tile.locked
+                                ? "group-hover:brightness-105"
+                                : ""
+                            )}
+                            style={{ backgroundColor: tile.color }}
+                          >
+                            {tile.locked ? (
+                              <span className="absolute inset-0 flex items-center justify-center text-white/92">
+                                <span
+                                  className={cn(
+                                    "inline-flex items-center justify-center rounded-full bg-black/20 backdrop-blur-[1px]",
+                                    lockBadgeClass
+                                  )}
+                                >
+                                  <Lock className={lockIconClass} />
+                                </span>
                               </span>
-                            </span>
-                          ) : null}
+                            ) : null}
+                          </span>
                         </button>
                       ))}
                     </div>

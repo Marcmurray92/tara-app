@@ -259,7 +259,7 @@ function SourceImageStrip({
               width={image.width}
               height={image.height}
               sizes={multiple ? "(max-width: 640px) 80vw, 420px" : "(max-width: 640px) 100vw, 480px"}
-              className="h-44 w-full object-contain"
+              className="h-32 w-full object-contain sm:h-40"
               onError={() => onImageError(image.src)}
             />
           </div>
@@ -314,17 +314,19 @@ function WhoLikedItBetterResultDialog({
   const actionLabel = correct ? "Correct and gorgeous" : "The vibes were incorrect";
   const celebrationLine = correct ? "Taste detected." : "Not very slay.";
   const taraStateClass = cn(
-    "rounded-[1.15rem] border p-3 transition-opacity duration-300",
-    taraWins ? "border-accent/25 bg-accent-soft/40" : "border-white/10 bg-black/20",
+    "rounded-[0.9rem] border-2 p-3 transition-opacity duration-300",
+    taraWins ? "border-arcade-green bg-[#101b00]" : "border-white bg-black",
     comparisonSettled && !taraWins ? "opacity-70" : "",
     comparisonSettled && taraWins ? "animate-rating-winner" : ""
   );
   const celebrityStateClass = cn(
-    "rounded-[1.15rem] border p-3 transition-opacity duration-300",
-    !taraWins ? "border-accent/25 bg-accent-soft/40" : "border-white/10 bg-black/20",
+    "rounded-[0.9rem] border-2 p-3 transition-opacity duration-300",
+    !taraWins ? "border-arcade-green bg-[#101b00]" : "border-white bg-black",
     comparisonSettled && taraWins ? "opacity-70" : "",
     comparisonSettled && !taraWins ? "animate-rating-winner" : ""
   );
+  const taraScore = question.taraRating.toString().replace(/\.0$/, "");
+  const celebrityScore = question.celebrityRating.toString().replace(/\.0$/, "");
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-[2px]">
@@ -332,52 +334,71 @@ function WhoLikedItBetterResultDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="who-liked-it-better-result-title"
-        className="animate-answer-reveal max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-[1.7rem] border border-accent/20 bg-surface-strong p-5 shadow-glow"
+        className="arcade-screen animate-answer-reveal w-full max-w-3xl rounded-[1rem] p-4 sm:p-5"
       >
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">{actionLabel}</p>
-        <h2 id="who-liked-it-better-result-title" className="mt-2 font-display text-[2rem] leading-none text-text">
+        <p className={cn("font-display text-[1rem] uppercase leading-none", correct ? "text-arcade-green" : "text-arcade-pink")}>
+          {actionLabel}
+        </p>
+        <h2 id="who-liked-it-better-result-title" className="mt-2 font-display text-[2.5rem] uppercase leading-none text-text sm:text-[3rem]">
           {getWinnerLabel(question.correctAnswer, question.celebrityName)}
         </h2>
-        <p className="mt-3 text-sm leading-6 text-muted">{celebrationLine}</p>
+        <p className="mt-3 font-body text-base leading-7 text-muted">{celebrationLine}</p>
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className={taraStateClass}>
-            <FaceOffArt label="Tara" monogram="T" accent="accent" />
-            <p className="mt-3 text-[0.68rem] uppercase tracking-[0.22em] text-muted">Tara</p>
-            <AnimatedRatingStrip
-              animationKey={`${question.id}-tara`}
-              rating={question.taraRating}
-              winner={taraWins}
-            />
-          </div>
+        <div className="mt-5 space-y-3">
           <div className={celebrityStateClass}>
-            <FaceOffArt
-              image={celebrityImage}
-              label={question.celebrityName}
-              monogram={getMonogram(question.celebrityName)}
-              accent="neutral"
-            />
-            <p className="mt-3 text-[0.68rem] uppercase tracking-[0.22em] text-muted">{question.celebrityName}</p>
-            <AnimatedRatingStrip
-              animationKey={`${question.id}-celebrity`}
-              rating={question.celebrityRating}
-              winner={!taraWins}
-            />
+            <div className="grid grid-cols-[5.8rem_minmax(0,1fr)_2.2rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_4rem]">
+              <FaceOffArt
+                image={celebrityImage}
+                label={question.celebrityName}
+                monogram={getMonogram(question.celebrityName)}
+                accent="neutral"
+              />
+              <div className="min-w-0">
+                <p className={cn("font-display text-[1.8rem] uppercase leading-none", !taraWins ? "text-arcade-green" : "text-arcade-pink")}>
+                  {question.celebrityName}
+                </p>
+                <AnimatedRatingStrip
+                  animationKey={`${question.id}-celebrity`}
+                  rating={question.celebrityRating}
+                  winner={!taraWins}
+                />
+              </div>
+              <p className="text-right font-display text-[3rem] leading-none text-white sm:text-[4.5rem]">{celebrityScore}</p>
+            </div>
+          </div>
+
+          <div className={taraStateClass}>
+            <div className="grid grid-cols-[5.8rem_minmax(0,1fr)_2.2rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_4rem]">
+              <FaceOffArt label="Tara" monogram="T" accent="accent" />
+              <div className="min-w-0">
+                <p className={cn("font-display text-[1.8rem] uppercase leading-none", taraWins ? "text-arcade-green" : "text-arcade-pink")}>
+                  Tara
+                </p>
+                <AnimatedRatingStrip
+                  animationKey={`${question.id}-tara`}
+                  rating={question.taraRating}
+                  winner={taraWins}
+                />
+              </div>
+              <p className="text-right font-display text-[3rem] leading-none text-white sm:text-[4.5rem]">{taraScore}</p>
+            </div>
           </div>
         </div>
 
         {question.explanation ? (
-          <div className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 text-muted">
+          <div className="mt-4 rounded-[0.85rem] border-2 border-white bg-[#111111] px-3 py-3 font-body text-sm leading-6 text-white">
             {question.explanation}
           </div>
         ) : null}
 
         <SourceImageStrip images={sourceImages} onImageError={onSourceImageError} />
 
-        <Button className="mt-5 w-full" onClick={onContinue}>
+        <div className="mt-5 flex justify-end">
+        <Button className="min-w-[12rem]" onClick={onContinue}>
           {continueLabel}
           <ArrowRight className="h-4 w-4" />
         </Button>
+        </div>
       </div>
     </div>
   );
@@ -574,75 +595,79 @@ export function WhoLikedItBetterGame({
 
   if (showResults) {
     return (
-      <section className="mx-auto max-w-5xl space-y-4 px-2 lg:px-0">
-        <h1 data-page-title="true" tabIndex={-1} className="sr-only lg:hidden">
-          {title}
-        </h1>
+      <section className="mx-auto max-w-5xl px-2 lg:px-0">
+        <div className="flex min-h-[100svh] flex-col justify-center gap-4 py-4">
+          <h1 data-page-title="true" tabIndex={-1} className="sr-only lg:hidden">
+            {title}
+          </h1>
 
-        <Card className="animate-solved-lift border-accent/25">
-          <CardHeader className="space-y-3 p-4 pb-2 sm:p-5 sm:pb-3">
-            <div className="flex items-center gap-3 text-accent">
-              <Trophy className="h-5 w-5" />
-              <span className="text-[0.7rem] uppercase tracking-[0.22em] text-accent">Results</span>
-            </div>
-            <div>
-              <CardTitle>{progress.score === gameData.questions.length ? "Taste detected." : "Cinema literacy check."}</CardTitle>
-              <CardDescription>
-                {progress.score === gameData.questions.length
-                  ? getCelebrationCopy("perfect", progress.score)
-                  : `${progress.score}/${gameData.questions.length} correct. Still main character behaviour.`}
-              </CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4 p-4 pt-2 sm:p-5 sm:pt-3">
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {gameData.questions.map((question) => {
-                const answer = getWhoLikedItBetterAnswerRecord(progress, question.id);
+          <Card className="arcade-screen animate-solved-lift rounded-[1rem] border-arcade-pink">
+            <CardHeader className="space-y-3 p-4 pb-2 sm:p-6 sm:pb-3">
+              <div className="flex items-center gap-3 text-arcade-pink">
+                <Trophy className="h-6 w-6" />
+                <span className="font-body text-[0.72rem] uppercase tracking-[0.22em] text-arcade-pink">Results</span>
+              </div>
+              <div>
+                <CardTitle className="text-[2.4rem] sm:text-[3rem]">
+                  {progress.score === gameData.questions.length ? "Taste Detected" : "Cinema Literacy Check"}
+                </CardTitle>
+                <CardDescription className="text-base text-white">
+                  {progress.score === gameData.questions.length
+                    ? getCelebrationCopy("perfect", progress.score)
+                    : `${progress.score}/${gameData.questions.length} correct. Still main character behaviour.`}
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-5 p-4 pt-2 sm:p-6 sm:pt-3">
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {gameData.questions.map((question) => {
+                  const answer = getWhoLikedItBetterAnswerRecord(progress, question.id);
 
-                return (
-                  <div
-                    key={question.id}
-                    className={cn(
-                      "rounded-[1rem] border p-3 text-sm leading-6",
-                      answer?.correct ? "border-success/20 bg-success/10 text-text" : "border-white/10 bg-black/20 text-muted"
-                    )}
-                  >
-                    <p className="font-display text-[1.1rem] leading-tight">{question.movieTitle}</p>
-                    <p className="mt-2">{getWinnerLabel(question.correctAnswer, question.celebrityName)}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.18em]">
-                      {answer?.correct ? "Correct" : "Missed"}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+                  return (
+                    <div
+                      key={question.id}
+                      className={cn(
+                        "rounded-[0.85rem] border-2 p-3 font-body text-sm leading-6",
+                        answer?.correct ? "border-arcade-green bg-[#101b00] text-text" : "border-white bg-[#111111] text-muted"
+                      )}
+                    >
+                      <p className="font-display text-[1.15rem] uppercase leading-tight">{question.movieTitle}</p>
+                      <p className="mt-2">{getWinnerLabel(question.correctAnswer, question.celebrityName)}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white">
+                        {answer?.correct ? "Correct" : "Missed"}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
 
-            <BirthdayProgress compact currentGame="who-liked-it-better" />
+              <BirthdayProgress compact currentGame="who-liked-it-better" />
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              {nextGame ? (
-                <Button asChild className="sm:w-auto">
-                  <TransitionLink href={nextGame.href} direction="forward">
-                    Next Puzzle
-                    <ArrowRight className="h-4 w-4" />
-                  </TransitionLink>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                {nextGame ? (
+                  <Button asChild className="sm:w-auto">
+                    <TransitionLink href={nextGame.href} direction="forward">
+                      Next Puzzle
+                      <ArrowRight className="h-4 w-4" />
+                    </TransitionLink>
+                  </Button>
+                ) : (
+                  <Button asChild className="sm:w-auto">
+                    <TransitionLink href="/" direction="back">Back to Home</TransitionLink>
+                  </Button>
+                )}
+                <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
+                  <RotateCcw className="h-4 w-4" />
+                  Play Again
                 </Button>
-              ) : (
-                <Button asChild className="sm:w-auto">
-                  <TransitionLink href="/" direction="back">Back to Home</TransitionLink>
-                </Button>
-              )}
-              <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
-                <RotateCcw className="h-4 w-4" />
-                Play Again
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-        <p className="sr-only" aria-live="polite">
-          {announcement}
-        </p>
+          <p className="sr-only" aria-live="polite">
+            {announcement}
+          </p>
+        </div>
       </section>
     );
   }

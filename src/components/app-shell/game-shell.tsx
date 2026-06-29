@@ -5,14 +5,16 @@ import { cn } from "@/lib/utils/cn";
 
 export function GameShell({
   children,
-  chrome = "default"
+  chrome = "default",
+  showHeader = true
 }: {
   children: ReactNode;
   chrome?: "default" | "game";
+  showHeader?: boolean;
 }) {
   return (
     <div className="min-h-app bg-background bg-halo text-text">
-      <AppHeader compact={chrome === "game"} hideOnMobile={chrome === "game"} />
+      {showHeader ? <AppHeader compact={chrome === "game"} hideOnMobile={chrome === "game"} /> : null}
       <main
         data-page-shell="true"
         className={cn(

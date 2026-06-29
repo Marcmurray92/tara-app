@@ -32,6 +32,7 @@ export type PublicCrosswordSummary = {
   description?: string | null;
   contentVersion: number;
   clueCount: number;
+  compiledData: CrosswordCompiledData;
 };
 
 function mapRecordToPublicCrossword(record: GameContentRecord | null): PublicCrosswordContent | null {
@@ -64,7 +65,8 @@ function mapRecordToPublicCrosswordSummary(record: GameContentRecord): PublicCro
     subtitle: published.subtitle,
     description: published.description,
     contentVersion: published.contentVersion,
-    clueCount: published.compiledData.entries.length
+    clueCount: published.compiledData.entries.length,
+    compiledData: published.compiledData
   };
 }
 

@@ -5,9 +5,9 @@ test("homepage renders the core game rows", async ({ page }) => {
 
   await expect(page.getByRole("heading", { name: "Crossword", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Connections", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Colour Field", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Movie Review Guess", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Who Liked It Better", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tara Vs The World", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Review Roulette", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Fifty Shades Of Tara", exact: true })).toBeVisible();
 });
 
 test("connections route lets the player solve a group", async ({ page }) => {
@@ -55,9 +55,9 @@ test("colour field pack opens the first playable board", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Colour Field" })).toBeVisible();
   await page.getByRole("link", { name: "Start", exact: true }).click();
   await expect(page).toHaveURL(/\/games\/colour-field\/midnight-vows$/);
-  await expect(page.locator('button[aria-label^="Tile row "]')).toHaveCount(16);
+  await expect(page.locator('button[aria-label^="Tile row "]')).toHaveCount(64);
   await expect(page.getByText("Study the solved field before it scrambles.")).toBeVisible();
-  await expect(page.getByText("Tap a tile. Tap another tile. Rebuild the gradient.")).toBeVisible();
+  await expect(page.getByText("Tap or drag a tile. Drop it into place. Rebuild the gradient.")).toBeVisible();
 });
 
 test("who liked it better progress survives a refresh", async ({ page }) => {

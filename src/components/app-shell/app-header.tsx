@@ -53,7 +53,7 @@ export function AppHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-20 border-b border-white/10 bg-background/90 backdrop-blur",
+        "sticky top-0 z-20 border-b-2 border-white bg-[#0327ff]/95 backdrop-blur",
         hideOnMobile ? "hidden lg:block" : ""
       )}
     >
@@ -62,14 +62,14 @@ export function AppHeader({
           <TransitionLink href="/" direction={pathname === "/" ? "fade" : "back"} className="inline-flex min-w-0 items-center gap-3">
             <span
               className={cn(
-                "inline-flex items-center justify-center rounded-full border border-accent/40 bg-accent-soft text-accent",
+                "inline-flex items-center justify-center rounded-md border-2 border-white bg-black text-arcade-green",
                 compact ? "h-9 w-9" : "h-11 w-11"
               )}
             >
               <Sparkles className="h-5 w-5" />
             </span>
             <div className="min-w-0">
-              <p className={cn("truncate font-display tracking-wide text-text", compact ? "text-lg" : "text-xl")}>
+              <p className={cn("truncate font-display uppercase tracking-wide text-white", compact ? "text-lg" : "text-xl")}>
                 Tara&apos;s 30th
               </p>
             </div>

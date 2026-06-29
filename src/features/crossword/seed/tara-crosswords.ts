@@ -44,6 +44,7 @@ export function listSeededCrosswordSummaries() {
     subtitle: crossword.subtitle,
     description: crossword.description,
     contentVersion: crossword.contentVersion,
-    clueCount: crossword.clueCount
+    clueCount: crossword.clueCount,
+    compiledData: crossword.compiledData
   }));
 }

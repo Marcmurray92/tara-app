@@ -20,6 +20,7 @@ It is an original colour-gradient restoration puzzle inspired by the broad inter
 ## MVP interaction model
 - Tap a tile to select it.
 - Tap another movable tile to swap them.
+- Press and drag from a tile onto another movable tile to swap on release.
 - Tap the selected tile again to cancel selection.
 - Tapping outside the board should also cancel selection where practical.
 - Mouse users should be able to drag a tile immediately on press.
@@ -35,8 +36,9 @@ It is an original colour-gradient restoration puzzle inspired by the broad inter
 ## Release shape
 - A single seeded pack is fine for now.
 - Target roughly 12 to 15 levels.
-- Increase complexity from 4x4 boards upward.
-- Seeded fields should not dip below 16 tiles.
+- Increase complexity from 8x8 boards upward.
+- Seeded fields should not dip below 64 tiles.
+- Let the largest late-pack boards reach 12x12.
 - Keep the board sizes phone-friendly.
 
 ## Colour rules

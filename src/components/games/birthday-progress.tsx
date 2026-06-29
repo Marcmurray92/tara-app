@@ -101,21 +101,21 @@ export function BirthdayProgress({
     <section
       aria-label="Birthday game progress"
       className={cn(
-        "rounded-[1.3rem] border border-white/10 bg-surface/85 shadow-glow backdrop-blur-sm",
-        snapshot.allCompleted ? "animate-status-bloom border-accent/25" : "",
+        "rounded-[1rem] border-2 border-white bg-black/95 shadow-glow backdrop-blur-sm",
+        snapshot.allCompleted ? "animate-status-bloom border-arcade-green" : "",
         compact ? "p-3" : "p-4 sm:p-5",
         className
       )}
     >
       <div className={cn("flex items-start justify-between gap-3", compact ? "mb-3" : "mb-4")}>
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-muted">Birthday run</p>
-          <p className={cn("mt-1 font-display text-text", compact ? "text-lg" : "text-2xl")}>
+          <p className="font-body text-[0.72rem] uppercase tracking-[0.24em] text-arcade-blue">Your Stats</p>
+          <p className={cn("mt-1 font-display uppercase text-text", compact ? "text-lg" : "text-2xl")}>
             {snapshot.completedCount}/{snapshot.items.length} cleared
           </p>
         </div>
-        <div className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-muted">
-          {snapshot.allCompleted ? "All done" : "Keep going"}
+        <div className="rounded-md border-2 border-white bg-[#0327ff] px-3 py-1.5 font-body text-xs uppercase tracking-[0.18em] text-white">
+          {snapshot.allCompleted ? "Maxed Out" : "In Progress"}
         </div>
       </div>
 
@@ -131,29 +131,33 @@ export function BirthdayProgress({
               href={item.href}
               aria-label={`${item.title}. ${getStatusLabel(item.status)}.`}
               className={cn(
-                "rounded-[1.05rem] border p-3 text-left transition active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
+                "rounded-[0.9rem] border-2 p-3 text-left transition active:translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
                 animatedTypes.includes(item.type) ? "animate-solved-lift" : "",
-                active ? "border-accent/50 bg-accent-soft" : "border-white/10 bg-black/20 hover:border-accent/35 hover:bg-white/5"
+                active
+                  ? "border-arcade-blue bg-[#03123b]"
+                  : "border-white bg-[#0a0a0a] hover:border-arcade-green hover:bg-[#111111]"
               )}
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-[0.95rem] border border-white/10 bg-background/70 text-accent">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-[0.75rem] border-2 border-white bg-black text-arcade-green">
                   <Icon className="h-4.5 w-4.5" />
                 </span>
-                <span className="inline-flex items-center gap-1 text-[0.65rem] uppercase tracking-[0.18em] text-muted">
+                <span className="inline-flex items-center gap-1 font-body text-[0.65rem] uppercase tracking-[0.18em] text-muted">
                   <StatusIcon className="h-3.5 w-3.5" />
                   {compact ? "" : getStatusLabel(item.status)}
                 </span>
               </div>
-              <p className="mt-3 font-display text-lg leading-tight text-text">{item.shortTitle}</p>
-              {!compact ? <p className="mt-1.5 text-sm leading-5 text-muted">{item.teaser}</p> : null}
+              <p className="mt-3 font-display text-lg uppercase leading-tight text-text">{item.shortTitle}</p>
+              {!compact ? <p className="mt-1.5 font-body text-sm leading-5 text-muted">{item.teaser}</p> : null}
             </TransitionLink>
           );
         })}
       </div>
 
       {snapshot.allCompleted ? (
-        <p className="mt-4 text-sm leading-6 text-accent">All {snapshot.items.length} games cleared. The crown remains secure.</p>
+        <p className="mt-4 font-body text-sm leading-6 text-arcade-green">
+          All {snapshot.items.length} games cleared. Cartridge complete.
+        </p>
       ) : null}
     </section>
   );

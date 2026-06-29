@@ -6,13 +6,13 @@ import type {
   ColourFieldProgress
 } from "@/features/colour-field/game/colour-field-game.types";
 
-const UNLOCK_ALL_COLOUR_FIELDS_FOR_TESTING = true;
-
 type Oklab = {
   l: number;
   a: number;
   b: number;
 };
+
+const UNLOCK_ALL_COLOUR_FIELDS_FOR_TESTING = true;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -221,7 +221,7 @@ export function createColourFieldProgress(gameData: ColourFieldGameData): Colour
   const levels = Object.fromEntries(
     gameData.levels.map((level, index) => [
       level.slug,
-      createEmptyLevelProgress(UNLOCK_ALL_COLOUR_FIELDS_FOR_TESTING ? true : index === 0)
+      createEmptyLevelProgress(UNLOCK_ALL_COLOUR_FIELDS_FOR_TESTING || index === 0)
     ])
   );
 
@@ -244,19 +244,20 @@ export function normaliseColourFieldProgress(
     ])
   ) as Record<string, ColourFieldLevelProgress>;
 
+  if (gameData.levels[0]) {
+    levels[gameData.levels[0].slug].unlocked = true;
+  }
+
   if (UNLOCK_ALL_COLOUR_FIELDS_FOR_TESTING) {
     for (const level of gameData.levels) {
       levels[level.slug].unlocked = true;
     }
-  } else {
-    if (gameData.levels[0]) {
-      levels[gameData.levels[0].slug].unlocked = true;
-    }
+  }
 
+  if (!UNLOCK_ALL_COLOUR_FIELDS_FOR_TESTING) {
     for (let index = 1; index < gameData.levels.length; index += 1) {
       const previousLevel = gameData.levels[index - 1];
       const currentLevel = gameData.levels[index];
-
       if (levels[previousLevel.slug].completedAt) {
         levels[currentLevel.slug].unlocked = true;
       }

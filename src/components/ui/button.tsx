@@ -4,21 +4,21 @@ import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = {
   default:
-    "bg-accent text-white hover:bg-[color:var(--color-accent-strong)] focus-visible:ring-focus",
+    "border-2 border-black bg-accent text-black shadow-[4px_4px_0_rgba(0,0,0,0.95)] hover:translate-y-[1px] hover:shadow-[3px_3px_0_rgba(0,0,0,0.95)] focus-visible:ring-focus",
   secondary:
-    "bg-surface-strong text-text hover:bg-white/10 focus-visible:ring-focus",
+    "border-2 border-white bg-black text-white shadow-[4px_4px_0_rgba(255,255,255,0.08)] hover:bg-white hover:text-black focus-visible:ring-focus",
   ghost:
-    "bg-transparent text-text hover:bg-white/5 focus-visible:ring-focus",
+    "border-2 border-transparent bg-transparent text-text hover:border-white hover:bg-white/5 focus-visible:ring-focus",
   destructive:
-    "bg-error text-white hover:opacity-90 focus-visible:ring-focus",
+    "border-2 border-black bg-error text-white shadow-[4px_4px_0_rgba(0,0,0,0.95)] hover:translate-y-[1px] hover:shadow-[3px_3px_0_rgba(0,0,0,0.95)] focus-visible:ring-focus",
   outline:
-    "border border-border bg-transparent text-text hover:border-accent/70 hover:bg-white/5 focus-visible:ring-focus"
+    "border-2 border-white bg-black text-white shadow-[4px_4px_0_rgba(255,255,255,0.08)] hover:bg-white hover:text-black focus-visible:ring-focus"
 } as const;
 
 const buttonSizes = {
-  default: "h-11 px-4 py-2 text-sm",
-  sm: "h-9 rounded-md px-3 text-sm",
-  lg: "h-12 rounded-lg px-5 text-base"
+  default: "h-12 px-4 py-2 text-[0.92rem]",
+  sm: "h-10 rounded-md px-3 text-[0.82rem]",
+  lg: "h-14 rounded-md px-5 text-base"
 } as const;
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -30,7 +30,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
     const classes = cn(
-      "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.985] disabled:pointer-events-none disabled:opacity-60",
+      "inline-flex items-center justify-center gap-2 rounded-md font-body font-semibold uppercase tracking-[0.16em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-[1px] disabled:pointer-events-none disabled:opacity-60",
       buttonVariants[variant],
       buttonSizes[size],
       className

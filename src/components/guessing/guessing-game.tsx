@@ -78,25 +78,28 @@ function GuessingRoundDialog({
         aria-modal="true"
         aria-labelledby="guessing-round-dialog-title"
         className={cn(
-          "w-full max-w-md rounded-[1.5rem] border p-5 shadow-glow",
-          solved ? "border-success/25 bg-surface-strong" : "border-error/25 bg-surface-strong"
+          "arcade-screen w-full max-w-xl rounded-[1rem] p-5 sm:p-6",
+          solved ? "border-arcade-green" : "border-arcade-pink"
         )}
       >
-        <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">{roundLabel}</p>
-        <h2 id="guessing-round-dialog-title" className="mt-2 font-display text-[2rem] leading-none text-text">
+        <p className={cn("font-display text-[0.95rem] uppercase leading-none", solved ? "text-arcade-green" : "text-arcade-pink")}>
+          {solved ? "Correct And Cinema-Pilled!" : "Round Over, Babe"}
+        </p>
+        <p className="mt-2 font-body text-[0.72rem] uppercase tracking-[0.22em] text-arcade-blue">{roundLabel}</p>
+        <h2 id="guessing-round-dialog-title" className="mt-3 font-display text-[2.5rem] uppercase leading-none text-text sm:text-[3rem]">
           {movieTitle}
         </h2>
-        <p className="mt-3 text-sm leading-6 text-muted">
+        <p className="mt-3 font-body text-base leading-7 text-muted">
           {solved ? "Correct. Cinema literacy intact." : "Nope. The review dragged you this time."}
         </p>
 
         {solved && celebrationQuote ? (
-          <blockquote className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 text-muted">
+          <blockquote className="mt-4 rounded-[0.8rem] border-2 border-white bg-[#111111] px-3 py-3 font-body text-sm leading-6 text-white">
             Tara review: “{celebrationQuote}”
           </blockquote>
         ) : null}
 
-        <div className="mt-5 flex flex-col gap-3">
+        <div className="mt-6 flex flex-col gap-3">
           <Button onClick={onContinue}>
             {continueLabel}
             {solved ? <ArrowRight className="h-4 w-4" /> : null}
@@ -246,64 +249,66 @@ export function GuessingGame({
 
   if (showVictory) {
     return (
-      <section className="mx-auto max-w-5xl space-y-4 px-2 lg:px-0">
-        <h1 data-page-title="true" tabIndex={-1} className="sr-only lg:hidden">
-          {title}
-        </h1>
+      <section className="mx-auto max-w-5xl px-2 lg:px-0">
+        <div className="flex min-h-[100svh] flex-col justify-center gap-4 py-4">
+          <h1 data-page-title="true" tabIndex={-1} className="sr-only lg:hidden">
+            {title}
+          </h1>
 
-        <Card className="animate-solved-lift border-accent/25">
-          <CardHeader className="space-y-3 p-4 pb-2 sm:p-5 sm:pb-3">
-            <div className="flex items-center gap-3 text-accent">
-              <Trophy className="h-5 w-5" />
-              <span className="text-[0.7rem] uppercase tracking-[0.22em] text-accent">Victory</span>
-            </div>
-            <div>
-              <CardTitle>You got all 3.</CardTitle>
-              <CardDescription>You ate. Letterboxd could never.</CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4 p-4 pt-2 sm:p-5 sm:pt-3">
-            <div className="grid gap-3 sm:grid-cols-3">
-              {recapItems.map(({ round, correctChoice }, index) => (
-                <div
-                  key={round.id}
-                  className="rounded-[1rem] border border-success/20 bg-success/10 p-3 text-sm leading-6 text-text"
-                >
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">{round.difficulty}</p>
-                  <p className="mt-2 font-display text-[1.1rem] leading-tight">{correctChoice?.label ?? "Unknown film"}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted">Round {index + 1} cleared</p>
-                </div>
-              ))}
-            </div>
+          <Card className="arcade-screen animate-solved-lift rounded-[1rem] border-arcade-green">
+            <CardHeader className="space-y-3 p-4 pb-2 sm:p-6 sm:pb-3">
+              <div className="flex items-center gap-3 text-arcade-green">
+                <Trophy className="h-6 w-6" />
+                <span className="font-body text-[0.72rem] uppercase tracking-[0.22em] text-arcade-green">Victory Mode</span>
+              </div>
+              <div>
+                <CardTitle className="text-[2.6rem] sm:text-[3.2rem]">You Got All 3</CardTitle>
+                <CardDescription className="text-base text-white">You ate. Letterboxd could never.</CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-5 p-4 pt-2 sm:p-6 sm:pt-3">
+              <div className="grid gap-3 sm:grid-cols-3">
+                {recapItems.map(({ round, correctChoice }, index) => (
+                  <div
+                    key={round.id}
+                    className="rounded-[0.85rem] border-2 border-white bg-[#111111] p-3 font-body text-sm leading-6 text-text"
+                  >
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-arcade-blue">{round.difficulty}</p>
+                    <p className="mt-2 font-display text-[1.25rem] uppercase leading-tight">{correctChoice?.label ?? "Unknown film"}</p>
+                    <p className="mt-1 text-xs uppercase tracking-[0.18em] text-arcade-green">Round {index + 1} cleared</p>
+                  </div>
+                ))}
+              </div>
 
-            <BirthdayProgress compact currentGame="guessing" />
+              <BirthdayProgress compact currentGame="guessing" />
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              {nextGame ? (
-                <Button asChild className="sm:w-auto">
-                  <TransitionLink href={nextGame.href} direction="forward">
-                    Next Puzzle
-                    <ArrowRight className="h-4 w-4" />
-                  </TransitionLink>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                {nextGame ? (
+                  <Button asChild className="sm:w-auto">
+                    <TransitionLink href={nextGame.href} direction="forward">
+                      Next Puzzle
+                      <ArrowRight className="h-4 w-4" />
+                    </TransitionLink>
+                  </Button>
+                ) : (
+                  <Button asChild className="sm:w-auto">
+                    <TransitionLink href="/" direction="back">
+                      Back to Home
+                    </TransitionLink>
+                  </Button>
+                )}
+                <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
+                  <RotateCcw className="h-4 w-4" />
+                  Play Again
                 </Button>
-              ) : (
-                <Button asChild className="sm:w-auto">
-                  <TransitionLink href="/" direction="back">
-                    Back to Home
-                  </TransitionLink>
-                </Button>
-              )}
-              <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
-                <RotateCcw className="h-4 w-4" />
-                Play Again
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-        <p className="sr-only" aria-live="polite">
-          {announcement}
-        </p>
+          <p className="sr-only" aria-live="polite">
+            {announcement}
+          </p>
+        </div>
       </section>
     );
   }
