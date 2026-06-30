@@ -2,10 +2,8 @@
 
 import { PartyPopper } from "lucide-react";
 
-import { BirthdayProgress } from "@/components/games/birthday-progress";
+import { GameResultActions } from "@/components/games/game-result-actions";
 import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
-import { TransitionLink } from "@/components/ui/transition-link";
-import { Button } from "@/components/ui/button";
 import { listSeededCrosswordSummaries } from "@/features/crossword/seed/tara-crosswords";
 import type { CrosswordCompiledData } from "@/features/crossword/game/crossword-game.types";
 import { getNextBirthdayGame } from "@/features/games/birthday-progress";
@@ -16,13 +14,15 @@ export function CrosswordCompletionDialog({
   puzzle,
   slug,
   timeLabel,
-  clueCount
+  clueCount,
+  onBackToPuzzle
 }: {
   open: boolean;
   puzzle: CrosswordCompiledData;
   slug: string;
   timeLabel: string;
   clueCount: number;
+  onBackToPuzzle: () => void;
 }) {
   const snapshot = useBirthdayProgress();
   const crosswordSummaries = listSeededCrosswordSummaries();
@@ -31,10 +31,10 @@ export function CrosswordCompletionDialog({
     return null;
   }
 
-  const nextGame = getNextBirthdayGame(snapshot, "crossword");
   const currentCrosswordIndex = crosswordSummaries.findIndex((crossword) => crossword.slug === slug);
   const nextCrossword =
     currentCrosswordIndex >= 0 ? crosswordSummaries[currentCrosswordIndex + 1] ?? null : null;
+  const nextGame = nextCrossword ?? getNextBirthdayGame(snapshot, "crossword");
   const celebrationLine = snapshot.allCompleted ? getCelebrationCopy("final", clueCount) : getCelebrationCopy("complete", clueCount);
 
   return (
@@ -75,27 +75,7 @@ export function CrosswordCompletionDialog({
           </div>
         ) : null}
 
-        <div className="mt-5">
-          <BirthdayProgress compact currentGame="crossword" />
-        </div>
-
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          {nextCrossword ? (
-            <Button asChild className="sm:w-auto">
-              <TransitionLink href={nextCrossword.href} direction="forward">Next Crossword</TransitionLink>
-            </Button>
-          ) : null}
-          {nextGame ? (
-            <Button asChild variant={nextCrossword ? "secondary" : "default"} className="sm:w-auto">
-              <TransitionLink href={nextGame.href} direction="forward">Next Puzzle</TransitionLink>
-            </Button>
-          ) : null}
-          <Button asChild variant={nextCrossword || nextGame ? "outline" : "default"} className="sm:w-auto">
-            <TransitionLink href="/" direction="back">
-              Back to Home
-            </TransitionLink>
-          </Button>
-        </div>
+        <GameResultActions nextHref={nextGame?.href ?? null} onBackToPuzzle={onBackToPuzzle} />
       </div>
     </div>
   );

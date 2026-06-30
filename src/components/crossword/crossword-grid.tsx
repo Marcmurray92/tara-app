@@ -78,6 +78,7 @@ export function CrosswordGrid({
               waveDelayMs={animatedCellDelays[cellKey]}
               density={density}
               fillContainer={compact}
+              cellKey={cellKey}
               onClick={() => onSelectCell(cell.row, cell.column)}
             />
           );

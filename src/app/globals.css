@@ -391,6 +391,27 @@ html.page-transition-in [data-page-shell="true"] {
   }
 }
 
+@keyframes arcade-card-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.82);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translate3d(0, -5px, 0) scale(1.06);
+  }
+
+  75% {
+    transform: translate3d(0, 0, 0) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 .animate-subtle-pop {
   animation: subtle-pop 220ms ease;
 }
@@ -449,6 +470,10 @@ html.page-transition-in [data-page-shell="true"] {
 
 .animate-colour-field-tile-enter {
   animation: colour-field-tile-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-arcade-card-enter {
+  animation: arcade-card-enter 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

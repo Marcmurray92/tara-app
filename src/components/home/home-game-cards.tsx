@@ -16,12 +16,9 @@ import { Reveal } from "@/components/ui/reveal";
 import { TransitionLink } from "@/components/ui/transition-link";
 import { loadColourFieldProgress } from "@/features/colour-field/game/colour-field-storage";
 import {
-  getFirstUnlockedColourFieldLevel,
-  getCompletedColourFieldCount,
-  readColourFieldStatusSummary
+  normaliseColourFieldProgress
 } from "@/features/colour-field/game/colour-field-engine";
 import {
-  listSeededColourFieldSummaries,
   placeholderColourFieldContentVersion,
   placeholderColourFieldGameData,
   placeholderColourFieldSlug
@@ -36,16 +33,15 @@ import { loadCrosswordProgress, readLocalCrosswordStatus } from "@/features/cros
 import type { CrosswordCompiledData } from "@/features/crossword/game/crossword-game.types";
 import { loadGuessingProgress } from "@/features/guessing/game/guessing-storage";
 import {
-  placeholderGuessingContentVersion,
-  placeholderGuessingSlug
+  listSeededGuessingSummaries,
+  type SeededGuessingContent
 } from "@/features/guessing/seed/placeholder-guessing";
 import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 import type { GameType } from "@/features/games/game.types";
 import { loadWhoLikedItBetterProgress } from "@/features/who-liked-it-better/game/who-liked-it-better-storage";
 import {
-  placeholderWhoLikedItBetterContentVersion,
-  placeholderWhoLikedItBetterGameData,
-  placeholderWhoLikedItBetterSlug
+  listSeededWhoLikedItBetterSummaries,
+  type SeededWhoLikedItBetterContent
 } from "@/features/who-liked-it-better/seed/placeholder-who-liked-it-better";
 import { cn } from "@/lib/utils/cn";
 
@@ -86,9 +82,10 @@ type HomeSectionCardStatus =
       done: boolean;
     }
   | {
-      kind: "colour-field";
-      completed: number;
-      total: number;
+      kind: "colour-field-level";
+      bestMoves: number | null;
+      label: string;
+      sizeLabel: string;
     };
 
 type HomeSectionCard = {
@@ -129,7 +126,7 @@ function getSectionPresentation(type: GameType) {
       };
     case "who-liked-it-better":
       return {
-        title: "Tara Vs The World",
+        title: "Tara VS The World",
         description: "Who liked it more? You or Kanye?",
         icon: Star,
         titleClassName: "text-arcade-pink",
@@ -145,7 +142,7 @@ function getSectionPresentation(type: GameType) {
       };
     case "colour-field":
       return {
-        title: "Fifty Shades Of Tara",
+        title: "50 Shades of Tara",
         description: "It’s I Love Hue but worse.. I love you? :)",
         icon: Palette,
         titleClassName: "text-arcade-yellow",
@@ -216,11 +213,10 @@ function getConnectionsWidget(board: Pick<SeededConnectionsContent, "slug" | "co
   };
 }
 
-function getWhoLikedWidget() {
-  const progress = loadWhoLikedItBetterProgress(
-    placeholderWhoLikedItBetterSlug,
-    placeholderWhoLikedItBetterContentVersion
-  );
+function getWhoLikedWidget(
+  game: Pick<SeededWhoLikedItBetterContent, "slug" | "contentVersion" | "gameData">
+) {
+  const progress = loadWhoLikedItBetterProgress(game.slug, game.contentVersion);
 
   if (!progress) {
     return {
@@ -228,14 +224,14 @@ function getWhoLikedWidget() {
       widget: {
         kind: "who-liked-it-better" as const,
         answered: 0,
-        rounds: placeholderWhoLikedItBetterGameData.questions.map(() => "pending" as const),
+        rounds: game.gameData.questions.map(() => "pending" as const),
         score: 0,
-        total: placeholderWhoLikedItBetterGameData.questions.length
+        total: game.gameData.questions.length
       }
     };
   }
 
-  const rounds = placeholderWhoLikedItBetterGameData.questions.map((question) => {
+  const rounds = game.gameData.questions.map((question) => {
     const answer = progress.answers.find((entry) => entry.questionId === question.id);
 
     if (!answer) {
@@ -252,13 +248,13 @@ function getWhoLikedWidget() {
       answered: progress.answers.length,
       rounds,
       score: progress.score,
-      total: placeholderWhoLikedItBetterGameData.questions.length
+      total: game.gameData.questions.length
     }
   };
 }
 
-function getGuessingWidget() {
-  const progress = loadGuessingProgress(placeholderGuessingSlug, placeholderGuessingContentVersion);
+function getGuessingWidget(game: Pick<SeededGuessingContent, "slug" | "contentVersion">) {
+  const progress = loadGuessingProgress(game.slug, game.contentVersion);
 
   return {
     status: !progress ? ("none" as const) : progress.completedAt ? ("completed" as const) : ("in-progress" as const),
@@ -269,44 +265,16 @@ function getGuessingWidget() {
   };
 }
 
-function getColourFieldWidget() {
+function getColourFieldProgress() {
   const progress = loadColourFieldProgress(placeholderColourFieldSlug, placeholderColourFieldContentVersion);
-
-  if (!progress) {
-    return {
-      status: "none" as const,
-      widget: {
-        kind: "colour-field" as const,
-        completed: 0,
-        total: placeholderColourFieldGameData.levels.length
-      }
-    };
-  }
-
-  return {
-    status: readColourFieldStatusSummary(placeholderColourFieldGameData, progress),
-    widget: {
-      kind: "colour-field" as const,
-      completed: getCompletedColourFieldCount(placeholderColourFieldGameData, progress),
-      total: placeholderColourFieldGameData.levels.length
-    }
-  };
-}
-
-function getColourFieldHomeHref() {
-  const progress = loadColourFieldProgress(placeholderColourFieldSlug, placeholderColourFieldContentVersion);
-  const nextLevel = getFirstUnlockedColourFieldLevel(placeholderColourFieldGameData, progress);
-
-  return nextLevel ? `/games/colour-field/${nextLevel.slug}` : "/games/colour-field";
+  return normaliseColourFieldProgress(placeholderColourFieldGameData, progress);
 }
 
 function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
   const connectionsBoards = listSeededConnectionsSummaries();
-  const colourFieldPacks = listSeededColourFieldSummaries();
-  const whoLikedState = getWhoLikedWidget();
-  const guessingState = getGuessingWidget();
-  const colourFieldState = getColourFieldWidget();
-  const colourFieldHref = getColourFieldHomeHref();
+  const whoLikedGames = listSeededWhoLikedItBetterSummaries();
+  const guessingGames = listSeededGuessingSummaries();
+  const colourFieldProgress = getColourFieldProgress();
 
   const sectionOrder: GameType[] = [
     "crossword",
@@ -359,15 +327,17 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
       return {
         type,
         ...presentation,
-        items: [
-          {
-            id: placeholderWhoLikedItBetterSlug,
-            href: "/games/who-liked-it-better",
-            title: getBirthdayDateLabel(0),
+        items: whoLikedGames.map((game, index) => {
+          const whoLikedState = getWhoLikedWidget(game);
+
+          return {
+            id: game.slug,
+            href: game.href,
+            title: getBirthdayDateLabel(index),
             status: whoLikedState.status as HomeCardStatus,
             widget: whoLikedState.widget
-          }
-        ]
+          };
+        })
       };
     }
 
@@ -375,28 +345,50 @@ function buildHomeSections(crosswords: HomeCrosswordSummary[]): HomeSection[] {
       return {
         type,
         ...presentation,
-        items: [
-          {
-            id: placeholderGuessingSlug,
-            href: "/games/guessing",
-            title: getBirthdayDateLabel(0),
+        items: guessingGames.map((game, index) => {
+          const guessingState = getGuessingWidget(game);
+
+          return {
+            id: game.slug,
+            href: game.href,
+            title: getBirthdayDateLabel(index),
             status: guessingState.status as HomeCardStatus,
             widget: guessingState.widget
-          }
-        ]
+          };
+        })
       };
     }
 
     return {
       type,
       ...presentation,
-      items: colourFieldPacks.map((pack) => ({
-        id: pack.slug,
-        href: colourFieldHref,
-        title: pack.title,
-        status: colourFieldState.status as HomeCardStatus,
-        widget: colourFieldState.widget
-      }))
+      items: placeholderColourFieldGameData.levels.map((level, index) => {
+        const levelProgress = colourFieldProgress.levels[level.slug];
+        const status = levelProgress.completedAt
+          ? ("completed" as const)
+          : levelProgress.currentMoves > 0 || Boolean(levelProgress.startedAt)
+            ? ("in-progress" as const)
+            : ("none" as const);
+
+        return {
+          id: level.slug,
+          href: `/games/colour-field/${level.slug}`,
+          title: getBirthdayDateLabel(index),
+          status,
+          widget: {
+            kind: "colour-field-level" as const,
+            label: levelProgress.completedAt
+              ? "Done"
+              : status === "in-progress"
+                ? "Started"
+                : levelProgress.unlocked
+                  ? "Not Done"
+                  : "Locked",
+            sizeLabel: `${level.columns} x ${level.rows}`,
+            bestMoves: levelProgress.bestMoves
+          }
+        };
+      })
     };
   });
 }
@@ -481,19 +473,13 @@ function HomeStatusWidget({
     );
   }
 
-  const colourFieldLabel =
-    status === "completed"
-      ? "Done!"
-      : status === "none"
-        ? "Not Done"
-        : `${widget.completed}/${widget.total} restored`;
-
   return (
-    <div className="flex items-center justify-between gap-3">
-      <p className="font-body text-lg text-white">{colourFieldLabel}</p>
-      <span className="font-body text-lg text-white">
-        {widget.completed}/{widget.total}
-      </span>
+    <div className="flex items-end justify-between gap-3">
+      <div className="space-y-1">
+        <p className="font-body text-lg text-white">{widget.label}</p>
+        <p className="font-body text-sm text-muted">{widget.sizeLabel}</p>
+      </div>
+      {widget.bestMoves !== null ? <span className="font-body text-sm text-white">Best {widget.bestMoves}</span> : null}
     </div>
   );
 }
@@ -520,7 +506,16 @@ export function HomeGameCards({ crosswords }: { crosswords: HomeCrosswordSummary
         </Reveal>
 
         <Reveal delay={70}>
-          <section className="rounded-[1rem] border-2 border-white bg-[linear-gradient(135deg,#ff0055_0%,#ff0055_34%,#050505_34%,#050505_58%,#02f1ff_58%,#02f1ff_100%)] px-5 py-8 text-center shadow-[0_10px_0_rgba(0,0,0,0.25)]">
+          <section
+            className="rounded-[1rem] border-2 border-white px-5 py-8 text-center shadow-[0_10px_0_rgba(0,0,0,0.25)]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(0,0,0,0.48), rgba(0,0,0,0.48)), linear-gradient(135deg, rgba(255,0,85,0.92) 0%, rgba(255,0,85,0.82) 34%, rgba(5,5,5,0.82) 58%, rgba(2,241,255,0.74) 100%), url('/wedding.jpg')",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat"
+            }}
+          >
             <div className="text-4xl" aria-hidden="true">
               🎂
             </div>

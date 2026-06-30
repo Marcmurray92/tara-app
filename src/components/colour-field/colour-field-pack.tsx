@@ -64,7 +64,7 @@ export function ColourFieldPack({
     <section className="min-h-[100svh] px-3 py-4 sm:px-6">
       <div className="mx-auto max-w-5xl space-y-4">
         <GameMasthead
-          eyebrow="Colour Field"
+          eyebrow="50 Shades of Tara"
           title={title}
           subtitle={subtitle}
           actions={
@@ -89,7 +89,7 @@ export function ColourFieldPack({
 
         {packStatus === "completed" ? (
           <div className="rounded-[1.35rem] border border-accent/25 bg-accent-soft/70 px-4 py-3 text-sm leading-6 text-text">
-            All twelve fields are restored. Taste detected.
+            All {gameData.levels.length} fields are restored. Taste detected.
           </div>
         ) : (
           <div className="rounded-[1.35rem] border border-white/10 bg-surface/80 px-4 py-3 text-sm leading-6 text-muted">

@@ -16,7 +16,7 @@
 <rect width="600" height="900" fill="url(#bg)"/>
 <rect x="24" y="24" width="552" height="852" rx="28" fill="none" stroke="#f6efff" stroke-opacity="0.16" stroke-width="2"/>
 <circle cx="300" cy="230" r="220" fill="url(#glow)"/>
-<text x="56" y="92" fill="#dac9ee" font-family="Arial, sans-serif" font-size="22" letter-spacing="5">MOVIE REVIEW GUESS</text>
+<text x="56" y="92" fill="#dac9ee" font-family="Arial, sans-serif" font-size="22" letter-spacing="5">REVIEW ROULETTE</text>
 <text x="56" y="138" fill="#ffffff" fill-opacity="0.72" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">1999</text>
 <text x="56" y="528" fill="#f8f3ff" font-family="Georgia, serif" font-size="44" font-weight="700">The Virgin</text>
 <text x="56" y="584" fill="#f8f3ff" font-family="Georgia, serif" font-size="44" font-weight="700">Suicides</text>

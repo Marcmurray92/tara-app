@@ -1,0 +1,4 @@
+question_id,movie_title,movie_slug,year,tara_rating,celebrity_name,celebrity_rating,correct_answer,poster_path,celebrity_image_directory,source_image_path,celebrity_rating_source,celebrity_rating_confidence,notes
+punch-drunk-love-kid-cudi,Punch-Drunk Love,punch-drunk-love,2002,2.5,Kid Cudi,5,celebrity,/images/games/who-liked-it-better/posters/punch-drunk-love.svg,/images/games/who-liked-it-better/celebrities/kid-cudi/,,user-supplied rating list,high,
+challengers-lukas-gage,Challengers,challengers,2024,5,Lukas Gage,4.5,tara,/images/games/who-liked-it-better/posters/challengers.svg,,,user-supplied rating list,high,
+there-will-be-blood-kanye,There Will Be Blood,there-will-be-blood,2007,2.5,Kanye,5,celebrity,/images/games/who-liked-it-better/posters/there-will-be-blood.svg,/images/games/who-liked-it-better/celebrities/kanye/,/images/games/who-liked-it-better/source-images/kanye-there-will-be-blood.png,user-supplied rating list plus attached image,high,

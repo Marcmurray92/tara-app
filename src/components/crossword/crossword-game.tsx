@@ -35,9 +35,9 @@ import {
   getFirstSelection,
   getEntryForSelection,
   getOrderedEntries,
+  isEntryFilled,
   isCrosswordFilled,
   moveGeometrically,
-  moveToAdjacentClue,
   revealCurrentLetter,
   revealCurrentWord,
   revealPuzzle,
@@ -205,6 +205,20 @@ export function CrosswordGame({
   }, [animatedCellDelays]);
 
   useEffect(() => {
+    if (typeof window === "undefined" || !progress.selection) {
+      return;
+    }
+
+    const cellKey = `${progress.selection.row},${progress.selection.column}`;
+
+    window.requestAnimationFrame(() => {
+      const matchingCells = Array.from(document.querySelectorAll<HTMLElement>(`[data-crossword-cell="${cellKey}"]`));
+      const visibleCell = matchingCells.find((cell) => cell.offsetParent !== null) ?? matchingCells[0];
+      visibleCell?.focus({ preventScroll: true });
+    });
+  }, [progress.selection]);
+
+  useEffect(() => {
     if (puzzleFilled && !previouslyFilledRef.current && !progress.completedAt) {
       setShowNotQuite(true);
       setAnnouncement("Not quite. A few letters still need work.");
@@ -221,8 +235,18 @@ export function CrosswordGame({
     setProgress(nextProgress);
   }
 
-  function focusKeyboard() {
-    return;
+  function focusKeyboard(selection = progress.selection) {
+    if (typeof window === "undefined" || !selection) {
+      return;
+    }
+
+    const cellKey = `${selection.row},${selection.column}`;
+
+    window.requestAnimationFrame(() => {
+      const matchingCells = Array.from(document.querySelectorAll<HTMLElement>(`[data-crossword-cell="${cellKey}"]`));
+      const visibleCell = matchingCells.find((cell) => cell.offsetParent !== null) ?? matchingCells[0];
+      visibleCell?.focus({ preventScroll: true });
+    });
   }
 
   function announceEntrySelection(entry: CrosswordCompiledEntry | null) {
@@ -233,17 +257,67 @@ export function CrosswordGame({
     setAnnouncement(`${entry.number} ${entry.direction}. ${entry.clue}`);
   }
 
+  function moveToDirectionalAdjacentClue(currentProgress: CrosswordProgress, step: -1 | 1) {
+    const currentDirection =
+      currentProgress.selection?.direction ??
+      getEntryForSelection(puzzle, currentProgress.selection)?.direction ??
+      "across";
+    const directionalEntries = orderedEntries.filter((entry) => entry.direction === currentDirection);
+    const activeDirectionalEntry = getEntryForSelection(puzzle, currentProgress.selection) ?? directionalEntries[0];
+
+    if (!activeDirectionalEntry || directionalEntries.length === 0) {
+      return currentProgress;
+    }
+
+    const currentIndex = directionalEntries.findIndex((entry) => entry.id === activeDirectionalEntry.id);
+    const hasUnfilledEntries = directionalEntries.some((entry) => !isEntryFilled(puzzle, currentProgress, entry));
+
+    for (let offset = 1; offset <= directionalEntries.length; offset += 1) {
+      const nextIndex = (currentIndex + step * offset + directionalEntries.length) % directionalEntries.length;
+      const nextEntry = directionalEntries[nextIndex];
+
+      if (!nextEntry) {
+        continue;
+      }
+
+      if (hasUnfilledEntries && isEntryFilled(puzzle, currentProgress, nextEntry)) {
+        continue;
+      }
+
+      const firstEmptyCell = getEntryCells(nextEntry).find(
+        ({ row, column }) => !currentProgress.cells[row]?.[column]?.value
+      );
+      const targetCell = firstEmptyCell ?? getEntryCells(nextEntry)[0];
+
+      if (!targetCell) {
+        return currentProgress;
+      }
+
+      return {
+        ...currentProgress,
+        selection: {
+          row: targetCell.row,
+          column: targetCell.column,
+          direction: nextEntry.direction
+        }
+      };
+    }
+
+    return currentProgress;
+  }
+
   function handleMoveClue(step: -1 | 1) {
-    const nextProgress = moveToAdjacentClue(puzzle, progress, step);
+    const nextProgress = moveToDirectionalAdjacentClue(progress, step);
     updateProgress(nextProgress);
     announceEntrySelection(getEntryForSelection(puzzle, nextProgress.selection));
-    focusKeyboard();
+    focusKeyboard(nextProgress.selection);
   }
 
   function handleSelectEntry(entry: CrosswordCompiledEntry) {
-    updateProgress(selectEntry(progress, entry));
+    const nextProgress = selectEntry(progress, entry);
+    updateProgress(nextProgress);
     announceEntrySelection(entry);
-    focusKeyboard();
+    focusKeyboard(nextProgress.selection);
   }
 
   function applyInput(value: string) {
@@ -280,23 +354,26 @@ export function CrosswordGame({
     }
 
     updateProgress(nextProgress);
-    focusKeyboard();
+    focusKeyboard(nextProgress.selection);
   }
 
   function handleBackspace() {
-    updateProgress(backspaceCell({ puzzle, progress, now: new Date().toISOString() }));
-    focusKeyboard();
+    const nextProgress = backspaceCell({ puzzle, progress, now: new Date().toISOString() });
+    updateProgress(nextProgress);
+    focusKeyboard(nextProgress.selection);
   }
 
   function handleDelete() {
-    updateProgress(deleteCell({ puzzle, progress, now: new Date().toISOString() }));
-    focusKeyboard();
+    const nextProgress = deleteCell({ puzzle, progress, now: new Date().toISOString() });
+    updateProgress(nextProgress);
+    focusKeyboard(nextProgress.selection);
   }
 
   function handleToggleDirection() {
-    updateProgress(toggleSelectionDirection(progress, puzzle));
+    const nextProgress = toggleSelectionDirection(progress, puzzle);
+    updateProgress(nextProgress);
     setAnnouncement(`Direction switched to ${activeDirection === "across" ? "down" : "across"}.`);
-    focusKeyboard();
+    focusKeyboard(nextProgress.selection);
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement | HTMLDivElement>) {
@@ -338,7 +415,9 @@ export function CrosswordGame({
 
     if (event.key === "Tab") {
       event.preventDefault();
-      updateProgress(moveToAdjacentClue(puzzle, progress, event.shiftKey ? -1 : 1));
+      const nextProgress = moveToDirectionalAdjacentClue(progress, event.shiftKey ? -1 : 1);
+      updateProgress(nextProgress);
+      announceEntrySelection(getEntryForSelection(puzzle, nextProgress.selection));
       return;
     }
 
@@ -787,6 +866,7 @@ export function CrosswordGame({
         slug={slug}
         timeLabel={timerLabel}
         clueCount={orderedEntries.length}
+        onBackToPuzzle={() => setShowCompletion(false)}
       />
     </div>
   );

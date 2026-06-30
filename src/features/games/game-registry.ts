@@ -25,8 +25,8 @@ export const gameRegistry: GameDefinition[] = [
   },
   {
     type: "guessing",
-    title: "Movie Review Guess",
-    shortTitle: "Review Guess",
+    title: "Review Roulette",
+    shortTitle: "Review Roulette",
     description: "Read the Letterboxd screenshot, clock the right poster, and clear Easy, Medium, and Hard.",
     href: "/games/guessing",
     availability: "available",
@@ -35,8 +35,8 @@ export const gameRegistry: GameDefinition[] = [
   },
   {
     type: "who-liked-it-better",
-    title: "Who Liked It Better",
-    shortTitle: "Liked It Better",
+    title: "Tara VS The World",
+    shortTitle: "Tara VS",
     description: "Guess whether Tara or the celeb rated the film higher, then see the receipt.",
     href: "/games/who-liked-it-better",
     availability: "available",
@@ -45,8 +45,8 @@ export const gameRegistry: GameDefinition[] = [
   },
   {
     type: "colour-field",
-    title: "Colour Field",
-    shortTitle: "Colour Field",
+    title: "50 Shades of Tara",
+    shortTitle: "50 Shades",
     description: "Restore each colour gradient by swapping tiles back into harmony around the fixed anchors.",
     href: "/games/colour-field",
     availability: "available",

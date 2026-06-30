@@ -20,17 +20,17 @@ const NAV_LINKS = [
   },
   {
     href: "/games/colour-field",
-    label: "Colour Field",
+    label: "50 Shades",
     match: (pathname: string) => pathname.startsWith("/games/colour-field")
   },
   {
     href: "/games/guessing",
-    label: "Review Guess",
+    label: "Review Roulette",
     match: (pathname: string) => pathname.startsWith("/games/guessing")
   },
   {
     href: "/games/who-liked-it-better",
-    label: "Liked It Better",
+    label: "Tara VS",
     match: (pathname: string) => pathname.startsWith("/games/who-liked-it-better")
   },
   {

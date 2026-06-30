@@ -4,12 +4,10 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, RotateCcw, Trophy } from "lucide-react";
 
-import { BirthdayProgress } from "@/components/games/birthday-progress";
+import { GameResultActions } from "@/components/games/game-result-actions";
 import { GameHomeButton } from "@/components/games/game-home-button";
-import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { TransitionLink } from "@/components/ui/transition-link";
 import {
   advanceGuessingRound,
   answerGuessingRound,
@@ -24,9 +22,10 @@ import type { GuessingChoice, GuessingGameData, GuessingProgress } from "@/featu
 import {
   clearGuessingProgress,
   loadGuessingProgress,
+  readLocalGuessingStatus,
   saveGuessingProgress
 } from "@/features/guessing/game/guessing-storage";
-import { getNextBirthdayGame } from "@/features/games/birthday-progress";
+import { listSeededGuessingSummaries } from "@/features/guessing/seed/placeholder-guessing";
 import { cn } from "@/lib/utils/cn";
 
 const SUCCESS_LINES = [
@@ -49,6 +48,25 @@ function getChoiceTitle(choice: GuessingChoice) {
 
 function renderMistakeLabel(mistakesRemaining: number) {
   return `${mistakesRemaining} mistake${mistakesRemaining === 1 ? "" : "s"} remaining`;
+}
+
+function getNextGuessingPuzzleHref(slug: string) {
+  const games = listSeededGuessingSummaries();
+  const currentIndex = games.findIndex((game) => game.slug === slug);
+  const orderedGames =
+    currentIndex >= 0
+      ? [...games.slice(currentIndex + 1), ...games.slice(0, currentIndex)]
+      : games;
+
+  const nextIncompleteGame = orderedGames.find(
+    (game) => readLocalGuessingStatus(game.slug, game.contentVersion) !== "completed"
+  );
+
+  if (nextIncompleteGame) {
+    return nextIncompleteGame.href;
+  }
+
+  return currentIndex >= 0 ? games[currentIndex + 1]?.href ?? null : null;
 }
 
 function GuessingRoundDialog({
@@ -146,6 +164,7 @@ export function GuessingGame({
   });
   const [progress, setProgress] = useState<GuessingProgress>(loadState.progress);
   const [showResults, setShowResults] = useState(loadState.completed);
+  const [dismissedResultsToPuzzle, setDismissedResultsToPuzzle] = useState(false);
   const [announcement, setAnnouncement] = useState(
     loadState.completed
       ? "Completed review run restored on this device."
@@ -154,9 +173,6 @@ export function GuessingGame({
         : "Pick the poster that matches the review."
   );
   const [brokenReviewRounds, setBrokenReviewRounds] = useState<Record<string, boolean>>({});
-
-  const birthdaySnapshot = useBirthdayProgress();
-  const nextGame = getNextBirthdayGame(birthdaySnapshot, "guessing");
 
   const currentRound = useMemo(() => getCurrentGuessingRound(gameData, progress), [gameData, progress]);
   const currentRecord = useMemo(() => getCurrentGuessingRoundRecord(gameData, progress), [gameData, progress]);
@@ -177,6 +193,7 @@ export function GuessingGame({
       })),
     [gameData.rounds, progress.roundRecords]
   );
+  const nextPuzzleHref = useMemo(() => getNextGuessingPuzzleHref(slug), [slug]);
 
   useEffect(() => {
     saveGuessingProgress({
@@ -221,6 +238,7 @@ export function GuessingGame({
   function handleAdvance() {
     if (progress.completedAt) {
       setShowResults(true);
+      setDismissedResultsToPuzzle(false);
       setAnnouncement("Results ready.");
       return;
     }
@@ -238,6 +256,7 @@ export function GuessingGame({
     clearGuessingProgress(slug, contentVersion);
     setProgress(createGuessingProgress(gameData));
     setShowResults(false);
+    setDismissedResultsToPuzzle(false);
     setAnnouncement("Fresh review run loaded.");
   }
 
@@ -273,25 +292,14 @@ export function GuessingGame({
                   </div>
                 ))}
               </div>
-
-              <BirthdayProgress compact currentGame="guessing" />
-
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                {nextGame ? (
-                  <Button asChild className="sm:w-auto">
-                    <TransitionLink href={nextGame.href} direction="forward">
-                      Next Puzzle
-                      <ArrowRight className="h-4 w-4" />
-                    </TransitionLink>
-                  </Button>
-                ) : (
-                  <GameHomeButton className="sm:w-auto" size="default" />
-                )}
-                <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
-                  <RotateCcw className="h-4 w-4" />
-                  Play Again
-                </Button>
-              </div>
+              <GameResultActions
+                nextHref={nextPuzzleHref}
+                onBackToPuzzle={() => {
+                  setShowResults(false);
+                  setDismissedResultsToPuzzle(true);
+                  setAnnouncement("Back to the puzzle board.");
+                }}
+              />
             </CardContent>
           </Card>
 
@@ -330,7 +338,9 @@ export function GuessingGame({
   const wrongAttemptIds = currentRecord.attemptedChoiceIds.filter((choiceId) => choiceId !== currentRound.correctChoiceId);
   const successState = currentRecord.result === "solved";
   const failedState = currentRecord.result === "failed";
-  const roundDialogOpen = successState || failedState;
+  const roundDialogOpen =
+    (successState || failedState) &&
+    !(progress.completedAt && (showResults || dismissedResultsToPuzzle));
 
   return (
     <section className="mx-auto max-w-5xl px-2 lg:px-0">

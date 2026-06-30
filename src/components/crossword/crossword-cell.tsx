@@ -14,6 +14,7 @@ type CrosswordCellProps = {
   waveDelayMs?: number;
   density?: "regular" | "compact" | "dense";
   fillContainer?: boolean;
+  cellKey?: string;
   onClick: () => void;
 };
 
@@ -31,6 +32,7 @@ export function CrosswordCell({
   waveDelayMs,
   density = "regular",
   fillContainer = false,
+  cellKey,
   onClick
 }: CrosswordCellProps) {
   const numberClass =
@@ -64,13 +66,16 @@ export function CrosswordCell({
       type="button"
       aria-label={label}
       aria-pressed={selected}
+      data-crossword-cell={cellKey}
       onClick={onClick}
       className={cn(
         "relative border text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
         fillContainer ? "h-full w-full" : "aspect-square",
         cellRadiusClass,
-        highlighted ? "bg-active-entry/75" : "bg-surface-strong",
-        selected ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(204,255,0,0.88),0_0_0_1px_rgba(2,241,255,0.34)]" : "border-border",
+        highlighted ? "border-arcade-blue/55 bg-[rgba(2,241,255,0.18)]" : "border-border bg-surface-strong",
+        selected
+          ? "border-accent bg-accent-soft shadow-[inset_0_0_0_1px_rgba(204,255,0,0.88),0_0_0_1px_rgba(2,241,255,0.34),0_0_16px_rgba(204,255,0,0.22)]"
+          : "",
         incorrect ? "text-error" : "text-text",
         revealed ? "bg-revealed/80" : "",
         waveDelayMs !== undefined ? "animate-glow-wave" : pulse ? "animate-subtle-pop" : intro ? "animate-focus-pulse" : ""

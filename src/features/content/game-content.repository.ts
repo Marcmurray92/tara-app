@@ -14,9 +14,9 @@ function toPrismaGameType(gameType: GameType) {
     case "guessing":
       return "GUESSING" as const;
     case "colour-field":
-      throw new Error("Colour Field is not yet wired into admin database publishing.");
+      throw new Error("50 Shades of Tara is not yet wired into admin database publishing.");
     case "who-liked-it-better":
-      throw new Error("Who Liked It Better is not yet wired into admin database publishing.");
+      throw new Error("Tara VS The World is not yet wired into admin database publishing.");
   }
 }
 

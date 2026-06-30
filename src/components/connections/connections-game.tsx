@@ -3,8 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { RefreshCw, RotateCcw, Sparkles } from "lucide-react";
 
+import { GameResultActions } from "@/components/games/game-result-actions";
 import { GameHomeButton } from "@/components/games/game-home-button";
 import { GameMasthead } from "@/components/games/game-masthead";
+import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,9 +28,12 @@ import type {
 import {
   clearConnectionsProgress,
   loadConnectionsProgress,
+  readLocalConnectionsStatus,
   saveConnectionsProgress
 } from "@/features/connections/game/connections-storage";
+import { listSeededConnectionsSummaries } from "@/features/connections/seed/placeholder-connections";
 import { getCelebrationCopy } from "@/features/games/celebration-copy";
+import { getNextBirthdayGame } from "@/features/games/birthday-progress";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils/cn";
 
@@ -51,18 +56,66 @@ function hasSelectionLimit(progress: ConnectionsProgress) {
   return progress.selectedItemIds.length >= 4;
 }
 
+type ConnectionsFeedbackBubble = {
+  durationMs: number;
+  text: string;
+  tone: "error" | "info" | "success" | "warning";
+};
+
+const MISTAKE_PIP_STYLES = [
+  "border-arcade-green bg-arcade-green text-black shadow-[0_0_12px_rgba(204,255,0,0.3)]",
+  "border-arcade-yellow bg-arcade-yellow text-black shadow-[0_0_12px_rgba(255,251,2,0.26)]",
+  "border-arcade-blue bg-arcade-blue text-black shadow-[0_0_12px_rgba(2,241,255,0.26)]",
+  "border-arcade-pink bg-arcade-pink text-white shadow-[0_0_12px_rgba(255,0,85,0.3)]"
+] as const;
+
+function getMistakePipClass(index: number, active: boolean) {
+  return active
+    ? MISTAKE_PIP_STYLES[index] ?? MISTAKE_PIP_STYLES[MISTAKE_PIP_STYLES.length - 1]
+    : "border-white/15 bg-white/8 text-white/30";
+}
+
+function getNextConnectionsPuzzleHref({
+  slug,
+  nextBirthdayHref
+}: {
+  slug: string;
+  nextBirthdayHref?: string | null;
+}) {
+  const boards = listSeededConnectionsSummaries();
+  const currentIndex = boards.findIndex((board) => board.slug === slug);
+  const orderedBoards =
+    currentIndex >= 0
+      ? [...boards.slice(currentIndex + 1), ...boards.slice(0, currentIndex)]
+      : boards;
+
+  const nextIncompleteBoard = orderedBoards.find(
+    (board) => readLocalConnectionsStatus(board.slug, board.contentVersion) !== "completed"
+  );
+
+  if (nextIncompleteBoard) {
+    return nextIncompleteBoard.href;
+  }
+
+  const chronologicalNextBoard = currentIndex >= 0 ? boards[currentIndex + 1] ?? null : null;
+
+  return chronologicalNextBoard?.href ?? nextBirthdayHref ?? null;
+}
+
 function ConnectionsResultDialog({
   open,
   won,
   emojiRows,
   groups,
-  onRestart
+  nextHref,
+  onBackToPuzzle
 }: {
   open: boolean;
   won: boolean;
   emojiRows: string[];
   groups: ConnectionsGameData["groups"][number][];
-  onRestart: () => void;
+  nextHref?: string | null;
+  onBackToPuzzle: () => void;
 }) {
   if (!open) {
     return null;
@@ -98,21 +151,19 @@ function ConnectionsResultDialog({
         ) : null}
 
         <div className="mt-4 space-y-2">
-          {groups.map((group) => (
-            <div key={group.id} className={cn("rounded-[0.85rem] border-2 px-3 py-3 text-center", difficultyTone(group.difficulty))}>
+          {groups.map((group, index) => (
+            <div
+              key={group.id}
+              className={cn("animate-answer-reveal rounded-[0.85rem] border-2 px-3 py-3 text-center", difficultyTone(group.difficulty))}
+              style={{ animationDelay: `${index * 75}ms` }}
+            >
               <p className="font-display text-[1rem] uppercase tracking-[0.08em]">{group.category}</p>
               <p className="mt-1 font-body text-sm leading-6">{group.items.join(", ")}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-          <Button className="sm:w-auto" onClick={onRestart}>
-            <RotateCcw className="h-4 w-4" />
-            Play another Connections
-          </Button>
-          <GameHomeButton className="sm:w-auto" />
-        </div>
+        <GameResultActions nextHref={nextHref} onBackToPuzzle={onBackToPuzzle} />
       </div>
     </div>
   );
@@ -150,6 +201,7 @@ export function ConnectionsGame({
     };
   });
   const [progress, setProgress] = useState<ConnectionsProgress>(loadState.progress);
+  const [showResultSummary, setShowResultSummary] = useState(loadState.completed);
   const [message, setMessage] = useState(
     loadState.completed
       ? "Solved board restored on this device."
@@ -157,14 +209,19 @@ export function ConnectionsGame({
         ? "Welcome back. Your saved board is ready."
         : "Select four tiles that belong together."
   );
-  const [feedbackTone, setFeedbackTone] = useState<"neutral" | "success" | "warning" | "error">("neutral");
   const [boardFeedback, setBoardFeedback] = useState<null | "one-away" | "miss">(null);
+  const [feedbackBubble, setFeedbackBubble] = useState<ConnectionsFeedbackBubble | null>(null);
   const [recentSolvedGroupId, setRecentSolvedGroupId] = useState<string | null>(null);
   const [celebratingTileIds, setCelebratingTileIds] = useState<string[]>([]);
   const [submittedTileIds, setSubmittedTileIds] = useState<string[]>([]);
   const [boardLocked, setBoardLocked] = useState(false);
+  const [boardTileAnimationKey, setBoardTileAnimationKey] = useState(() =>
+    loadState.restored || loadState.completed ? 0 : 1
+  );
 
   const prefersReducedMotion = usePrefersReducedMotion();
+  const birthdaySnapshot = useBirthdayProgress();
+  const nextBirthdayGame = getNextBirthdayGame(birthdaySnapshot, "connections");
 
   const tileMap = useMemo(() => new Map(flattenConnectionsTiles(gameData).map((tile) => [tile.id, tile])), [gameData]);
   const selectedIds = useMemo(() => new Set(progress.selectedItemIds), [progress.selectedItemIds]);
@@ -199,6 +256,10 @@ export function ConnectionsGame({
           ? "Continue"
           : "Fresh board";
   const canInteract = progress.status === "playing" && !boardLocked;
+  const nextPuzzleHref = useMemo(
+    () => getNextConnectionsPuzzleHref({ slug, nextBirthdayHref: nextBirthdayGame?.href ?? null }),
+    [nextBirthdayGame?.href, slug]
+  );
 
   useEffect(() => {
     saveConnectionsProgress({
@@ -207,6 +268,12 @@ export function ConnectionsGame({
       progress
     });
   }, [contentVersion, progress, slug]);
+
+  useEffect(() => {
+    if (progress.status !== "playing") {
+      setShowResultSummary(true);
+    }
+  }, [progress.status]);
 
   useEffect(() => {
     if (!boardFeedback) {
@@ -221,6 +288,20 @@ export function ConnectionsGame({
       window.clearTimeout(timeoutId);
     };
   }, [boardFeedback]);
+
+  useEffect(() => {
+    if (!feedbackBubble) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setFeedbackBubble(null);
+    }, feedbackBubble.durationMs);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [feedbackBubble]);
 
   useEffect(() => {
     if (!recentSolvedGroupId) {
@@ -240,6 +321,18 @@ export function ConnectionsGame({
     setProgress(nextProgress);
   }
 
+  function showFeedbackBubble(
+    text: string,
+    tone: ConnectionsFeedbackBubble["tone"],
+    durationMs = tone === "success" ? 1700 : 1450
+  ) {
+    setFeedbackBubble({
+      text,
+      tone,
+      durationMs
+    });
+  }
+
   function handleToggle(tileId: string) {
     if (!canInteract) {
       return;
@@ -247,12 +340,11 @@ export function ConnectionsGame({
 
     setSubmittedTileIds([]);
     if (!selectedIds.has(tileId) && hasSelectionLimit(progress)) {
-      setFeedbackTone("warning");
       setMessage("You can only select four tiles at a time.");
+      showFeedbackBubble("Only four at a time.", "warning");
       return;
     }
 
-    setFeedbackTone("neutral");
     updateProgress(toggleConnectionsSelection(progress, tileId, new Date().toISOString()));
   }
 
@@ -262,8 +354,8 @@ export function ConnectionsGame({
     }
 
     if (progress.selectedItemIds.length !== 4) {
-      setFeedbackTone("warning");
       setMessage("Choose exactly four tiles before you submit.");
+      showFeedbackBubble("Choose exactly four.", "warning");
       return;
     }
 
@@ -281,10 +373,15 @@ export function ConnectionsGame({
         result.progress.solvedGroupIds.length
       )}. ${solvedGroup?.category ?? "Group solved"}.`;
 
-      setFeedbackTone("success");
       setMessage(solvedMessage);
       setBoardFeedback(null);
       setSubmittedTileIds([]);
+      showFeedbackBubble(
+        result.progress.solvedGroupIds.length === gameData.groups.length
+          ? "Board cleared."
+          : `${solvedGroup?.category ?? "Group"} locked in.`,
+        "success"
+      );
 
       if (prefersReducedMotion) {
         updateProgress(result.progress);
@@ -309,31 +406,33 @@ export function ConnectionsGame({
 
     if (result.feedback.type === "one-away") {
       setBoardFeedback("one-away");
-      setFeedbackTone("neutral");
       setMessage("One away. That combo was nearly serving.");
+      showFeedbackBubble("One away...", "info", 1200);
       return;
     }
 
     if (result.feedback.type === "duplicate") {
-      setFeedbackTone("warning");
       setMessage("You already tried that exact set of four tiles.");
+      showFeedbackBubble("Already tried that set.", "warning");
       return;
     }
 
     setBoardFeedback("miss");
-    setFeedbackTone(result.feedback.type === "lost" ? "error" : "warning");
     setMessage(result.feedback.type === "lost" ? "That was the fourth miss. The board is over." : "Not quite. Try another combo.");
+    showFeedbackBubble(result.feedback.type === "lost" ? "That was the fourth miss." : "Not quite.", result.feedback.type === "lost" ? "error" : "warning");
   }
 
   function handleRestart() {
     clearConnectionsProgress(slug, contentVersion);
     setProgress(createConnectionsProgress(gameData));
-    setFeedbackTone("neutral");
     setBoardFeedback(null);
+    setFeedbackBubble(null);
     setRecentSolvedGroupId(null);
     setCelebratingTileIds([]);
     setSubmittedTileIds([]);
     setBoardLocked(false);
+    setShowResultSummary(false);
+    setBoardTileAnimationKey((current) => current + 1);
     setMessage("Board reset. Fresh eyes, fresh grid.");
   }
 
@@ -360,13 +459,13 @@ export function ConnectionsGame({
         <div className="flex items-center justify-between gap-3 rounded-[1rem] border border-white/10 bg-surface/90 px-3 py-2">
           <GameHomeButton className="h-9 px-3" />
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 rounded-full border-2 border-white bg-black px-2.5 py-1.5">
             {Array.from({ length: 4 }).map((_, index) => (
               <span
                 key={index}
                 className={cn(
-                  "h-2.5 w-2.5 rounded-full border border-white/20",
-                  index < mistakesLeft ? "bg-accent/80" : "bg-white/10"
+                  "flex h-3.5 w-3.5 items-center justify-center rounded-full border text-[0.5rem] font-bold",
+                  getMistakePipClass(index, index < mistakesLeft)
                 )}
                 aria-hidden="true"
               />
@@ -399,10 +498,22 @@ export function ConnectionsGame({
               </div>
 
               <div className="relative">
-                {boardFeedback === "one-away" ? (
-                  <div className="pointer-events-none absolute inset-x-0 -top-2 z-10 flex justify-center">
+                {feedbackBubble ? (
+                  <div className="pointer-events-none absolute inset-x-0 -top-7 z-20 flex justify-center px-4">
                     <div className="animate-answer-reveal rounded-full border border-accent/30 bg-background/95 px-3 py-1 text-[0.68rem] uppercase tracking-[0.2em] text-text shadow-glow">
-                      One Away...
+                      <span
+                        className={cn(
+                          feedbackBubble.tone === "success"
+                            ? "text-arcade-green"
+                            : feedbackBubble.tone === "error"
+                              ? "text-arcade-pink"
+                              : feedbackBubble.tone === "info"
+                                ? "text-arcade-blue"
+                                : "text-arcade-yellow"
+                        )}
+                      >
+                        {feedbackBubble.text}
+                      </span>
                     </div>
                   </div>
                 ) : null}
@@ -442,16 +553,17 @@ export function ConnectionsGame({
 
                         return (
                           <button
-                            key={tile.id}
+                            key={`${boardTileAnimationKey}-${tile.id}`}
                             type="button"
                             aria-pressed={selected}
                             disabled={!canInteract}
                             className={cn(
                               "min-h-[5.25rem] rounded-[0.9rem] border px-1.5 py-2 text-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus active:scale-[0.985] sm:min-h-[6.5rem] sm:rounded-[1.25rem] sm:px-4 sm:py-5 sm:text-sm sm:leading-6 lg:min-h-[7rem]",
                               "text-[0.72rem] leading-[0.95rem] sm:text-sm",
+                              boardTileAnimationKey > 0 ? "animate-arcade-card-enter" : "",
                               celebrating ? "animate-tile-solve border-success/35 bg-success/10 text-text" : "",
                               selected
-                                ? "scale-[0.985] border-accent bg-accent text-background shadow-glow ring-1 ring-accent/60"
+                                ? "scale-[1.15] border-accent bg-accent text-background shadow-glow ring-1 ring-accent/60"
                                 : "border-white/10 bg-surface-strong text-text hover:border-accent/45 hover:bg-surface",
                               introHighlightTileId === tile.id ? "animate-focus-pulse" : "",
                               recentlySubmitted && boardFeedback ? "animate-tile-bounce" : ""
@@ -471,18 +583,23 @@ export function ConnectionsGame({
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-center gap-3 text-sm text-muted sm:mt-4">
-                <span>Mistakes remaining:</span>
-                <div className="flex items-center gap-2">
+              <div className="mt-3 rounded-[0.95rem] border-2 border-white bg-[#111111] px-4 py-3 sm:mt-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-body text-[0.72rem] uppercase tracking-[0.22em] text-arcade-blue">Mistakes Remaining</span>
+                  <span className="font-display text-[1.1rem] uppercase text-white">{mistakesLeft}/4</span>
+                </div>
+                <div className="mt-3 flex items-center gap-2">
                   {Array.from({ length: 4 }).map((_, index) => (
                     <span
                       key={index}
                       className={cn(
-                        "h-3 w-3 rounded-full border border-white/20",
-                        index < mistakesLeft ? "bg-accent/80" : "bg-white/10"
+                        "flex h-6 w-6 items-center justify-center rounded-full border-2 text-[0.65rem] font-semibold uppercase",
+                        getMistakePipClass(index, index < mistakesLeft)
                       )}
                       aria-hidden="true"
-                    />
+                    >
+                      !
+                    </span>
                   ))}
                 </div>
               </div>
@@ -494,7 +611,7 @@ export function ConnectionsGame({
                   onClick={() => {
                     setSubmittedTileIds([]);
                     setBoardFeedback(null);
-                    setFeedbackTone("neutral");
+                    setFeedbackBubble(null);
                     updateProgress(shuffleConnectionsTiles(progress, new Date().toISOString()));
                   }}
                   disabled={!canInteract}
@@ -508,7 +625,7 @@ export function ConnectionsGame({
                   onClick={() => {
                     setSubmittedTileIds([]);
                     setBoardFeedback(null);
-                    setFeedbackTone("neutral");
+                    setFeedbackBubble(null);
                     updateProgress(clearConnectionsSelection(progress));
                   }}
                   disabled={!canInteract || progress.selectedItemIds.length === 0}
@@ -541,32 +658,18 @@ export function ConnectionsGame({
                   Restart
                 </Button>
               </div>
-
-              {feedbackTone !== "neutral" && boardFeedback !== "one-away" ? (
-                <div
-                  className={cn(
-                    "mt-2.5 rounded-[0.95rem] border px-3 py-2.5 text-sm leading-6 sm:mt-4 sm:rounded-[1.15rem] sm:p-4 sm:leading-7",
-                    feedbackTone === "success"
-                      ? "border-success/25 bg-success/10 text-text"
-                      : feedbackTone === "error"
-                        ? "border-error/25 bg-error/10 text-text"
-                        : "border-accent/25 bg-accent-soft text-text"
-                  )}
-                >
-                  {message}
-                </div>
-              ) : null}
             </div>
           </Reveal>
         </div>
       </div>
 
       <ConnectionsResultDialog
-        open={progress.status !== "playing"}
+        open={showResultSummary}
         won={progress.status === "won"}
         emojiRows={guessEmojiRows}
         groups={revealedGroups}
-        onRestart={handleRestart}
+        nextHref={nextPuzzleHref}
+        onBackToPuzzle={() => setShowResultSummary(false)}
       />
 
       <p className="sr-only" aria-live="polite">

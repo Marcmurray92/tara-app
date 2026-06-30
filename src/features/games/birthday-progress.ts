@@ -11,12 +11,9 @@ import { listSeededConnectionsSummaries } from "@/features/connections/seed/plac
 import { readLocalCrosswordStatus } from "@/features/crossword/game/crossword-storage";
 import { listSeededCrosswordSummaries } from "@/features/crossword/seed/tara-crosswords";
 import { readLocalGuessingStatus } from "@/features/guessing/game/guessing-storage";
-import { placeholderGuessingContentVersion, placeholderGuessingSlug } from "@/features/guessing/seed/placeholder-guessing";
+import { listSeededGuessingSummaries } from "@/features/guessing/seed/placeholder-guessing";
 import { readLocalWhoLikedItBetterStatus } from "@/features/who-liked-it-better/game/who-liked-it-better-storage";
-import {
-  placeholderWhoLikedItBetterContentVersion,
-  placeholderWhoLikedItBetterSlug
-} from "@/features/who-liked-it-better/seed/placeholder-who-liked-it-better";
+import { listSeededWhoLikedItBetterSummaries } from "@/features/who-liked-it-better/seed/placeholder-who-liked-it-better";
 
 export type BirthdayGameStatus = "none" | "in-progress" | "completed";
 
@@ -50,6 +47,16 @@ const COLOUR_FIELD_PROGRESS_TARGETS = listSeededColourFieldSummaries().map((pack
   contentVersion: pack.contentVersion
 }));
 
+const GUESSING_PROGRESS_TARGETS = listSeededGuessingSummaries().map((game) => ({
+  slug: game.slug,
+  contentVersion: game.contentVersion
+}));
+
+const WHO_LIKED_IT_BETTER_PROGRESS_TARGETS = listSeededWhoLikedItBetterSummaries().map((game) => ({
+  slug: game.slug,
+  contentVersion: game.contentVersion
+}));
+
 const BASE_ITEMS: Omit<BirthdayGameProgressItem, "status">[] = [
   {
     type: "crossword",
@@ -67,22 +74,22 @@ const BASE_ITEMS: Omit<BirthdayGameProgressItem, "status">[] = [
   },
   {
     type: "guessing",
-    title: "Movie Review Guess",
-    shortTitle: "Review Guess",
+    title: "Review Roulette",
+    shortTitle: "Review Roulette",
     href: "/games/guessing",
     teaser: "Three review screenshots. Two mistakes each. Pure cinema pressure."
   },
   {
     type: "who-liked-it-better",
-    title: "Who Liked It Better",
-    shortTitle: "Liked It Better",
+    title: "Tara VS The World",
+    shortTitle: "Tara VS",
     href: "/games/who-liked-it-better",
     teaser: "Choose whether Tara or the celeb went harder for the film."
   },
   {
     type: "colour-field",
-    title: "Colour Field",
-    shortTitle: "Colour Field",
+    title: "50 Shades of Tara",
+    shortTitle: "50 Shades",
     href: "/games/colour-field",
     teaser: "Swap each tile back into harmony and keep the anchors untouched."
   }
@@ -120,6 +127,20 @@ function readColourFieldCollectionStatus() {
   );
 }
 
+function readGuessingCollectionStatus() {
+  return combineStatuses(
+    GUESSING_PROGRESS_TARGETS.map((target) => readLocalGuessingStatus(target.slug, target.contentVersion))
+  );
+}
+
+function readWhoLikedItBetterCollectionStatus() {
+  return combineStatuses(
+    WHO_LIKED_IT_BETTER_PROGRESS_TARGETS.map((target) =>
+      readLocalWhoLikedItBetterStatus(target.slug, target.contentVersion)
+    )
+  );
+}
+
 export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
   if (typeof window === "undefined") {
     return {
@@ -147,10 +168,7 @@ export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
     if (item.type === "who-liked-it-better") {
       return {
         ...item,
-        status: readLocalWhoLikedItBetterStatus(
-          placeholderWhoLikedItBetterSlug,
-          placeholderWhoLikedItBetterContentVersion
-        )
+        status: readWhoLikedItBetterCollectionStatus()
       };
     }
 
@@ -163,7 +181,7 @@ export function readBirthdayProgressSnapshot(): BirthdayProgressSnapshot {
 
     return {
       ...item,
-      status: readLocalGuessingStatus(placeholderGuessingSlug, placeholderGuessingContentVersion)
+      status: readGuessingCollectionStatus()
     };
   });
 

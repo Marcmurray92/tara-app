@@ -5,11 +5,10 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Check, RotateCcw, Star, Trophy, X } from "lucide-react";
 
 import { BirthdayProgress } from "@/components/games/birthday-progress";
+import { GameResultActions } from "@/components/games/game-result-actions";
 import { GameHomeButton } from "@/components/games/game-home-button";
-import { useBirthdayProgress } from "@/components/games/use-birthday-progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { TransitionLink } from "@/components/ui/transition-link";
 import {
   advanceWhoLikedItBetterQuestion,
   answerWhoLikedItBetterQuestion,
@@ -26,10 +25,11 @@ import type {
 import {
   clearWhoLikedItBetterProgress,
   loadWhoLikedItBetterProgress,
+  readLocalWhoLikedItBetterStatus,
   saveWhoLikedItBetterProgress
 } from "@/features/who-liked-it-better/game/who-liked-it-better-storage";
-import { getNextBirthdayGame } from "@/features/games/birthday-progress";
 import { getCelebrationCopy } from "@/features/games/celebration-copy";
+import { listSeededWhoLikedItBetterSummaries } from "@/features/who-liked-it-better/seed/placeholder-who-liked-it-better";
 import { cn } from "@/lib/utils/cn";
 
 type WhoLikedItBetterQuestionRecord = WhoLikedItBetterGameData["questions"][number];
@@ -117,6 +117,25 @@ function getRatingRevealDurationMs(value: number, winner: boolean) {
   const stepMs = winner ? 160 : 136;
 
   return glyphCount === 0 ? 0 : glyphCount * stepMs + (winner ? 110 : 0);
+}
+
+function getNextWhoLikedItBetterPuzzleHref(slug: string) {
+  const games = listSeededWhoLikedItBetterSummaries();
+  const currentIndex = games.findIndex((game) => game.slug === slug);
+  const orderedGames =
+    currentIndex >= 0
+      ? [...games.slice(currentIndex + 1), ...games.slice(0, currentIndex)]
+      : games;
+
+  const nextIncompleteGame = orderedGames.find(
+    (game) => readLocalWhoLikedItBetterStatus(game.slug, game.contentVersion) !== "completed"
+  );
+
+  if (nextIncompleteGame) {
+    return nextIncompleteGame.href;
+  }
+
+  return currentIndex >= 0 ? games[currentIndex + 1]?.href ?? null : null;
 }
 
 function FaceOffArt({
@@ -347,7 +366,7 @@ function WhoLikedItBetterResultDialog({
 
         <div className="mt-5 space-y-3">
           <div className={celebrityStateClass}>
-            <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_4.25rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_5.5rem]">
+            <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_5.15rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_6.5rem]">
               <FaceOffArt
                 image={celebrityImage}
                 label={question.celebrityName}
@@ -365,13 +384,13 @@ function WhoLikedItBetterResultDialog({
                 />
               </div>
               <div className="flex min-w-0 justify-end">
-                <p className="font-display text-[2.7rem] leading-none text-white sm:text-[4.5rem]">{celebrityScore}</p>
+                <p className="pr-1 font-display text-[3.15rem] leading-[0.82] text-white sm:text-[4.75rem]">{celebrityScore}</p>
               </div>
             </div>
           </div>
 
           <div className={taraStateClass}>
-            <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_4.25rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_5.5rem]">
+            <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_5.15rem] items-center gap-3 sm:grid-cols-[6.8rem_minmax(0,1fr)_6.5rem]">
               <FaceOffArt label="Tara" monogram="T" accent="accent" />
               <div className="min-w-0">
                 <p className={cn("font-display text-[1.8rem] uppercase leading-none", taraWins ? "text-arcade-green" : "text-arcade-pink")}>
@@ -384,7 +403,7 @@ function WhoLikedItBetterResultDialog({
                 />
               </div>
               <div className="flex min-w-0 justify-end">
-                <p className="font-display text-[2.7rem] leading-none text-white sm:text-[4.5rem]">{taraScore}</p>
+                <p className="pr-1 font-display text-[3.15rem] leading-[0.82] text-white sm:text-[4.75rem]">{taraScore}</p>
               </div>
             </div>
           </div>
@@ -422,6 +441,7 @@ export function WhoLikedItBetterGame({
 }) {
   const [progress, setProgress] = useState<WhoLikedItBetterProgress>(() => createWhoLikedItBetterProgress());
   const [resultsScreenOpen, setResultsScreenOpen] = useState(false);
+  const [dismissedResultsToPuzzle, setDismissedResultsToPuzzle] = useState(false);
   const [announcement, setAnnouncement] = useState("Guess who rated the movie higher.");
   const [hasLoadedStoredProgress, setHasLoadedStoredProgress] = useState(false);
   const [brokenPosterQuestionIds, setBrokenPosterQuestionIds] = useState<string[]>([]);
@@ -436,9 +456,6 @@ export function WhoLikedItBetterGame({
       return initialQuestion && initialImage ? { [initialQuestion.id]: initialImage } : {};
     }
   );
-
-  const birthdaySnapshot = useBirthdayProgress();
-  const nextGame = getNextBirthdayGame(birthdaySnapshot, "who-liked-it-better");
 
   const currentQuestion = useMemo(
     () => getCurrentWhoLikedItBetterQuestion(gameData, progress),
@@ -469,6 +486,7 @@ export function WhoLikedItBetterGame({
       })),
     [gameData.questions, progress]
   );
+  const nextPuzzleHref = useMemo(() => getNextWhoLikedItBetterPuzzleHref(slug), [slug]);
 
   useEffect(() => {
     const savedProgress = loadWhoLikedItBetterProgress(slug, contentVersion);
@@ -476,6 +494,7 @@ export function WhoLikedItBetterGame({
     if (savedProgress) {
       setProgress(savedProgress);
       setResultsScreenOpen(Boolean(savedProgress.completedAt));
+      setDismissedResultsToPuzzle(false);
       setAnnouncement(
         savedProgress.completedAt
           ? "Completed rating run restored on this device."
@@ -545,6 +564,7 @@ export function WhoLikedItBetterGame({
   function handleAdvance() {
     if (progress.completedAt || progress.currentQuestionIndex >= gameData.questions.length - 1) {
       setResultsScreenOpen(true);
+      setDismissedResultsToPuzzle(false);
       setAnnouncement("Final rating summary opened.");
       return;
     }
@@ -557,6 +577,7 @@ export function WhoLikedItBetterGame({
     clearWhoLikedItBetterProgress(slug, contentVersion);
     setProgress(createWhoLikedItBetterProgress());
     setResultsScreenOpen(false);
+    setDismissedResultsToPuzzle(false);
     setHiddenCelebrityImageIds([]);
     setHiddenSourceImageSrcs([]);
     setRandomizedCelebrityImageIds([]);
@@ -641,24 +662,14 @@ export function WhoLikedItBetterGame({
                 })}
               </div>
 
-              <BirthdayProgress compact currentGame="who-liked-it-better" />
-
-              <div className="flex flex-col gap-3 sm:flex-row">
-                {nextGame ? (
-                  <Button asChild className="sm:w-auto">
-                    <TransitionLink href={nextGame.href} direction="forward">
-                      Next Puzzle
-                      <ArrowRight className="h-4 w-4" />
-                    </TransitionLink>
-                  </Button>
-                ) : (
-                  <GameHomeButton className="sm:w-auto" size="default" />
-                )}
-                <Button variant={nextGame ? "outline" : "secondary"} className="sm:w-auto" onClick={handleRestart}>
-                  <RotateCcw className="h-4 w-4" />
-                  Play Again
-                </Button>
-              </div>
+              <GameResultActions
+                nextHref={nextPuzzleHref}
+                onBackToPuzzle={() => {
+                  setResultsScreenOpen(false);
+                  setDismissedResultsToPuzzle(true);
+                  setAnnouncement("Back to the face-off board.");
+                }}
+              />
             </CardContent>
           </Card>
 
@@ -830,7 +841,7 @@ export function WhoLikedItBetterGame({
       </div>
 
       <WhoLikedItBetterResultDialog
-        open={Boolean(currentAnswer)}
+        open={Boolean(currentAnswer) && !(progress.completedAt && (showResults || dismissedResultsToPuzzle))}
         correct={Boolean(currentAnswer?.correct)}
         question={currentQuestion}
         celebrityImage={visibleCelebrityImage}

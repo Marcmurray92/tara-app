@@ -6,11 +6,11 @@ import type {
 import { getBirthdayDateLabel } from "@/features/games/birthday-date-labels";
 
 export const placeholderColourFieldSlug = "tara-colour-field";
-export const placeholderColourFieldTitle = "Colour Field";
+export const placeholderColourFieldTitle = "50 Shades of Tara";
 export const placeholderColourFieldSubtitle = "Restore each colour field by swapping tiles back into harmony.";
 export const placeholderColourFieldDescription =
   "Tap or drag tiles into place and pull the gradient back into harmony without disturbing the fixed anchors.";
-export const placeholderColourFieldContentVersion = 3;
+export const placeholderColourFieldContentVersion = 4;
 
 function anchorIndexes(columns: number, coordinates: Array<[row: number, column: number]>) {
   return coordinates.map(([row, column]) => row * columns + column);
@@ -73,6 +73,30 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "midnight-vows"
     ),
     level(
+      "acid-kiss",
+      "Acid Kiss",
+      "Lemon static cracking into electric lipstick.",
+      8,
+      8,
+      anchorIndexes(8, [
+        [0, 0],
+        [0, 7],
+        [2, 2],
+        [2, 5],
+        [5, 2],
+        [5, 5],
+        [7, 0],
+        [7, 7]
+      ]),
+      {
+        topLeft: "#fff86a",
+        topRight: "#ff73c2",
+        bottomLeft: "#2bf3ff",
+        bottomRight: "#1b0f36"
+      },
+      "acid-kiss"
+    ),
+    level(
       "rose-static",
       "Rose Static",
       "Powder rose drifting into moss and smoke.",
@@ -95,6 +119,31 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
         bottomRight: "#231f29"
       },
       "rose-static"
+    ),
+    level(
+      "neon-bruise",
+      "Neon Bruise",
+      "Pool-blue and pink heat punching into a purple blackout.",
+      9,
+      9,
+      anchorIndexes(9, [
+        [0, 0],
+        [0, 4],
+        [0, 8],
+        [4, 0],
+        [4, 4],
+        [4, 8],
+        [8, 0],
+        [8, 4],
+        [8, 8]
+      ]),
+      {
+        topLeft: "#02f1ff",
+        topRight: "#ff9be8",
+        bottomLeft: "#0f66ff",
+        bottomRight: "#2d0a34"
+      },
+      "neon-bruise"
     ),
     level(
       "chapel-glow",
@@ -145,6 +194,30 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "velvet-haze"
     ),
     level(
+      "arcade-mercy",
+      "Arcade Mercy",
+      "Green glare, blue static, and a very unserious halo.",
+      10,
+      10,
+      anchorIndexes(10, [
+        [0, 0],
+        [0, 9],
+        [3, 3],
+        [3, 6],
+        [6, 3],
+        [6, 6],
+        [9, 0],
+        [9, 9]
+      ]),
+      {
+        topLeft: "#ccff00",
+        topRight: "#02f1ff",
+        bottomLeft: "#14a89d",
+        bottomRight: "#101533"
+      },
+      "arcade-mercy"
+    ),
+    level(
       "blue-hour",
       "Blue Hour",
       "Indigo slipping into frosted dusk.",
@@ -191,9 +264,9 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "plum-spell"
     ),
     level(
-      "mourning-lace",
-      "Mourning Lace",
-      "Pale silver drifting into moonlit charcoal.",
+      "glitch-bloom",
+      "Glitch Bloom",
+      "Highlighter yellow smashing into hot pink and freezer blue.",
       10,
       10,
       anchorIndexes(10, [
@@ -205,6 +278,31 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
         [5, 5],
         [9, 0],
         [9, 9]
+      ]),
+      {
+        topLeft: "#fff44c",
+        topRight: "#ff4aa2",
+        bottomLeft: "#02f1ff",
+        bottomRight: "#240f3a"
+      },
+      "glitch-bloom"
+    ),
+    level(
+      "mourning-lace",
+      "Mourning Lace",
+      "Pale silver drifting into moonlit charcoal.",
+      11,
+      11,
+      anchorIndexes(11, [
+        [0, 0],
+        [0, 10],
+        [4, 4],
+        [4, 6],
+        [5, 5],
+        [6, 4],
+        [6, 6],
+        [10, 0],
+        [10, 10]
       ]),
       {
         topLeft: "#f1eef5",
@@ -238,6 +336,31 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
       "theatre-hush"
     ),
     level(
+      "laser-lipstick",
+      "Laser Lipstick",
+      "Magenta stage lights bouncing off cyan and bruised plum.",
+      11,
+      11,
+      anchorIndexes(11, [
+        [0, 0],
+        [0, 10],
+        [3, 3],
+        [3, 7],
+        [5, 5],
+        [7, 3],
+        [7, 7],
+        [10, 0],
+        [10, 10]
+      ]),
+      {
+        topLeft: "#ff5db1",
+        topRight: "#02f1ff",
+        bottomLeft: "#7d18d8",
+        bottomRight: "#180d37"
+      },
+      "laser-lipstick"
+    ),
+    level(
       "violet-psalm",
       "Violet Psalm",
       "Choir-light, bruised purple, deep calm.",
@@ -255,34 +378,64 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
         [10, 10]
       ]),
       {
-        topLeft: "#eee4ff",
-        topRight: "#b6c9ff",
-        bottomLeft: "#8b63dc",
-        bottomRight: "#23163d"
+        topLeft: "#dac5ff",
+        topRight: "#7af7ff",
+        bottomLeft: "#7a2cff",
+        bottomRight: "#181233"
       },
       "violet-psalm"
     ),
     level(
       "afterparty-fog",
       "Afterparty Fog",
-      "Champagne blush melting into night.",
+      "Champagne blush melting into a greener, louder night.",
       12,
       12,
       anchorIndexes(12, [
         [0, 0],
         [0, 11],
+        [3, 3],
+        [3, 8],
         [5, 5],
         [6, 6],
+        [8, 3],
+        [8, 8],
         [11, 0],
         [11, 11]
       ]),
       {
-        topLeft: "#f6dcbf",
-        topRight: "#c8e4d7",
-        bottomLeft: "#7b5f74",
-        bottomRight: "#17302d"
+        topLeft: "#ffe2a0",
+        topRight: "#c9ffd5",
+        bottomLeft: "#15ad8f",
+        bottomRight: "#11293f"
       },
       "afterparty-fog"
+    ),
+    level(
+      "toxic-confetti",
+      "Toxic Confetti",
+      "Birthday-card chaos with the saturation dial broken off.",
+      12,
+      12,
+      anchorIndexes(12, [
+        [0, 0],
+        [0, 11],
+        [2, 2],
+        [2, 9],
+        [5, 5],
+        [6, 6],
+        [9, 2],
+        [9, 9],
+        [11, 0],
+        [11, 11]
+      ]),
+      {
+        topLeft: "#fff839",
+        topRight: "#ff4fbe",
+        bottomLeft: "#11ffdc",
+        bottomRight: "#1b123d"
+      },
+      "toxic-confetti"
     ),
     level(
       "starless-pool",
@@ -301,12 +454,40 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
         [11, 11]
       ]),
       {
-        topLeft: "#9cc5ff",
-        topRight: "#ceb0ff",
-        bottomLeft: "#355ab3",
-        bottomRight: "#17172c"
+        topLeft: "#59beff",
+        topRight: "#b064ff",
+        bottomLeft: "#0d5cf7",
+        bottomRight: "#130f2a"
       },
       "starless-pool"
+    ),
+    level(
+      "fever-dream",
+      "Fever Dream",
+      "Green static and nightclub pink refusing to behave.",
+      12,
+      12,
+      anchorIndexes(12, [
+        [0, 0],
+        [0, 6],
+        [0, 11],
+        [3, 3],
+        [3, 8],
+        [6, 0],
+        [6, 6],
+        [6, 11],
+        [8, 3],
+        [8, 8],
+        [11, 0],
+        [11, 11]
+      ]),
+      {
+        topLeft: "#ccff00",
+        topRight: "#ff3f9f",
+        bottomLeft: "#1effb8",
+        bottomRight: "#250c2e"
+      },
+      "fever-dream"
     ),
     level(
       "last-dance",
@@ -329,12 +510,40 @@ export const placeholderColourFieldGameData: ColourFieldGameData = {
         [11, 11]
       ]),
       {
-        topLeft: "#f4d9b8",
-        topRight: "#f6c0e0",
-        bottomLeft: "#275c66",
-        bottomRight: "#16161e"
+        topLeft: "#ffd95f",
+        topRight: "#ff72db",
+        bottomLeft: "#02f1ff",
+        bottomRight: "#121021"
       },
       "last-dance"
+    ),
+    level(
+      "cathedral-chrome",
+      "Cathedral Chrome",
+      "The biggest board: chrome blue, neon green, and dramatic pink afterglow.",
+      12,
+      12,
+      anchorIndexes(12, [
+        [0, 0],
+        [0, 5],
+        [0, 11],
+        [3, 3],
+        [3, 8],
+        [5, 5],
+        [6, 6],
+        [8, 3],
+        [8, 8],
+        [11, 0],
+        [11, 6],
+        [11, 11]
+      ]),
+      {
+        topLeft: "#ccff00",
+        topRight: "#02f1ff",
+        bottomLeft: "#ff0055",
+        bottomRight: "#160f35"
+      },
+      "cathedral-chrome"
     )
   ]
 };
@@ -345,7 +554,7 @@ export function listSeededColourFieldSummaries(): SeededColourFieldSummary[] {
       slug: placeholderColourFieldSlug,
       href: "/games/colour-field",
       title: getBirthdayDateLabel(0),
-      description: "Twelve gradients. Fixed anchors. Very smug colour harmony.",
+      description: "Twenty gradients. Fixed anchors. Very smug colour harmony.",
       contentVersion: placeholderColourFieldContentVersion,
       levelCount: placeholderColourFieldGameData.levels.length
     }
