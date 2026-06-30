@@ -4,7 +4,7 @@ import { crosswordProgressSchema } from "@/features/crossword/game/crossword-gam
 import type { CrosswordProgress } from "@/features/crossword/game/crossword-game.types";
 
 const STORAGE_PREFIX = "tara30:crossword";
-const PROGRESS_SCHEMA_VERSION = 1;
+const PROGRESS_SCHEMA_VERSION = 2;
 
 export function getCrosswordProgressKey(slug: string, contentVersion: number) {
   return `${STORAGE_PREFIX}:${slug}:content-v${contentVersion}:progress-v${PROGRESS_SCHEMA_VERSION}`;
